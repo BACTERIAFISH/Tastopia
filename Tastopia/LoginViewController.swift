@@ -69,17 +69,4 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBAction func signOutPress(_ sender: Any) {
-        signOut()
-    }
-    
-    func signOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            print("sign out")
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
-    }
 }
