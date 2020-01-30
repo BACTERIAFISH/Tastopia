@@ -6,8 +6,11 @@
 //  Copyright © 2020 FISH. All rights reserved.
 //
 
+// swiftlint:disable line_length
+
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        FirebaseApp.configure()
+        FirebaseApp.configure()
         
         return true
     }
@@ -67,4 +70,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

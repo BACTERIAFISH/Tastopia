@@ -12,6 +12,10 @@ target 'Tastopia' do
 
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'GoogleSignIn'
+
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
 
   pod 'Kingfisher'
   pod 'IQKeyboardManagerSwift'
