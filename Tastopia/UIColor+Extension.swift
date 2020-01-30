@@ -10,7 +10,6 @@ import UIKit
 
 private enum TTColor: String {
 
-    // swiftlint:disable identifier_name
     case SUMI
     
     case HAI
@@ -21,8 +20,6 @@ extension UIColor {
     static let SUMI = TTColor(.SUMI)
     
     static let HAI = TTColor(.HAI)
-    
-    // swiftlint:enable identifier_name
     
     private static func TTColor(_ color: TTColor) -> UIColor? {
 

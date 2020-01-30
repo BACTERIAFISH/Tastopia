@@ -55,9 +55,15 @@ class LoginViewController: UIViewController {
                         return
                     }
                     print("firebase fb login")
-//                    if let refreshToken = authResult?.user.refreshToken {
-//                        UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
-//                    }
+                    if let user = authResult?.user, let refreshToken = user.refreshToken {
+                        UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
+                        
+                    }
+                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return }
+                    appDelegate.window?.rootViewController = homeVC
+                    appDelegate.window?.makeKeyAndVisible()
                 }
             }
         }

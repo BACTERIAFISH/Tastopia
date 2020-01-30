@@ -6,8 +6,6 @@
 //  Copyright © 2020 FISH. All rights reserved.
 //
 
-// swiftlint:disable line_length
-
 import UIKit
 import CoreData
 import Firebase
@@ -24,6 +22,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
+        
+        if UserDefaults.standard.string(forKey: "firebaseToken") != nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return true }
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return true }
+            appDelegate.window?.rootViewController = homeVC
+            appDelegate.window?.makeKeyAndVisible()
+        }
         
         return true
     }
@@ -102,8 +108,7 @@ extension AppDelegate: GIDSignInDelegate {
                 print("google sign in error: \(error)")
                 return
             }
-            // User is signed in
-            print("google sign in: \(authResult?.user)")
+            
         }
         
     }
