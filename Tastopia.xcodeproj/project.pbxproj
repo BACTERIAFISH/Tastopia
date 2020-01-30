@@ -58,7 +58,6 @@
 				31DE31CE88A1929DBD1B2F9D /* Pods-Tastopia.debug.xcconfig */,
 				12CDAFD780F72C595F6E64DB /* Pods-Tastopia.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
