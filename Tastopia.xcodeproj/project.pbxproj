@@ -15,6 +15,7 @@
 		CF05175723E3F94F004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */; };
 		CF05175823E3F951004EE1CB /* NotoSerifTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */; };
 		CF05175923E3F954004EE1CB /* NotoSerifTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */; };
+		CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */; };
 		CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12235D23E26C91004A41B3 /* AppDelegate.swift */; };
 		CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12236123E26C91004A41B3 /* LoginViewController.swift */; };
 		CF12236523E26C91004A41B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236323E26C91004A41B3 /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 		12CDAFD780F72C595F6E64DB /* Pods-Tastopia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tastopia.release.xcconfig"; path = "Target Support Files/Pods-Tastopia/Pods-Tastopia.release.xcconfig"; sourceTree = "<group>"; };
 		31DE31CE88A1929DBD1B2F9D /* Pods-Tastopia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tastopia.debug.xcconfig"; path = "Target Support Files/Pods-Tastopia/Pods-Tastopia.debug.xcconfig"; sourceTree = "<group>"; };
 		3E3D56D83B99B87ABC986F7B /* Pods_Tastopia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tastopia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CF12235A23E26C90004A41B3 /* Tastopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tastopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF12235D23E26C91004A41B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF12236123E26C91004A41B3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +81,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CF05175A23E40E0F004EE1CB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */,
+				CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CF05175B23E40E30004EE1CB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
+				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		CF12235123E26C90004A41B3 = {
 			isa = PBXGroup;
 			children = (
@@ -100,12 +120,11 @@
 		CF12235C23E26C90004A41B3 /* Tastopia */ = {
 			isa = PBXGroup;
 			children = (
-				CF12235D23E26C91004A41B3 /* AppDelegate.swift */,
-				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
-				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
+				CF05175A23E40E0F004EE1CB /* Extension */,
+				CF05175B23E40E30004EE1CB /* Controller */,
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
-				CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */,
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
+				CF12235D23E26C91004A41B3 /* AppDelegate.swift */,
 				CF12236E23E26C92004A41B3 /* Info.plist */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
@@ -292,6 +311,7 @@
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
+				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
 			);
