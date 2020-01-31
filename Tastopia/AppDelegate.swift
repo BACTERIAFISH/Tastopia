@@ -6,12 +6,11 @@
 //  Copyright © 2020 FISH. All rights reserved.
 //
 
-// swiftlint:disable line_length
-
 import UIKit
 import CoreData
 import Firebase
 import GoogleSignIn
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +23,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
+        
+        GMSServices.provideAPIKey("AIzaSyC7vEXkWgpOW8ATMS5c7cUOtyLc2uJVIVA")
+        
+        if UserDefaults.standard.string(forKey: "firebaseToken") != nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return true }
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return true }
+            appDelegate.window?.rootViewController = homeVC
+            appDelegate.window?.makeKeyAndVisible()
+        }
         
         return true
     }
@@ -78,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: GIDSignInDelegate {
     
     @available(iOS 9.0, *)
-    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any])
         -> Bool {
             return GIDSignIn.sharedInstance().handle(url)
     }
@@ -102,8 +111,16 @@ extension AppDelegate: GIDSignInDelegate {
                 print("google sign in error: \(error)")
                 return
             }
-            // User is signed in
-            print("google sign in: \(authResult?.user)")
+            
+            if let user = authResult?.user, let refreshToken = user.refreshToken {
+                UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
+            }
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return }
+            appDelegate.window?.rootViewController = homeVC
+            appDelegate.window?.makeKeyAndVisible()
         }
         
     }

@@ -8,12 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		85987D451463EC32FB196703 /* Pods_Tastopia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3D56D83B99B87ABC986F7B /* Pods_Tastopia.framework */; };
+		CF05175323E3F947004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */; };
+		CF05175423E3F949004EE1CB /* NotoSerifTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435623E3F6EA003CD246 /* NotoSerifTC-Light.otf */; };
+		CF05175523E3F94B004EE1CB /* NotoSerifTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */; };
+		CF05175623E3F94D004EE1CB /* NotoSerifTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */; };
+		CF05175723E3F94F004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */; };
+		CF05175823E3F951004EE1CB /* NotoSerifTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */; };
+		CF05175923E3F954004EE1CB /* NotoSerifTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */; };
 		CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12235D23E26C91004A41B3 /* AppDelegate.swift */; };
 		CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12236123E26C91004A41B3 /* LoginViewController.swift */; };
 		CF12236523E26C91004A41B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236323E26C91004A41B3 /* Main.storyboard */; };
 		CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */; };
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
+		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
+		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +38,16 @@
 		CF12236923E26C92004A41B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Regular.otf"; sourceTree = "<group>"; };
+		CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Medium.otf"; sourceTree = "<group>"; };
+		CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-SemiBold.otf"; sourceTree = "<group>"; };
+		CFF6435623E3F6EA003CD246 /* NotoSerifTC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Light.otf"; sourceTree = "<group>"; };
+		CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Black.otf"; sourceTree = "<group>"; };
+		CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-ExtraLight.otf"; sourceTree = "<group>"; };
+		CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Bold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,14 +102,31 @@
 			children = (
 				CF12235D23E26C91004A41B3 /* AppDelegate.swift */,
 				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
+				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
+				CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */,
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF12236E23E26C92004A41B3 /* Info.plist */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 				CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */,
+				CFF6435223E3F6BD003CD246 /* Fonts */,
 			);
 			path = Tastopia;
+			sourceTree = "<group>";
+		};
+		CFF6435223E3F6BD003CD246 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */,
+				CFF6435623E3F6EA003CD246 /* NotoSerifTC-Light.otf */,
+				CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */,
+				CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */,
+				CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */,
+				CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */,
+				CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,10 +191,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF05175723E3F94F004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
+				CF05175323E3F947004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */,
+				CF05175523E3F94B004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */,
+				CF05175623E3F94D004EE1CB /* NotoSerifTC-Medium.otf in Resources */,
 				CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
+				CF05175823E3F951004EE1CB /* NotoSerifTC-Bold.otf in Resources */,
+				CF05175923E3F954004EE1CB /* NotoSerifTC-Black.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,
+				CF05175423E3F949004EE1CB /* NotoSerifTC-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,9 +289,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
+				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
