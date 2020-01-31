@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.string(forKey: "firebaseToken") != nil {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return true }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return true }
-            appDelegate.window?.rootViewController = homeVC
+            guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return true }
+            appDelegate.window?.rootViewController = tabBarVC
             appDelegate.window?.makeKeyAndVisible()
         }
         
@@ -118,8 +118,8 @@ extension AppDelegate: GIDSignInDelegate {
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return }
-            appDelegate.window?.rootViewController = homeVC
+            guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
+            appDelegate.window?.rootViewController = tabBarVC
             appDelegate.window?.makeKeyAndVisible()
         }
         

@@ -14,10 +14,15 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     
+    @IBOutlet weak var taskView: UIView!
+    @IBOutlet weak var taskButton: UIButton!
+    @IBOutlet weak var taskViewBottomConstraint: NSLayoutConstraint!
+    
     override func loadView() {
         super.loadView()
         
         mapView.delegate = self
+        mapView.settings.myLocationButton = true
 
         let camera = GMSCameraPosition.camera(withLatitude: 25.042461, longitude: 121.564931, zoom: 18.0)
         mapView.camera = camera
@@ -34,6 +39,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        taskView.roundCorners(corners: [.topLeft, .topRight], radius: 16)
+        taskButton.layer.cornerRadius = 5
     }
     
     @IBAction func signOutPress(_ sender: Any) {
@@ -61,6 +68,23 @@ class HomeViewController: UIViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        print(marker.title)
+        
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn) { [weak self] in
+            self?.taskViewBottomConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
+    }
+    
+    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn) { [weak self] in
+            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210)
+            self?.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapMyLocation location: CLLocationCoordinate2D) {
+        print("222")
     }
 }
