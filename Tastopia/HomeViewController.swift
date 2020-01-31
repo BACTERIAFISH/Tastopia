@@ -8,13 +8,28 @@
 
 import UIKit
 import Firebase
+import GoogleMaps
 
 class HomeViewController: UIViewController {
+    
+    @IBOutlet weak var mapView: GMSMapView!
+    
+    override func loadView() {
+        super.loadView()
+
+        let camera = GMSCameraPosition.camera(withLatitude: 25.042461, longitude: 121.564931, zoom: 18.0)
+        mapView.camera = camera
+        
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: 25.042461, longitude: 121.564931)
+        marker.title = "AppWorks School"
+        marker.snippet = "iOS"
+        marker.map = mapView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func signOutPress(_ sender: Any) {
