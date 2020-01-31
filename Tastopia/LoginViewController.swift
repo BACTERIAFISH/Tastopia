@@ -13,14 +13,16 @@ import FacebookLogin
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var facebookButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
-        //        Auth.auth().addStateDidChangeListener { (auth, user) in
-        //
-        //        }
+        googleButton.layer.cornerRadius = 5
+        facebookButton.layer.cornerRadius = 5
     }
     
     @IBAction func googleSignInPress(_ sender: Any) {

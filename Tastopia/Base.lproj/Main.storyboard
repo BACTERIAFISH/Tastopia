@@ -7,6 +7,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSerifTC-Black.otf">
+            <string>NotoSerifTC-Black</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -16,41 +21,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UA-vh-wO8">
-                                <rect key="frame" x="157" y="481" width="100" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Google Sign in">
-                                    <color key="titleColor" name="SUMI"/>
-                                </state>
-                                <connections>
-                                    <action selector="googleSignInPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sdn-2o-MvR"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z3v-nT-mSo">
-                                <rect key="frame" x="153" y="542" width="108" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Facebook Login">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ramen" translatesAutoresizingMaskIntoConstraints="NO" id="Q7E-Cs-Igg">
+                                <rect key="frame" x="20" y="438" width="374" height="374"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Q7E-Cs-Igg" secondAttribute="height" multiplier="1:1" id="X4g-OM-iU7"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z3v-nT-mSo">
+                                <rect key="frame" x="107" y="529" width="200" height="48"/>
+                                <color key="backgroundColor" name="SHIRONERI"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="8ZZ-fY-jn3"/>
+                                    <constraint firstAttribute="height" constant="48" id="eJp-pT-Nwx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
+                                <state key="normal" title="Facebook 帳號登入">
                                     <color key="titleColor" name="SUMI"/>
                                 </state>
                                 <connections>
                                     <action selector="fbLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1od-5Q-SWq"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tastopia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wR0-he-6i8">
-                                <rect key="frame" x="148" y="255" width="119" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
-                                <color key="textColor" name="SUMI"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="41T-IY-6iw">
+                                <rect key="frame" x="20" y="124" width="374" height="187"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="41T-IY-6iw" secondAttribute="height" multiplier="2:1" id="2Qx-Ii-cVQ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UA-vh-wO8">
+                                <rect key="frame" x="107" y="461" width="200" height="48"/>
+                                <color key="backgroundColor" name="SHIRONERI"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="3AN-Hz-IsO"/>
+                                    <constraint firstAttribute="height" constant="48" id="bno-fO-O7A"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
+                                <state key="normal" title="Google 帳號登入">
+                                    <color key="titleColor" name="SUMI"/>
+                                </state>
+                                <state key="selected" title="Google 帳號登入"/>
+                                <connections>
+                                    <action selector="googleSignInPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sdn-2o-MvR"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.84313725490196079" green="0.76862745098039209" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Q7E-Cs-Igg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="3g4-Y0-Cyw"/>
+                            <constraint firstItem="0UA-vh-wO8" firstAttribute="top" secondItem="41T-IY-6iw" secondAttribute="bottom" constant="150" id="9VF-We-S0r"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="41T-IY-6iw" secondAttribute="trailing" constant="20" id="Dcc-S1-bQL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q7E-Cs-Igg" secondAttribute="trailing" constant="20" id="VNY-uw-KDb"/>
+                            <constraint firstItem="Z3v-nT-mSo" firstAttribute="top" secondItem="0UA-vh-wO8" secondAttribute="bottom" constant="20" id="Xe8-4k-9GE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q7E-Cs-Igg" secondAttribute="bottom" constant="50" id="Y6P-Yd-ubS"/>
+                            <constraint firstItem="0UA-vh-wO8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zjn-S8-UTX"/>
+                            <constraint firstItem="41T-IY-6iw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="mtv-4M-fIa"/>
+                            <constraint firstItem="Z3v-nT-mSo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vBy-Ag-bja"/>
+                            <constraint firstItem="41T-IY-6iw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="wkB-j8-FOj"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="facebookButton" destination="Z3v-nT-mSo" id="iXd-Fv-hx3"/>
+                        <outlet property="googleButton" destination="0UA-vh-wO8" id="pxA-am-jU4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="141" y="131"/>
+            <point key="canvasLocation" x="140.57971014492756" y="130.58035714285714"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="3cX-wF-okm">
@@ -83,10 +120,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ank-Pq-I4g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1198.5507246376812" y="130.58035714285714"/>
+            <point key="canvasLocation" x="1046" y="131"/>
         </scene>
     </scenes>
     <resources>
+        <image name="ramen" width="512" height="512"/>
+        <namedColor name="SHIRONERI">
+            <color red="0.9882352941176471" green="0.98039215686274506" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="SUMI">
             <color red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

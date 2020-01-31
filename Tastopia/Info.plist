@@ -69,5 +69,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSerifTC-ExtraLight.otf</string>
+		<string>NotoSerifTC-Light.otf</string>
+		<string>NotoSerifTC-Regular.otf</string>
+		<string>NotoSerifTC-Medium.otf</string>
+		<string>NotoSerifTC-SemiBold.otf</string>
+		<string>NotoSerifTC-Bold.otf</string>
+		<string>NotoSerifTC-Black.otf</string>
+	</array>
 </dict>
 </plist>
