@@ -105,8 +105,27 @@
 		CF05176023E44827004EE1CB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CF12236323E26C91004A41B3 /* Main.storyboard */,
+				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CF05176123E50440004EE1CB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CF12236923E26C92004A41B3 /* Assets.xcassets */,
+				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CF05176223E504B6004EE1CB /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				CFF6435223E3F6BD003CD246 /* Fonts */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		CF12235123E26C90004A41B3 = {
@@ -130,17 +149,14 @@
 		CF12235C23E26C90004A41B3 /* Tastopia */ = {
 			isa = PBXGroup;
 			children = (
+				CF05176223E504B6004EE1CB /* Resource */,
 				CF05175A23E40E0F004EE1CB /* Extension */,
+				CF05176123E50440004EE1CB /* Model */,
 				CF05175B23E40E30004EE1CB /* Controller */,
 				CF05176023E44827004EE1CB /* View */,
-				CF12236323E26C91004A41B3 /* Main.storyboard */,
-				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF12235D23E26C91004A41B3 /* AppDelegate.swift */,
 				CF12236E23E26C92004A41B3 /* Info.plist */,
-				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
-				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 				CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */,
-				CFF6435223E3F6BD003CD246 /* Fonts */,
 			);
 			path = Tastopia;
 			sourceTree = "<group>";
