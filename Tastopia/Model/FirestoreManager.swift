@@ -32,6 +32,24 @@ class FirestoreManager {
                 print("Firestore addDocument error: \(error)")
             }
         }
+    }
+    
+    func checkData(collection: String, document: String, completion: @escaping (Bool) -> Void) {
+        let docRef = db.collection(collection).document(document)
+        docRef.getDocument { (doc, error) in
+            if let error = error {
+                print("Firestore getDocument error: \(error)")
+                return
+            }
+            if let doc = doc, doc.exists {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    func readData() {
         
     }
 }

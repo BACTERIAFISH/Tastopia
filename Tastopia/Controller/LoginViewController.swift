@@ -74,10 +74,12 @@ class LoginViewController: UIViewController {
                         return
                     }
                     print("firebase fb login")
-                    if let user = authResult?.user, let refreshToken = user.refreshToken, let name = user.displayName, let email = user.email {
+                    if let user = authResult?.user, let refreshToken = user.refreshToken {
                         
-                        let userdata = UserData(uid: user.uid, name: name, email: email)
-                        FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
+                        if let name = user.displayName, let email = user.email {
+                            let userdata = UserData(uid: user.uid, name: name, email: email)
+                            FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
+                        }
                         
                         UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
                     }
@@ -169,8 +171,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 return
             }
             
-            // MARK: appleIDCredential.fullname get user name
-            
+            let familyName = appleIDCredential.fullName?.familyName ?? ""
+            let givenName = appleIDCredential.fullName?.givenName ?? ""
+            let name = "\(givenName) \(familyName)".trimmingCharacters(in: .whitespaces)
+            var email = appleIDCredential.email
+
             // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             // Sign in with Firebase.
@@ -184,6 +189,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 }
                 print("firebase apple sign in")
                 if let user = authResult?.user, let refreshToken = user.refreshToken {
+                    
+                    if email == nil {
+                        email = user.email
+                    }
+                    if let email = email {
+                        let userdata = UserData(uid: user.uid, name: name, email: email)
+                        FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
+                    }
+                    
                     UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
                 }
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
