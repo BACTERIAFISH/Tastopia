@@ -17,7 +17,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var appleView: UIView!
+//    @IBOutlet weak var appleView: UIView!
+    @IBOutlet weak var appleButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +27,19 @@ class LoginViewController: UIViewController {
         
         googleButton.layer.cornerRadius = 5
         facebookButton.layer.cornerRadius = 5
+        appleButton.layer.cornerRadius = 5
         
         if #available(iOS 13, *) {
-            appleView.isHidden = false
-            let button = ASAuthorizationAppleIDButton()
-            button.frame = CGRect(x: 0, y: 0, width: 200, height: 48)
-            button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
-            appleView.addSubview(button)
+//            appleView.isHidden = false
+//            let button = ASAuthorizationAppleIDButton(type: .default, style: .white)
+//            button.frame = CGRect(x: 0, y: 0, width: appleView.frame.width, height: appleView.frame.height)
+//            button.cornerRadius = 5
+//            button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
+//            appleView.addSubview(button)
+            
+            appleButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
         }
+        
     }
     
     @IBAction func googleSignInPress(_ sender: Any) {

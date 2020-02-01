@@ -67,34 +67,38 @@
                                     <action selector="googleSignInPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sdn-2o-MvR"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIA-Yo-2h8">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wW4-dz-OjS">
                                 <rect key="frame" x="107" y="507" width="200" height="48"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="SHIRONERI"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="jxi-Eq-J9d"/>
-                                    <constraint firstAttribute="height" constant="48" id="lps-Jr-TtQ"/>
+                                    <constraint firstAttribute="width" constant="200" id="7Ji-5Y-v68"/>
+                                    <constraint firstAttribute="height" constant="48" id="Z97-EH-MJP"/>
                                 </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
+                                <state key="normal" title="Apple 帳號登入">
+                                    <color key="titleColor" name="SUMI"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" name="HAIZAKURA"/>
                         <constraints>
                             <constraint firstItem="Q7E-Cs-Igg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="3g4-Y0-Cyw"/>
                             <constraint firstItem="0UA-vh-wO8" firstAttribute="top" secondItem="41T-IY-6iw" secondAttribute="bottom" constant="80" id="9VF-We-S0r"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="41T-IY-6iw" secondAttribute="trailing" constant="10" id="Dcc-S1-bQL"/>
+                            <constraint firstItem="wW4-dz-OjS" firstAttribute="top" secondItem="Z3v-nT-mSo" secondAttribute="bottom" constant="20" id="KrI-Fv-SCe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q7E-Cs-Igg" secondAttribute="trailing" constant="20" id="VNY-uw-KDb"/>
                             <constraint firstItem="Z3v-nT-mSo" firstAttribute="top" secondItem="0UA-vh-wO8" secondAttribute="bottom" constant="20" id="Xe8-4k-9GE"/>
                             <constraint firstItem="0UA-vh-wO8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zjn-S8-UTX"/>
-                            <constraint firstItem="ZIA-Yo-2h8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fAZ-S5-Ohv"/>
+                            <constraint firstItem="wW4-dz-OjS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jds-Ih-Oeo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q7E-Cs-Igg" secondAttribute="bottom" constant="40" id="kxB-X0-ig7"/>
                             <constraint firstItem="41T-IY-6iw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="mtv-4M-fIa"/>
-                            <constraint firstItem="ZIA-Yo-2h8" firstAttribute="top" secondItem="Z3v-nT-mSo" secondAttribute="bottom" constant="20" id="u0q-gA-KOV"/>
                             <constraint firstItem="Z3v-nT-mSo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vBy-Ag-bja"/>
                             <constraint firstItem="41T-IY-6iw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wkB-j8-FOj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="appleView" destination="ZIA-Yo-2h8" id="qbN-67-61k"/>
+                        <outlet property="appleButton" destination="wW4-dz-OjS" id="Fgt-7Y-bD8"/>
                         <outlet property="facebookButton" destination="Z3v-nT-mSo" id="iXd-Fv-hx3"/>
                         <outlet property="googleButton" destination="0UA-vh-wO8" id="pxA-am-jU4"/>
                     </connections>
