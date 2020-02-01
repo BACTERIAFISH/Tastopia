@@ -74,10 +74,14 @@ class LoginViewController: UIViewController {
                         return
                     }
                     print("firebase fb login")
-                    if let user = authResult?.user, let refreshToken = user.refreshToken {
-                        UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
+                    if let user = authResult?.user, let refreshToken = user.refreshToken, let name = user.displayName, let email = user.email {
                         
+                        let userdata = UserData(uid: user.uid, name: name, email: email)
+                        FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
+                        
+                        UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
                     }
+                    
                     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }

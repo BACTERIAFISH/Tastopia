@@ -23,6 +23,7 @@
 		CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */; };
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
+		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
@@ -43,6 +44,7 @@
 		CF12236923E26C92004A41B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
+				CF78268023E57D4800B70ED4 /* FirestoreManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
+				CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
