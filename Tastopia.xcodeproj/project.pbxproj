@@ -34,6 +34,7 @@
 		3E3D56D83B99B87ABC986F7B /* Pods_Tastopia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tastopia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CF05175E23E447DD004EE1CB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		CF05176323E52833004EE1CB /* Tastopia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tastopia.entitlements; sourceTree = "<group>"; };
 		CF12235A23E26C90004A41B3 /* Tastopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tastopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF12235D23E26C91004A41B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF12236123E26C91004A41B3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 				CF12235D23E26C91004A41B3 /* AppDelegate.swift */,
 				CF12236E23E26C92004A41B3 /* Info.plist */,
 				CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */,
+				CF05176323E52833004EE1CB /* Tastopia.entitlements */,
 			);
 			path = Tastopia;
 			sourceTree = "<group>";
@@ -486,7 +488,9 @@
 			baseConfigurationReference = 31DE31CE88A1929DBD1B2F9D /* Pods-Tastopia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -504,7 +508,9 @@
 			baseConfigurationReference = 12CDAFD780F72C595F6E64DB /* Pods-Tastopia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

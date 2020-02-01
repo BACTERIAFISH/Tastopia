@@ -25,13 +25,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_512px_Ramen" translatesAutoresizingMaskIntoConstraints="NO" id="Q7E-Cs-Igg">
-                                <rect key="frame" x="20" y="438" width="374" height="374"/>
+                                <rect key="frame" x="20" y="448" width="374" height="374"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Q7E-Cs-Igg" secondAttribute="height" multiplier="1:1" id="X4g-OM-iU7"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z3v-nT-mSo">
-                                <rect key="frame" x="107" y="469" width="200" height="48"/>
+                                <rect key="frame" x="107" y="439" width="200" height="48"/>
                                 <color key="backgroundColor" name="SHIRONERI"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="8ZZ-fY-jn3"/>
@@ -46,13 +46,13 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01" translatesAutoresizingMaskIntoConstraints="NO" id="41T-IY-6iw">
-                                <rect key="frame" x="10" y="124" width="394" height="197"/>
+                                <rect key="frame" x="10" y="94" width="394" height="197"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="41T-IY-6iw" secondAttribute="height" multiplier="2:1" id="2Qx-Ii-cVQ"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UA-vh-wO8">
-                                <rect key="frame" x="107" y="401" width="200" height="48"/>
+                                <rect key="frame" x="107" y="371" width="200" height="48"/>
                                 <color key="backgroundColor" name="SHIRONERI"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="3AN-Hz-IsO"/>
@@ -67,6 +67,14 @@
                                     <action selector="googleSignInPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sdn-2o-MvR"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIA-Yo-2h8">
+                                <rect key="frame" x="107" y="507" width="200" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="jxi-Eq-J9d"/>
+                                    <constraint firstAttribute="height" constant="48" id="lps-Jr-TtQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" name="HAIZAKURA"/>
                         <constraints>
@@ -75,15 +83,18 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="41T-IY-6iw" secondAttribute="trailing" constant="10" id="Dcc-S1-bQL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q7E-Cs-Igg" secondAttribute="trailing" constant="20" id="VNY-uw-KDb"/>
                             <constraint firstItem="Z3v-nT-mSo" firstAttribute="top" secondItem="0UA-vh-wO8" secondAttribute="bottom" constant="20" id="Xe8-4k-9GE"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q7E-Cs-Igg" secondAttribute="bottom" constant="50" id="Y6P-Yd-ubS"/>
                             <constraint firstItem="0UA-vh-wO8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zjn-S8-UTX"/>
-                            <constraint firstItem="41T-IY-6iw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="mtv-4M-fIa"/>
+                            <constraint firstItem="ZIA-Yo-2h8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fAZ-S5-Ohv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q7E-Cs-Igg" secondAttribute="bottom" constant="40" id="kxB-X0-ig7"/>
+                            <constraint firstItem="41T-IY-6iw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="mtv-4M-fIa"/>
+                            <constraint firstItem="ZIA-Yo-2h8" firstAttribute="top" secondItem="Z3v-nT-mSo" secondAttribute="bottom" constant="20" id="u0q-gA-KOV"/>
                             <constraint firstItem="Z3v-nT-mSo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vBy-Ag-bja"/>
                             <constraint firstItem="41T-IY-6iw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wkB-j8-FOj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="appleView" destination="ZIA-Yo-2h8" id="qbN-67-61k"/>
                         <outlet property="facebookButton" destination="Z3v-nT-mSo" id="iXd-Fv-hx3"/>
                         <outlet property="googleButton" destination="0UA-vh-wO8" id="pxA-am-jU4"/>
                     </connections>

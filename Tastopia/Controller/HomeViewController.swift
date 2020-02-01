@@ -81,7 +81,7 @@ class HomeViewController: UIViewController {
     func alertLocationAuth() {
         if CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted {
             DispatchQueue.main.async {
-                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了有更佳的遊戲體驗，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了有更佳的使用者體驗，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
