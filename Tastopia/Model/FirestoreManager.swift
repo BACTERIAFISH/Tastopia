@@ -73,10 +73,12 @@ class FirestoreManager {
     }
     
     func readCustomData<T: Codable>(collection: String, document: String, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        
         let docRef = db.collection(collection).document(document)
+        
         docRef.getDocument { (doc, error) in
             if let error = error {
-                print("Firestore getDocument error: \(error)")
+                completion(Result.failure(error))
                 return
             }
             let result = Result {
@@ -87,12 +89,12 @@ class FirestoreManager {
             switch result {
             case .success(let data):
                 if let data = data {
-                    print(data)
+                    completion(Result.success(data))
                 } else {
                     print("Document does not exist.")
                 }
             case .failure(let error):
-                print("Error decoding data: \(error)")
+                completion(Result.failure(error))
             }
         }
     }

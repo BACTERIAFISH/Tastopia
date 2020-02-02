@@ -33,13 +33,13 @@ class HomeViewController: UIViewController {
         
         mapView.isHidden = true
         
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: 25.042461, longitude: 121.564931)
-        marker.title = "AppWorks School"
-        let icon = UIImage.asset(.Icon_64px_Itsukushima)
-        marker.icon = icon
-        //marker.snippet = "iOS"
-        marker.map = mapView
+//        let marker = GMSMarker()
+//        marker.position = CLLocationCoordinate2D(latitude: 25.042461, longitude: 121.564931)
+//        marker.title = "AppWorks School"
+//        let icon = UIImage.asset(.Icon_64px_Itsukushima)
+//        marker.icon = icon
+//        marker.snippet = "iOS"
+//        marker.map = mapView
         
     }
     
@@ -55,16 +55,7 @@ class HomeViewController: UIViewController {
         taskView.roundCorners(corners: [.topLeft, .topRight], radius: 16)
         taskButton.layer.cornerRadius = 5
         
-    }
-    
-    @IBAction func testRead(_ sender: Any) {
-        guard
-            let data = UserDefaults.standard.object(forKey: "userData") as? Data,
-            let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
-        else { return }
-        FirestoreManager.shared.readCustomData(collection: "Users", document: userData.uid, dataType: UserData.self) { (result) in
-            print("test done")
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
     }
     
     @IBAction func signOutPress(_ sender: Any) {
@@ -96,6 +87,25 @@ class HomeViewController: UIViewController {
                 let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @objc func getTaskRestaurant() {
+        RestaurantProvider().getTaskRestaurant { [weak self] (result) in
+            switch result {
+            case .success(let restaurants):
+                for restaurant in restaurants {
+                    let marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
+                    marker.title = restaurant.name
+                    let icon = UIImage.asset(.Icon_64px_Itsukushima)
+                    marker.icon = icon
+                    //marker.snippet = "iOS"
+                    marker.map = self?.mapView
+                }
+            case .failure(let error):
+                print("getTaskRestaurant error: \(error)")
             }
         }
     }

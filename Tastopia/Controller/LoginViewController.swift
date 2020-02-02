@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        
+
         googleButton.layer.cornerRadius = 5
         facebookButton.layer.cornerRadius = 5
         appleButton.layer.cornerRadius = 5

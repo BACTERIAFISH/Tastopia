@@ -113,6 +113,7 @@ class UserProvider {
                     let data = ["taskNumber": 0]
                     FirestoreManager.shared.addData(collection: "Users", document: self?.uid, data: data)
                 }
+                NotificationCenter.default.post(name: NSNotification.Name("taskNumber"), object: nil)
             case .failure(let error):
                 print("FirestoreManager readData error: \(error)")
             }

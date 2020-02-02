@@ -202,14 +202,6 @@
                                     <constraint firstItem="cKG-MD-Nru" firstAttribute="top" secondItem="jhp-Pu-8cr" secondAttribute="bottom" constant="10" id="vwK-Yx-YGq"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QvA-kn-tgu">
-                                <rect key="frame" x="189" y="109" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="testRead:" destination="dpX-QH-2EF" eventType="touchUpInside" id="5sd-ne-lza"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
