@@ -63,6 +63,10 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
     }
     
+    @IBAction func taskButtonPressed(_ sender: UIButton) {
+        
+    }
+    
     @IBAction func signOutPress(_ sender: Any) {
         signOut()
     }

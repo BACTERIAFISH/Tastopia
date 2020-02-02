@@ -107,7 +107,7 @@
             </objects>
             <point key="canvasLocation" x="135" y="-515"/>
         </scene>
-        <!--Item-->
+        <!--Map-->
         <scene sceneID="3cX-wF-okm">
             <objects>
                 <viewController id="dpX-QH-2EF" customClass="HomeViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
@@ -115,10 +115,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lBf-Ac-Mwx" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPN-In-97W">
                                 <rect key="frame" x="179" y="57" width="57" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -152,19 +148,19 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="五之神製作所" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NbO-p0-zKJ">
-                                        <rect key="frame" x="58" y="21.5" width="108" height="21"/>
+                                        <rect key="frame" x="58" y="19" width="340" height="26"/>
                                         <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
                                         <color key="textColor" name="SUMI"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="台北市信義區忠孝東路四段553巷6弄6號" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeq-nH-C27">
-                                        <rect key="frame" x="58" y="63.5" width="340" height="21"/>
+                                        <rect key="frame" x="58" y="61" width="340" height="26"/>
                                         <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
                                         <color key="textColor" name="SUMI"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="02 2746 6867" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Leg-AN-16U">
-                                        <rect key="frame" x="58" y="105.5" width="110.5" height="21"/>
+                                        <rect key="frame" x="58" y="103" width="340" height="26"/>
                                         <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
                                         <color key="textColor" name="SUMI"/>
                                         <nil key="highlightedColor"/>
@@ -180,6 +176,9 @@
                                         <state key="normal" title="查看任務">
                                             <color key="titleColor" name="SUMI"/>
                                         </state>
+                                        <connections>
+                                            <action selector="taskButtonPressed:" destination="dpX-QH-2EF" eventType="touchUpInside" id="AD7-bl-Eaw"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" name="HAIZAKURA"/>
@@ -187,6 +186,7 @@
                                     <constraint firstItem="cKG-MD-Nru" firstAttribute="leading" secondItem="HcF-VD-5Sh" secondAttribute="leading" constant="16" id="2pI-PX-nyo"/>
                                     <constraint firstItem="jhp-Pu-8cr" firstAttribute="leading" secondItem="HcF-VD-5Sh" secondAttribute="leading" constant="16" id="3JA-AS-Qh4"/>
                                     <constraint firstItem="qeq-nH-C27" firstAttribute="leading" secondItem="cKG-MD-Nru" secondAttribute="trailing" constant="10" id="4ql-js-wwz"/>
+                                    <constraint firstAttribute="trailing" secondItem="NbO-p0-zKJ" secondAttribute="trailing" constant="16" id="8Hi-PG-Ld2"/>
                                     <constraint firstItem="wxf-Fz-FOd" firstAttribute="leading" secondItem="jhp-Pu-8cr" secondAttribute="leading" id="9Gh-21-B3k"/>
                                     <constraint firstItem="Leg-AN-16U" firstAttribute="leading" secondItem="wxf-Fz-FOd" secondAttribute="trailing" constant="10" id="EEt-BK-1Vl"/>
                                     <constraint firstItem="Bax-s2-pu9" firstAttribute="centerX" secondItem="HcF-VD-5Sh" secondAttribute="centerX" id="Fqx-T7-GlY"/>
@@ -199,8 +199,13 @@
                                     <constraint firstItem="qeq-nH-C27" firstAttribute="centerY" secondItem="cKG-MD-Nru" secondAttribute="centerY" id="cvy-fd-Yth"/>
                                     <constraint firstItem="jhp-Pu-8cr" firstAttribute="top" secondItem="HcF-VD-5Sh" secondAttribute="top" constant="16" id="dJ2-EH-gEx"/>
                                     <constraint firstItem="wxf-Fz-FOd" firstAttribute="top" secondItem="cKG-MD-Nru" secondAttribute="bottom" constant="10" id="mSG-cX-Ljq"/>
+                                    <constraint firstAttribute="trailing" secondItem="Leg-AN-16U" secondAttribute="trailing" constant="16" id="rXQ-vs-Rmq"/>
                                     <constraint firstItem="cKG-MD-Nru" firstAttribute="top" secondItem="jhp-Pu-8cr" secondAttribute="bottom" constant="10" id="vwK-Yx-YGq"/>
                                 </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lBf-Ac-Mwx" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -215,7 +220,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JUZ-kW-ZMl"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="by7-W2-5mx"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Icon_32px_Map" selectedImage="Icon_32px_Map_Fill" id="by7-W2-5mx"/>
                     <navigationItem key="navigationItem" id="Ca6-PE-o5M"/>
                     <connections>
                         <outlet property="mapView" destination="lBf-Ac-Mwx" id="KHx-qX-25v"/>
@@ -284,6 +289,8 @@
     </scenes>
     <resources>
         <image name="Icon_32px_Address_Pin" width="32" height="32"/>
+        <image name="Icon_32px_Map" width="32" height="32"/>
+        <image name="Icon_32px_Map_Fill" width="32" height="32"/>
         <image name="Icon_32px_Phone_Call" width="32" height="32"/>
         <image name="Icon_32px_Star_Circle" width="32" height="32"/>
         <image name="Icon_512px_Ramen" width="512" height="512"/>
