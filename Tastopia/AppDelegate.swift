@@ -106,29 +106,7 @@ extension AppDelegate: GIDSignInDelegate {
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error {
-                print("google sign in error: \(error)")
-                return
-            }
-            
-            if let user = authResult?.user, let refreshToken = user.refreshToken {
-                
-                if let name = user.displayName, let email = user.email {
-                    let userdata = UserData(uid: user.uid, name: name, email: email)
-                    FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
-                }
-                
-                UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
-            }
-            
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
-            appDelegate.window?.rootViewController = tabBarVC
-            appDelegate.window?.makeKeyAndVisible()
-        }
-        
+        UserProvider().login(credential: credential, name: nil, email: nil)
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

@@ -21,7 +21,7 @@ class FirestoreManager {
     func addData<T: Codable>(collection: String, document: String?, data: T) {
         if let document = document {
             do {
-                try db.collection(collection).document(document).setData(from: data)
+                try db.collection(collection).document(document).setData(from: data, merge: true)
             } catch {
                 print("Firestore setData error: \(error)")
             }
@@ -49,8 +49,29 @@ class FirestoreManager {
         }
     }
     
-    func readData() {
-        
+    func readData<T: Codable>(collection: String, document: String, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        let docRef = db.collection(collection).document(document)
+        docRef.getDocument { (doc, error) in
+            if let error = error {
+                print("Firestore getDocument error: \(error)")
+                return
+            }
+            let result = Result {
+                try doc.flatMap {
+                    try $0.data(as: T.self)
+                }
+            }
+            switch result {
+            case .success(let data):
+                if let data = data {
+                    print(data)
+                } else {
+                    print("Document does not exist.")
+                }
+            case .failure(let error):
+                print("Error decoding data: \(error)")
+            }
+        }
     }
 }
 

@@ -57,6 +57,16 @@ class HomeViewController: UIViewController {
         
     }
     
+    @IBAction func testRead(_ sender: Any) {
+        guard
+            let data = UserDefaults.standard.object(forKey: "userData") as? Data,
+            let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
+        else { return }
+        FirestoreManager.shared.readData(collection: "Users", document: userData.uid, dataType: UserData.self) { (result) in
+            print("test done")
+        }
+    }
+    
     @IBAction func signOutPress(_ sender: Any) {
         signOut()
     }
@@ -68,6 +78,7 @@ class HomeViewController: UIViewController {
             print("sign out")
             
             UserDefaults.standard.removeObject(forKey: "firebaseToken")
+            UserDefaults.standard.removeObject(forKey: "userData")
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let loginVC = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as? LoginViewController else { return }
             

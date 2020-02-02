@@ -68,28 +68,7 @@ class LoginViewController: UIViewController {
             case .success(_, _, let accessToken):
                 print("fb login success")
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-                Auth.auth().signIn(with: credential) { (authResult, error) in
-                    if let error = error {
-                        print("firebase fb login error: \(error)")
-                        return
-                    }
-                    print("firebase fb login")
-                    if let user = authResult?.user, let refreshToken = user.refreshToken {
-                        
-                        if let name = user.displayName, let email = user.email {
-                            let userdata = UserData(uid: user.uid, name: name, email: email)
-                            FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
-                        }
-                        
-                        UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
-                    }
-                    
-                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
-                    appDelegate.window?.rootViewController = tabBarVC
-                    appDelegate.window?.makeKeyAndVisible()
-                }
+                UserProvider().login(credential: credential, name: nil, email: nil)
             }
         }
     }
@@ -174,38 +153,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             let familyName = appleIDCredential.fullName?.familyName ?? ""
             let givenName = appleIDCredential.fullName?.givenName ?? ""
             let name = "\(givenName) \(familyName)".trimmingCharacters(in: .whitespaces)
-            var email = appleIDCredential.email
+            let email = appleIDCredential.email
 
             // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             // Sign in with Firebase.
-            Auth.auth().signIn(with: credential) { (authResult, error) in
-                if let error = error {
-                    // Error. If error.code == .MissingOrInvalidNonce, make sure
-                    // you're sending the SHA256-hashed nonce as a hex string with
-                    // your request to Apple.
-                    print(error.localizedDescription)
-                    return
-                }
-                print("firebase apple sign in")
-                if let user = authResult?.user, let refreshToken = user.refreshToken {
-                    
-                    if email == nil {
-                        email = user.email
-                    }
-                    if let email = email {
-                        let userdata = UserData(uid: user.uid, name: name, email: email)
-                        FirestoreManager.shared.addData(collection: "Users", document: user.uid, data: userdata)
-                    }
-                    
-                    UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
-                }
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
-                appDelegate.window?.rootViewController = tabBarVC
-                appDelegate.window?.makeKeyAndVisible()
-            }
+            UserProvider().login(credential: credential, name: name, email: email)
         }
     }
     
