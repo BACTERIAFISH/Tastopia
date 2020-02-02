@@ -9,6 +9,7 @@ target 'Tastopia' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'FirebaseFirestoreSwift'
 
   pod 'GoogleMaps'
   pod 'GooglePlaces'

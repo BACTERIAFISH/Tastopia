@@ -8,19 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		85987D451463EC32FB196703 /* Pods_Tastopia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3D56D83B99B87ABC986F7B /* Pods_Tastopia.framework */; };
-		CF05175323E3F947004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */; };
-		CF05175423E3F949004EE1CB /* NotoSerifTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435623E3F6EA003CD246 /* NotoSerifTC-Light.otf */; };
-		CF05175523E3F94B004EE1CB /* NotoSerifTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */; };
-		CF05175623E3F94D004EE1CB /* NotoSerifTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */; };
-		CF05175723E3F94F004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */; };
-		CF05175823E3F951004EE1CB /* NotoSerifTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */; };
-		CF05175923E3F954004EE1CB /* NotoSerifTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */; };
+		CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */; };
+		CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF05175E23E447DD004EE1CB /* UIView+Extension.swift */; };
+		CF05176423E57884004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */; };
+		CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435623E3F6EA003CD246 /* NotoSerifTC-Light.otf */; };
+		CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */; };
+		CF05176723E578A1004EE1CB /* NotoSerifTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */; };
+		CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */; };
+		CF05176923E578A7004EE1CB /* NotoSerifTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */; };
+		CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */; };
 		CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12235D23E26C91004A41B3 /* AppDelegate.swift */; };
 		CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12236123E26C91004A41B3 /* LoginViewController.swift */; };
 		CF12236523E26C91004A41B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236323E26C91004A41B3 /* Main.storyboard */; };
 		CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */; };
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
+		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
+		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
+		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
@@ -30,6 +35,9 @@
 		12CDAFD780F72C595F6E64DB /* Pods-Tastopia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tastopia.release.xcconfig"; path = "Target Support Files/Pods-Tastopia/Pods-Tastopia.release.xcconfig"; sourceTree = "<group>"; };
 		31DE31CE88A1929DBD1B2F9D /* Pods-Tastopia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tastopia.debug.xcconfig"; path = "Target Support Files/Pods-Tastopia/Pods-Tastopia.debug.xcconfig"; sourceTree = "<group>"; };
 		3E3D56D83B99B87ABC986F7B /* Pods_Tastopia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tastopia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		CF05175E23E447DD004EE1CB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		CF05176323E52833004EE1CB /* Tastopia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tastopia.entitlements; sourceTree = "<group>"; };
 		CF12235A23E26C90004A41B3 /* Tastopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tastopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF12235D23E26C91004A41B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF12236123E26C91004A41B3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +46,9 @@
 		CF12236923E26C92004A41B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
+		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -79,6 +90,54 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CF05175A23E40E0F004EE1CB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */,
+				CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */,
+				CF05175E23E447DD004EE1CB /* UIView+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CF05175B23E40E30004EE1CB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
+				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		CF05176023E44827004EE1CB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CF12236323E26C91004A41B3 /* Main.storyboard */,
+				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CF05176123E50440004EE1CB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CF12236923E26C92004A41B3 /* Assets.xcassets */,
+				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
+				CF78268023E57D4800B70ED4 /* FirestoreManager.swift */,
+				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
+				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CF05176223E504B6004EE1CB /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				CFF6435223E3F6BD003CD246 /* Fonts */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		CF12235123E26C90004A41B3 = {
 			isa = PBXGroup;
 			children = (
@@ -100,17 +159,15 @@
 		CF12235C23E26C90004A41B3 /* Tastopia */ = {
 			isa = PBXGroup;
 			children = (
+				CF05176223E504B6004EE1CB /* Resource */,
+				CF05175A23E40E0F004EE1CB /* Extension */,
+				CF05176123E50440004EE1CB /* Model */,
+				CF05175B23E40E30004EE1CB /* Controller */,
+				CF05176023E44827004EE1CB /* View */,
 				CF12235D23E26C91004A41B3 /* AppDelegate.swift */,
-				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
-				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
-				CF12236323E26C91004A41B3 /* Main.storyboard */,
-				CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */,
-				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF12236E23E26C92004A41B3 /* Info.plist */,
-				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
-				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 				CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */,
-				CFF6435223E3F6BD003CD246 /* Fonts */,
+				CF05176323E52833004EE1CB /* Tastopia.entitlements */,
 			);
 			path = Tastopia;
 			sourceTree = "<group>";
@@ -191,17 +248,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF05175723E3F94F004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
-				CF05175323E3F947004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */,
-				CF05175523E3F94B004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */,
-				CF05175623E3F94D004EE1CB /* NotoSerifTC-Medium.otf in Resources */,
+				CF05176923E578A7004EE1CB /* NotoSerifTC-Bold.otf in Resources */,
 				CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */,
+				CF05176423E57884004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */,
+				CF05176723E578A1004EE1CB /* NotoSerifTC-Medium.otf in Resources */,
+				CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
-				CF05175823E3F951004EE1CB /* NotoSerifTC-Bold.otf in Resources */,
-				CF05175923E3F954004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
+				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,
-				CF05175423E3F949004EE1CB /* NotoSerifTC-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,10 +347,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
+				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
+				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
+				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
+				CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */,
+				CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +500,9 @@
 			baseConfigurationReference = 31DE31CE88A1929DBD1B2F9D /* Pods-Tastopia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -456,7 +520,9 @@
 			baseConfigurationReference = 12CDAFD780F72C595F6E64DB /* Pods-Tastopia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

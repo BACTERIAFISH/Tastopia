@@ -79,5 +79,7 @@
 		<string>NotoSerifTC-Bold.otf</string>
 		<string>NotoSerifTC-Black.otf</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 </dict>
 </plist>

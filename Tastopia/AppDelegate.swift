@@ -26,13 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyC7vEXkWgpOW8ATMS5c7cUOtyLc2uJVIVA")
         
-        if UserDefaults.standard.string(forKey: "firebaseToken") != nil {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return true }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return true }
-            appDelegate.window?.rootViewController = homeVC
-            appDelegate.window?.makeKeyAndVisible()
-        }
+        UserProvider.shared.autoLogin()
         
         return true
     }
@@ -106,23 +100,7 @@ extension AppDelegate: GIDSignInDelegate {
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error {
-                print("google sign in error: \(error)")
-                return
-            }
-            
-            if let user = authResult?.user, let refreshToken = user.refreshToken {
-                UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
-            }
-            
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController") as? HomeViewController else { return }
-            appDelegate.window?.rootViewController = homeVC
-            appDelegate.window?.makeKeyAndVisible()
-        }
-        
+        UserProvider.shared.login(credential: credential, name: nil, email: nil)
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
