@@ -7,6 +7,7 @@
 //
 
 import FirebaseFirestore
+import GoogleMaps
 
 class RestaurantProvider {
     
@@ -50,4 +51,9 @@ struct Restaurant: Codable {
     let address: String
     let phone: String
     let position: GeoPoint
+}
+
+struct TaskData {
+    let marker: GMSMarker
+    let restaurant: Restaurant
 }

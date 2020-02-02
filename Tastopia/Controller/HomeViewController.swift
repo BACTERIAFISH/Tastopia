@@ -17,8 +17,13 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskView: UIView!
     @IBOutlet weak var taskButton: UIButton!
     @IBOutlet weak var taskViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var taskNameLabel: UILabel!
+    @IBOutlet weak var taskAddressLabel: UILabel!
+    @IBOutlet weak var taskPhoneLabel: UILabel!
     
     var locationManager = CLLocationManager()
+    
+    var tasks = [TaskData]()
     
     override func loadView() {
         super.loadView()
@@ -103,6 +108,9 @@ class HomeViewController: UIViewController {
                     marker.icon = icon
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
+                    
+                    let task = TaskData(marker: marker, restaurant: restaurant)
+                    self?.tasks.append(task)
                 }
             case .failure(let error):
                 print("getTaskRestaurant error: \(error)")
@@ -115,7 +123,13 @@ extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn) { [weak self] in
+        for task in tasks where task.marker == marker {
+            taskNameLabel.text = task.restaurant.name
+            taskAddressLabel.text = task.restaurant.address
+            taskPhoneLabel.text = task.restaurant.phone
+        }
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
             self?.taskViewBottomConstraint.constant = 0
             self?.view.layoutIfNeeded()
         }
@@ -123,7 +137,7 @@ extension HomeViewController: GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn) { [weak self] in
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
             self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210)
             self?.view.layoutIfNeeded()
         }
