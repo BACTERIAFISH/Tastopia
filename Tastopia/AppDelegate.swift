@@ -26,13 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyC7vEXkWgpOW8ATMS5c7cUOtyLc2uJVIVA")
         
-        if UserDefaults.standard.string(forKey: "firebaseToken") != nil {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return true }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return true }
-            appDelegate.window?.rootViewController = tabBarVC
-            appDelegate.window?.makeKeyAndVisible()
-        }
+        UserProvider.shared.autoLogin()
         
         return true
     }
@@ -106,7 +100,7 @@ extension AppDelegate: GIDSignInDelegate {
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
-        UserProvider().login(credential: credential, name: nil, email: nil)
+        UserProvider.shared.login(credential: credential, name: nil, email: nil)
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
             case .success(_, _, let accessToken):
                 print("fb login success")
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-                UserProvider().login(credential: credential, name: nil, email: nil)
+                UserProvider.shared.login(credential: credential, name: nil, email: nil)
             }
         }
     }
@@ -158,7 +158,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             // Sign in with Firebase.
-            UserProvider().login(credential: credential, name: name, email: email)
+            UserProvider.shared.login(credential: credential, name: name, email: email)
         }
     }
     

@@ -18,7 +18,15 @@ class FirestoreManager {
     
     private init() {}
     
-    func addData<T: Codable>(collection: String, document: String?, data: T) {
+    func addData(collection: String, document: String?, data: [String: Any]) {
+        if let document = document {
+            db.collection(collection).document(document).setData(data, merge: true)
+        } else {
+            db.collection(collection).addDocument(data: data)
+        }
+    }
+    
+    func addCustomData<T: Codable>(collection: String, document: String?, data: T) {
         if let document = document {
             do {
                 try db.collection(collection).document(document).setData(from: data, merge: true)
@@ -49,7 +57,22 @@ class FirestoreManager {
         }
     }
     
-    func readData<T: Codable>(collection: String, document: String, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func readData(collection: String, document: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+        let docRef = db.collection(collection).document(document)
+        docRef.getDocument { (doc, error) in
+            if let error = error {
+                completion(Result.failure(error))
+                return
+            }
+            if let doc = doc, doc.exists, let data = doc.data() {
+                completion(Result.success(data))
+            } else {
+                print("Document does not exist.")
+            }
+        }
+    }
+    
+    func readCustomData<T: Codable>(collection: String, document: String, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         let docRef = db.collection(collection).document(document)
         docRef.getDocument { (doc, error) in
             if let error = error {

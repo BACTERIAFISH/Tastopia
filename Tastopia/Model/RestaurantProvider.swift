@@ -10,7 +10,5 @@ import Foundation
 
 class RestaurantProvider {
     
-    func checkCurrentStores() {
-        
-    }
+    
 }

@@ -62,7 +62,7 @@ class HomeViewController: UIViewController {
             let data = UserDefaults.standard.object(forKey: "userData") as? Data,
             let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
         else { return }
-        FirestoreManager.shared.readData(collection: "Users", document: userData.uid, dataType: UserData.self) { (result) in
+        FirestoreManager.shared.readCustomData(collection: "Users", document: userData.uid, dataType: UserData.self) { (result) in
             print("test done")
         }
     }
