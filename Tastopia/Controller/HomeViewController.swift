@@ -58,10 +58,11 @@ class HomeViewController: UIViewController {
         
         alertLocationAuth()
         
-        taskView.roundCorners(corners: [.topLeft, .topRight], radius: 16)
-//        taskView.layer.shadowOpacity = 0.5
-//        taskView.layer.shadowRadius = 3
-//        taskView.layer.shadowColor = UIColor.SUMI?.cgColor
+        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        taskView.layer.cornerRadius = 16
+        taskView.layer.shadowOpacity = 0.5
+        taskView.layer.shadowRadius = 3
+        taskView.layer.shadowColor = UIColor.SUMI?.cgColor
         
         taskButton.layer.cornerRadius = 5
         

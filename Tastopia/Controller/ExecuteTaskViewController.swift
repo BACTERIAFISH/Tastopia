@@ -18,6 +18,8 @@ class ExecuteTaskViewController: UIViewController {
     
     let datePicker = UIDatePicker()
     
+    var selectedImages = [UIImage]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,6 +35,9 @@ class ExecuteTaskViewController: UIViewController {
         compositionTextView.layer.cornerRadius = 16
         addPhotoButton.layer.cornerRadius = 5
         
+        photoCollectionView.dataSource = self
+        photoCollectionView.delegate = self
+        
     }
 
     @IBAction func back(_ sender: Any) {
@@ -40,7 +45,34 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func addPhoto(_ sender: UIButton) {
-        
+        let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
+        let titles = ["Photo Library", "Saved Photos Album", "Camera"]
+        for title in titles {
+            let action = UIAlertAction(title: title, style: .default) { [weak self] (action) in
+                
+                let imagePicker = UIImagePickerController()
+                switch action.title {
+                case "Photo Library":
+                    imagePicker.sourceType = .photoLibrary
+                case "Saved Photos Album":
+                    imagePicker.sourceType = .savedPhotosAlbum
+                case "Camera":
+                    imagePicker.sourceType = .camera
+                default:
+                    imagePicker.sourceType = .photoLibrary
+                }
+                imagePicker.delegate = self
+                self?.present(imagePicker, animated: true)
+            }
+            ac.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
+    }
+    
+    @IBAction func submit(_ sender: UIButton) {
+
     }
     
     func createDatePicker() {
@@ -56,5 +88,48 @@ class ExecuteTaskViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateTextField.text = dateFormatter.string(from: datePicker.date)
     }
+    
+}
+
+extension ExecuteTaskViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectedImages.count + 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.item == selectedImages.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.imageView.image = selectedImages[indexPath.item]
+            return cell
+        }
+    }
+    
+}
+
+extension ExecuteTaskViewController: UICollectionViewDelegate {
+    
+}
+
+extension ExecuteTaskViewController: UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        guard let image = info[.originalImage] as? UIImage else { return }
+        selectedImages.append(image)
+        if !selectedImages.isEmpty, addPhotoButton.isHidden == false {
+            addPhotoButton.isHidden = true
+            photoLabel.isHidden = false
+            photoCollectionView.isHidden = false
+        }
+        photoCollectionView.reloadData()
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ExecuteTaskViewController: UINavigationControllerDelegate {
     
 }

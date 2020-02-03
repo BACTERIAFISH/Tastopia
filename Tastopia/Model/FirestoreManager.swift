@@ -105,3 +105,10 @@ struct UserData: Codable {
     let name: String
     let email: String
 }
+
+struct WritingData: Codable {
+    let number: Int
+    let uid: String
+    let date: Int
+    let composition: String
+}
