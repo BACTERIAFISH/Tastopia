@@ -327,6 +327,9 @@
                                         <state key="normal" title="執行任務">
                                             <color key="titleColor" name="SUMI"/>
                                         </state>
+                                        <connections>
+                                            <action selector="executeTask:" destination="gMw-db-der" eventType="touchUpInside" id="BUx-xm-52U"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -358,7 +361,38 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kab-hf-UQE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1782.608695652174" y="172.76785714285714"/>
+            <point key="canvasLocation" x="1714" y="173"/>
+        </scene>
+        <!--Execute Task View Controller-->
+        <scene sceneID="MKJ-wA-7bw">
+            <objects>
+                <viewController storyboardIdentifier="ExecuteTaskViewController" id="58M-Ym-IPW" customClass="ExecuteTaskViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9kC-hW-4Wx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VO0-Ta-KvL">
+                                <rect key="frame" x="20" y="64" width="37" height="38"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
+                                <state key="normal" title="取消">
+                                    <color key="titleColor" name="SUMI"/>
+                                </state>
+                                <connections>
+                                    <action selector="back:" destination="58M-Ym-IPW" eventType="touchUpInside" id="lWN-vj-tVv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="VO0-Ta-KvL" firstAttribute="top" secondItem="ecd-qF-ff9" secondAttribute="top" constant="20" id="CpL-dz-R7o"/>
+                            <constraint firstItem="VO0-Ta-KvL" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="MWP-x9-rnJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ecd-qF-ff9"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oUw-ou-AI0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2530" y="173"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="osL-iG-Q9o">

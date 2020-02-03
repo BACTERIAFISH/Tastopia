@@ -33,6 +33,13 @@ class TaskContentViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func executeTask(_ sender: UIButton) {
+        guard let vc = storyboard?.instantiateViewController(identifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
+        
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
+    
 }
 
 extension TaskContentViewController: UITableViewDataSource {
