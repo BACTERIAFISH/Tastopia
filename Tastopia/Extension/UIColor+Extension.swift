@@ -13,6 +13,9 @@ private enum TTColor: String {
     case SUMI
     
     case HAI
+    
+    case HAIZAKURA
+    
 }
 
 extension UIColor {
@@ -20,6 +23,8 @@ extension UIColor {
     static let SUMI = TTColor(.SUMI)
     
     static let HAI = TTColor(.HAI)
+    
+    static let HAIZAKURA = TTColor(.HAIZAKURA)
     
     private static func TTColor(_ color: TTColor) -> UIColor? {
 

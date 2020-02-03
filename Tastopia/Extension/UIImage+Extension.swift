@@ -10,13 +10,17 @@ import UIKit
 
 enum ImageAsset: String {
     
-    // swiftlint:disable identifier_name
-    
     case itsukushima_16
     case Icon_64px_Itsukushima
     case Icon_32px_Itsukushima
     
-    // swiftlint:enable identifier_name
+    case Icon_32px_Star_Circle
+    case Icon_32px_Address_Pin
+    case Icon_32px_Phone_Call
+    case Icon_32px_Person_Circle
+    case Icon_32px_Camera
+    case Icon_32px_Pencil
+
 }
 
 extension UIImage {
