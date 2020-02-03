@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -13,6 +14,9 @@
         </array>
         <array key="NotoSerifTC-Bold.otf">
             <string>NotoSerifTC-Bold</string>
+        </array>
+        <array key="NotoSerifTC-Regular.otf">
+            <string>NotoSerifTC-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -245,8 +249,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DR5-lb-5fh">
-                                <rect key="frame" x="20" y="64" width="37" height="38"/>
-                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
+                                <rect key="frame" x="20" y="54" width="40" height="41"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
                                 <state key="normal" title="返回">
                                     <color key="titleColor" name="SUMI"/>
                                 </state>
@@ -265,7 +269,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_32px_Phone_Call" translatesAutoresizingMaskIntoConstraints="NO" id="Ned-pg-6uu">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_32px_Star_Circle" translatesAutoresizingMaskIntoConstraints="NO" id="Ned-pg-6uu">
                                                     <rect key="frame" x="16" y="7" width="32" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="32" id="taJ-H8-3hG"/>
@@ -345,7 +349,7 @@
                             <constraint firstItem="DVQ-hI-wfW" firstAttribute="top" secondItem="hJu-94-DpV" secondAttribute="centerY" multiplier="0.3" id="DhW-xJ-9Ic"/>
                             <constraint firstItem="DR5-lb-5fh" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="leading" constant="20" id="Mjg-X1-nRY"/>
                             <constraint firstItem="fBY-tC-XtK" firstAttribute="top" secondItem="LPo-mM-q38" secondAttribute="top" constant="20" id="Ov2-9X-hGL"/>
-                            <constraint firstItem="DR5-lb-5fh" firstAttribute="top" secondItem="LPo-mM-q38" secondAttribute="top" constant="20" id="Vy3-w2-ft7"/>
+                            <constraint firstItem="DR5-lb-5fh" firstAttribute="top" secondItem="LPo-mM-q38" secondAttribute="top" constant="10" id="Vy3-w2-ft7"/>
                             <constraint firstItem="LPo-mM-q38" firstAttribute="trailing" secondItem="DVQ-hI-wfW" secondAttribute="trailing" constant="20" id="X5h-MU-Sse"/>
                             <constraint firstItem="fBY-tC-XtK" firstAttribute="centerX" secondItem="hJu-94-DpV" secondAttribute="centerX" id="lms-yr-dQA"/>
                             <constraint firstItem="APH-Pq-twS" firstAttribute="leading" secondItem="hJu-94-DpV" secondAttribute="leading" constant="20" id="mX0-x3-kOU"/>
@@ -372,8 +376,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VO0-Ta-KvL">
-                                <rect key="frame" x="20" y="64" width="37" height="38"/>
-                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
+                                <rect key="frame" x="20" y="54" width="40" height="41"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
                                 <state key="normal" title="取消">
                                     <color key="titleColor" name="SUMI"/>
                                 </state>
@@ -381,18 +385,138 @@
                                     <action selector="back:" destination="58M-Ym-IPW" eventType="touchUpInside" id="lWN-vj-tVv"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="執行任務" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIm-qW-cpZ">
+                                <rect key="frame" x="167" y="64" width="80" height="29"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dO-Mi-sLg">
+                                <rect key="frame" x="20" y="135" width="36" height="26"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rBX-cE-AYl">
+                                <rect key="frame" x="72" y="128" width="322" height="40"/>
+                                <color key="backgroundColor" name="SHIRONERI"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="far-48-Vnh"/>
+                                </constraints>
+                                <color key="textColor" name="SUMI"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Regular" family="Noto Serif TC" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="感想" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uf4-di-WVt">
+                                <rect key="frame" x="20" y="178" width="36" height="26"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CeY-rt-apm">
+                                <rect key="frame" x="20" y="214" width="374" height="482"/>
+                                <color key="backgroundColor" name="SHIRONERI"/>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <color key="textColor" name="SUMI"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Regular" family="Noto Serif TC" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="照片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0B-Cc-T9Z">
+                                <rect key="frame" x="20" y="706" width="36" height="26"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mZi-GZ-ay4">
+                                <rect key="frame" x="20" y="742" width="374" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="OUX-gS-7sM"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tEP-4g-Hgu">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ove-gH-pcj">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kaK-uU-fUu">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r5S-Rj-xzK">
+                                                    <rect key="frame" x="5" y="5" width="90" height="90"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" name="SHIRONERI"/>
+                                            <constraints>
+                                                <constraint firstItem="r5S-Rj-xzK" firstAttribute="leading" secondItem="kaK-uU-fUu" secondAttribute="leading" constant="5" id="MhS-59-h6O"/>
+                                                <constraint firstAttribute="bottom" secondItem="r5S-Rj-xzK" secondAttribute="bottom" constant="5" id="VdE-hA-mmq"/>
+                                                <constraint firstItem="r5S-Rj-xzK" firstAttribute="top" secondItem="kaK-uU-fUu" secondAttribute="top" constant="5" id="X6a-CZ-lX3"/>
+                                                <constraint firstAttribute="trailing" secondItem="r5S-Rj-xzK" secondAttribute="trailing" constant="5" id="xe2-fX-899"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="100" height="100"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WVG-cm-Gnm">
+                                <rect key="frame" x="107" y="736" width="200" height="48"/>
+                                <color key="backgroundColor" name="SHIRONERI"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="HrR-sj-2cw"/>
+                                    <constraint firstAttribute="width" constant="200" id="wlq-WT-bK7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
+                                <state key="normal" title="新增照片">
+                                    <color key="titleColor" name="SUMI"/>
+                                </state>
+                                <connections>
+                                    <action selector="addPhoto:" destination="58M-Ym-IPW" eventType="touchUpInside" id="Isl-xG-Wgn"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" name="FUKAGAWANEZUMI"/>
                         <constraints>
-                            <constraint firstItem="VO0-Ta-KvL" firstAttribute="top" secondItem="ecd-qF-ff9" secondAttribute="top" constant="20" id="CpL-dz-R7o"/>
+                            <constraint firstItem="uf4-di-WVt" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="BE3-VH-DqI"/>
+                            <constraint firstItem="ecd-qF-ff9" firstAttribute="trailing" secondItem="CeY-rt-apm" secondAttribute="trailing" constant="20" id="BsE-81-K24"/>
+                            <constraint firstItem="VO0-Ta-KvL" firstAttribute="top" secondItem="ecd-qF-ff9" secondAttribute="top" constant="10" id="CpL-dz-R7o"/>
+                            <constraint firstItem="4dO-Mi-sLg" firstAttribute="top" secondItem="VO0-Ta-KvL" secondAttribute="bottom" constant="40" id="DiJ-ET-PzO"/>
+                            <constraint firstItem="ecd-qF-ff9" firstAttribute="trailing" secondItem="rBX-cE-AYl" secondAttribute="trailing" constant="20" id="H9S-Yz-474"/>
+                            <constraint firstItem="4dO-Mi-sLg" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="HEe-Vj-D53"/>
+                            <constraint firstItem="l0B-Cc-T9Z" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="K58-YV-qGL"/>
                             <constraint firstItem="VO0-Ta-KvL" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="MWP-x9-rnJ"/>
+                            <constraint firstItem="uf4-di-WVt" firstAttribute="top" secondItem="rBX-cE-AYl" secondAttribute="bottom" constant="10" id="P8d-n8-yeu"/>
+                            <constraint firstItem="rBX-cE-AYl" firstAttribute="centerY" secondItem="4dO-Mi-sLg" secondAttribute="centerY" id="PRU-48-5sM"/>
+                            <constraint firstItem="WVG-cm-Gnm" firstAttribute="top" secondItem="CeY-rt-apm" secondAttribute="bottom" constant="40" id="R6O-Hd-nv6"/>
+                            <constraint firstItem="ecd-qF-ff9" firstAttribute="bottom" secondItem="mZi-GZ-ay4" secondAttribute="bottom" constant="20" id="VsQ-54-E6U"/>
+                            <constraint firstItem="bIm-qW-cpZ" firstAttribute="centerX" secondItem="9kC-hW-4Wx" secondAttribute="centerX" id="ea4-fp-6Tl"/>
+                            <constraint firstItem="bIm-qW-cpZ" firstAttribute="top" secondItem="ecd-qF-ff9" secondAttribute="top" constant="20" id="j3m-dy-gmk"/>
+                            <constraint firstItem="rBX-cE-AYl" firstAttribute="leading" secondItem="4dO-Mi-sLg" secondAttribute="trailing" constant="16" id="lKv-VX-ioe"/>
+                            <constraint firstItem="CeY-rt-apm" firstAttribute="top" secondItem="uf4-di-WVt" secondAttribute="bottom" constant="10" id="mRh-iq-ipJ"/>
+                            <constraint firstItem="WVG-cm-Gnm" firstAttribute="centerX" secondItem="9kC-hW-4Wx" secondAttribute="centerX" id="mxG-TE-cC6"/>
+                            <constraint firstItem="mZi-GZ-ay4" firstAttribute="top" secondItem="l0B-Cc-T9Z" secondAttribute="bottom" constant="10" id="nbr-0h-Mss"/>
+                            <constraint firstItem="CeY-rt-apm" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="s7s-T8-Omb"/>
+                            <constraint firstItem="mZi-GZ-ay4" firstAttribute="leading" secondItem="ecd-qF-ff9" secondAttribute="leading" constant="20" id="tXa-Ba-yBk"/>
+                            <constraint firstItem="l0B-Cc-T9Z" firstAttribute="top" secondItem="CeY-rt-apm" secondAttribute="bottom" constant="10" id="vwZ-Mw-1kM"/>
+                            <constraint firstItem="ecd-qF-ff9" firstAttribute="trailing" secondItem="mZi-GZ-ay4" secondAttribute="trailing" constant="20" id="zMV-im-eTp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ecd-qF-ff9"/>
                     </view>
+                    <connections>
+                        <outlet property="addPhotoButton" destination="WVG-cm-Gnm" id="KYd-Af-r4u"/>
+                        <outlet property="compositionTextView" destination="CeY-rt-apm" id="Wu1-AU-W1l"/>
+                        <outlet property="dateTextField" destination="rBX-cE-AYl" id="IW4-Y5-1Kz"/>
+                        <outlet property="photoCollectionView" destination="mZi-GZ-ay4" id="aXi-EU-op9"/>
+                        <outlet property="photoLabel" destination="l0B-Cc-T9Z" id="I1c-Jc-57J"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oUw-ou-AI0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2530" y="173"/>
+            <point key="canvasLocation" x="2528.985507246377" y="172.76785714285714"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="osL-iG-Q9o">
@@ -438,6 +562,9 @@
         <image name="Icon_32px_Star_Circle" width="32" height="32"/>
         <image name="Icon_512px_Ramen" width="512" height="512"/>
         <image name="Image_Tastopia_01" width="1330" height="589"/>
+        <namedColor name="FUKAGAWANEZUMI">
+            <color red="0.46666666666666667" green="0.58823529411764708" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="HAIZAKURA">
             <color red="0.84313725490196079" green="0.7686274509803922" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
