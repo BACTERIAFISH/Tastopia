@@ -23,6 +23,8 @@
 		CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */; };
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
+		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
+		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
@@ -46,6 +48,8 @@
 		CF12236923E26C92004A41B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
+		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 			children = (
 				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
 				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
+				CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -114,6 +119,7 @@
 			children = (
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
+				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -348,9 +354,11 @@
 			files = (
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
+				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
+				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
 				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,

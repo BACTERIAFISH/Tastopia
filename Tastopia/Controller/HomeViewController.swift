@@ -24,6 +24,7 @@ class HomeViewController: UIViewController {
     var locationManager = CLLocationManager()
     
     var tasks = [TaskData]()
+    var currentTask: TaskData?
     
     override func loadView() {
         super.loadView()
@@ -58,12 +59,24 @@ class HomeViewController: UIViewController {
         alertLocationAuth()
         
         taskView.roundCorners(corners: [.topLeft, .topRight], radius: 16)
+//        taskView.layer.shadowOpacity = 0.5
+//        taskView.layer.shadowRadius = 3
+//        taskView.layer.shadowColor = UIColor.SUMI?.cgColor
+        
         taskButton.layer.cornerRadius = 5
         
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
+        guard
+            let task = currentTask,
+            let vc = storyboard?.instantiateViewController(identifier: "TaskContentViewController") as? TaskContentViewController
+        else { return }
+        
+        vc.task = task
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
         
     }
     
@@ -125,9 +138,10 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: GMSMapViewDelegate {
     
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         
         for task in tasks where task.marker == marker {
+            currentTask = task
             taskNameLabel.text = task.restaurant.name
             taskAddressLabel.text = task.restaurant.address
             taskPhoneLabel.text = task.restaurant.phone
@@ -138,11 +152,29 @@ extension HomeViewController: GMSMapViewDelegate {
             self?.view.layoutIfNeeded()
         }
         animator.startAnimation()
+        
+        return false
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        
+//        for task in tasks where task.marker == marker {
+//            currentTask = task
+//            taskNameLabel.text = task.restaurant.name
+//            taskAddressLabel.text = task.restaurant.address
+//            taskPhoneLabel.text = task.restaurant.phone
+//        }
+//
+//        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
+//            self?.taskViewBottomConstraint.constant = 0
+//            self?.view.layoutIfNeeded()
+//        }
+//        animator.startAnimation()
     }
     
     func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
-            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210)
+            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210) - 10
             self?.view.layoutIfNeeded()
         }
         animator.startAnimation()
