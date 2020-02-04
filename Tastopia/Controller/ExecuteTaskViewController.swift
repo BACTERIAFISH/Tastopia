@@ -16,6 +16,8 @@ class ExecuteTaskViewController: UIViewController {
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var addPhotoButton: UIButton!
     
+    var restaurant: Restaurant?
+    
     let datePicker = UIDatePicker()
     
     var selectedImages = [UIImage]()
@@ -49,7 +51,7 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func submit(_ sender: UIButton) {
-
+        submitTask()
     }
     
     func createDatePicker() {
@@ -93,6 +95,37 @@ class ExecuteTaskViewController: UIViewController {
         present(ac, animated: true)
     }
     
+    func submitTask() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let dateText = dateTextField.text, let date = dateFormatter.date(from: dateText), let compositionText = compositionTextView.text else { return }
+        
+        let dateInt = Int(date.timeIntervalSince1970)
+        
+        var urlStrings = [String]()
+        let group = DispatchGroup()
+        for image in selectedImages {
+            group.enter()
+            FirestoreManager.shared.uploadImage(image: image) { (result) in
+                switch result {
+                case .success(let urlString):
+                    urlStrings.append(urlString)
+                    group.leave()
+                case .failure(let error):
+                    print("submitTask error: \(error)")
+                    group.leave()
+                }
+            }
+        }
+        
+        guard let restaurant = restaurant, let uid = UserProvider.shared.uid else { return }
+        
+        group.notify(queue: .main) {
+            let data = WritingData(number: restaurant.number, uid: uid, date: dateInt, composition: compositionText, images: urlStrings)
+            FirestoreManager.shared.addCustomData(collection: "Writings", document: nil, data: data)
+            print("done")
+        }
+    }
 }
 
 extension ExecuteTaskViewController: UICollectionViewDataSource {

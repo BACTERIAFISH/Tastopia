@@ -41,7 +41,7 @@ class UserProvider {
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
             appDelegate.window?.rootViewController = tabBarVC
-            appDelegate.window?.makeKeyAndVisible()
+//            appDelegate.window?.makeKeyAndVisible()
         }
     }
     
@@ -92,7 +92,7 @@ class UserProvider {
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
             appDelegate.window?.rootViewController = tabBarVC
-            appDelegate.window?.makeKeyAndVisible()
+//            appDelegate.window?.makeKeyAndVisible()
         }
     }
 

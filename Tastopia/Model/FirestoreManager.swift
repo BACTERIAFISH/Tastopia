@@ -6,6 +6,7 @@
 //  Copyright © 2020 FISH. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
@@ -16,7 +17,13 @@ class FirestoreManager {
     
     let db = Firestore.firestore()
     
-    private init() {}
+    let storage = Storage.storage()
+    
+    let storageRef: StorageReference!
+    
+    private init() {
+        storageRef = storage.reference()
+    }
     
     func addData(collection: String, document: String?, data: [String: Any]) {
         if let document = document {
@@ -98,6 +105,34 @@ class FirestoreManager {
             }
         }
     }
+    
+    func uploadImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let uuid = NSUUID().uuidString
+        let path = "images/\(uuid).png"
+        
+        let imageRef = storageRef.child(path)
+        
+        guard let data = image.pngData() else { return }
+        
+        let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(Result.failure(error))
+            }
+//            guard let metadata = metadata else { return }
+            imageRef.downloadURL { (url, error) in
+                if let error = error {
+                    completion(Result.failure(error))
+                }
+                
+                guard let downloadURL = url else { return }
+                
+                completion(Result.success(downloadURL.absoluteString))
+            }
+        }
+        
+        uploadTask.resume()
+    }
 }
 
 struct UserData: Codable {
@@ -111,4 +146,5 @@ struct WritingData: Codable {
     let uid: String
     let date: Int
     let composition: String
+    let images: [String]
 }

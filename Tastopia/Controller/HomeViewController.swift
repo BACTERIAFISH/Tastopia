@@ -81,12 +81,9 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
-        guard
-            let task = currentTask,
-            let vc = storyboard?.instantiateViewController(identifier: "TaskContentViewController") as? TaskContentViewController
-            else { return }
+        guard let vc = storyboard?.instantiateViewController(identifier: "TaskContentViewController") as? TaskContentViewController else { return }
         
-        vc.task = task
+        vc.restaurant = currentTask?.restaurant
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
         
