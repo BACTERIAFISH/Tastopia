@@ -45,10 +45,10 @@ class HomeViewController: UIViewController {
           if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
             mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
           } else {
-            NSLog("Unable to find style.json")
+            print("Unable to find style.json")
           }
         } catch {
-          NSLog("One or more of the map styles failed to load. \(error)")
+          print("One or more of the map styles failed to load. \(error)")
         }
         //        let marker = GMSMarker()
         //        marker.position = CLLocationCoordinate2D(latitude: 25.042461, longitude: 121.564931)
