@@ -45,30 +45,7 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func addPhoto(_ sender: UIButton) {
-        let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
-        let titles = ["Photo Library", "Saved Photos Album", "Camera"]
-        for title in titles {
-            let action = UIAlertAction(title: title, style: .default) { [weak self] (action) in
-                
-                let imagePicker = UIImagePickerController()
-                switch action.title {
-                case "Photo Library":
-                    imagePicker.sourceType = .photoLibrary
-                case "Saved Photos Album":
-                    imagePicker.sourceType = .savedPhotosAlbum
-                case "Camera":
-                    imagePicker.sourceType = .camera
-                default:
-                    imagePicker.sourceType = .photoLibrary
-                }
-                imagePicker.delegate = self
-                self?.present(imagePicker, animated: true)
-            }
-            ac.addAction(action)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
+        openImagePicker()
     }
     
     @IBAction func submit(_ sender: UIButton) {
@@ -87,6 +64,33 @@ class ExecuteTaskViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateTextField.text = dateFormatter.string(from: datePicker.date)
+    }
+    
+    func openImagePicker() {
+        let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
+        let titles = ["Photo Library", "Saved Photos Album", "Camera"]
+        for title in titles {
+            let action = UIAlertAction(title: title, style: .default) { [weak self] (action) in
+                
+                let imagePicker = UIImagePickerController()
+                switch title {
+                case "Photo Library":
+                    imagePicker.sourceType = .photoLibrary
+                case "Saved Photos Album":
+                    imagePicker.sourceType = .savedPhotosAlbum
+                case "Camera":
+                    imagePicker.sourceType = .camera
+                default:
+                    imagePicker.sourceType = .photoLibrary
+                }
+                imagePicker.delegate = self
+                self?.present(imagePicker, animated: true)
+            }
+            ac.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
     }
     
 }
@@ -113,6 +117,11 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
 
 extension ExecuteTaskViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == selectedImages.count {
+            openImagePicker()
+        }
+    }
 }
 
 extension ExecuteTaskViewController: UIImagePickerControllerDelegate {

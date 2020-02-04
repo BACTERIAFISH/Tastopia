@@ -140,7 +140,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        
+        print("222")
         for task in tasks where task.marker == marker {
             currentTask = task
             taskNameLabel.text = task.restaurant.name
@@ -155,6 +155,15 @@ extension HomeViewController: GMSMapViewDelegate {
         animator.startAnimation()
         
         return false
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("1111")
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
+            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210) - 10
+            self?.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
@@ -174,11 +183,11 @@ extension HomeViewController: GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
-            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210) - 10
-            self?.view.layoutIfNeeded()
-        }
-        animator.startAnimation()
+//        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
+//            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210) - 10
+//            self?.view.layoutIfNeeded()
+//        }
+//        animator.startAnimation()
     }
     
 }
