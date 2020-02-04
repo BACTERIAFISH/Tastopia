@@ -10,7 +10,6 @@ import UIKit
 
 enum ImageAsset: String {
     
-    case itsukushima_16
     case Icon_64px_Itsukushima
     case Icon_32px_Itsukushima
     
