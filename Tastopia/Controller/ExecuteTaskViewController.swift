@@ -120,10 +120,10 @@ class ExecuteTaskViewController: UIViewController {
         
         guard let restaurant = restaurant, let uid = UserProvider.shared.uid else { return }
         
-        group.notify(queue: .main) {
+        group.notify(queue: .main) { [weak self] in
             let data = WritingData(number: restaurant.number, uid: uid, date: dateInt, composition: compositionText, images: urlStrings)
             FirestoreManager.shared.addCustomData(collection: "Writings", document: nil, data: data)
-            print("done")
+            self?.dismiss(animated: true, completion: nil)
         }
     }
 }

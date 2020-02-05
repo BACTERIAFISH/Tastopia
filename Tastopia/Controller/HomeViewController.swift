@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var taskView: UIView!
     @IBOutlet weak var taskButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var taskViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var taskAddressLabel: UILabel!
@@ -41,7 +42,6 @@ class HomeViewController: UIViewController {
         mapView.isHidden = true
         
         do {
-          // Set the map style by passing the URL of the local file.
           if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
             mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
           } else {
@@ -69,6 +69,8 @@ class HomeViewController: UIViewController {
         
         alertLocationAuth()
         
+        taskViewBottomConstraint.constant = -taskView.layer.frame.height - 10
+        
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         taskView.layer.cornerRadius = 16
         taskView.layer.shadowOpacity = 0.3
@@ -76,6 +78,7 @@ class HomeViewController: UIViewController {
         taskView.layer.shadowColor = UIColor.SUMI?.cgColor
         
         taskButton.layer.cornerRadius = 5
+        recordButton.layer.cornerRadius = 5
         
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
     }
@@ -87,6 +90,20 @@ class HomeViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
         
+    }
+    
+    @IBAction func recordButtonPressed(_ sender: UIButton) {
+        guard
+            let navigationVC = storyboard?.instantiateViewController(identifier: "TaskRecordNavigationController") as? UINavigationController,
+            let vc = navigationVC.viewControllers.first as? TaskRecordViewController
+        else { return }
+        
+        vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "返回", style: .plain, target: self, action: #selector(back))
+        
+        vc.restaurant = currentTask?.restaurant
+        
+        navigationVC.modalPresentationStyle = .fullScreen
+        present(navigationVC, animated: true)
     }
     
     @IBAction func signOutPress(_ sender: Any) {
@@ -142,6 +159,10 @@ class HomeViewController: UIViewController {
                 print("getTaskRestaurant error: \(error)")
             }
         }
+    }
+    
+    @objc func back() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
