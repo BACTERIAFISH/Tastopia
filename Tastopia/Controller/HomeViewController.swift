@@ -84,7 +84,7 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "TaskContentViewController") as? TaskContentViewController else { return }
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "TaskContentViewController") as? TaskContentViewController else { return }
         
         vc.restaurant = currentTask?.restaurant
         vc.modalPresentationStyle = .fullScreen
@@ -94,12 +94,26 @@ class HomeViewController: UIViewController {
     
     @IBAction func recordButtonPressed(_ sender: UIButton) {
         guard
-            let navigationVC = storyboard?.instantiateViewController(identifier: "TaskRecordNavigationController") as? UINavigationController,
+            let navigationVC = storyboard?.instantiateViewController(withIdentifier: "TaskRecordNavigationController") as? UINavigationController,
             let vc = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
         
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "返回", style: .plain, target: self, action: #selector(back))
+        vc.titleLabel.text = currentTask?.restaurant.name
+//        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+//        let titleLabel = UILabel()
+//        titleLabel.font = UIFont(name: "NotoSerifTC-Black", size: 20)
+//        titleLabel.text = currentTask?.restaurant.name
+//
+//        titleView.addSubview(titleLabel)
+//
+//        titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+//        titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
         
+//        view.addSubview(titleView)
+//
+//        vc.navigationItem.titleView = titleView
+        //vc.title = currentTask?.restaurant.name
         vc.restaurant = currentTask?.restaurant
         
         navigationVC.modalPresentationStyle = .fullScreen
@@ -119,7 +133,7 @@ class HomeViewController: UIViewController {
             UserDefaults.standard.removeObject(forKey: "firebaseToken")
             UserDefaults.standard.removeObject(forKey: "userData")
             
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let loginVC = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as? LoginViewController else { return }
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
             
             appDelegate.window?.rootViewController = loginVC
             

@@ -10,6 +10,10 @@ import UIKit
 
 class TaskRecordViewController: UIViewController {
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var personalRecordButton: UIButton!
+    @IBOutlet weak var publicRecordButton: UIButton!
+    
     @IBOutlet weak var taskRecordCollectionView: UICollectionView!
     
     var restaurant: Restaurant?
@@ -17,6 +21,7 @@ class TaskRecordViewController: UIViewController {
     let writingProvider = WritingProvider()
     
     var writings = [WritingData]()
+    var showWritings = [WritingData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +34,7 @@ class TaskRecordViewController: UIViewController {
             switch result {
             case .success(let writingsData):
                 self?.writings = writingsData
+                self?.showWritings = writingsData.filter({ $0.uid == UserProvider.shared.uid })
                 self?.taskRecordCollectionView.reloadData()
             case .failure(let error):
                 print("getWritings error: \(error)")
@@ -36,6 +42,15 @@ class TaskRecordViewController: UIViewController {
         }
     }
     
+    @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
+        showWritings = writings.filter({ $0.uid == UserProvider.shared.uid })
+        taskRecordCollectionView.reloadData()
+    }
+    
+    @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
+        showWritings = writings.filter({ $0.uid != UserProvider.shared.uid })
+        taskRecordCollectionView.reloadData()
+    }
 }
 
 extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
@@ -62,12 +77,12 @@ extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
 extension TaskRecordViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return writings.count
+        return showWritings.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
-        if !writings[indexPath.item].images.isEmpty {
+        if !showWritings[indexPath.item].images.isEmpty {
             cell.imageView.loadImage(writings[indexPath.item].images[0])
         }
         
@@ -77,5 +92,12 @@ extension TaskRecordViewController: UICollectionViewDataSource {
 }
 
 extension TaskRecordViewController: UICollectionViewDelegate {
-
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
+        
+        vc.writing = showWritings[indexPath.item]
+        show(vc, sender: nil)
+    }
 }
