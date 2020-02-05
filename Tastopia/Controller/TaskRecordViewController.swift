@@ -14,28 +14,36 @@ class TaskRecordViewController: UIViewController {
     @IBOutlet weak var personalRecordButton: UIButton!
     @IBOutlet weak var publicRecordButton: UIButton!
     
-    @IBOutlet weak var taskRecordCollectionView: UICollectionView!
+    @IBOutlet weak var taskRecordPersonalCollectionView: UICollectionView!
+    
+    @IBOutlet weak var taskRecordPublicCollectionView: UICollectionView!
     
     var restaurant: Restaurant?
     
     let writingProvider = WritingProvider()
     
     var writings = [WritingData]()
-    var showWritings = [WritingData]()
+    var personalWritings = [WritingData]()
+    var publicWritings = [WritingData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        taskRecordCollectionView.dataSource = self
-        taskRecordCollectionView.delegate = self
+        taskRecordPersonalCollectionView.dataSource = self
+        taskRecordPersonalCollectionView.delegate = self
+        
+        taskRecordPublicCollectionView.dataSource = self
+        taskRecordPublicCollectionView.delegate = self
         
         guard let restaurant = restaurant else { return }
         writingProvider.getWritings(number: restaurant.number) { [weak self] (result) in
             switch result {
             case .success(let writingsData):
                 self?.writings = writingsData
-                self?.showWritings = writingsData.filter({ $0.uid == UserProvider.shared.uid })
-                self?.taskRecordCollectionView.reloadData()
+                self?.personalWritings = writingsData.filter({ $0.uid == UserProvider.shared.uid })
+                self?.publicWritings = writingsData.filter({ $0.uid != UserProvider.shared.uid })
+                self?.taskRecordPersonalCollectionView.reloadData()
+                self?.taskRecordPublicCollectionView.reloadData()
             case .failure(let error):
                 print("getWritings error: \(error)")
             }
@@ -43,13 +51,17 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
-        showWritings = writings.filter({ $0.uid == UserProvider.shared.uid })
-        taskRecordCollectionView.reloadData()
+        personalRecordButton.isEnabled = false
+        publicRecordButton.isEnabled = true
+        taskRecordPersonalCollectionView.isHidden = false
+        taskRecordPublicCollectionView.isHidden = true
     }
     
     @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
-        showWritings = writings.filter({ $0.uid != UserProvider.shared.uid })
-        taskRecordCollectionView.reloadData()
+        personalRecordButton.isEnabled = true
+        publicRecordButton.isEnabled = false
+        taskRecordPersonalCollectionView.isHidden = true
+        taskRecordPublicCollectionView.isHidden = false
     }
 }
 
@@ -77,13 +89,26 @@ extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
 extension TaskRecordViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return showWritings.count
+        if collectionView == taskRecordPersonalCollectionView {
+            return personalWritings.count
+        } else if collectionView == taskRecordPublicCollectionView {
+            return publicWritings.count
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
-        if !showWritings[indexPath.item].images.isEmpty {
-            cell.imageView.loadImage(writings[indexPath.item].images[0])
+        
+        if collectionView == taskRecordPersonalCollectionView {
+            if !personalWritings[indexPath.item].images.isEmpty {
+                cell.imageView.loadImage(personalWritings[indexPath.item].images[0])
+            }
+        } else if collectionView == taskRecordPublicCollectionView {
+            if !publicWritings[indexPath.item].images.isEmpty {
+                cell.imageView.loadImage(publicWritings[indexPath.item].images[0])
+            }
         }
         
         return cell
@@ -97,7 +122,12 @@ extension TaskRecordViewController: UICollectionViewDelegate {
         
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
         
-        vc.writing = showWritings[indexPath.item]
+        if collectionView == taskRecordPersonalCollectionView {
+            vc.writing = personalWritings[indexPath.item]
+        } else if collectionView == taskRecordPublicCollectionView {
+            vc.writing = publicWritings[indexPath.item]
+        }
+        
         show(vc, sender: nil)
     }
 }

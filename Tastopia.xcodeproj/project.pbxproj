@@ -32,6 +32,7 @@
 		CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A623E98CF70056B532 /* WritingProvider.swift */; };
 		CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */; };
 		CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */; };
+		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
@@ -65,6 +66,7 @@
 		CF2A94A623E98CF70056B532 /* WritingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingProvider.swift; sourceTree = "<group>"; };
 		CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
 		CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentViewController.swift; sourceTree = "<group>"; };
+		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
 				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
 				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
+				CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
+				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,

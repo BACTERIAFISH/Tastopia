@@ -144,7 +144,9 @@ struct UserData: Codable {
 struct WritingData: Codable {
     let number: Int
     let uid: String
+    let userName: String
     let date: Int
     let composition: String
     let images: [String]
+    var documentID: String
 }

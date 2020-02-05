@@ -100,20 +100,7 @@ class HomeViewController: UIViewController {
         
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "返回", style: .plain, target: self, action: #selector(back))
         vc.titleLabel.text = currentTask?.restaurant.name
-//        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-//        let titleLabel = UILabel()
-//        titleLabel.font = UIFont(name: "NotoSerifTC-Black", size: 20)
-//        titleLabel.text = currentTask?.restaurant.name
-//
-//        titleView.addSubview(titleLabel)
-//
-//        titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
-//        titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
-        
-//        view.addSubview(titleView)
-//
-//        vc.navigationItem.titleView = titleView
-        //vc.title = currentTask?.restaurant.name
+
         vc.restaurant = currentTask?.restaurant
         
         navigationVC.modalPresentationStyle = .fullScreen
