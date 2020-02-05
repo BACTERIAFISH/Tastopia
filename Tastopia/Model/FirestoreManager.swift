@@ -49,21 +49,6 @@ class FirestoreManager {
         }
     }
     
-    func checkData(collection: String, document: String, completion: @escaping (Bool) -> Void) {
-        let docRef = db.collection(collection).document(document)
-        docRef.getDocument { (doc, error) in
-            if let error = error {
-                print("Firestore getDocument error: \(error)")
-                return
-            }
-            if let doc = doc, doc.exists {
-                completion(true)
-            } else {
-                completion(false)
-            }
-        }
-    }
-    
     func readData(collection: String, document: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let docRef = db.collection(collection).document(document)
         docRef.getDocument { (doc, error) in
@@ -113,9 +98,9 @@ class FirestoreManager {
         
         let imageRef = storageRef.child(path)
         
-        guard let data = image.pngData() else { return }
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
         
-        let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in
+        let uploadTask = imageRef.putData(data, metadata: nil) { (_, error) in
             if let error = error {
                 completion(Result.failure(error))
             }
@@ -142,11 +127,13 @@ struct UserData: Codable {
 }
 
 struct WritingData: Codable {
+    let documentID: String
     let number: Int
     let uid: String
     let userName: String
     let date: Int
     let composition: String
     let images: [String]
-    var documentID: String
+    let agree: Int
+    let disagree: Int
 }

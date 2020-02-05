@@ -12,8 +12,10 @@ class RecordContentViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var agreeRatioBackgroundView: UIView!
     @IBOutlet weak var agreeRatioView: UIView!
     @IBOutlet weak var agreeRatioViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var agreeRatioLabel: UILabel!
     @IBOutlet weak var recordContentCollectionView: UICollectionView!
     @IBOutlet weak var compositionTextView: UITextView!
     @IBOutlet weak var checkAuthorButton: UIButton!
@@ -43,8 +45,23 @@ class RecordContentViewController: UIViewController {
         dateLabel.text = dateFormatter.string(from: date)
         
         compositionTextView.text = writing.composition
+        
+        let agreeRatio = writing.agree / (writing.agree + writing.disagree)
+        agreeRatioLabel.text = "\(agreeRatio * 100)%"
+        setAgreeRatio(ratio: CGFloat(agreeRatio))
+        
     }
-
+    
+    func setAgreeRatio(ratio: CGFloat) {
+        DispatchQueue.main.async {
+            let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.agreeRatioViewWidthConstraint.constant = strongSelf.agreeRatioBackgroundView.frame.width * ratio
+                strongSelf.view.layoutIfNeeded()
+            }
+            animator.startAnimation()
+        }
+    }
 }
 
 extension RecordContentViewController: UICollectionViewDelegateFlowLayout {

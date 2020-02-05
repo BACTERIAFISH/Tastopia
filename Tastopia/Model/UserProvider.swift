@@ -20,6 +20,8 @@ class UserProvider {
     var name: String?
     var email: String?
     var taskNumber: Int?
+    var agreeWritings = [String]()
+    var disagreeWritings = [String]()
     
     private init() {}
     
@@ -29,19 +31,20 @@ class UserProvider {
             guard
                 let data = UserDefaults.standard.object(forKey: "userData") as? Data,
                 let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
-            else { return }
+                else { return }
             
             uid = userData.uid
             name = userData.name
             email = userData.email
             
             checkTaskNumber()
+            checkCommentWritings()
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
             appDelegate.window?.rootViewController = tabBarVC
-//            appDelegate.window?.makeKeyAndVisible()
+            //            appDelegate.window?.makeKeyAndVisible()
         }
     }
     
@@ -82,6 +85,7 @@ class UserProvider {
                     self?.email = email
                     
                     self?.checkTaskNumber()
+                    self?.checkCommentWritings()
                 }
                 
                 UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
@@ -92,15 +96,12 @@ class UserProvider {
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
             appDelegate.window?.rootViewController = tabBarVC
-//            appDelegate.window?.makeKeyAndVisible()
+            //            appDelegate.window?.makeKeyAndVisible()
         }
     }
-
+    
     func checkTaskNumber() {
-//        guard
-//            let data = UserDefaults.standard.object(forKey: "userData") as? Data,
-//            let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
-//        else { return }
+
         guard let uid = uid else { return }
         
         FirestoreManager.shared.readData(collection: "Users", document: uid) { [weak self] (result) in
@@ -115,7 +116,26 @@ class UserProvider {
                 }
                 NotificationCenter.default.post(name: NSNotification.Name("taskNumber"), object: nil)
             case .failure(let error):
-                print("FirestoreManager readData error: \(error)")
+                print("FirestoreManager checkTaskNumber error: \(error)")
+            }
+        }
+    }
+    
+    func checkCommentWritings() {
+        
+        guard let uid = uid else { return }
+        
+        FirestoreManager.shared.readData(collection: "Users", document: uid) { [weak self] (result) in
+            switch result {
+            case .success(let data):
+                if let writings = data["agreeWritings"] as? [String] {
+                    self?.agreeWritings = writings
+                }
+                if let writings = data["disagreeWritings"] as? [String] {
+                    self?.disagreeWritings = writings
+                }
+            case .failure(let error):
+                print("FirestoreManager checkAgreedWritings error: \(error)")
             }
         }
     }

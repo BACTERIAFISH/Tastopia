@@ -527,18 +527,27 @@
                                     <constraint firstAttribute="height" constant="48" id="8Ab-QC-Ssd"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="中肯值" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PIY-ON-FC4">
+                                <rect key="frame" x="196" y="98" width="54" height="21"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hSj-vH-6Jh">
                                 <rect key="frame" x="260" y="103.5" width="138" height="10.5"/>
                                 <color key="backgroundColor" name="SUMI"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="on4-Kg-FnX">
-                                <rect key="frame" x="260" y="103.5" width="69" height="10.5"/>
-                                <color key="backgroundColor" name="USUKI"/>
+                                <rect key="frame" x="260" y="103.5" width="0.0" height="10.5"/>
+                                <color key="backgroundColor" name="FUKAGAWANEZUMI"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" id="XgY-Ir-1HP"/>
+                                </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="中肯值" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PIY-ON-FC4">
-                                <rect key="frame" x="196" y="98" width="54" height="21"/>
-                                <fontDescription key="fontDescription" name="NotoSerifTC-Bold" family="Noto Serif TC" pointSize="18"/>
-                                <color key="textColor" name="SUMI"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuO-Fg-ejI">
+                                <rect key="frame" x="315.5" y="102.5" width="27" height="12"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="10"/>
+                                <color key="textColor" name="SHIRONERI"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -550,17 +559,18 @@
                             <constraint firstItem="PIY-ON-FC4" firstAttribute="top" secondItem="n1T-FK-bDg" secondAttribute="top" id="Cxu-4D-yyi"/>
                             <constraint firstItem="on4-Kg-FnX" firstAttribute="leading" secondItem="hSj-vH-6Jh" secondAttribute="leading" id="DF4-yR-JZP"/>
                             <constraint firstItem="n1T-FK-bDg" firstAttribute="leading" secondItem="dR4-MS-ogh" secondAttribute="leading" constant="16" id="JpI-bx-vgp"/>
+                            <constraint firstItem="RuO-Fg-ejI" firstAttribute="centerY" secondItem="PIY-ON-FC4" secondAttribute="centerY" id="L89-Nk-AH8"/>
                             <constraint firstItem="7Us-nw-oiE" firstAttribute="height" secondItem="BgL-h1-YJC" secondAttribute="width" constant="-80" id="NmV-My-XzB"/>
                             <constraint firstItem="dR4-MS-ogh" firstAttribute="trailing" secondItem="rax-7p-N7V" secondAttribute="trailing" constant="16" id="Ohi-da-pgj"/>
                             <constraint firstItem="Vr6-If-6yV" firstAttribute="top" secondItem="rax-7p-N7V" secondAttribute="bottom" constant="20" id="P0U-MY-bD6"/>
                             <constraint firstItem="7Us-nw-oiE" firstAttribute="leading" secondItem="dR4-MS-ogh" secondAttribute="leading" id="Qhf-O8-4ji"/>
                             <constraint firstItem="Vr6-If-6yV" firstAttribute="leading" secondItem="dR4-MS-ogh" secondAttribute="leading" constant="16" id="XmY-ct-YIy"/>
-                            <constraint firstItem="on4-Kg-FnX" firstAttribute="width" secondItem="hSj-vH-6Jh" secondAttribute="width" multiplier="0.5" id="bR0-TK-n1B"/>
                             <constraint firstItem="n1T-FK-bDg" firstAttribute="top" secondItem="dR4-MS-ogh" secondAttribute="top" constant="10" id="cAB-RQ-epZ"/>
                             <constraint firstItem="dR4-MS-ogh" firstAttribute="trailing" secondItem="Vr6-If-6yV" secondAttribute="trailing" constant="16" id="dBb-g5-dTb"/>
                             <constraint firstItem="dR4-MS-ogh" firstAttribute="trailing" secondItem="hSj-vH-6Jh" secondAttribute="trailing" constant="16" id="fBD-9d-OEG"/>
                             <constraint firstItem="dR4-MS-ogh" firstAttribute="bottom" secondItem="Vr6-If-6yV" secondAttribute="bottom" constant="20" id="gPQ-ei-rUw"/>
                             <constraint firstItem="dR4-MS-ogh" firstAttribute="trailing" secondItem="7Us-nw-oiE" secondAttribute="trailing" id="hVo-JB-bhF"/>
+                            <constraint firstItem="RuO-Fg-ejI" firstAttribute="centerX" secondItem="hSj-vH-6Jh" secondAttribute="centerX" id="jg1-Xw-VDR"/>
                             <constraint firstItem="PIY-ON-FC4" firstAttribute="leading" secondItem="n1T-FK-bDg" secondAttribute="trailing" constant="20" id="kf5-59-Fe1"/>
                             <constraint firstItem="hSj-vH-6Jh" firstAttribute="centerY" secondItem="PIY-ON-FC4" secondAttribute="centerY" id="non-sN-kBx"/>
                             <constraint firstItem="hSj-vH-6Jh" firstAttribute="height" secondItem="PIY-ON-FC4" secondAttribute="height" multiplier="0.5" id="r72-1n-EW9"/>
@@ -595,8 +605,10 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="agreeRatioBackgroundView" destination="hSj-vH-6Jh" id="jn9-vD-1dg"/>
+                        <outlet property="agreeRatioLabel" destination="RuO-Fg-ejI" id="ZK5-u1-UUC"/>
                         <outlet property="agreeRatioView" destination="on4-Kg-FnX" id="6mn-aj-UXN"/>
-                        <outlet property="agreeRatioViewWidthConstraint" destination="bR0-TK-n1B" id="uIv-UK-yFK"/>
+                        <outlet property="agreeRatioViewWidthConstraint" destination="XgY-Ir-1HP" id="mL2-pk-LVr"/>
                         <outlet property="checkAuthorButton" destination="SPH-sD-zLL" id="cwI-TD-4dM"/>
                         <outlet property="checkResponseButton" destination="WuA-6E-8LP" id="mwu-qs-HBF"/>
                         <outlet property="compositionTextView" destination="rax-7p-N7V" id="VmM-fQ-0wK"/>
@@ -1009,9 +1021,6 @@
         </namedColor>
         <namedColor name="SUMI">
             <color red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="USUKI">
-            <color red="0.98039215686274506" green="0.83921568627450982" blue="0.53725490196078429" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

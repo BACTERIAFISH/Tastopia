@@ -122,7 +122,7 @@ class ExecuteTaskViewController: UIViewController {
         
         group.notify(queue: .main) { [weak self] in
             let uuid = NSUUID().uuidString
-            let data = WritingData(number: restaurant.number, uid: uid, userName: name, date: dateInt, composition: compositionText, images: urlStrings, documentID: uuid)
+            let data = WritingData(documentID: uuid, number: restaurant.number, uid: uid, userName: name, date: dateInt, composition: compositionText, images: urlStrings, agree: 1, disagree: 0)
             FirestoreManager.shared.addCustomData(collection: "Writings", document: uuid, data: data)
             self?.dismiss(animated: true, completion: nil)
         }
