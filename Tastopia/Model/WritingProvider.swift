@@ -31,7 +31,7 @@ class WritingProvider {
                         completion(Result.failure(error))
                     }
                 }
-                
+                writings.sort(by: { $0.date < $1.date })
                 completion(Result.success(writings))
             }
             

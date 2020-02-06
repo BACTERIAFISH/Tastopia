@@ -17,6 +17,7 @@ class RecordContentViewController: UIViewController {
     @IBOutlet weak var agreeRatioViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var agreeRatioLabel: UILabel!
     @IBOutlet weak var recordContentCollectionView: UICollectionView!
+    @IBOutlet weak var imagePageControl: UIPageControl!
     @IBOutlet weak var compositionTextView: UITextView!
     @IBOutlet weak var checkAuthorButton: UIButton!
     @IBOutlet weak var checkResponseButton: UIButton!
@@ -29,6 +30,7 @@ class RecordContentViewController: UIViewController {
         
         recordContentCollectionView.dataSource = self
         recordContentCollectionView.delegate = self
+        recordContentCollectionView.allowsSelection = false
 
         guard let writing = writing, let uid = UserProvider.shared.uid else { return }
         
@@ -41,7 +43,7 @@ class RecordContentViewController: UIViewController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = Date(timeIntervalSince1970: TimeInterval(writing.date))
+        let date = Date(timeIntervalSince1970: writing.date)
         dateLabel.text = dateFormatter.string(from: date)
         
         compositionTextView.text = writing.composition
@@ -50,6 +52,12 @@ class RecordContentViewController: UIViewController {
         agreeRatioLabel.text = "\(agreeRatio * 100)%"
         setAgreeRatio(ratio: CGFloat(agreeRatio))
         
+        imagePageControl.numberOfPages = writing.images.count
+        
+    }
+    
+    @IBAction func imagePageControlValueChanged(_ sender: UIPageControl) {
+        recordContentCollectionView.scrollToItem(at: IndexPath(item: sender.currentPage, section: 0), at: .centeredHorizontally, animated: true)
     }
     
     func setAgreeRatio(ratio: CGFloat) {
@@ -102,4 +110,8 @@ extension RecordContentViewController: UICollectionViewDataSource {
 
 extension RecordContentViewController: UICollectionViewDelegate {
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        imagePageControl.currentPage = Int(scrollView.contentOffset.x / recordContentCollectionView.frame.width)
+    }
+
 }

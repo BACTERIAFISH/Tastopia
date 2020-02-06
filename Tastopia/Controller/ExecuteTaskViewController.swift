@@ -10,7 +10,7 @@ import UIKit
 
 class ExecuteTaskViewController: UIViewController {
     
-    @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var compositionTextView: UITextView!
     @IBOutlet weak var photoLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
@@ -25,14 +25,9 @@ class ExecuteTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createDatePicker()
-        dateTextField.inputView = datePicker
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateTextField.text = dateFormatter.string(from: Date())
-        dateTextField.layer.cornerRadius = 5
-        dateTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        dateTextField.leftViewMode = .always
+        dateLabel.text = dateFormatter.string(from: Date())
         
         compositionTextView.layer.cornerRadius = 16
         addPhotoButton.layer.cornerRadius = 5
@@ -54,25 +49,11 @@ class ExecuteTaskViewController: UIViewController {
         submitTask()
     }
     
-    func createDatePicker() {
-        
-        datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "zh-TW")
-        datePicker.addTarget(self, action: #selector(changeDate), for: .valueChanged)
-    }
-    
-    @objc func changeDate() {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateTextField.text = dateFormatter.string(from: datePicker.date)
-    }
-    
     func openImagePicker() {
         let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
         let titles = ["Photo Library", "Saved Photos Album", "Camera"]
         for title in titles {
-            let action = UIAlertAction(title: title, style: .default) { [weak self] (action) in
+            let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
                 let imagePicker = UIImagePickerController()
                 switch title {
@@ -96,20 +77,18 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func submitTask() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        guard let dateText = dateTextField.text, let date = dateFormatter.date(from: dateText), let compositionText = compositionTextView.text else { return }
+        guard let compositionText = compositionTextView.text else { return }
         
-        let dateInt = Int(date.timeIntervalSince1970)
+        let dateNumber = Date().timeIntervalSince1970
         
-        var urlStrings = [String]()
+        var urlStringTuples = [(Int, String)]()
         let group = DispatchGroup()
-        for image in selectedImages {
+        for (i, image) in selectedImages.enumerated() {
             group.enter()
             FirestoreManager.shared.uploadImage(image: image) { (result) in
                 switch result {
                 case .success(let urlString):
-                    urlStrings.append(urlString)
+                    urlStringTuples.append((i, urlString))
                     group.leave()
                 case .failure(let error):
                     print("submitTask error: \(error)")
@@ -122,7 +101,9 @@ class ExecuteTaskViewController: UIViewController {
         
         group.notify(queue: .main) { [weak self] in
             let uuid = NSUUID().uuidString
-            let data = WritingData(documentID: uuid, number: restaurant.number, uid: uid, userName: name, date: dateInt, composition: compositionText, images: urlStrings, agree: 1, disagree: 0)
+            urlStringTuples.sort(by: { $0.0 < $1.0 })
+            let urlStrings = urlStringTuples.map({ $0.1 })
+            let data = WritingData(documentID: uuid, number: restaurant.number, uid: uid, userName: name, date: dateNumber, composition: compositionText, images: urlStrings, agree: 1, disagree: 0)
             FirestoreManager.shared.addCustomData(collection: "Writings", document: uuid, data: data)
             self?.dismiss(animated: true, completion: nil)
         }
