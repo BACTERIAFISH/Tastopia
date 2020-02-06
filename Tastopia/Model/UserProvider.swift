@@ -135,7 +135,7 @@ class UserProvider {
                     self?.disagreeWritings = writings
                 }
             case .failure(let error):
-                print("FirestoreManager checkAgreedWritings error: \(error)")
+                print("FirestoreManager checkCommentWritings error: \(error)")
             }
         }
     }

@@ -35,6 +35,23 @@ class TaskRecordViewController: UIViewController {
         taskRecordPublicCollectionView.dataSource = self
         taskRecordPublicCollectionView.delegate = self
         
+//        guard let restaurant = restaurant else { return }
+//        writingProvider.getWritings(number: restaurant.number) { [weak self] (result) in
+//            switch result {
+//            case .success(let writingsData):
+//                self?.writings = writingsData
+//                self?.personalWritings = writingsData.filter({ $0.uid == UserProvider.shared.uid })
+//                self?.publicWritings = writingsData.filter({ $0.uid != UserProvider.shared.uid })
+//                self?.taskRecordPersonalCollectionView.reloadData()
+//                self?.taskRecordPublicCollectionView.reloadData()
+//            case .failure(let error):
+//                print("getWritings error: \(error)")
+//            }
+//        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         guard let restaurant = restaurant else { return }
         writingProvider.getWritings(number: restaurant.number) { [weak self] (result) in
             switch result {

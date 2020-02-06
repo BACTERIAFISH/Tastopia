@@ -19,7 +19,9 @@ class RecordContentViewController: UIViewController {
     @IBOutlet weak var recordContentCollectionView: UICollectionView!
     @IBOutlet weak var imagePageControl: UIPageControl!
     @IBOutlet weak var compositionTextView: UITextView!
-    @IBOutlet weak var checkAuthorButton: UIButton!
+    @IBOutlet weak var agreeStackView: UIStackView!
+    @IBOutlet weak var agreeButton: UIButton!
+    @IBOutlet weak var disagreeButton: UIButton!
     @IBOutlet weak var checkResponseButton: UIButton!
     @IBOutlet weak var responseButton: UIButton!
     
@@ -35,8 +37,16 @@ class RecordContentViewController: UIViewController {
         guard let writing = writing, let uid = UserProvider.shared.uid else { return }
         
         if writing.uid == uid {
-            checkAuthorButton.isHidden = true
+            agreeStackView.isHidden = true
             responseButton.isHidden = true
+        }
+        
+        if UserProvider.shared.agreeWritings.contains(writing.documentID) {
+            agreeButton.setTitleColor(UIColor.red, for: .normal)
+        }
+        
+        if UserProvider.shared.disagreeWritings.contains(writing.documentID) {
+            disagreeButton.setTitleColor(UIColor.red, for: .normal)
         }
         
         titleLabel.text = writing.userName
@@ -48,9 +58,9 @@ class RecordContentViewController: UIViewController {
         
         compositionTextView.text = writing.composition
         
-        let agreeRatio = writing.agree / (writing.agree + writing.disagree)
-        agreeRatioLabel.text = "\(agreeRatio * 100)%"
-        setAgreeRatio(ratio: CGFloat(agreeRatio))
+        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
+        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
+        animateAgreeRatio(ratio: CGFloat(agreeRatio))
         
         imagePageControl.numberOfPages = writing.images.count
         
@@ -60,7 +70,69 @@ class RecordContentViewController: UIViewController {
         recordContentCollectionView.scrollToItem(at: IndexPath(item: sender.currentPage, section: 0), at: .centeredHorizontally, animated: true)
     }
     
-    func setAgreeRatio(ratio: CGFloat) {
+    @IBAction func agreeButtonPressed(_ sender: UIButton) {
+        guard let uid = UserProvider.shared.uid, var writing = writing else { return }
+        let documentID = writing.documentID
+        
+        if UserProvider.shared.agreeWritings.contains(documentID) {
+            writing.agree -= 1
+            UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, arrayField: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "agree", increment: -1)
+            agreeButton.setTitleColor(UIColor.HAI, for: .normal)
+        } else {
+            writing.agree += 1
+            UserProvider.shared.agreeWritings.append(documentID)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, arrayField: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "agree", increment: 1)
+            agreeButton.setTitleColor(UIColor.red, for: .normal)
+        }
+        self.writing = writing
+        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
+        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
+        animateAgreeRatio(ratio: CGFloat(agreeRatio))
+    }
+    
+    @IBAction func disagreeButtonPressed(_ sender: UIButton) {
+        guard let uid = UserProvider.shared.uid, var writing = writing else { return }
+        let documentID = writing.documentID
+        
+        if UserProvider.shared.disagreeWritings.contains(documentID) {
+            writing.disagree -= 1
+            UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, arrayField: "disagreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "disagree", increment: -1)
+            disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
+        } else {
+            writing.disagree += 1
+            UserProvider.shared.disagreeWritings.append(documentID)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, arrayField: "disagreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "disagree", increment: 1)
+            disagreeButton.setTitleColor(UIColor.red, for: .normal)
+        }
+        self.writing = writing
+        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
+        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
+        animateAgreeRatio(ratio: CGFloat(agreeRatio))
+    }
+    
+    @IBAction func checkResponseButtonPressed(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func responseButtonPressed(_ sender: UIButton) {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordResponseViewController") as? RecordResponseViewController else { return }
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.writing = writing
+        present(vc, animated: false)
+    }
+    
+    func countAgreeRatio(agree: Int, disagree: Int) -> Float {
+         return Float(agree) / (Float(agree) + Float(disagree))
+    }
+    
+    func animateAgreeRatio(ratio: CGFloat) {
         DispatchQueue.main.async {
             let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
                 guard let strongSelf = self else { return }

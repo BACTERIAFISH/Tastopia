@@ -25,6 +25,11 @@ class FirestoreManager {
         storageRef = storage.reference()
     }
     
+    func createDocumentID(collection: String) -> String {
+        let ref = db.collection(collection).document()
+        return ref.documentID
+    }
+    
     func addData(collection: String, document: String?, data: [String: Any]) {
         if let document = document {
             db.collection(collection).document(document).setData(data, merge: true)
@@ -91,10 +96,28 @@ class FirestoreManager {
         }
     }
     
+    func updateArrayData<T: Codable>(collection: String, document: String, arrayField: String, data: [T]) {
+        db.collection(collection).document(document).updateData([
+            arrayField: FieldValue.arrayUnion(data)
+        ])
+    }
+    
+    func incrementArrayData(collection: String, document: String, arrayField: String, increment: Int64) {
+        db.collection(collection).document(document).updateData([
+            arrayField: FieldValue.increment(increment)
+        ])
+    }
+    
+    func deleteArrayData<T: Codable>(collection: String, document: String, arrayField: String, data: [T]) {
+        db.collection(collection).document(document).updateData([
+            arrayField: FieldValue.arrayRemove(data)
+        ])
+    }
+    
     func uploadImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
         
         let uuid = NSUUID().uuidString
-        let path = "images/\(uuid).png"
+        let path = "images/\(uuid).JPEG"
         
         let imageRef = storageRef.child(path)
         
@@ -132,8 +155,16 @@ struct WritingData: Codable {
     let uid: String
     let userName: String
     let date: Double
-    let composition: String
-    let images: [String]
-    let agree: Int
-    let disagree: Int
+    var composition: String
+    var images: [String]
+    var agree: Int
+    var disagree: Int
+}
+
+struct ResponseData: Codable {
+    let responseID: String
+    let documentID: String
+    let uid: String
+    let userName: String
+    let response: String
 }

@@ -39,6 +39,8 @@
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
+		CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */; };
+		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +75,8 @@
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResponseViewController.swift; sourceTree = "<group>"; };
+		CFDC910623EC02C900A45F23 /* ResponseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseProvider.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Regular.otf"; sourceTree = "<group>"; };
 		CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Medium.otf"; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 				CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */,
 				CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */,
 				CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */,
+				CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +162,7 @@
 				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
 				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
+				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +401,7 @@
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
+				CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
@@ -406,6 +413,7 @@
 				CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
 				CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */,
+				CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */,
 				CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */,
 				CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */,
 			);
@@ -554,7 +562,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RA386DSWA5;
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -574,7 +582,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RA386DSWA5;
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
