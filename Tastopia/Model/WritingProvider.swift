@@ -10,8 +10,8 @@ import Foundation
 
 class WritingProvider {
     
-    func getWritings(number: Int, completion: @escaping (Result<[WritingData], Error>) -> Void) {
-        FirestoreManager.shared.db.collection("Writings").whereField("number", isEqualTo: number).getDocuments { (query, error) in
+    func getWritings(number: Int, order: String = "date", completion: @escaping (Result<[WritingData], Error>) -> Void) {
+        FirestoreManager.shared.db.collection("Writings").whereField("number", isEqualTo: number).order(by: "date", descending: true).getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
                 return
@@ -31,7 +31,6 @@ class WritingProvider {
                         completion(Result.failure(error))
                     }
                 }
-                writings.sort(by: { $0.date < $1.date })
                 completion(Result.success(writings))
             }
             

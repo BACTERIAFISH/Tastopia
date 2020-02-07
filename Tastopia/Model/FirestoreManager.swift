@@ -96,21 +96,21 @@ class FirestoreManager {
         }
     }
     
-    func updateArrayData<T: Codable>(collection: String, document: String, arrayField: String, data: [T]) {
+    func updateArrayData<T: Codable>(collection: String, document: String, field: String, data: [T]) {
         db.collection(collection).document(document).updateData([
-            arrayField: FieldValue.arrayUnion(data)
+            field: FieldValue.arrayUnion(data)
         ])
     }
     
-    func incrementArrayData(collection: String, document: String, arrayField: String, increment: Int64) {
+    func incrementArrayData(collection: String, document: String, field: String, increment: Int64) {
         db.collection(collection).document(document).updateData([
-            arrayField: FieldValue.increment(increment)
+            field: FieldValue.increment(increment)
         ])
     }
     
-    func deleteArrayData<T: Codable>(collection: String, document: String, arrayField: String, data: [T]) {
+    func deleteArrayData<T: Codable>(collection: String, document: String, field: String, data: [T]) {
         db.collection(collection).document(document).updateData([
-            arrayField: FieldValue.arrayRemove(data)
+            field: FieldValue.arrayRemove(data)
         ])
     }
     
@@ -151,10 +151,10 @@ struct UserData: Codable {
 
 struct WritingData: Codable {
     let documentID: String
+    let date: Date
     let number: Int
     let uid: String
     let userName: String
-    let date: Double
     var composition: String
     var images: [String]
     var agree: Int
@@ -162,8 +162,9 @@ struct WritingData: Codable {
 }
 
 struct ResponseData: Codable {
-    let responseID: String
     let documentID: String
+    let date: Date
+    let linkedDocumentID: String
     let uid: String
     let userName: String
     let response: String

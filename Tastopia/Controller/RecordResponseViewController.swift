@@ -45,9 +45,15 @@ class RecordResponseViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: UIButton) {
         guard let writing = writing, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name, let response = responseTextView.text else { return }
         
-        let responseID = FirestoreManager.shared.createDocumentID(collection: "Responses")
-        let data = ResponseData(responseID: responseID, documentID: writing.documentID, uid: uid, userName: name, response: response)
-        FirestoreManager.shared.addCustomData(collection: "Responses", document: responseID, data: data)
+        if response == "" {
+            // response is empty
+            return
+        }
+        
+        let documentID = FirestoreManager.shared.createDocumentID(collection: "Responses")
+        let data = ResponseData(documentID: documentID, date: Date(), linkedDocumentID: writing.documentID, uid: uid, userName: name, response: response)
+        FirestoreManager.shared.addCustomData(collection: "Responses", document: documentID, data: data)
+        FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "responseWritings", data: [writing.documentID])
         dismiss(animated: false, completion: nil)
     }
 }

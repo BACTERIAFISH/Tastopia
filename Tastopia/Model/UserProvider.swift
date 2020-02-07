@@ -22,6 +22,7 @@ class UserProvider {
     var taskNumber: Int?
     var agreeWritings = [String]()
     var disagreeWritings = [String]()
+    var responseWritings = [String]()
     
     private init() {}
     
@@ -133,6 +134,9 @@ class UserProvider {
                 }
                 if let writings = data["disagreeWritings"] as? [String] {
                     self?.disagreeWritings = writings
+                }
+                if let writings = data["responseWritings"] as? [String] {
+                    self?.responseWritings = writings
                 }
             case .failure(let error):
                 print("FirestoreManager checkCommentWritings error: \(error)")

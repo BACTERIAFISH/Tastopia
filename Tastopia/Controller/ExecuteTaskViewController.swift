@@ -79,16 +79,17 @@ class ExecuteTaskViewController: UIViewController {
     func submitTask() {
         guard let compositionText = compositionTextView.text else { return }
         
-        let dateNumber = Date().timeIntervalSince1970
-        
-        var urlStringTuples = [(Int, String)]()
+        var urlStrings = [String]()
+        for _ in 0..<3 {
+            urlStrings.append("")
+        }
         let group = DispatchGroup()
         for (i, image) in selectedImages.enumerated() {
             group.enter()
             FirestoreManager.shared.uploadImage(image: image) { (result) in
                 switch result {
                 case .success(let urlString):
-                    urlStringTuples.append((i, urlString))
+                    urlStrings[i] = urlString
                     group.leave()
                 case .failure(let error):
                     print("submitTask error: \(error)")
@@ -101,9 +102,8 @@ class ExecuteTaskViewController: UIViewController {
         
         group.notify(queue: .main) { [weak self] in
             let documentID = FirestoreManager.shared.createDocumentID(collection: "Writings")
-            urlStringTuples.sort(by: { $0.0 < $1.0 })
-            let urlStrings = urlStringTuples.map({ $0.1 })
-            let data = WritingData(documentID: documentID, number: restaurant.number, uid: uid, userName: name, date: dateNumber, composition: compositionText, images: urlStrings, agree: 1, disagree: 0)
+            let data = WritingData(documentID: documentID, date: Date(), number: restaurant.number, uid: uid, userName: name, composition: compositionText, images: urlStrings, agree: 1, disagree: 0)
+            
             FirestoreManager.shared.addCustomData(collection: "Writings", document: documentID, data: data)
             self?.dismiss(animated: true, completion: nil)
         }

@@ -53,7 +53,7 @@ class RecordContentViewController: UIViewController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = Date(timeIntervalSince1970: writing.date)
+        let date = writing.date
         dateLabel.text = dateFormatter.string(from: date)
         
         compositionTextView.text = writing.composition
@@ -77,14 +77,14 @@ class RecordContentViewController: UIViewController {
         if UserProvider.shared.agreeWritings.contains(documentID) {
             writing.agree -= 1
             UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, arrayField: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "agree", increment: -1)
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "agree", increment: -1)
             agreeButton.setTitleColor(UIColor.HAI, for: .normal)
         } else {
             writing.agree += 1
             UserProvider.shared.agreeWritings.append(documentID)
-            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, arrayField: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "agree", increment: 1)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "agree", increment: 1)
             agreeButton.setTitleColor(UIColor.red, for: .normal)
         }
         self.writing = writing
@@ -100,14 +100,14 @@ class RecordContentViewController: UIViewController {
         if UserProvider.shared.disagreeWritings.contains(documentID) {
             writing.disagree -= 1
             UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, arrayField: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "disagree", increment: -1)
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
             disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
         } else {
             writing.disagree += 1
             UserProvider.shared.disagreeWritings.append(documentID)
-            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, arrayField: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, arrayField: "disagree", increment: 1)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
             disagreeButton.setTitleColor(UIColor.red, for: .normal)
         }
         self.writing = writing
@@ -117,7 +117,11 @@ class RecordContentViewController: UIViewController {
     }
     
     @IBAction func checkResponseButtonPressed(_ sender: UIButton) {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "CheckResponseViewController") as? CheckResponseViewController else { return }
         
+//        vc.modalPresentationStyle = .overFullScreen
+        vc.writing = writing
+        show(vc, sender: nil)
     }
     
     @IBAction func responseButtonPressed(_ sender: UIButton) {
