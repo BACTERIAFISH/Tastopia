@@ -525,7 +525,7 @@
                                             <action selector="responseButtonPressed:" destination="yo3-rh-ugn" eventType="touchUpInside" id="qTj-Y5-2zB"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WuA-6E-8LP">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WuA-6E-8LP">
                                         <rect key="frame" x="254.5" y="0.0" width="127.5" height="48"/>
                                         <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
                                         <state key="normal" title="查看留言">

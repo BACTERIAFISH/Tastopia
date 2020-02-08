@@ -38,8 +38,6 @@ class RecordContentViewController: UIViewController {
 
         guard let writing = writing, let uid = UserProvider.shared.uid else { return }
         
-        getResponse(documentID: writing.documentID)
-        
         if writing.uid != uid {
             agreeStackView.isHidden = false
         }
@@ -67,6 +65,12 @@ class RecordContentViewController: UIViewController {
         
         imagePageControl.numberOfPages = writing.images.count
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        getResponse()
     }
     
     @IBAction func imagePageControlValueChanged(_ sender: UIPageControl) {
@@ -131,6 +135,9 @@ class RecordContentViewController: UIViewController {
         
         vc.modalPresentationStyle = .overFullScreen
         vc.writing = writing
+        vc.passResponse = { [weak self] response in
+            self?.responses.append(response)
+        }
         present(vc, animated: false)
     }
     
@@ -149,13 +156,20 @@ class RecordContentViewController: UIViewController {
         }
     }
     
-    func getResponse(documentID: String) {
+    func getResponse() {
+        guard let documentID = writing?.documentID else { return }
+        checkResponseButton.isEnabled = false
         ResponseProvider().getResponses(documentID: documentID) { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            
             switch result {
             case .success(let responsesData):
-                self?.responses = responsesData
-                if let response = self?.responses, !response.isEmpty {
-                    self?.checkResponseButton.isHidden = false
+                strongSelf.responses = responsesData
+                strongSelf.checkResponseButton.isEnabled = true
+                if strongSelf.responses.isEmpty {
+                    strongSelf.checkResponseButton.isHidden = true
+                } else {
+                    strongSelf.checkResponseButton.isHidden = false
                 }
             case .failure(let error):
                 print("getResponses error: \(error)")

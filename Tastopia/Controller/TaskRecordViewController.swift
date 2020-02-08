@@ -30,11 +30,10 @@ class TaskRecordViewController: UIViewController {
     
     let writingProvider = WritingProvider()
     
-//    var writings = [WritingData]()
-    var personalWritings = [WritingData]()
-    var publicWritings = [WritingData]()
     var personalWritingsOrigin = [WritingData]()
     var publicWritingsOrigin = [WritingData]()
+    var personalWritings = [WritingData]()
+    var publicWritings = [WritingData]()
     
     var sortMethod: SortMethod = .dateDescending
     
@@ -57,13 +56,8 @@ class TaskRecordViewController: UIViewController {
             
             switch result {
             case .success(let writingsData):
-//                self?.writings = writingsData
-//                strongSelf.personalWritings = writingsData.filter({ $0.uid == UserProvider.shared.uid })
                 strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == UserProvider.shared.uid })
-//                strongSelf.publicWritings = writingsData.filter({ $0.uid != UserProvider.shared.uid })
                 strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != UserProvider.shared.uid })
-//                self?.taskRecordPersonalCollectionView.reloadData()
-//                self?.taskRecordPublicCollectionView.reloadData()
                 strongSelf.sortRecord()
             case .failure(let error):
                 print("getWritings error: \(error)")
@@ -105,8 +99,8 @@ class TaskRecordViewController: UIViewController {
     
     func setSortMethod(action: UIAlertAction) {
         guard let title = action.title, let method = SortMethod(rawValue: title) else { return }
-        sortMethod = method
         
+        sortMethod = method
         sortRecord()
     }
     

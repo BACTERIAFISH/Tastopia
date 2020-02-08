@@ -18,6 +18,8 @@ class RecordResponseViewController: UIViewController {
     
     var writing: WritingData?
     
+    var passResponse: ((ResponseData) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,6 +59,9 @@ class RecordResponseViewController: UIViewController {
         FirestoreManager.shared.incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
         
         FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "responseWritings", data: [writing.documentID])
+        
+        passResponse?(data)
+        
         dismiss(animated: false, completion: nil)
     }
 }
