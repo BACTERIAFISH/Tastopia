@@ -25,12 +25,24 @@
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
 		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
 		CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */; };
+		CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */; };
+		CF2A949F23E90EA20056B532 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CF2A949E23E90EA20056B532 /* google-map-style.json */; };
+		CF2A94A123E96A4A0056B532 /* TaskRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */; };
+		CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */; };
+		CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A623E98CF70056B532 /* WritingProvider.swift */; };
+		CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */; };
+		CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */; };
+		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
+		CF524C7423ED0ABB00E2B63B /* CheckResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7323ED0ABB00E2B63B /* CheckResponseViewController.swift */; };
+		CF524C7623ED13B400E2B63B /* CheckResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* CheckResponseTableViewCell.swift */; };
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
+		CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */; };
+		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -51,12 +63,24 @@
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskViewController.swift; sourceTree = "<group>"; };
+		CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		CF2A949E23E90EA20056B532 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
+		CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRecordViewController.swift; sourceTree = "<group>"; };
+		CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRecordCollectionViewCell.swift; sourceTree = "<group>"; };
+		CF2A94A623E98CF70056B532 /* WritingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingProvider.swift; sourceTree = "<group>"; };
+		CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
+		CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentViewController.swift; sourceTree = "<group>"; };
+		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
+		CF524C7323ED0ABB00E2B63B /* CheckResponseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResponseViewController.swift; sourceTree = "<group>"; };
+		CF524C7523ED13B400E2B63B /* CheckResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResponseTableViewCell.swift; sourceTree = "<group>"; };
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResponseViewController.swift; sourceTree = "<group>"; };
+		CFDC910623EC02C900A45F23 /* ResponseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseProvider.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Regular.otf"; sourceTree = "<group>"; };
 		CFF6435423E3F6EA003CD246 /* NotoSerifTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Medium.otf"; sourceTree = "<group>"; };
@@ -113,6 +137,10 @@
 				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
 				CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */,
 				CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */,
+				CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */,
+				CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */,
+				CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */,
+				CF524C7323ED0ABB00E2B63B /* CheckResponseViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -123,6 +151,10 @@
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
 				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
+				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
+				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
+				CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */,
+				CF524C7523ED13B400E2B63B /* CheckResponseTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -135,6 +167,8 @@
 				CF78268023E57D4800B70ED4 /* FirestoreManager.swift */,
 				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
 				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
+				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
+				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -142,6 +176,7 @@
 		CF05176223E504B6004EE1CB /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				CF2A949E23E90EA20056B532 /* google-map-style.json */,
 				CFF6435223E3F6BD003CD246 /* Fonts */,
 			);
 			path = Resource;
@@ -168,6 +203,7 @@
 		CF12235C23E26C90004A41B3 /* Tastopia */ = {
 			isa = PBXGroup;
 			children = (
+				CF2A94A823E999BF0056B532 /* Third Party Wrapper */,
 				CF05176223E504B6004EE1CB /* Resource */,
 				CF05175A23E40E0F004EE1CB /* Extension */,
 				CF05176123E50440004EE1CB /* Model */,
@@ -179,6 +215,14 @@
 				CF05176323E52833004EE1CB /* Tastopia.entitlements */,
 			);
 			path = Tastopia;
+			sourceTree = "<group>";
+		};
+		CF2A94A823E999BF0056B532 /* Third Party Wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */,
+			);
+			path = "Third Party Wrapper";
 			sourceTree = "<group>";
 		};
 		CFF6435223E3F6BD003CD246 /* Fonts */ = {
@@ -268,6 +312,7 @@
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,
+				CF2A949F23E90EA20056B532 /* google-map-style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,18 +400,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
+				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
+				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
+				CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
+				CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */,
 				CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */,
 				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
+				CF2A94A123E96A4A0056B532 /* TaskRecordViewController.swift in Sources */,
+				CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
 				CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */,
+				CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */,
+				CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */,
+				CF524C7423ED0ABB00E2B63B /* CheckResponseViewController.swift in Sources */,
+				CF524C7623ED13B400E2B63B /* CheckResponseTableViewCell.swift in Sources */,
 				CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,7 +499,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -497,7 +553,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -514,7 +570,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RA386DSWA5;
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -534,7 +590,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RA386DSWA5;
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

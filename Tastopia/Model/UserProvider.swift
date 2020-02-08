@@ -20,6 +20,9 @@ class UserProvider {
     var name: String?
     var email: String?
     var taskNumber: Int?
+    var agreeWritings = [String]()
+    var disagreeWritings = [String]()
+    var responseWritings = [String]()
     
     private init() {}
     
@@ -29,19 +32,20 @@ class UserProvider {
             guard
                 let data = UserDefaults.standard.object(forKey: "userData") as? Data,
                 let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
-            else { return }
+                else { return }
             
             uid = userData.uid
             name = userData.name
             email = userData.email
             
             checkTaskNumber()
+            checkCommentWritings()
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
+            guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
             appDelegate.window?.rootViewController = tabBarVC
-            appDelegate.window?.makeKeyAndVisible()
+            //            appDelegate.window?.makeKeyAndVisible()
         }
     }
     
@@ -68,7 +72,8 @@ class UserProvider {
                 
                 if let name = name, let email = email {
                     let userData = UserData(uid: user.uid, name: name, email: email)
-                    FirestoreManager.shared.addCustomData(collection: "Users", document: user.uid, data: userData)
+                    let docRef = FirestoreManager.shared.db.collection("Users").document(user.uid)
+                    FirestoreManager.shared.addCustomData(docRef: docRef, data: userData)
                     
                     do {
                         let data = try PropertyListEncoder().encode(userData)
@@ -82,6 +87,7 @@ class UserProvider {
                     self?.email = email
                     
                     self?.checkTaskNumber()
+                    self?.checkCommentWritings()
                 }
                 
                 UserDefaults.standard.set(refreshToken, forKey: "firebaseToken")
@@ -90,20 +96,18 @@ class UserProvider {
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let tabBarVC = mainStoryboard.instantiateViewController(identifier: "MainTabBarController") as? UITabBarController else { return }
+            guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
             appDelegate.window?.rootViewController = tabBarVC
-            appDelegate.window?.makeKeyAndVisible()
+            //            appDelegate.window?.makeKeyAndVisible()
         }
     }
-
+    
     func checkTaskNumber() {
-//        guard
-//            let data = UserDefaults.standard.object(forKey: "userData") as? Data,
-//            let userData = try? PropertyListDecoder().decode(UserData.self, from: data)
-//        else { return }
+
         guard let uid = uid else { return }
         
         FirestoreManager.shared.readData(collection: "Users", document: uid) { [weak self] (result) in
+            guard let uid = self?.uid else { return }
             switch result {
             case .success(let data):
                 if let number = data["taskNumber"] as? Int {
@@ -111,11 +115,34 @@ class UserProvider {
                 } else {
                     self?.taskNumber = 0
                     let data = ["taskNumber": 0]
-                    FirestoreManager.shared.addData(collection: "Users", document: self?.uid, data: data)
+                    let docRef = FirestoreManager.shared.db.collection("Users").document(uid)
+                    FirestoreManager.shared.addData(docRef: docRef, data: data)
                 }
                 NotificationCenter.default.post(name: NSNotification.Name("taskNumber"), object: nil)
             case .failure(let error):
-                print("FirestoreManager readData error: \(error)")
+                print("FirestoreManager checkTaskNumber error: \(error)")
+            }
+        }
+    }
+    
+    func checkCommentWritings() {
+        
+        guard let uid = uid else { return }
+        
+        FirestoreManager.shared.readData(collection: "Users", document: uid) { [weak self] (result) in
+            switch result {
+            case .success(let data):
+                if let writings = data["agreeWritings"] as? [String] {
+                    self?.agreeWritings = writings
+                }
+                if let writings = data["disagreeWritings"] as? [String] {
+                    self?.disagreeWritings = writings
+                }
+                if let writings = data["responseWritings"] as? [String] {
+                    self?.responseWritings = writings
+                }
+            case .failure(let error):
+                print("FirestoreManager checkCommentWritings error: \(error)")
             }
         }
     }

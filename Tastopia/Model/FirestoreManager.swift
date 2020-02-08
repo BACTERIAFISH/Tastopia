@@ -6,6 +6,7 @@
 //  Copyright © 2020 FISH. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
@@ -16,44 +17,23 @@ class FirestoreManager {
     
     let db = Firestore.firestore()
     
-    private init() {}
+    let storage = Storage.storage()
     
-    func addData(collection: String, document: String?, data: [String: Any]) {
-        if let document = document {
-            db.collection(collection).document(document).setData(data, merge: true)
-        } else {
-            db.collection(collection).addDocument(data: data)
-        }
+    let storageRef: StorageReference!
+    
+    private init() {
+        storageRef = storage.reference()
     }
     
-    func addCustomData<T: Codable>(collection: String, document: String?, data: T) {
-        if let document = document {
-            do {
-                try db.collection(collection).document(document).setData(from: data, merge: true)
-            } catch {
-                print("Firestore setData error: \(error)")
-            }
-        } else {
-            do {
-                _ = try db.collection(collection).addDocument(from: data)
-            } catch {
-                print("Firestore addDocument error: \(error)")
-            }
-        }
+    func addData(docRef: DocumentReference, data: [String: Any]) {
+        docRef.setData(data, merge: true)
     }
     
-    func checkData(collection: String, document: String, completion: @escaping (Bool) -> Void) {
-        let docRef = db.collection(collection).document(document)
-        docRef.getDocument { (doc, error) in
-            if let error = error {
-                print("Firestore getDocument error: \(error)")
-                return
-            }
-            if let doc = doc, doc.exists {
-                completion(true)
-            } else {
-                completion(false)
-            }
+    func addCustomData<T: Codable>(docRef: DocumentReference, data: T) {
+        do {
+            try docRef.setData(from: data, merge: true)
+        } catch {
+            print("Firestore setData error: \(error)")
         }
     }
     
@@ -98,10 +78,77 @@ class FirestoreManager {
             }
         }
     }
+    
+    func updateArrayData<T: Codable>(collection: String, document: String, field: String, data: [T]) {
+        db.collection(collection).document(document).updateData([
+            field: FieldValue.arrayUnion(data)
+        ])
+    }
+    
+    func incrementData(collection: String, document: String, field: String, increment: Int64) {
+        db.collection(collection).document(document).updateData([
+            field: FieldValue.increment(increment)
+        ])
+    }
+    
+    func deleteArrayData<T: Codable>(collection: String, document: String, field: String, data: [T]) {
+        db.collection(collection).document(document).updateData([
+            field: FieldValue.arrayRemove(data)
+        ])
+    }
+    
+    func uploadImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let uuid = NSUUID().uuidString
+        let path = "images/\(uuid).JPEG"
+        
+        let imageRef = storageRef.child(path)
+        
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
+        
+        let uploadTask = imageRef.putData(data, metadata: nil) { (_, error) in
+            if let error = error {
+                completion(Result.failure(error))
+            }
+            //            guard let metadata = metadata else { return }
+            imageRef.downloadURL { (url, error) in
+                if let error = error {
+                    completion(Result.failure(error))
+                }
+                
+                guard let downloadURL = url else { return }
+                
+                completion(Result.success(downloadURL.absoluteString))
+            }
+        }
+        
+        uploadTask.resume()
+    }
 }
 
 struct UserData: Codable {
     let uid: String
     let name: String
     let email: String
+}
+
+struct WritingData: Codable {
+    let documentID: String
+    let date: Date
+    let number: Int
+    let uid: String
+    let userName: String
+    var composition: String
+    var images: [String]
+    var agree: Int
+    var disagree: Int
+    var responseNumber: Int
+}
+
+struct ResponseData: Codable {
+    let documentID: String
+    let date: Date
+    let uid: String
+    let userName: String
+    let response: String
 }
