@@ -11,7 +11,7 @@ import Foundation
 class ResponseProvider {
     
     func getResponses(documentID: String, order: String = "date", completion: @escaping (Result<[ResponseData], Error>) -> Void) {
-        FirestoreManager.shared.db.collection("Responses").whereField("linkedDocumentID", isEqualTo: documentID).order(by: order).getDocuments { (query, error) in
+        FirestoreManager.shared.db.collection("Writings").document(documentID).collection("Responses").getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
                 return

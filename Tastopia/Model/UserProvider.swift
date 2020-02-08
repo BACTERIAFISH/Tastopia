@@ -72,7 +72,8 @@ class UserProvider {
                 
                 if let name = name, let email = email {
                     let userData = UserData(uid: user.uid, name: name, email: email)
-                    FirestoreManager.shared.addCustomData(collection: "Users", document: user.uid, data: userData)
+                    let docRef = FirestoreManager.shared.db.collection("Users").document(user.uid)
+                    FirestoreManager.shared.addCustomData(docRef: docRef, data: userData)
                     
                     do {
                         let data = try PropertyListEncoder().encode(userData)
@@ -106,6 +107,7 @@ class UserProvider {
         guard let uid = uid else { return }
         
         FirestoreManager.shared.readData(collection: "Users", document: uid) { [weak self] (result) in
+            guard let uid = self?.uid else { return }
             switch result {
             case .success(let data):
                 if let number = data["taskNumber"] as? Int {
@@ -113,7 +115,8 @@ class UserProvider {
                 } else {
                     self?.taskNumber = 0
                     let data = ["taskNumber": 0]
-                    FirestoreManager.shared.addData(collection: "Users", document: self?.uid, data: data)
+                    let docRef = FirestoreManager.shared.db.collection("Users").document(uid)
+                    FirestoreManager.shared.addData(docRef: docRef, data: data)
                 }
                 NotificationCenter.default.post(name: NSNotification.Name("taskNumber"), object: nil)
             case .failure(let error):

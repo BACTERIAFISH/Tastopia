@@ -27,6 +27,8 @@ class RecordContentViewController: UIViewController {
     
     var writing: WritingData?
     
+    var responses = [ResponseData]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,9 +38,10 @@ class RecordContentViewController: UIViewController {
 
         guard let writing = writing, let uid = UserProvider.shared.uid else { return }
         
-        if writing.uid == uid {
-            agreeStackView.isHidden = true
-            responseButton.isHidden = true
+        getResponse(documentID: writing.documentID)
+        
+        if writing.uid != uid {
+            agreeStackView.isHidden = false
         }
         
         if UserProvider.shared.agreeWritings.contains(writing.documentID) {
@@ -63,7 +66,7 @@ class RecordContentViewController: UIViewController {
         animateAgreeRatio(ratio: CGFloat(agreeRatio))
         
         imagePageControl.numberOfPages = writing.images.count
-        
+
     }
     
     @IBAction func imagePageControlValueChanged(_ sender: UIPageControl) {
@@ -78,13 +81,13 @@ class RecordContentViewController: UIViewController {
             writing.agree -= 1
             UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
             FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "agree", increment: -1)
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
             agreeButton.setTitleColor(UIColor.HAI, for: .normal)
         } else {
             writing.agree += 1
             UserProvider.shared.agreeWritings.append(documentID)
             FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "agree", increment: 1)
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
             agreeButton.setTitleColor(UIColor.red, for: .normal)
         }
         self.writing = writing
@@ -101,13 +104,13 @@ class RecordContentViewController: UIViewController {
             writing.disagree -= 1
             UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
             FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
             disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
         } else {
             writing.disagree += 1
             UserProvider.shared.disagreeWritings.append(documentID)
             FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementArrayData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
             disagreeButton.setTitleColor(UIColor.red, for: .normal)
         }
         self.writing = writing
@@ -119,8 +122,7 @@ class RecordContentViewController: UIViewController {
     @IBAction func checkResponseButtonPressed(_ sender: UIButton) {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "CheckResponseViewController") as? CheckResponseViewController else { return }
         
-//        vc.modalPresentationStyle = .overFullScreen
-        vc.writing = writing
+        vc.responses = responses
         show(vc, sender: nil)
     }
     
@@ -144,6 +146,20 @@ class RecordContentViewController: UIViewController {
                 strongSelf.view.layoutIfNeeded()
             }
             animator.startAnimation()
+        }
+    }
+    
+    func getResponse(documentID: String) {
+        ResponseProvider().getResponses(documentID: documentID) { [weak self] (result) in
+            switch result {
+            case .success(let responsesData):
+                self?.responses = responsesData
+                if let response = self?.responses, !response.isEmpty {
+                    self?.checkResponseButton.isHidden = false
+                }
+            case .failure(let error):
+                print("getResponses error: \(error)")
+            }
         }
     }
 }

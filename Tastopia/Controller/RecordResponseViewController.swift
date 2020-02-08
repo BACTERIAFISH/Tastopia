@@ -50,9 +50,12 @@ class RecordResponseViewController: UIViewController {
             return
         }
         
-        let documentID = FirestoreManager.shared.createDocumentID(collection: "Responses")
-        let data = ResponseData(documentID: documentID, date: Date(), linkedDocumentID: writing.documentID, uid: uid, userName: name, response: response)
-        FirestoreManager.shared.addCustomData(collection: "Responses", document: documentID, data: data)
+        let docRef = FirestoreManager.shared.db.collection("Writings").document(writing.documentID).collection("Responses").document()
+        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: uid, userName: name, response: response)
+        FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
+        
+        FirestoreManager.shared.incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
+        
         FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "responseWritings", data: [writing.documentID])
         dismiss(animated: false, completion: nil)
     }

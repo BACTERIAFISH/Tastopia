@@ -25,32 +25,15 @@ class FirestoreManager {
         storageRef = storage.reference()
     }
     
-    func createDocumentID(collection: String) -> String {
-        let ref = db.collection(collection).document()
-        return ref.documentID
+    func addData(docRef: DocumentReference, data: [String: Any]) {
+        docRef.setData(data, merge: true)
     }
     
-    func addData(collection: String, document: String?, data: [String: Any]) {
-        if let document = document {
-            db.collection(collection).document(document).setData(data, merge: true)
-        } else {
-            db.collection(collection).addDocument(data: data)
-        }
-    }
-    
-    func addCustomData<T: Codable>(collection: String, document: String?, data: T) {
-        if let document = document {
-            do {
-                try db.collection(collection).document(document).setData(from: data, merge: true)
-            } catch {
-                print("Firestore setData error: \(error)")
-            }
-        } else {
-            do {
-                _ = try db.collection(collection).addDocument(from: data)
-            } catch {
-                print("Firestore addDocument error: \(error)")
-            }
+    func addCustomData<T: Codable>(docRef: DocumentReference, data: T) {
+        do {
+            try docRef.setData(from: data, merge: true)
+        } catch {
+            print("Firestore setData error: \(error)")
         }
     }
     
@@ -102,7 +85,7 @@ class FirestoreManager {
         ])
     }
     
-    func incrementArrayData(collection: String, document: String, field: String, increment: Int64) {
+    func incrementData(collection: String, document: String, field: String, increment: Int64) {
         db.collection(collection).document(document).updateData([
             field: FieldValue.increment(increment)
         ])
@@ -127,7 +110,7 @@ class FirestoreManager {
             if let error = error {
                 completion(Result.failure(error))
             }
-//            guard let metadata = metadata else { return }
+            //            guard let metadata = metadata else { return }
             imageRef.downloadURL { (url, error) in
                 if let error = error {
                     completion(Result.failure(error))
@@ -159,12 +142,12 @@ struct WritingData: Codable {
     var images: [String]
     var agree: Int
     var disagree: Int
+    var responseNumber: Int
 }
 
 struct ResponseData: Codable {
     let documentID: String
     let date: Date
-    let linkedDocumentID: String
     let uid: String
     let userName: String
     let response: String

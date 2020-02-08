@@ -80,7 +80,7 @@ class ExecuteTaskViewController: UIViewController {
         guard let compositionText = compositionTextView.text else { return }
         
         var urlStrings = [String]()
-        for _ in 0..<3 {
+        for _ in 0..<selectedImages.count {
             urlStrings.append("")
         }
         let group = DispatchGroup()
@@ -101,11 +101,10 @@ class ExecuteTaskViewController: UIViewController {
         guard let restaurant = restaurant, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name else { return }
         
         group.notify(queue: .main) { [weak self] in
-            let documentID = FirestoreManager.shared.createDocumentID(collection: "Writings")
-            let data = WritingData(documentID: documentID, date: Date(), number: restaurant.number, uid: uid, userName: name, composition: compositionText, images: urlStrings, agree: 1, disagree: 0)
-            
-            FirestoreManager.shared.addCustomData(collection: "Writings", document: documentID, data: data)
-            self?.dismiss(animated: true, completion: nil)
+            let docRef = FirestoreManager.shared.db.collection("Writings").document()
+            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: uid, userName: name, composition: compositionText, images: urlStrings, agree: 1, disagree: 0, responseNumber: 0)
+            FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
+            self?.dismiss(animated: false, completion: nil)
         }
     }
 }

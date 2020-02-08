@@ -12,7 +12,6 @@ class CheckResponseViewController: UIViewController {
     
     @IBOutlet weak var responseTableView: UITableView!
     
-    var writing: WritingData?
     var responses = [ResponseData]()
 
     override func viewDidLoad() {
@@ -21,16 +20,6 @@ class CheckResponseViewController: UIViewController {
         responseTableView.dataSource = self
         responseTableView.delegate = self
         
-        guard let writing = writing else { return }
-        ResponseProvider().getResponses(documentID: writing.documentID) { [weak self] (result) in
-            switch result {
-            case .success(let responsesData):
-                self?.responses = responsesData
-                self?.responseTableView.reloadData()
-            case .failure(let error):
-                print("getResponses error: \(error)")
-            }
-        }
     }
 
 }
