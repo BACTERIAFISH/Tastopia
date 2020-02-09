@@ -41,6 +41,7 @@
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
+		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
 		CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */; };
 		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
@@ -79,6 +80,7 @@
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResponseViewController.swift; sourceTree = "<group>"; };
 		CFDC910623EC02C900A45F23 /* ResponseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseProvider.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
 				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
+				CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */,
 				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
 				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
 				CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */,
@@ -400,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */,
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,

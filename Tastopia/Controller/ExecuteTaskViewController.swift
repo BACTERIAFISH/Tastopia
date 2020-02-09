@@ -10,11 +10,11 @@ import UIKit
 
 class ExecuteTaskViewController: UIViewController {
     
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var compositionShadowView: UIView!
     @IBOutlet weak var compositionTextView: UITextView!
     @IBOutlet weak var photoLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
-    @IBOutlet weak var addPhotoButton: UIButton!
+    @IBOutlet weak var submitButton: UIButton!
     
     var restaurant: Restaurant?
     
@@ -25,24 +25,20 @@ class ExecuteTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateLabel.text = dateFormatter.string(from: Date())
-        
-        compositionTextView.layer.cornerRadius = 16
-        addPhotoButton.layer.cornerRadius = 5
+        compositionShadowView.layer.cornerRadius = 16
+        compositionShadowView.layer.shadowColor = UIColor.SUMI?.cgColor
+        compositionShadowView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        compositionShadowView.layer.shadowRadius = 5
+        compositionShadowView.layer.shadowOpacity = 0.3
         
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
         
+        submitButton.layer.cornerRadius = 5
     }
 
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func addPhoto(_ sender: UIButton) {
-        openImagePicker()
     }
     
     @IBAction func submit(_ sender: UIButton) {
@@ -116,11 +112,25 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         if indexPath.item == selectedImages.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
+            cell.clipsToBounds = false
+            cell.layer.cornerRadius = 5
+            cell.layer.shadowColor = UIColor.SUMI?.cgColor
+            cell.layer.shadowOffset = CGSize(width: 0, height: 5)
+            cell.layer.shadowRadius = 5
+            cell.layer.shadowOpacity = 0.3
+            
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
+            cell.clipsToBounds = false
+            cell.layer.cornerRadius = 5
+            cell.layer.shadowColor = UIColor.SUMI?.cgColor
+            cell.layer.shadowOffset = CGSize(width: 0, height: 5)
+            cell.layer.shadowRadius = 5
+            cell.layer.shadowOpacity = 0.3
             
             cell.imageView.image = selectedImages[indexPath.item]
             return cell
@@ -143,12 +153,9 @@ extension ExecuteTaskViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.originalImage] as? UIImage else { return }
         selectedImages.append(image)
-        if !selectedImages.isEmpty, addPhotoButton.isHidden == false {
-            addPhotoButton.isHidden = true
-            photoLabel.isHidden = false
-            photoCollectionView.isHidden = false
-        }
         photoCollectionView.reloadData()
+        photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .right, animated: false)
+//        photoCollectionView.scrollRectToVisible(CGRect(x: photoCollectionView.contentSize.width, y: photoCollectionView.contentSize.height, width: 1, height: 1), animated: false)
         dismiss(animated: true, completion: nil)
     }
 }
