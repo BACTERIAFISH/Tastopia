@@ -19,10 +19,15 @@ enum SortMethod: String {
 class TaskRecordViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var personalRecordButton: UIButton!
     @IBOutlet weak var publicRecordButton: UIButton!
     
     @IBOutlet weak var taskRecordPersonalCollectionView: UICollectionView!
+    
+    @IBOutlet weak var personalCollectionViewTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var taskRecordPublicCollectionView: UICollectionView!
     
@@ -65,6 +70,10 @@ class TaskRecordViewController: UIViewController {
         }
     }
     
+    @IBAction func backButtonPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func sortFilterPressed(_ sender: Any) {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: "中肯值", style: .default, handler: setSortMethod(action:))
@@ -74,7 +83,7 @@ class TaskRecordViewController: UIViewController {
         let action3 = UIAlertAction(title: "日期 舊 -> 新", style: .default, handler: setSortMethod(action:))
         ac.addAction(action3)
         var action4 = UIAlertAction(title: "點過中肯或留言", style: .default, handler: setSortMethod(action:))
-        if taskRecordPublicCollectionView.isHidden {
+        if personalCollectionViewTrailingConstraint.constant == 0 {
             action4 = UIAlertAction(title: "有留言", style: .default, handler: setSortMethod(action:))
         }
         ac.addAction(action4)
@@ -86,15 +95,25 @@ class TaskRecordViewController: UIViewController {
     @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
-        taskRecordPersonalCollectionView.isHidden = false
-        taskRecordPublicCollectionView.isHidden = true
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
+            self?.indicatorViewLeadingConstraint.constant = 0
+            self?.personalCollectionViewTrailingConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
     }
     
     @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
-        taskRecordPersonalCollectionView.isHidden = true
-        taskRecordPublicCollectionView.isHidden = false
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
+            self?.indicatorViewLeadingConstraint.constant = sender.frame.width
+            self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
+            self?.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
     }
     
     func setSortMethod(action: UIAlertAction) {
@@ -168,15 +187,32 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
+        var writing: WritingData!
         if collectionView == taskRecordPersonalCollectionView {
-            if personalWritings[indexPath.item].images.isEmpty {
-                cell.imageView.image = nil
-            } else {                cell.imageView.loadImage(personalWritings[indexPath.item].images[0])
-            }
+            writing = personalWritings[indexPath.item]
         } else if collectionView == taskRecordPublicCollectionView {
-            if publicWritings[indexPath.item].images.isEmpty {
-                cell.imageView.image = nil
-            } else {                cell.imageView.loadImage(publicWritings[indexPath.item].images[0])
+            writing = publicWritings[indexPath.item]
+        }
+        
+        if writing.images.isEmpty {
+            cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
+        } else {
+            cell.imageView.loadImage(writing.images[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
+            
+            if writing.responseNumber > 0 {
+                cell.commentImageView.isHidden = false
+            } else {
+                cell.commentImageView.isHidden = true
+            }
+            
+            switch sortMethod {
+            case .agree:
+                let ratio = Int(countAgreeRatio(agree: writing.agree, disagree: writing.disagree) * 100)
+                cell.sortLabel.text = "\(ratio)%"
+            case .dateAscending, .dateDescending, .comment, .response:
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                cell.sortLabel.text = dateFormatter.string(from: writing.date)
             }
         }
         
@@ -199,4 +235,5 @@ extension TaskRecordViewController: UICollectionViewDelegate {
         
         show(vc, sender: nil)
     }
+    
 }

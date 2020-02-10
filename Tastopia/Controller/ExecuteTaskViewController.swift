@@ -154,8 +154,7 @@ extension ExecuteTaskViewController: UIImagePickerControllerDelegate {
         guard let image = info[.originalImage] as? UIImage else { return }
         selectedImages.append(image)
         photoCollectionView.reloadData()
-        photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .right, animated: false)
-//        photoCollectionView.scrollRectToVisible(CGRect(x: photoCollectionView.contentSize.width, y: photoCollectionView.contentSize.height, width: 1, height: 1), animated: false)
+        photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .centeredHorizontally, animated: true)
         dismiss(animated: true, completion: nil)
     }
 }

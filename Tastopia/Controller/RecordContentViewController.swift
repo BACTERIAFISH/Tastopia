@@ -42,12 +42,22 @@ class RecordContentViewController: UIViewController {
             agreeStackView.isHidden = false
         }
         
+        agreeButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        agreeButton.layer.cornerRadius = agreeButton.frame.height / 2
         if UserProvider.shared.agreeWritings.contains(writing.documentID) {
-            agreeButton.setTitleColor(UIColor.red, for: .normal)
+            agreeButton.setTitleColor(UIColor.SUMI, for: .normal)
+            agreeButton.backgroundColor = UIColor.SAKURA
         }
         
+        disagreeButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        disagreeButton.layer.cornerRadius = disagreeButton.frame.height / 2
         if UserProvider.shared.disagreeWritings.contains(writing.documentID) {
-            disagreeButton.setTitleColor(UIColor.red, for: .normal)
+            disagreeButton.setTitleColor(UIColor.SUMI, for: .normal)
+            disagreeButton.backgroundColor = UIColor.SAKURA
+        }
+        
+        if writing.responseNumber > 0 {
+            checkResponseButton.isHidden = false
         }
         
         titleLabel.text = writing.userName
@@ -58,6 +68,16 @@ class RecordContentViewController: UIViewController {
         dateLabel.text = dateFormatter.string(from: date)
         
         compositionTextView.text = writing.composition
+        
+        agreeRatioView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        agreeRatioView.layer.cornerRadius = agreeRatioView.frame.height / 2
+        
+        agreeRatioBackgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        agreeRatioBackgroundView.layer.cornerRadius = agreeRatioView.frame.height / 2
+        agreeRatioBackgroundView.layer.shadowColor = UIColor.SUMI?.cgColor
+        agreeRatioBackgroundView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        agreeRatioBackgroundView.layer.shadowRadius = 5
+        agreeRatioBackgroundView.layer.shadowOpacity = 0.3
         
         let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
         agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
@@ -71,6 +91,10 @@ class RecordContentViewController: UIViewController {
         super.viewWillAppear(animated)
         
         getResponse()
+    }
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func imagePageControlValueChanged(_ sender: UIPageControl) {
@@ -87,13 +111,25 @@ class RecordContentViewController: UIViewController {
             FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
             agreeButton.setTitleColor(UIColor.HAI, for: .normal)
+            agreeButton.backgroundColor = UIColor.SHIRONERI
         } else {
             writing.agree += 1
             UserProvider.shared.agreeWritings.append(documentID)
             FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
-            agreeButton.setTitleColor(UIColor.red, for: .normal)
+            agreeButton.setTitleColor(UIColor.SUMI, for: .normal)
+            agreeButton.backgroundColor = UIColor.SAKURA
         }
+        
+        if UserProvider.shared.disagreeWritings.contains(documentID) {
+            writing.disagree -= 1
+            UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
+            disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
+            disagreeButton.backgroundColor = UIColor.SHIRONERI
+        }
+        
         self.writing = writing
         let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
         agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
@@ -110,13 +146,25 @@ class RecordContentViewController: UIViewController {
             FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
             disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
+            disagreeButton.backgroundColor = UIColor.SHIRONERI
         } else {
             writing.disagree += 1
             UserProvider.shared.disagreeWritings.append(documentID)
             FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
-            disagreeButton.setTitleColor(UIColor.red, for: .normal)
+            disagreeButton.setTitleColor(UIColor.SUMI, for: .normal)
+            disagreeButton.backgroundColor = UIColor.SAKURA
         }
+        
+        if UserProvider.shared.agreeWritings.contains(documentID) {
+            writing.agree -= 1
+            UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
+            agreeButton.setTitleColor(UIColor.HAI, for: .normal)
+            agreeButton.backgroundColor = UIColor.SHIRONERI
+        }
+        
         self.writing = writing
         let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
         agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
@@ -141,13 +189,37 @@ class RecordContentViewController: UIViewController {
         present(vc, animated: false)
     }
     
+    func toggleAgree() {
+        guard let uid = UserProvider.shared.uid, var writing = writing else { return }
+        let documentID = writing.documentID
+        
+        if UserProvider.shared.agreeWritings.contains(documentID) {
+            writing.agree -= 1
+            UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
+            agreeButton.setTitleColor(UIColor.HAI, for: .normal)
+        } else {
+            writing.agree += 1
+            UserProvider.shared.agreeWritings.append(documentID)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
+            agreeButton.setTitleColor(UIColor.red, for: .normal)
+        }
+        self.writing = writing
+        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
+        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
+        animateAgreeRatio(ratio: CGFloat(agreeRatio))
+    }
+    
     func countAgreeRatio(agree: Int, disagree: Int) -> Float {
          return Float(agree) / (Float(agree) + Float(disagree))
     }
     
     func animateAgreeRatio(ratio: CGFloat) {
-        DispatchQueue.main.async {
-            let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
+            self?.view.layoutIfNeeded()
+            let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) {
                 guard let strongSelf = self else { return }
                 strongSelf.agreeRatioViewWidthConstraint.constant = strongSelf.agreeRatioBackgroundView.frame.width * ratio
                 strongSelf.view.layoutIfNeeded()
@@ -208,7 +280,7 @@ extension RecordContentViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecordContentCollectionViewCell", for: indexPath) as? RecordContentCollectionViewCell, let writing = writing else { return UICollectionViewCell() }
         
-        cell.imageView.loadImage(writing.images[indexPath.item])
+        cell.imageView.loadImage(writing.images[indexPath.item], placeHolder: UIImage.asset(.Icon_512px_Ramen))
         return cell
     }
     

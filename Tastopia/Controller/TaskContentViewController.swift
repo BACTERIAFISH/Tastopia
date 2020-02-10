@@ -79,7 +79,7 @@ extension TaskContentViewController: UITableViewDataSource {
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit)
             cell.contentLabel.text = "寫100字感想"
         default:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Star_Circle)
+            return cell
         }
         
         return cell
