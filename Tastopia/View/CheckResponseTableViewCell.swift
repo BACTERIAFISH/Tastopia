@@ -12,6 +12,7 @@ class CheckResponseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var responseView: UIView!
     @IBOutlet weak var responseLabel: UILabel!
     
     var response: ResponseData? {
@@ -28,7 +29,13 @@ class CheckResponseTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        responseView.layer.cornerRadius = 5
+        responseView.layer.shadowColor = UIColor.SUMI?.cgColor
+        responseView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        responseView.layer.shadowRadius = 3
+        responseView.layer.shadowOpacity = 0.3
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
