@@ -42,6 +42,11 @@
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
+		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
+		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
+		CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */; };
+		CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */; };
+		CFD07B7123F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */; };
 		CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */; };
 		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
@@ -81,6 +86,11 @@
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
+		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
+		CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentImageTableViewCell.swift; sourceTree = "<group>"; };
+		CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCompositionTableViewCell.swift; sourceTree = "<group>"; };
+		CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentAgreeTableViewCell.swift; sourceTree = "<group>"; };
 		CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResponseViewController.swift; sourceTree = "<group>"; };
 		CFDC910623EC02C900A45F23 /* ResponseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseProvider.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -128,6 +138,7 @@
 				CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */,
 				CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */,
 				CF05175E23E447DD004EE1CB /* UIView+Extension.swift */,
+				CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -156,7 +167,7 @@
 				CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */,
 				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
 				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
-				CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */,
+				CFD07B6D23F2B5D30036A7A5 /* Record Content */,
 				CF524C7523ED13B400E2B63B /* CheckResponseTableViewCell.swift */,
 			);
 			path = View;
@@ -226,6 +237,18 @@
 				CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */,
 			);
 			path = "Third Party Wrapper";
+			sourceTree = "<group>";
+		};
+		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
+			isa = PBXGroup;
+			children = (
+				CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */,
+				CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */,
+				CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */,
+				CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */,
+				CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */,
+			);
+			path = "Record Content";
 			sourceTree = "<group>";
 		};
 		CFF6435223E3F6BD003CD246 /* Fonts */ = {
@@ -404,10 +427,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */,
+				CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */,
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
+				CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */,
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
@@ -426,8 +451,11 @@
 				CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */,
 				CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */,
 				CF524C7423ED0ABB00E2B63B /* CheckResponseViewController.swift in Sources */,
+				CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */,
 				CF524C7623ED13B400E2B63B /* CheckResponseTableViewCell.swift in Sources */,
+				CFD07B7123F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift in Sources */,
 				CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */,
+				CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

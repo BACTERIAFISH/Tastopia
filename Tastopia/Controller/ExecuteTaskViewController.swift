@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 class ExecuteTaskViewController: UIViewController {
     
@@ -24,19 +25,16 @@ class ExecuteTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        compositionShadowView.layer.cornerRadius = 16
-        compositionShadowView.layer.shadowColor = UIColor.SUMI?.cgColor
-        compositionShadowView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        compositionShadowView.layer.shadowRadius = 5
-        compositionShadowView.layer.shadowOpacity = 0.3
+        
+        compositionShadowView.layer.cornerRadius = 5
+        compositionShadowView.layer.createTTBorder()
         
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
         
         submitButton.layer.cornerRadius = 5
     }
-
+    
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -47,7 +45,7 @@ class ExecuteTaskViewController: UIViewController {
     
     func openImagePicker() {
         let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
-        let titles = ["Photo Library", "Saved Photos Album", "Camera"]
+        let titles = ["Photo Library", "Camera", "Video"]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
@@ -55,10 +53,12 @@ class ExecuteTaskViewController: UIViewController {
                 switch title {
                 case "Photo Library":
                     imagePicker.sourceType = .photoLibrary
-                case "Saved Photos Album":
-                    imagePicker.sourceType = .savedPhotosAlbum
                 case "Camera":
                     imagePicker.sourceType = .camera
+                case "Video":
+                    imagePicker.sourceType = .camera
+                    imagePicker.cameraCaptureMode = .video
+                    imagePicker.mediaTypes = [kUTTypeMovie as String]
                 default:
                     imagePicker.sourceType = .photoLibrary
                 }
@@ -115,22 +115,14 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
         
         if indexPath.item == selectedImages.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
-            cell.clipsToBounds = false
             cell.layer.cornerRadius = 5
-            cell.layer.shadowColor = UIColor.SUMI?.cgColor
-            cell.layer.shadowOffset = CGSize(width: 0, height: 5)
-            cell.layer.shadowRadius = 5
-            cell.layer.shadowOpacity = 0.3
+            cell.layer.createTTBorder()
             
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
-            cell.clipsToBounds = false
             cell.layer.cornerRadius = 5
-            cell.layer.shadowColor = UIColor.SUMI?.cgColor
-            cell.layer.shadowOffset = CGSize(width: 0, height: 5)
-            cell.layer.shadowRadius = 5
-            cell.layer.shadowOpacity = 0.3
+            cell.layer.createTTBorder()
             
             cell.imageView.image = selectedImages[indexPath.item]
             return cell
@@ -151,10 +143,14 @@ extension ExecuteTaskViewController: UICollectionViewDelegate {
 extension ExecuteTaskViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let image = info[.originalImage] as? UIImage else { return }
-        selectedImages.append(image)
-        photoCollectionView.reloadData()
-        photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .centeredHorizontally, animated: true)
+        guard let mediaType = info[.mediaType] as? String else { return }
+        
+        if let image = info[.originalImage] as? UIImage {
+            selectedImages.append(image)
+            photoCollectionView.reloadData()
+            photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .centeredHorizontally, animated: true)
+        }
+
         dismiss(animated: true, completion: nil)
     }
 }

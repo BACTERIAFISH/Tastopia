@@ -22,15 +22,13 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.dataSource = self
         taskContentTableView.delegate = self
         
-        taskContentTableView.layer.cornerRadius = 16
+        taskContentTableView.layer.cornerRadius = 5
         taskContentTableView.contentInset.top = 16
         taskContentTableView.clipsToBounds = false
-        taskContentTableView.layer.shadowColor = UIColor.SUMI?.cgColor
-        taskContentTableView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        taskContentTableView.layer.shadowRadius = 5
-        taskContentTableView.layer.shadowOpacity = 0.3
+        taskContentTableView.layer.createTTBorder()
         
         requestCompanyButton.layer.cornerRadius = 5
+        
         executeTaskButton.layer.cornerRadius = 5
         
     }
@@ -45,6 +43,10 @@ class TaskContentViewController: UIViewController {
         vc.restaurant = restaurant
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
+    }
+    
+    @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
+
     }
     
 }
