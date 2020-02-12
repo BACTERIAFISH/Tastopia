@@ -1234,17 +1234,30 @@
                                                         <constraint firstAttribute="width" constant="90" id="fRL-9v-dra"/>
                                                     </constraints>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mve-9s-uOu">
+                                                    <rect key="frame" x="5" y="5" width="90" height="90"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="mve-9s-uOu" secondAttribute="height" multiplier="1:1" id="0Ub-jU-3M4"/>
+                                                        <constraint firstAttribute="width" constant="90" id="bbe-2n-OND"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="mve-9s-uOu" firstAttribute="leading" secondItem="vl0-rP-WaQ" secondAttribute="leading" constant="5" id="AxL-l0-l5V"/>
+                                                <constraint firstItem="mve-9s-uOu" firstAttribute="top" secondItem="vl0-rP-WaQ" secondAttribute="top" constant="5" id="Dau-PS-doH"/>
                                                 <constraint firstItem="lwc-lD-4iQ" firstAttribute="top" secondItem="vl0-rP-WaQ" secondAttribute="top" constant="5" id="DtR-Gb-b5C"/>
+                                                <constraint firstAttribute="trailing" secondItem="mve-9s-uOu" secondAttribute="trailing" constant="5" id="Exo-sa-p30"/>
                                                 <constraint firstAttribute="trailing" secondItem="lwc-lD-4iQ" secondAttribute="trailing" constant="5" id="MOp-Zr-zfJ"/>
                                                 <constraint firstAttribute="bottom" secondItem="lwc-lD-4iQ" secondAttribute="bottom" constant="5" id="Ozy-dS-KaT"/>
+                                                <constraint firstAttribute="bottom" secondItem="mve-9s-uOu" secondAttribute="bottom" constant="5" id="t5Y-rz-T6z"/>
                                                 <constraint firstItem="lwc-lD-4iQ" firstAttribute="leading" secondItem="vl0-rP-WaQ" secondAttribute="leading" constant="5" id="w0g-qV-cSu"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" name="SHIRONERI"/>
                                         <connections>
                                             <outlet property="imageView" destination="lwc-lD-4iQ" id="3JW-u9-1lx"/>
+                                            <outlet property="movieView" destination="mve-9s-uOu" id="kuS-Xk-frS"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ExecuteTaskAddCollectionViewCell" id="TtI-5Z-zVJ">

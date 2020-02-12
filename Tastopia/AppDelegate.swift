@@ -12,6 +12,7 @@ import IQKeyboardManagerSwift
 import Firebase
 import GoogleSignIn
 import GoogleMaps
+import FacebookCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,9 +30,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyC7vEXkWgpOW8ATMS5c7cUOtyLc2uJVIVA")
         
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         UserProvider.shared.autoLogin()
         
         return true
+    }
+    
+    // MARK: Facebook Login
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+      return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
     
     // MARK: - Core Data stack

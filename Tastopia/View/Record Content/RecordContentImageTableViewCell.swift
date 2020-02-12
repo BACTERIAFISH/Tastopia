@@ -17,7 +17,7 @@ class RecordContentImageTableViewCell: UITableViewCell {
     var writing: WritingData? {
         didSet {
             guard let writing = writing else { return }
-            imagePageControl.numberOfPages = writing.images.count
+            imagePageControl.numberOfPages = writing.medias.count
         }
     }
     
@@ -63,13 +63,13 @@ extension RecordContentImageTableViewCell: UICollectionViewDelegateFlowLayout {
 extension RecordContentImageTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let writing = writing else { return 0 }
-        return writing.images.count
+        return writing.medias.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecordContentCollectionViewCell", for: indexPath) as? RecordContentCollectionViewCell, let writing = writing else { return UICollectionViewCell() }
 
-        cell.imageView.loadImage(writing.images[indexPath.item], placeHolder: UIImage.asset(.Icon_512px_Ramen))
+        cell.imageView.loadImage(writing.medias[indexPath.item], placeHolder: UIImage.asset(.Icon_512px_Ramen))
         return cell
     }
 

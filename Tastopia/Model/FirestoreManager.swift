@@ -124,6 +124,36 @@ class FirestoreManager {
         
         uploadTask.resume()
     }
+    
+    func uploadVideo(url: URL, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let uuid = NSUUID().uuidString
+        let path = "video/\(uuid).MOV"
+        
+        let videoRef = storageRef.child(path)
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let uploadTask = videoRef.putData(data, metadata: nil) { (_, error) in
+                if let error = error {
+                    completion(Result.failure(error))
+                }
+                //            guard let metadata = metadata else { return }
+                videoRef.downloadURL { (videoURL, error) in
+                    if let error = error {
+                        completion(Result.failure(error))
+                    }
+                    
+                    guard let downloadURL = videoURL else { return }
+                    
+                    completion(Result.success(downloadURL.absoluteString))
+                }
+            }
+            uploadTask.resume()
+        } catch {
+            print(error)
+        }
+    }
 }
 
 struct UserData: Codable {
@@ -139,7 +169,8 @@ struct WritingData: Codable {
     let uid: String
     let userName: String
     var composition: String
-    var images: [String]
+    var medias: [String]
+    var mediaTypes: [String]
     var agree: Int
     var disagree: Int
     var responseNumber: Int

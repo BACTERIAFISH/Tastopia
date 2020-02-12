@@ -8,6 +8,7 @@
 
 import UIKit
 import MobileCoreServices
+import AVFoundation
 
 class ExecuteTaskViewController: UIViewController {
     
@@ -19,9 +20,7 @@ class ExecuteTaskViewController: UIViewController {
     
     var restaurant: Restaurant?
     
-    let datePicker = UIDatePicker()
-    
-    var selectedImages = [UIImage]()
+    var selectedMedias = [TTMediaData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +56,6 @@ class ExecuteTaskViewController: UIViewController {
                     imagePicker.sourceType = .camera
                 case "Video":
                     imagePicker.sourceType = .camera
-                    imagePicker.cameraCaptureMode = .video
                     imagePicker.mediaTypes = [kUTTypeMovie as String]
                 default:
                     imagePicker.sourceType = .photoLibrary
@@ -75,21 +73,30 @@ class ExecuteTaskViewController: UIViewController {
     func submitTask() {
         guard let compositionText = compositionTextView.text else { return }
         
-        var urlStrings = [String]()
-        for _ in 0..<selectedImages.count {
-            urlStrings.append("")
-        }
         let group = DispatchGroup()
-        for (i, image) in selectedImages.enumerated() {
+        for (i, media) in selectedMedias.enumerated() {
             group.enter()
-            FirestoreManager.shared.uploadImage(image: image) { (result) in
-                switch result {
-                case .success(let urlString):
-                    urlStrings[i] = urlString
-                    group.leave()
-                case .failure(let error):
-                    print("submitTask error: \(error)")
-                    group.leave()
+            if media.mediaType == kUTTypeImage as String, let image = media.image {
+                FirestoreManager.shared.uploadImage(image: image) { [weak self]  (result) in
+                    switch result {
+                    case .success(let urlString):
+                        self?.selectedMedias[i].urlString = urlString
+                        group.leave()
+                    case .failure(let error):
+                        print("submitTask error: \(error)")
+                        group.leave()
+                    }
+                }
+            } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
+                FirestoreManager.shared.uploadVideo(url: url) { [weak self] (result) in
+                    switch result {
+                    case .success(let urlString):
+                        self?.selectedMedias[i].urlString = urlString
+                        group.leave()
+                    case .failure(let error):
+                        print("submitTask error: \(error)")
+                        group.leave()
+                    }
                 }
             }
         }
@@ -97,8 +104,17 @@ class ExecuteTaskViewController: UIViewController {
         guard let restaurant = restaurant, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name else { return }
         
         group.notify(queue: .main) { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            var urlStrings = [String]()
+            var mediaTypes = [String]()
+            for media in strongSelf.selectedMedias {
+                urlStrings.append(media.urlString)
+                mediaTypes.append(media.mediaType)
+            }
+            
             let docRef = FirestoreManager.shared.db.collection("Writings").document()
-            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: uid, userName: name, composition: compositionText, images: urlStrings, agree: 1, disagree: 0, responseNumber: 0)
+            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: uid, userName: name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0)
             FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
             self?.dismiss(animated: false, completion: nil)
         }
@@ -108,25 +124,40 @@ class ExecuteTaskViewController: UIViewController {
 extension ExecuteTaskViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedImages.count + 1
+        return selectedMedias.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.item == selectedImages.count {
+        if indexPath.item != selectedMedias.count {
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
+            
+            let media = selectedMedias[indexPath.item]
+            
+            if media.mediaType == kUTTypeImage as String, let image = media.image {
+                cell.imageView.image = image
+            } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
+                let avplayer = AVPlayer(url: url)
+                let avplayerLayer = AVPlayerLayer(player: avplayer)
+                cell.movieView.layer.addSublayer(avplayerLayer)
+                avplayerLayer.frame = cell.movieView.bounds
+                avplayer.play()
+            }
+            
+            cell.layer.cornerRadius = 5
+            cell.layer.createTTBorder()
+            return cell
+            
+        } else {
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
             cell.layer.cornerRadius = 5
             cell.layer.createTTBorder()
             
             return cell
-        } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
-            cell.layer.cornerRadius = 5
-            cell.layer.createTTBorder()
-            
-            cell.imageView.image = selectedImages[indexPath.item]
-            return cell
         }
+        
     }
     
 }
@@ -134,7 +165,7 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
 extension ExecuteTaskViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == selectedImages.count {
+        if indexPath.item == selectedMedias.count {
             openImagePicker()
         }
     }
@@ -145,16 +176,33 @@ extension ExecuteTaskViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let mediaType = info[.mediaType] as? String else { return }
         
-        if let image = info[.originalImage] as? UIImage {
-            selectedImages.append(image)
-            photoCollectionView.reloadData()
-            photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .centeredHorizontally, animated: true)
+        if mediaType == kUTTypeImage as String {
+            if let image = info[.originalImage] as? UIImage {
+                let media = TTMediaData(mediaType: mediaType, image: image)
+                selectedMedias.append(media)
+                photoCollectionView.reloadData()
+                photoCollectionView.scrollToItem(at: IndexPath(item: selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
+            }
+        } else if mediaType == kUTTypeMovie as String {
+            if let url = info[.mediaURL] as? URL {
+                let media = TTMediaData(mediaType: mediaType, url: url)
+                selectedMedias.append(media)
+                photoCollectionView.reloadData()
+                photoCollectionView.scrollToItem(at: IndexPath(item: selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
+            }
         }
-
+        
         dismiss(animated: true, completion: nil)
     }
 }
 
 extension ExecuteTaskViewController: UINavigationControllerDelegate {
     
+}
+
+struct TTMediaData {
+    var mediaType: String
+    var urlString: String = ""
+    var url: URL?
+    var image: UIImage?
 }

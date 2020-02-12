@@ -194,10 +194,10 @@ extension TaskRecordViewController: UICollectionViewDataSource {
             writing = publicWritings[indexPath.item]
         }
         
-        if writing.images.isEmpty {
+        if writing.medias.isEmpty {
             cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
         } else {
-            cell.imageView.loadImage(writing.images[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
+            cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
             
             if writing.responseNumber > 0 {
                 cell.commentImageView.isHidden = false
