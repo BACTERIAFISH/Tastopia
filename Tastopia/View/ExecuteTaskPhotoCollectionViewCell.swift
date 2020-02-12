@@ -11,4 +11,5 @@ import UIKit
 class ExecuteTaskPhotoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    
 }

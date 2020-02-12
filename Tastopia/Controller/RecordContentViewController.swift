@@ -10,19 +10,18 @@ import UIKit
 
 class RecordContentViewController: UIViewController {
     
+    @IBOutlet weak var recordTableView: UITableView!
+    
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var agreeRatioBackgroundView: UIView!
-    @IBOutlet weak var agreeRatioView: UIView!
-    @IBOutlet weak var agreeRatioViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var agreeRatioLabel: UILabel!
-    @IBOutlet weak var recordContentCollectionView: UICollectionView!
-    @IBOutlet weak var imagePageControl: UIPageControl!
-    @IBOutlet weak var compositionTextView: UITextView!
-    @IBOutlet weak var agreeStackView: UIStackView!
-    @IBOutlet weak var agreeButton: UIButton!
-    @IBOutlet weak var disagreeButton: UIButton!
-    @IBOutlet weak var checkResponseButton: UIButton!
+    
+    @IBOutlet weak var responseContainView: UIView!
+    
+    @IBOutlet weak var responseBackgroundView: UIView!
+    
+    @IBOutlet weak var responseBackgroundHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var responseTextView: UITextView!
+    
     @IBOutlet weak var responseButton: UIButton!
     
     var writing: WritingData?
@@ -32,52 +31,39 @@ class RecordContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        recordContentCollectionView.dataSource = self
-        recordContentCollectionView.delegate = self
-        recordContentCollectionView.allowsSelection = false
-
-        guard let writing = writing, let uid = UserProvider.shared.uid else { return }
+        recordTableView.dataSource = self
+        recordTableView.delegate = self
         
-        if writing.uid != uid {
-            agreeStackView.isHidden = false
-        }
+        responseTextView.delegate = self
         
-        if UserProvider.shared.agreeWritings.contains(writing.documentID) {
-            agreeButton.setTitleColor(UIColor.red, for: .normal)
-        }
+        responseContainView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
         
-        if UserProvider.shared.disagreeWritings.contains(writing.documentID) {
-            disagreeButton.setTitleColor(UIColor.red, for: .normal)
-        }
+        responseButton.layer.cornerRadius = 5
+        
+        responseBackgroundView.layer.cornerRadius = 5
+        responseBackgroundView.layer.createTTBorder()
+        
+        guard let writing = writing else { return }
         
         titleLabel.text = writing.userName
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = writing.date
-        dateLabel.text = dateFormatter.string(from: date)
-        
-        compositionTextView.text = writing.composition
-        
-        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
-        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
-        animateAgreeRatio(ratio: CGFloat(agreeRatio))
-        
-        imagePageControl.numberOfPages = writing.images.count
-
+        getResponse()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getResponse()
     }
     
-    @IBAction func imagePageControlValueChanged(_ sender: UIPageControl) {
-        recordContentCollectionView.scrollToItem(at: IndexPath(item: sender.currentPage, section: 0), at: .centeredHorizontally, animated: true)
+    @IBAction func backButtonPressed(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func agreeButtonPressed(_ sender: UIButton) {
+    @IBAction func responseButtonPressed(_ sender: UIButton) {
+        submitResponse()
+    }
+    
+    func agree() {
         guard let uid = UserProvider.shared.uid, var writing = writing else { return }
         let documentID = writing.documentID
         
@@ -86,21 +72,25 @@ class RecordContentViewController: UIViewController {
             UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
             FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
-            agreeButton.setTitleColor(UIColor.HAI, for: .normal)
         } else {
             writing.agree += 1
             UserProvider.shared.agreeWritings.append(documentID)
             FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
-            agreeButton.setTitleColor(UIColor.red, for: .normal)
         }
+        
+        if UserProvider.shared.disagreeWritings.contains(documentID) {
+            writing.disagree -= 1
+            UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
+        }
+        
         self.writing = writing
-        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
-        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
-        animateAgreeRatio(ratio: CGFloat(agreeRatio))
+        recordTableView.reloadData()
     }
     
-    @IBAction func disagreeButtonPressed(_ sender: UIButton) {
+    func disagree() {
         guard let uid = UserProvider.shared.uid, var writing = writing else { return }
         let documentID = writing.documentID
         
@@ -109,115 +99,226 @@ class RecordContentViewController: UIViewController {
             UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
             FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
-            disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
         } else {
             writing.disagree += 1
             UserProvider.shared.disagreeWritings.append(documentID)
             FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
-            disagreeButton.setTitleColor(UIColor.red, for: .normal)
         }
+        
+        if UserProvider.shared.agreeWritings.contains(documentID) {
+            writing.agree -= 1
+            UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
+        }
+        
         self.writing = writing
-        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
-        agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
-        animateAgreeRatio(ratio: CGFloat(agreeRatio))
-    }
-    
-    @IBAction func checkResponseButtonPressed(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "CheckResponseViewController") as? CheckResponseViewController else { return }
-        
-        vc.responses = responses
-        show(vc, sender: nil)
-    }
-    
-    @IBAction func responseButtonPressed(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordResponseViewController") as? RecordResponseViewController else { return }
-        
-        vc.modalPresentationStyle = .overFullScreen
-        vc.writing = writing
-        vc.passResponse = { [weak self] response in
-            self?.responses.append(response)
-        }
-        present(vc, animated: false)
+        recordTableView.reloadData()
     }
     
     func countAgreeRatio(agree: Int, disagree: Int) -> Float {
-         return Float(agree) / (Float(agree) + Float(disagree))
-    }
-    
-    func animateAgreeRatio(ratio: CGFloat) {
-        DispatchQueue.main.async {
-            let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.agreeRatioViewWidthConstraint.constant = strongSelf.agreeRatioBackgroundView.frame.width * ratio
-                strongSelf.view.layoutIfNeeded()
-            }
-            animator.startAnimation()
-        }
+        return Float(agree) / (Float(agree) + Float(disagree))
     }
     
     func getResponse() {
         guard let documentID = writing?.documentID else { return }
-        checkResponseButton.isEnabled = false
-        ResponseProvider().getResponses(documentID: documentID) { [weak self] (result) in
+        ResponseProvider().getResponses(documentID: documentID, descending: true) { [weak self] (result) in
             guard let strongSelf = self else { return }
             
             switch result {
             case .success(let responsesData):
                 strongSelf.responses = responsesData
-                strongSelf.checkResponseButton.isEnabled = true
-                if strongSelf.responses.isEmpty {
-                    strongSelf.checkResponseButton.isHidden = true
-                } else {
-                    strongSelf.checkResponseButton.isHidden = false
+                var indexPaths = [IndexPath]()
+                for i in 0..<responsesData.count {
+                    indexPaths.append(IndexPath(item: i, section: 1))
                 }
+                self?.recordTableView.insertRows(at: indexPaths, with: .automatic)
             case .failure(let error):
                 print("getResponses error: \(error)")
             }
         }
     }
-}
-
-extension RecordContentViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width
-        return CGSize(width: width, height: width - 80)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-}
-
-extension RecordContentViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let writing = writing else { return 0 }
-        return writing.images.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecordContentCollectionViewCell", for: indexPath) as? RecordContentCollectionViewCell, let writing = writing else { return UICollectionViewCell() }
+    func submitResponse() {
+        guard let writing = writing, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name, let response = responseTextView.text else { return }
         
-        cell.imageView.loadImage(writing.images[indexPath.item])
-        return cell
+        if response == "" {
+            // response is empty
+            responseButton.setTitle("留言", for: .normal)
+            view.layoutIfNeeded()
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut, animations: { [weak self] in
+                self?.responseBackgroundHeightConstraint.constant = 48
+                self?.view.layoutIfNeeded()
+            })
+            animator.startAnimation()
+            responseTextView.resignFirstResponder()
+            return
+        }
+        
+        let docRef = FirestoreManager.shared.db.collection("Writings").document(writing.documentID).collection("Responses").document()
+        
+        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: uid, userName: name, response: response)
+        
+        FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
+        
+        FirestoreManager.shared.incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
+        
+        FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "responseWritings", data: [writing.documentID])
+        
+        responses.append(data)
+        recordTableView.insertRows(at: [IndexPath(item: responses.count - 1, section: 1)], with: .automatic)
+        
+        responseTextView.text = ""
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut, animations: { [weak self] in
+            self?.responseBackgroundHeightConstraint.constant = 48
+            self?.view.layoutIfNeeded()
+        })
+        animator.startAnimation()
+        
+        responseTextView.resignFirstResponder()
+        
+        recordTableView.scrollToRow(at: IndexPath(item: responses.count - 1, section: 1), at: .bottom, animated: true)
+    }
+}
+
+extension RecordContentViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if responses.count > 0, section == 1 {
+            return "留言"
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 4
+        } else {
+            return responses.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let writing = writing else { return UITableViewCell() }
+        
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentTopTableViewCell") as? RecordContentTopTableViewCell else { return UITableViewCell() }
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let date = writing.date
+                cell.dateLabel.text = dateFormatter.string(from: date)
+                
+                let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
+                cell.agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
+                
+                return cell
+                
+            } else if indexPath.row == 1 {
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentImageTableViewCell") as? RecordContentImageTableViewCell else { return UITableViewCell() }
+                
+                cell.writing = writing
+                cell.imageCollectionView.reloadData()
+                return cell
+                
+            } else if indexPath.row == 2 {
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentCompositionTableViewCell") as? RecordContentCompositionTableViewCell else { return UITableViewCell() }
+                
+                cell.compositionLabel.text = writing.composition
+                return cell
+                
+            } else if indexPath.row == 3 {
+                
+                if UserProvider.shared.uid == writing.uid {
+                    return UITableViewCell()
+                    // MARK: for edit composition
+                }
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentAgreeTableViewCell") as? RecordContentAgreeTableViewCell else { return UITableViewCell() }
+                
+                cell.documentID = writing.documentID
+                cell.agree = agree
+                cell.disagree = disagree
+                return cell
+                
+            }
+            
+            return UITableViewCell()
+            
+        } else {
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentResponseTableViewCell") as? RecordContentResponseTableViewCell else { return UITableViewCell() }
+            
+            cell.response = responses[indexPath.row]
+            return cell
+        }
+        
     }
     
 }
 
-extension RecordContentViewController: UICollectionViewDelegate {
+extension RecordContentViewController: UITableViewDelegate {
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        imagePageControl.currentPage = Int(scrollView.contentOffset.x / recordContentCollectionView.frame.width)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            if let cell = cell as? RecordContentTopTableViewCell, let writing = writing {
+                let agreeRatio = CGFloat(countAgreeRatio(agree: writing.agree, disagree: writing.disagree))
+                
+                DispatchQueue.main.async {
+                    let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
+                        cell.agreeRatioWidthConstraint.constant =  cell.agreeRatioBackgroundView.frame.width * agreeRatio
+                        self?.view.layoutIfNeeded()
+                    }
+                    animator.startAnimation()
+                }
+                
+            }
+        }
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.contentView.backgroundColor = UIColor.SHIRONERI
+        header.textLabel?.font = UIFont(name: "NotoSerifTC-Black", size: 20)
+        header.textLabel?.textColor = UIColor.SUMI
+//        header.textLabel?.textAlignment = .center
+    }
+}
 
+extension RecordContentViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if let text = textView.text, text == "" {
+            responseButton.setTitle("取消", for: .normal)
+            view.layoutIfNeeded()
+        }
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut, animations: { [weak self] in
+            self?.responseBackgroundHeightConstraint.constant = 200
+            self?.view.layoutIfNeeded()
+        })
+        animator.startAnimation()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text else { return }
+        if responseButton.titleLabel?.text == "取消", text != "" {
+            responseButton.setTitle("留言", for: .normal)
+        }
+        if responseButton.titleLabel?.text == "留言", text == "" {
+            responseButton.setTitle("取消", for: .normal)
+        }
+        
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        submitResponse()
+    }
 }

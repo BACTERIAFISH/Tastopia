@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 class ExecuteTaskViewController: UIViewController {
     
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var compositionShadowView: UIView!
     @IBOutlet weak var compositionTextView: UITextView!
     @IBOutlet weak var photoLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
-    @IBOutlet weak var addPhotoButton: UIButton!
+    @IBOutlet weak var submitButton: UIButton!
     
     var restaurant: Restaurant?
     
@@ -24,25 +25,18 @@ class ExecuteTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateLabel.text = dateFormatter.string(from: Date())
         
-        compositionTextView.layer.cornerRadius = 16
-        addPhotoButton.layer.cornerRadius = 5
+        compositionShadowView.layer.cornerRadius = 5
+        compositionShadowView.layer.createTTBorder()
         
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
         
-    }
-
-    @IBAction func back(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        submitButton.layer.cornerRadius = 5
     }
     
-    @IBAction func addPhoto(_ sender: UIButton) {
-        openImagePicker()
+    @IBAction func back(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func submit(_ sender: UIButton) {
@@ -51,7 +45,7 @@ class ExecuteTaskViewController: UIViewController {
     
     func openImagePicker() {
         let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
-        let titles = ["Photo Library", "Saved Photos Album", "Camera"]
+        let titles = ["Photo Library", "Camera", "Video"]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
@@ -59,10 +53,12 @@ class ExecuteTaskViewController: UIViewController {
                 switch title {
                 case "Photo Library":
                     imagePicker.sourceType = .photoLibrary
-                case "Saved Photos Album":
-                    imagePicker.sourceType = .savedPhotosAlbum
                 case "Camera":
                     imagePicker.sourceType = .camera
+                case "Video":
+                    imagePicker.sourceType = .camera
+                    imagePicker.cameraCaptureMode = .video
+                    imagePicker.mediaTypes = [kUTTypeMovie as String]
                 default:
                     imagePicker.sourceType = .photoLibrary
                 }
@@ -116,11 +112,17 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         if indexPath.item == selectedImages.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
+            cell.layer.cornerRadius = 5
+            cell.layer.createTTBorder()
+            
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
+            cell.layer.cornerRadius = 5
+            cell.layer.createTTBorder()
             
             cell.imageView.image = selectedImages[indexPath.item]
             return cell
@@ -141,14 +143,14 @@ extension ExecuteTaskViewController: UICollectionViewDelegate {
 extension ExecuteTaskViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let image = info[.originalImage] as? UIImage else { return }
-        selectedImages.append(image)
-        if !selectedImages.isEmpty, addPhotoButton.isHidden == false {
-            addPhotoButton.isHidden = true
-            photoLabel.isHidden = false
-            photoCollectionView.isHidden = false
+        guard let mediaType = info[.mediaType] as? String else { return }
+        
+        if let image = info[.originalImage] as? UIImage {
+            selectedImages.append(image)
+            photoCollectionView.reloadData()
+            photoCollectionView.scrollToItem(at: IndexPath(item: selectedImages.count, section: 0), at: .centeredHorizontally, animated: true)
         }
-        photoCollectionView.reloadData()
+
         dismiss(animated: true, completion: nil)
     }
 }

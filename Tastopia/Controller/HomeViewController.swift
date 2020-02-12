@@ -98,7 +98,6 @@ class HomeViewController: UIViewController {
             let vc = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
         
-        vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "返回", style: .plain, target: self, action: #selector(back))
         vc.titleLabel.text = currentTask?.restaurant.name
 
         vc.restaurant = currentTask?.restaurant

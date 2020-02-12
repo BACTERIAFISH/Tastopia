@@ -12,6 +12,8 @@ class RecordResponseViewController: UIViewController {
     
     @IBOutlet weak var responseView: UIView!
     @IBOutlet weak var responseViewBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var responseTextViewBackgroundView: UIView!
     @IBOutlet weak var responseTextView: UITextView!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
@@ -22,8 +24,25 @@ class RecordResponseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        responseView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        responseView.layer.cornerRadius = 16
+        responseView.layer.shadowColor = UIColor.SUMI?.cgColor
+        //responseView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        responseView.layer.shadowRadius = 3
+        responseView.layer.shadowOpacity = 0.3
+        
         responseViewBottomConstraint.constant = responseView.frame.height
+        
+        responseTextViewBackgroundView.layer.cornerRadius = 16
+        responseTextViewBackgroundView.layer.shadowColor = UIColor.SUMI?.cgColor
+        responseTextViewBackgroundView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        responseTextViewBackgroundView.layer.shadowRadius = 5
+        responseTextViewBackgroundView.layer.shadowOpacity = 0.3
+        
+        cancelButton.layer.cornerRadius = 5
+        sendButton.layer.cornerRadius = 5
+        
         view.layoutIfNeeded()
     }
     
@@ -31,17 +50,9 @@ class RecordResponseViewController: UIViewController {
         super.viewDidAppear(animated)
         showResponseView()
     }
-
-    func showResponseView() {
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut) { [weak self] in
-            self?.responseViewBottomConstraint.constant = 0
-            self?.view.layoutIfNeeded()
-        }
-        animator.startAnimation()
-    }
     
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
-        dismiss(animated: false, completion: nil)
+        closeResponseView()
     }
     
     @IBAction func sendButtonPressed(_ sender: UIButton) {
@@ -62,6 +73,27 @@ class RecordResponseViewController: UIViewController {
         
         passResponse?(data)
         
-        dismiss(animated: false, completion: nil)
+        closeResponseView()
     }
+    
+    func showResponseView() {
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut) { [weak self] in
+            self?.responseViewBottomConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
+    }
+    
+    func closeResponseView() {
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.responseViewBottomConstraint.constant = strongSelf.responseView.frame.height
+            strongSelf.view.layoutIfNeeded()
+        }
+        animator.addCompletion { [weak self] _ in
+            self?.dismiss(animated: false, completion: nil)
+        }
+        animator.startAnimation()
+    }
+    
 }

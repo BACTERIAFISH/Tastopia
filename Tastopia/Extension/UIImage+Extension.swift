@@ -13,12 +13,17 @@ enum ImageAsset: String {
     case Icon_64px_Itsukushima
     case Icon_32px_Itsukushima
     
-    case Icon_32px_Star_Circle
-    case Icon_32px_Address_Pin
-    case Icon_32px_Phone_Call
-    case Icon_32px_Person_Circle
-    case Icon_32px_Camera
-    case Icon_32px_Pencil
+    case Icon_512px_Ramen
+    
+    case Icon_32px_Pin
+    case Icon_32px_Phone
+    case Icon_32px_Add_User
+    case Icon_32px_Photo_Camera
+    case Icon_32px_Edit
+    case Icon_32px_Left_Arrow
+    
+    case Image_Cancel
+    case Image_32px_Cancel
 
 }
 

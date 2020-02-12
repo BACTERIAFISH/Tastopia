@@ -11,4 +11,15 @@ import UIKit
 class TaskRecordCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    
+    @IBOutlet weak var sortView: UIView!
+    
+    @IBOutlet weak var sortLabel: UILabel!
+    
+    @IBOutlet weak var commentImageView: UIImageView!
+    
+    override func awakeFromNib() {
+        sortView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        sortView.layer.cornerRadius = 18
+    }
 }

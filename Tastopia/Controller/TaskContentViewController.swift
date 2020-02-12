@@ -22,9 +22,13 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.dataSource = self
         taskContentTableView.delegate = self
         
-        taskContentTableView.layer.cornerRadius = 16
+        taskContentTableView.layer.cornerRadius = 5
         taskContentTableView.contentInset.top = 16
+        taskContentTableView.clipsToBounds = false
+        taskContentTableView.layer.createTTBorder()
+        
         requestCompanyButton.layer.cornerRadius = 5
+        
         executeTaskButton.layer.cornerRadius = 5
         
     }
@@ -41,6 +45,10 @@ class TaskContentViewController: UIViewController {
         present(vc, animated: true)
     }
     
+    @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
+
+    }
+    
 }
 
 extension TaskContentViewController: UITableViewDataSource {
@@ -54,25 +62,26 @@ extension TaskContentViewController: UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Star_Circle)
-            cell.contentLabel.text = restaurant.name
+            guard let titleCell = tableView.dequeueReusableCell(withIdentifier: "TaskContentTitleTableViewCell", for: indexPath) as? TaskContentTitleTableViewCell else { return UITableViewCell() }
+            titleCell.titleLabel.text = restaurant.name
+            return titleCell
         case 1:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Address_Pin)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Pin)
             cell.contentLabel.text = restaurant.address
         case 2:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Phone_Call)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Phone)
             cell.contentLabel.text = restaurant.phone
         case 3:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Person_Circle)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User)
             cell.contentLabel.text = "1個人吃飯"
         case 4:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Camera)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera)
             cell.contentLabel.text = "拍5張照片"
         case 5:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Pencil)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit)
             cell.contentLabel.text = "寫100字感想"
         default:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Star_Circle)
+            return cell
         }
         
         return cell
