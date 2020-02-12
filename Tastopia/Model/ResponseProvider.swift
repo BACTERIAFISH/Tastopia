@@ -10,7 +10,7 @@ import Foundation
 
 class ResponseProvider {
     
-    func getResponses(documentID: String, order: String = "date", descending: Bool = false, completion: @escaping (Result<[ResponseData], Error>) -> Void) {        FirestoreManager.shared.db.collection("Writings").document(documentID).collection("Responses").order(by: order).getDocuments { (query, error) in
+    func getResponses(documentID: String, order: String = "date", descending: Bool = false, completion: @escaping (Result<[ResponseData], Error>) -> Void) {        FirestoreManager.shared.db.collection("Writings").document(documentID).collection("Responses").order(by: order, descending: descending).getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
                 return

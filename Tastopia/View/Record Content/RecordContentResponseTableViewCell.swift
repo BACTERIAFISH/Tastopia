@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CheckResponseTableViewCell: UITableViewCell {
+class RecordContentResponseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -31,10 +31,6 @@ class CheckResponseTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         responseView.layer.cornerRadius = 5
-        responseView.layer.shadowColor = UIColor.SUMI?.cgColor
-        responseView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        responseView.layer.shadowRadius = 3
-        responseView.layer.shadowOpacity = 0.3
 
     }
 

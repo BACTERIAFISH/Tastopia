@@ -9,12 +9,16 @@
 import UIKit
 
 class RecordContentCompositionTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet weak var compositionView: UIView!
+    
     @IBOutlet weak var compositionLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        compositionView.layer.cornerRadius = 5
+        compositionView.layer.createTTBorder()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

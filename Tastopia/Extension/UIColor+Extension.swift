@@ -19,6 +19,8 @@ private enum TTColor: String {
     case SAKURA
     
     case SHIRONERI
+    
+    case SHIRONEZUMI
 }
 
 extension UIColor {
@@ -32,6 +34,8 @@ extension UIColor {
     static let HAIZAKURA = TTColor(.HAIZAKURA)
     
     static let SAKURA = TTColor(.SAKURA)
+    
+    static let SHIRONEZUMI = TTColor(.SHIRONEZUMI)
     
     private static func TTColor(_ color: TTColor) -> UIColor? {
 
