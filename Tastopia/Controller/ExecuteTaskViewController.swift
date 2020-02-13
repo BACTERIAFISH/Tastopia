@@ -22,6 +22,8 @@ class ExecuteTaskViewController: UIViewController {
     
     var selectedMedias = [TTMediaData]()
     
+    var playerLoopers = [AVPlayerLooper]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,14 +137,18 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
             
             let media = selectedMedias[indexPath.item]
             
-            if media.mediaType == kUTTypeImage as String, let image = media.image {
-                cell.imageView.image = image
+            if media.mediaType == kUTTypeImage as String {
+                cell.imageView.image = media.image
             } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
-                let avplayer = AVPlayer(url: url)
-                let avplayerLayer = AVPlayerLayer(player: avplayer)
-                cell.movieView.layer.addSublayer(avplayerLayer)
-                avplayerLayer.frame = cell.movieView.bounds
-                avplayer.play()
+                let player = AVQueuePlayer()
+                let playerItem = AVPlayerItem(url: url)
+                let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
+                playerLoopers.append(playerLooper)
+                let playerLayer = AVPlayerLayer(player: player)
+                playerLayer.videoGravity = .resizeAspectFill
+                playerLayer.frame = cell.movieView.bounds
+                cell.movieView.layer.addSublayer(playerLayer)
+                player.play()
             }
             
             cell.layer.cornerRadius = 5
