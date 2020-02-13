@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MobileCoreServices
+import AVFoundation
 
 enum SortMethod: String {
     case agree = "中肯值"
@@ -41,6 +43,8 @@ class TaskRecordViewController: UIViewController {
     var publicWritings = [WritingData]()
     
     var sortMethod: SortMethod = .dateDescending
+    
+    var playerLoopers = [AVPlayerLooper]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -187,32 +191,47 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
-        var writing: WritingData!
+        var writing: WritingData?
         if collectionView == taskRecordPersonalCollectionView {
             writing = personalWritings[indexPath.item]
         } else if collectionView == taskRecordPublicCollectionView {
             writing = publicWritings[indexPath.item]
         }
-        
-        if writing.medias.isEmpty {
-            cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
-        } else {
-            cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
-            
-            if writing.responseNumber > 0 {
-                cell.commentImageView.isHidden = false
+        if let writing = writing {
+            if writing.medias.isEmpty {
+                cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
             } else {
-                cell.commentImageView.isHidden = true
-            }
-            
-            switch sortMethod {
-            case .agree:
-                let ratio = Int(countAgreeRatio(agree: writing.agree, disagree: writing.disagree) * 100)
-                cell.sortLabel.text = "\(ratio)%"
-            case .dateAscending, .dateDescending, .comment, .response:
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                cell.sortLabel.text = dateFormatter.string(from: writing.date)
+                if writing.mediaTypes[0] == kUTTypeImage as String {
+                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
+                } else if writing.mediaTypes[0] == kUTTypeMovie as String {
+                    if let url = URL(string: writing.medias[0]) {
+                        let player = AVQueuePlayer()
+                        let playerItem = AVPlayerItem(url: url)
+                        let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
+                        playerLoopers.append(playerLooper)
+                        let playerLayer = AVPlayerLayer(player: player)
+                        playerLayer.videoGravity = .resizeAspectFill
+                        playerLayer.frame = cell.movieView.bounds
+                        cell.movieView.layer.addSublayer(playerLayer)
+                        player.play()
+                    }
+                }
+                
+                if writing.responseNumber > 0 {
+                    cell.commentImageView.isHidden = false
+                } else {
+                    cell.commentImageView.isHidden = true
+                }
+                
+                switch sortMethod {
+                case .agree:
+                    let ratio = Int(countAgreeRatio(agree: writing.agree, disagree: writing.disagree) * 100)
+                    cell.sortLabel.text = "\(ratio)%"
+                case .dateAscending, .dateDescending, .comment, .response:
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    cell.sortLabel.text = dateFormatter.string(from: writing.date)
+                }
             }
         }
         

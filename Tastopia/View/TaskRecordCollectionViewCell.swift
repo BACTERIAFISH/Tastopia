@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
 
 class TaskRecordCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    
+    @IBOutlet weak var movieView: UIView! 
     
     @IBOutlet weak var sortView: UIView!
     
@@ -19,7 +22,11 @@ class TaskRecordCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var commentImageView: UIImageView!
     
     override func awakeFromNib() {
+        super.awakeFromNib()
+
         sortView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         sortView.layer.cornerRadius = 18
+        
     }
+    
 }
