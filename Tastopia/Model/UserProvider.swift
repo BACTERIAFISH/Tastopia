@@ -20,6 +20,7 @@ class UserProvider {
     var name: String?
     var email: String?
     var taskNumber: Int?
+    var userTasks = [TaskData]()
     var agreeWritings = [String]()
     var disagreeWritings = [String]()
     var responseWritings = [String]()
@@ -118,9 +119,90 @@ class UserProvider {
                     let docRef = FirestoreManager.shared.db.collection("Users").document(uid)
                     FirestoreManager.shared.addData(docRef: docRef, data: data)
                 }
+                self?.checkUserTasks()
                 NotificationCenter.default.post(name: NSNotification.Name("taskNumber"), object: nil)
             case .failure(let error):
                 print("FirestoreManager checkTaskNumber error: \(error)")
+            }
+        }
+    }
+    
+    func checkUserTasks() {
+        
+        guard let uid = uid, let taskNumber = taskNumber else { return }
+        
+        let ref = FirestoreManager.shared.db.collection("Users").document(uid).collection("Tasks").order(by: "restaurantNumber")
+        
+        ref.getDocuments { [weak self] (query, error) in
+            if let error = error {
+                print("checkUserTasks error: \(error)")
+                return
+            } else {
+                if query!.documents.count > 0 {
+                    for doc in query!.documents {
+                        let result = Result {
+                            try doc.data(as: TaskData.self)
+                        }
+                        
+                        switch result {
+                        case .success(let task):
+                            if let task = task {
+                                self?.userTasks.append(task)
+                            }
+                        case .failure(let error):
+                            print("checkUserTasks decode error: \(error)")
+                        }
+                    }
+                    NotificationCenter.default.post(name: NSNotification.Name("userTasks"), object: nil)
+                } else {
+                    self?.getTaskTypes(completion: { (result) in
+                        switch result {
+                        case .success(let taskTypes):
+                            var tasks = [TaskData]()
+                            for i in 0..<taskNumber + 3 {
+                                guard let taskType = taskTypes.randomElement() else { return }
+                                let task = TaskData(restaurantNumber: i, people: taskType.people, media: taskType.media, composition: taskType.composition)
+                                tasks.append(task)
+                                let ref = FirestoreManager.shared.db.collection("Users").document(uid).collection("Tasks").document()
+                                FirestoreManager.shared.addCustomData(docRef: ref, data: task)
+                            }
+                            self?.userTasks = tasks
+                            NotificationCenter.default.post(name: NSNotification.Name("userTasks"), object: nil)
+                        case .failure(let error):
+                            print("getTaskTypes error: \(error)")
+                        }
+                    })
+                    
+                }
+                
+            }
+        }
+    }
+    
+    func getTaskTypes(completion: @escaping (Result<[TaskType], Error>) -> Void) {
+        let ref = FirestoreManager.shared.db.collection("TaskTypes")
+        
+        ref.getDocuments { (query, error) in
+            if let error = error {
+                completion(Result.failure(error))
+                return
+            } else {
+                var taskTypes = [TaskType]()
+                for doc in query!.documents {
+                    let result = Result {
+                        try doc.data(as: TaskType.self)
+                    }
+                    
+                    switch result {
+                    case .success(let taskType):
+                        if let taskType = taskType {
+                            taskTypes.append(taskType)
+                        }
+                    case .failure(let error):
+                        print("checkUserTasks decode error: \(error)")
+                    }
+                }
+                completion(Result.success(taskTypes))
             }
         }
     }
@@ -147,4 +229,18 @@ class UserProvider {
         }
     }
     
+}
+
+struct TaskData: Codable {
+    let restaurantNumber: Int
+    let people: Int
+    let media: Int
+    let composition: Int
+}
+
+struct TaskType: Codable {
+    let documentID: String
+    let people: Int
+    let media: Int
+    let composition: Int
 }

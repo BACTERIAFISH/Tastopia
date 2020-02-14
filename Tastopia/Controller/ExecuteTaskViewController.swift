@@ -9,16 +9,23 @@
 import UIKit
 import MobileCoreServices
 import AVFoundation
+import GoogleMaps
 
 class ExecuteTaskViewController: UIViewController {
     
+    @IBOutlet weak var peopleLabel: UILabel!
+    @IBOutlet weak var mediaLabel: UILabel!
+    @IBOutlet weak var compositionLabel: UILabel!
     @IBOutlet weak var compositionShadowView: UIView!
     @IBOutlet weak var compositionTextView: UITextView!
-    @IBOutlet weak var photoLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var submitButton: UIButton!
     
     var restaurant: Restaurant?
+    
+    var task: TaskData?
+    
+    var map: GMSMapView?
     
     var selectedMedias = [TTMediaData]()
     
@@ -34,6 +41,15 @@ class ExecuteTaskViewController: UIViewController {
         photoCollectionView.delegate = self
         
         submitButton.layer.cornerRadius = 5
+        
+        if let task = task {
+            peopleLabel.text = String(task.people)
+            mediaLabel.text = String(task.media)
+            compositionLabel.text = String(task.composition)
+        }
+        
+//        checkTask()
+        
     }
     
     @IBAction func back(_ sender: Any) {
@@ -70,6 +86,24 @@ class ExecuteTaskViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         ac.addAction(cancelAction)
         present(ac, animated: true)
+    }
+    
+    func checkTask() {
+        
+        guard let location = map?.myLocation, let restaurant = restaurant else { return }
+        
+        let taskLatitude = restaurant.position.latitude
+        let taskLongitude = restaurant.position.longitude
+        
+        guard let latitudeDegree = CLLocationDegrees(exactly: taskLatitude), let longitudeDegree = CLLocationDegrees(exactly: taskLongitude) else { return }
+        
+        let distanceMeter = location.distance(from: CLLocation(latitude: latitudeDegree, longitude: longitudeDegree))
+        
+        if distanceMeter > 10 {
+            // distance > 10 meters
+            return
+        }
+        
     }
     
     func submitTask() {

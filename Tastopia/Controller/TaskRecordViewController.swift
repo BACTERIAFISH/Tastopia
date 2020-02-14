@@ -199,10 +199,10 @@ extension TaskRecordViewController: UICollectionViewDataSource {
         }
         if let writing = writing {
             if writing.medias.isEmpty {
-                cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
+                cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
             } else {
                 if writing.mediaTypes[0] == kUTTypeImage as String {
-                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
+                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_256px_Picture))
                 } else if writing.mediaTypes[0] == kUTTypeMovie as String {
                     if let url = URL(string: writing.medias[0]) {
                         let player = AVQueuePlayer()
@@ -211,7 +211,8 @@ extension TaskRecordViewController: UICollectionViewDataSource {
                         playerLoopers.append(playerLooper)
                         let playerLayer = AVPlayerLayer(player: player)
                         playerLayer.videoGravity = .resizeAspectFill
-                        playerLayer.frame = cell.movieView.bounds
+                        let width = view.frame.width - 2
+                        playerLayer.frame = CGRect(x: 0, y: 0, width: width, height: width)
                         cell.movieView.layer.addSublayer(playerLayer)
                         player.play()
                     }

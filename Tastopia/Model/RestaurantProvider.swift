@@ -18,7 +18,7 @@ class RestaurantProvider {
         let number = taskNumber + 3
         
         FirestoreManager.shared.db.collection("Restaurants")
-        .whereField("number", isLessThanOrEqualTo: number)
+        .whereField("number", isLessThan: number)
         .getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
@@ -53,7 +53,7 @@ struct Restaurant: Codable {
     let position: GeoPoint
 }
 
-struct TaskData {
+struct RestaurantData {
     let marker: GMSMarker
     let restaurant: Restaurant
 }

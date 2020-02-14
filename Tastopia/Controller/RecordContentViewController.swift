@@ -144,7 +144,6 @@ class RecordContentViewController: UIViewController {
         guard let writing = writing, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name, let response = responseTextView.text else { return }
         
         if response == "" {
-            // response is empty
             responseButton.setTitle("留言", for: .normal)
             view.layoutIfNeeded()
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut, animations: { [weak self] in

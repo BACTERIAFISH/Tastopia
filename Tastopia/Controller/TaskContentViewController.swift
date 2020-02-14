@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class TaskContentViewController: UIViewController {
     
@@ -15,6 +16,9 @@ class TaskContentViewController: UIViewController {
     @IBOutlet weak var executeTaskButton: UIButton!
     
     var restaurant: Restaurant?
+    var task: TaskData?
+    
+    var map: GMSMapView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +44,9 @@ class TaskContentViewController: UIViewController {
     @IBAction func executeTask(_ sender: UIButton) {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
         
+        vc.map = map
         vc.restaurant = restaurant
+        vc.task = task
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
@@ -58,7 +64,7 @@ extension TaskContentViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TaskContentTableViewCell", for: indexPath) as? TaskContentTableViewCell, let restaurant = restaurant else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TaskContentTableViewCell", for: indexPath) as? TaskContentTableViewCell, let restaurant = restaurant, let task = task else { return UITableViewCell() }
         
         switch indexPath.row {
         case 0:
@@ -73,13 +79,13 @@ extension TaskContentViewController: UITableViewDataSource {
             cell.contentLabel.text = restaurant.phone
         case 3:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User)
-            cell.contentLabel.text = "1個人吃飯"
+            cell.contentLabel.text = "\(task.people)個人吃飯"
         case 4:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera)
-            cell.contentLabel.text = "拍5張照片"
+            cell.contentLabel.text = "拍攝照片或影片 x \(task.media)"
         case 5:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit)
-            cell.contentLabel.text = "寫100字感想"
+            cell.contentLabel.text = "寫\(task.composition)字感想"
         default:
             return cell
         }

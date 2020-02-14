@@ -22,6 +22,8 @@ enum ImageAsset: String {
     case Icon_32px_Edit
     case Icon_32px_Left_Arrow
     
+    case Icon_256px_Picture
+    
     case Image_Cancel
     case Image_32px_Cancel
 

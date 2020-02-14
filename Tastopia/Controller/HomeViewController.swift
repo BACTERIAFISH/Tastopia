@@ -23,10 +23,11 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskPhoneLabel: UILabel!
     
     var locationManager = CLLocationManager()
-    var currentZoom: Float = 18.0
+    var isLargeIcon = true
     
-    var tasks = [TaskData]()
-    var currentTask: TaskData?
+    var restaurantDatas = [RestaurantData]()
+    var currentRestaurantData: RestaurantData?
+    var currentUserTask: TaskData?
     
     override func loadView() {
         super.loadView()
@@ -50,13 +51,6 @@ class HomeViewController: UIViewController {
         } catch {
           print("One or more of the map styles failed to load. \(error)")
         }
-        //        let marker = GMSMarker()
-        //        marker.position = CLLocationCoordinate2D(latitude: 25.042461, longitude: 121.564931)
-        //        marker.title = "AppWorks School"
-        //        let icon = UIImage.asset(.Icon_64px_Itsukushima)
-        //        marker.icon = icon
-        //        marker.snippet = "iOS"
-        //        marker.map = mapView
         
     }
     
@@ -72,21 +66,21 @@ class HomeViewController: UIViewController {
         taskViewBottomConstraint.constant = -taskView.layer.frame.height - 10
         
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        taskView.layer.cornerRadius = 16
-        taskView.layer.shadowOpacity = 0.3
-        taskView.layer.shadowRadius = 3
-        taskView.layer.shadowColor = UIColor.SUMI?.cgColor
+        taskView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
         
         taskButton.layer.cornerRadius = 5
         recordButton.layer.cornerRadius = 5
         
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGotten), name: NSNotification.Name("userTasks"), object: nil)
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "TaskContentViewController") as? TaskContentViewController else { return }
         
-        vc.restaurant = currentTask?.restaurant
+        vc.map = mapView
+        vc.restaurant = currentRestaurantData?.restaurant
+        vc.task = currentUserTask
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
         
@@ -98,9 +92,9 @@ class HomeViewController: UIViewController {
             let vc = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
         
-        vc.titleLabel.text = currentTask?.restaurant.name
+        vc.titleLabel.text = currentRestaurantData?.restaurant.name
 
-        vc.restaurant = currentTask?.restaurant
+        vc.restaurant = currentRestaurantData?.restaurant
         
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
@@ -152,8 +146,9 @@ class HomeViewController: UIViewController {
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
                     
-                    let task = TaskData(marker: marker, restaurant: restaurant)
-                    self?.tasks.append(task)
+                    let task = RestaurantData(marker: marker, restaurant: restaurant)
+                    self?.restaurantDatas.append(task)
+                    
                 }
             case .failure(let error):
                 print("getTaskRestaurant error: \(error)")
@@ -164,36 +159,43 @@ class HomeViewController: UIViewController {
     @objc func back() {
         dismiss(animated: true, completion: nil)
     }
+    
+    @objc func userTasksGotten() {
+        taskButton.isEnabled = true
+    }
 }
 
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        
-        // MARK: current zoom
-        currentZoom = mapView.camera.zoom
-        
-        if currentZoom == 17 {
-            for task in tasks {
+                
+        if mapView.camera.zoom >= 17, !isLargeIcon {
+            isLargeIcon = true
+            for restaurantData in restaurantDatas {
                 let icon = UIImage.asset(.Icon_64px_Itsukushima)
-                task.marker.icon = icon
+                restaurantData.marker.icon = icon
             }
         }
-        if currentZoom == 16 {
-            for task in tasks {
+        
+        if mapView.camera.zoom < 17, isLargeIcon {
+            isLargeIcon = false
+            for restaurantData in restaurantDatas {
                 let icon = UIImage.asset(.Icon_32px_Itsukushima)
-                task.marker.icon = icon
+                restaurantData.marker.icon = icon
             }
         }
         
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        for task in tasks where task.marker == marker {
-            currentTask = task
-            taskNameLabel.text = task.restaurant.name
-            taskAddressLabel.text = task.restaurant.address
-            taskPhoneLabel.text = task.restaurant.phone
+        for restaurantData in restaurantDatas where restaurantData.marker == marker {
+            currentRestaurantData = restaurantData
+            for userTask in UserProvider.shared.userTasks where userTask.restaurantNumber == restaurantData.restaurant.number {
+                currentUserTask = userTask
+            }
+            taskNameLabel.text = restaurantData.restaurant.name
+            taskAddressLabel.text = restaurantData.restaurant.address
+            taskPhoneLabel.text = restaurantData.restaurant.phone
         }
         
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
@@ -229,7 +231,7 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         let location = locations.last!
         
-        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: currentZoom)
+        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
         
         if mapView.isHidden {
             mapView.isHidden = false
@@ -247,7 +249,7 @@ extension HomeViewController: CLLocationManagerDelegate {
         switch status {
         case .restricted, .denied:
             print("Location access was restricted or User denied access to location.")
-            let camera = GMSCameraPosition.camera(withLatitude: 25.042529, longitude: 121.564928, zoom: currentZoom)
+            let camera = GMSCameraPosition.camera(withLatitude: 25.042529, longitude: 121.564928, zoom: 17)
             mapView.camera = camera
             mapView.isHidden = false
         case .notDetermined:
@@ -264,4 +266,5 @@ extension HomeViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         print("Location Manager Error: \(error)")
     }
+    
 }
