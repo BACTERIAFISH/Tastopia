@@ -64,25 +64,25 @@ class RecordContentViewController: UIViewController {
     }
     
     func agree() {
-        guard let uid = UserProvider.shared.uid, var writing = writing else { return }
+        guard let user = UserProvider.shared.userData, var writing = writing else { return }
         let documentID = writing.documentID
         
-        if UserProvider.shared.agreeWritings.contains(documentID) {
+        if user.agreeWritings.contains(documentID) {
             writing.agree -= 1
-            UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            UserProvider.shared.userData?.agreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
         } else {
             writing.agree += 1
-            UserProvider.shared.agreeWritings.append(documentID)
-            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            UserProvider.shared.userData?.agreeWritings.append(documentID)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
         }
         
-        if UserProvider.shared.disagreeWritings.contains(documentID) {
+        if user.disagreeWritings.contains(documentID) {
             writing.disagree -= 1
-            UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            UserProvider.shared.userData?.disagreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
         }
         
@@ -91,25 +91,25 @@ class RecordContentViewController: UIViewController {
     }
     
     func disagree() {
-        guard let uid = UserProvider.shared.uid, var writing = writing else { return }
+        guard let user = UserProvider.shared.userData, var writing = writing else { return }
         let documentID = writing.documentID
         
-        if UserProvider.shared.disagreeWritings.contains(documentID) {
+        if user.disagreeWritings.contains(documentID) {
             writing.disagree -= 1
-            UserProvider.shared.disagreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            UserProvider.shared.userData?.disagreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
         } else {
             writing.disagree += 1
-            UserProvider.shared.disagreeWritings.append(documentID)
-            FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "disagreeWritings", data: [documentID])
+            UserProvider.shared.userData?.disagreeWritings.append(documentID)
+            FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
         }
         
-        if UserProvider.shared.agreeWritings.contains(documentID) {
+        if user.agreeWritings.contains(documentID) {
             writing.agree -= 1
-            UserProvider.shared.agreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: uid, field: "agreeWritings", data: [documentID])
+            UserProvider.shared.userData?.agreeWritings.removeAll(where: { $0 == documentID })
+            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
             FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
         }
         
@@ -141,7 +141,7 @@ class RecordContentViewController: UIViewController {
     }
     
     func submitResponse() {
-        guard let writing = writing, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name, let response = responseTextView.text else { return }
+        guard let writing = writing, let user = UserProvider.shared.userData, let response = responseTextView.text else { return }
         
         if response == "" {
             responseButton.setTitle("留言", for: .normal)
@@ -157,13 +157,13 @@ class RecordContentViewController: UIViewController {
         
         let docRef = FirestoreManager.shared.db.collection("Writings").document(writing.documentID).collection("Responses").document()
         
-        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: uid, userName: name, response: response)
+        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: user.uid, userName: user.name, response: response)
         
         FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
         
         FirestoreManager.shared.incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
         
-        FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "responseWritings", data: [writing.documentID])
+        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "responseWritings", data: [writing.documentID])
         
         responses.append(data)
         recordTableView.insertRows(at: [IndexPath(item: responses.count - 1, section: 1)], with: .automatic)
@@ -236,7 +236,7 @@ extension RecordContentViewController: UITableViewDataSource {
                 
             } else if indexPath.row == 3 {
                 
-                if UserProvider.shared.uid == writing.uid {
+                if UserProvider.shared.userData?.uid == writing.uid {
                     return UITableViewCell()
                     // MARK: for edit composition
                 }

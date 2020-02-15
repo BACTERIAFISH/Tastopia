@@ -175,7 +175,7 @@
                                                     <action selector="recordButtonPressed:" destination="dpX-QH-2EF" eventType="touchUpInside" id="aRK-mf-WEi"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bax-s2-pu9">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bax-s2-pu9">
                                                 <rect key="frame" x="197" y="0.0" width="177" height="48"/>
                                                 <color key="backgroundColor" name="SAKURA"/>
                                                 <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
@@ -1329,7 +1329,7 @@
                                     <constraint firstAttribute="width" constant="200" id="pR0-c7-6Dg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
-                                <state key="normal" title="提交">
+                                <state key="normal" title="上傳">
                                     <color key="titleColor" name="SUMI"/>
                                 </state>
                                 <connections>

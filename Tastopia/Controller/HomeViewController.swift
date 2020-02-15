@@ -52,6 +52,7 @@ class HomeViewController: UIViewController {
           print("One or more of the map styles failed to load. \(error)")
         }
         
+        getTaskRestaurant()
     }
     
     override func viewDidLoad() {
@@ -71,8 +72,8 @@ class HomeViewController: UIViewController {
         taskButton.layer.cornerRadius = 5
         recordButton.layer.cornerRadius = 5
         
-        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGotten), name: NSNotification.Name("userTasks"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGotten), name: NSNotification.Name("userTasks"), object: nil)
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
@@ -146,8 +147,8 @@ class HomeViewController: UIViewController {
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
                     
-                    let task = RestaurantData(marker: marker, restaurant: restaurant)
-                    self?.restaurantDatas.append(task)
+                    let restaurantData = RestaurantData(marker: marker, restaurant: restaurant)
+                    self?.restaurantDatas.append(restaurantData)
                     
                 }
             case .failure(let error):
@@ -156,13 +157,13 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @objc func back() {
-        dismiss(animated: true, completion: nil)
-    }
+//    @objc func back() {
+//        dismiss(animated: true, completion: nil)
+//    }
     
-    @objc func userTasksGotten() {
-        taskButton.isEnabled = true
-    }
+//    @objc func userTasksGotten() {
+//        taskButton.isEnabled = true
+//    }
 }
 
 extension HomeViewController: GMSMapViewDelegate {

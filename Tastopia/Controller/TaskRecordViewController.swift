@@ -59,14 +59,14 @@ class TaskRecordViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let restaurant = restaurant else { return }
+        guard let restaurant = restaurant, let user = UserProvider.shared.userData else { return }
         writingProvider.getWritings(number: restaurant.number) { [weak self] (result) in
             guard let strongSelf = self else { return }
             
             switch result {
             case .success(let writingsData):
-                strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == UserProvider.shared.uid })
-                strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != UserProvider.shared.uid })
+                strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == user.uid })
+                strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != user.uid })
                 strongSelf.sortRecord()
             case .failure(let error):
                 print("getWritings error: \(error)")
@@ -128,6 +128,8 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
+        guard let user = UserProvider.shared.userData else { return }
+        
         personalWritings = personalWritingsOrigin
         publicWritings = publicWritingsOrigin
         
@@ -142,7 +144,7 @@ class TaskRecordViewController: UIViewController {
             personalWritings.sort(by: { $0.date < $1.date })
             publicWritings.sort(by: { $0.date < $1.date })
         case .comment, .response:
-            let writings = UserProvider.shared.agreeWritings + UserProvider.shared.disagreeWritings + UserProvider.shared.responseWritings
+            let writings = user.agreeWritings + user.disagreeWritings + user.responseWritings
             publicWritings = publicWritings.filter({ writings.contains($0.documentID) })
             personalWritings = personalWritings.filter({ $0.responseNumber > 0 })
         }

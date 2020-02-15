@@ -16,8 +16,8 @@ class RecordContentAgreeTableViewCell: UITableViewCell {
     
     var documentID: String? {
         didSet {
-            guard let documentID = documentID else { return }
-            if UserProvider.shared.agreeWritings.contains(documentID) {
+            guard let documentID = documentID, let user = UserProvider.shared.userData else { return }
+            if user.agreeWritings.contains(documentID) {
                 agreeButton.backgroundColor = UIColor.SAKURA
                 agreeButton.setTitleColor(UIColor.SUMI, for: .normal)
                 agreeButton.tintColor = UIColor.SUMI
@@ -26,7 +26,7 @@ class RecordContentAgreeTableViewCell: UITableViewCell {
                 agreeButton.setTitleColor(UIColor.HAI, for: .normal)
                 agreeButton.tintColor = UIColor.HAI
             }
-            if UserProvider.shared.disagreeWritings.contains(documentID) {
+            if user.disagreeWritings.contains(documentID) {
                 disagreeButton.backgroundColor = UIColor.SAKURA
                 disagreeButton.setTitleColor(UIColor.SUMI, for: .normal)
                 disagreeButton.tintColor = UIColor.SUMI

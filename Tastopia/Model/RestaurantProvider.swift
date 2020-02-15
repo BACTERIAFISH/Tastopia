@@ -13,9 +13,9 @@ class RestaurantProvider {
     
     func getTaskRestaurant(completion: @escaping (Result<[Restaurant], Error>) -> Void) {
         
-        guard let taskNumber = UserProvider.shared.taskNumber else { return }
+        guard let user = UserProvider.shared.userData else { return }
         
-        let number = taskNumber + 3
+        let number = user.taskNumber + 3
         
         FirestoreManager.shared.db.collection("Restaurants")
         .whereField("number", isLessThan: number)

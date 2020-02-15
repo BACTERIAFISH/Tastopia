@@ -156,12 +156,6 @@ class FirestoreManager {
     }
 }
 
-struct UserData: Codable {
-    let uid: String
-    let name: String
-    let email: String
-}
-
 struct WritingData: Codable {
     let documentID: String
     let date: Date
@@ -174,6 +168,7 @@ struct WritingData: Codable {
     var agree: Int
     var disagree: Int
     var responseNumber: Int
+    var taskID: String
 }
 
 struct ResponseData: Codable {

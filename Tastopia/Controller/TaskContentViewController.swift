@@ -35,6 +35,8 @@ class TaskContentViewController: UIViewController {
         
         executeTaskButton.layer.cornerRadius = 5
         
+        setTaskStatus()
+        
     }
     
     @IBAction func back(_ sender: Any) {
@@ -42,19 +44,79 @@ class TaskContentViewController: UIViewController {
     }
     
     @IBAction func executeTask(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
+        guard let task = task else { return }
+        switch task.status {
+        case 0:
+            guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
+            
+            vc.map = map
+            vc.restaurant = restaurant
+            vc.task = task
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+            
+        case 1:
+            // 確認任務
+            // check writings where restaurant, taskID, date >= task.people
+            guard let uid = UserProvider.shared.userData?.uid else { return }
+            WritingProvider().checkTaskWritings(task: task) { [weak self] (result) in
+                switch result {
+                case .success(let pass):
+                    if pass {
+                        self?.task?.status = 2
+                        for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
+                            UserProvider.shared.userTasks[i].status = 2
+                        }
+                        let ref = FirestoreManager.shared.db.collection("Users").document(uid).collection("Tasks").document(task.documentID)
+                        ref.updateData(["status": 2])
+                        self?.setTaskStatus()
+                        
+                        
+                        // 檢查是否有存進 user finish task array
+                        
+                        // 如果沒有，存user finish task array
+                        // taskNumber += 1
+                        // 餐廳數量加一
+                        
+                    } else {
+                        // 重新上傳任務按鈕開啟 case3
+                        print("mission fail")
+                    }
+                    
+                case .failure(let error):
+                    print("checkTaskWritings error: \(error)")
+                }
+            }
+        case 2:
+            print("task status 2")
+            // 接新任務
+        default:
+            print("task status error")
+            return
+        }
         
-        vc.map = map
-        vc.restaurant = restaurant
-        vc.task = task
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
     }
     
     @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
 
     }
     
+    func setTaskStatus() {
+        guard let task = task else { return }
+        switch task.status {
+        case 0:
+            executeTaskButton.setTitle("上傳任務", for: .normal)
+        case 1:
+            executeTaskButton.setTitle("確認任務", for: .normal)
+        case 2:
+            executeTaskButton.setTitle("接新任務", for: .normal)
+        case 3:
+            executeTaskButton.setTitle("確認任務", for: .normal)
+        default:
+            print("task status error")
+            return
+        }
+    }
 }
 
 extension TaskContentViewController: UITableViewDataSource {

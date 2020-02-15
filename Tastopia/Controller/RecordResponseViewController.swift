@@ -56,7 +56,7 @@ class RecordResponseViewController: UIViewController {
     }
     
     @IBAction func sendButtonPressed(_ sender: UIButton) {
-        guard let writing = writing, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name, let response = responseTextView.text else { return }
+        guard let writing = writing, let user = UserProvider.shared.userData, let response = responseTextView.text else { return }
         
         if response == "" {
             // response is empty
@@ -64,12 +64,12 @@ class RecordResponseViewController: UIViewController {
         }
         
         let docRef = FirestoreManager.shared.db.collection("Writings").document(writing.documentID).collection("Responses").document()
-        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: uid, userName: name, response: response)
+        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: user.uid, userName: user.name, response: response)
         FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
         
         FirestoreManager.shared.incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
         
-        FirestoreManager.shared.updateArrayData(collection: "Users", document: uid, field: "responseWritings", data: [writing.documentID])
+        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "responseWritings", data: [writing.documentID])
         
         passResponse?(data)
         

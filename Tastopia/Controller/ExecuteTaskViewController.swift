@@ -90,6 +90,18 @@ class ExecuteTaskViewController: UIViewController {
     
     func checkTask() {
         
+        guard let task = task, let composition = compositionTextView.text else { return }
+        
+        // composition fail
+        if composition.trimmingCharacters(in: .whitespacesAndNewlines).count < task.composition {
+            return
+        }
+        
+        // media fail
+        if selectedMedias.count < task.media {
+            return
+        }
+        
         guard let location = map?.myLocation, let restaurant = restaurant else { return }
         
         let taskLatitude = restaurant.position.latitude
@@ -99,15 +111,15 @@ class ExecuteTaskViewController: UIViewController {
         
         let distanceMeter = location.distance(from: CLLocation(latitude: latitudeDegree, longitude: longitudeDegree))
         
+        // distance > 10 meters
         if distanceMeter > 10 {
-            // distance > 10 meters
             return
         }
         
     }
     
     func submitTask() {
-        guard let compositionText = compositionTextView.text else { return }
+        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
         let group = DispatchGroup()
         for (i, media) in selectedMedias.enumerated() {
@@ -137,8 +149,6 @@ class ExecuteTaskViewController: UIViewController {
             }
         }
         
-        guard let restaurant = restaurant, let uid = UserProvider.shared.uid, let name = UserProvider.shared.name else { return }
-        
         group.notify(queue: .main) { [weak self] in
             guard let strongSelf = self else { return }
             
@@ -150,7 +160,7 @@ class ExecuteTaskViewController: UIViewController {
             }
             
             let docRef = FirestoreManager.shared.db.collection("Writings").document()
-            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: uid, userName: name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0)
+            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
             FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
             self?.dismiss(animated: false, completion: nil)
         }
