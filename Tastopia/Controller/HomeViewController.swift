@@ -71,9 +71,9 @@ class HomeViewController: UIViewController {
         
         taskButton.layer.cornerRadius = 5
         recordButton.layer.cornerRadius = 5
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGotten), name: NSNotification.Name("userTasks"), object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
@@ -111,8 +111,7 @@ class HomeViewController: UIViewController {
             try firebaseAuth.signOut()
             print("sign out")
             
-            UserDefaults.standard.removeObject(forKey: "firebaseToken")
-            UserDefaults.standard.removeObject(forKey: "userData")
+            UserDefaults.standard.removeObject(forKey: "uid")
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
             
@@ -157,13 +156,10 @@ class HomeViewController: UIViewController {
         }
     }
     
-//    @objc func back() {
-//        dismiss(animated: true, completion: nil)
-//    }
-    
-//    @objc func userTasksGotten() {
-//        taskButton.isEnabled = true
-//    }
+    @objc func userTasksGot() {
+        taskButton.isEnabled = true
+    }
+
 }
 
 extension HomeViewController: GMSMapViewDelegate {

@@ -25,6 +25,8 @@ class ExecuteTaskViewController: UIViewController {
     
     var task: TaskData?
     
+    var passTask: ((TaskData) -> Void)?
+    
     var map: GMSMapView?
     
     var selectedMedias = [TTMediaData]()
@@ -162,8 +164,23 @@ class ExecuteTaskViewController: UIViewController {
             let docRef = FirestoreManager.shared.db.collection("Writings").document()
             let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
             FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
+            
+            self?.changeTaskStatus()
+            
             self?.dismiss(animated: false, completion: nil)
+            
         }
+    }
+    
+    func changeTaskStatus() {
+        guard let user = UserProvider.shared.userData, var task = task else { return }
+        task.status = 1
+        passTask?(task)
+        for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].documentID == task.documentID {
+            UserProvider.shared.userTasks[i].status = 1
+        }
+        let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+        FirestoreManager.shared.addData(docRef: ref, data: ["status": 1])
     }
 }
 
