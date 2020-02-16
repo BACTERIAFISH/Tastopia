@@ -194,12 +194,25 @@ class TaskContentViewController: UIViewController {
             return
         }
     }
+    
+    @objc func showQRCode() {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController, let task = task else { return }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.task = task
+        present(vc, animated: false)
+    }
+    
+    @objc func scanQRCode() {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeScanViewController") as? QRCodeScanViewController else { return }
+        vc.modalPresentationStyle = .overCurrentContext
+        present(vc, animated: true)
+    }
 }
 
-extension TaskContentViewController: UITableViewDataSource {
+extension TaskContentViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -225,15 +238,16 @@ extension TaskContentViewController: UITableViewDataSource {
         case 5:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit)
             cell.contentLabel.text = "寫\(task.composition)字感想"
+        case 6:
+            guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: "TaskContentButtonTableViewCell") as? TaskContentButtonTableViewCell else { return UITableViewCell() }
+            buttonCell.showButton.addTarget(self, action: #selector(showQRCode), for: .touchUpInside)
+            buttonCell.changeButton.addTarget(self, action: #selector(scanQRCode), for: .touchUpInside)
+            return buttonCell
         default:
             return cell
         }
         
         return cell
     }
-    
-}
-
-extension TaskContentViewController: UITableViewDelegate {
     
 }

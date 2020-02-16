@@ -128,6 +128,7 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
+        playerLoopers = []
         guard let user = UserProvider.shared.userData else { return }
         
         personalWritings = personalWritingsOrigin
@@ -206,8 +207,10 @@ extension TaskRecordViewController: UICollectionViewDataSource {
                 if writing.mediaTypes[0] == kUTTypeImage as String {
                     cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_256px_Picture))
                 } else if writing.mediaTypes[0] == kUTTypeMovie as String {
+                    cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
                     if let url = URL(string: writing.medias[0]) {
                         let player = AVQueuePlayer()
+                        player.isMuted = true
                         let playerItem = AVPlayerItem(url: url)
                         let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
                         playerLoopers.append(playerLooper)
