@@ -27,7 +27,6 @@ class LoginViewController: UIViewController {
 
         googleButton.layer.cornerRadius = 5
         facebookButton.layer.cornerRadius = 5
-//        appleView.layer.cornerRadius = 5
         
         if #available(iOS 13, *) {
             appleView.isHidden = false

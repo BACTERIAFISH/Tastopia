@@ -15,9 +15,10 @@ class QRCodeScanViewController: UIViewController {
     
     @IBOutlet weak var borderView: UIView!
     
+    var passTaskID: ((String) -> Void)?
+    
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
-    var frameView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,16 +69,16 @@ class QRCodeScanViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         if captureSession.isRunning == false {
             captureSession.startRunning()
         }
-    
+        
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         if captureSession.isRunning == true {
             captureSession.stopRunning()
         }
@@ -95,22 +96,39 @@ class QRCodeScanViewController: UIViewController {
         captureSession = nil
     }
     
-    func found(code: String) {
-        print(code)
+    func showAlert() {
+        let ac = UIAlertController(title: "掃錯 QRCode 囉～", message: "請重新掃取同伴的任務代碼 QRCode", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.captureSession.startRunning()
+        })
+        ac.addAction(action)
+        present(ac, animated: true)
     }
     
-    func checkQRCode(code: String) {
-        if code.count != 20 {
-            
+    func found(code: String) {
+        
+        let range = NSRange(location: 0, length: code.utf16.count)
+        do {
+            let regex = try NSRegularExpression(pattern: "([a-zA-Z0-9]){20}")
+            if regex.firstMatch(in: code, options: [], range: range) == nil {
+                showAlert()
+            } else {
+                passTaskID?(code)
+                dismiss(animated: true, completion: nil)
+            }
+        } catch {
+            print("found regex error: \(error)")
         }
+        
     }
+    
 }
 
 extension QRCodeScanViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         captureSession.stopRunning()
-
+        
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
@@ -118,9 +136,7 @@ extension QRCodeScanViewController: AVCaptureMetadataOutputObjectsDelegate {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             
             found(code: stringValue)
-            captureSession.startRunning()
         }
-
-//        dismiss(animated: true)
+        
     }
 }

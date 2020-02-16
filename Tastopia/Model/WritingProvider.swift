@@ -62,6 +62,11 @@ class WritingProvider {
                             return
                         }
                     }
+                    writings = writings.filter({ $0.number == task.restaurantNumber })
+                    if writings.count < task.people {
+                        completion(Result.success(false))
+                        return
+                    }
                     let maxDate = writings[0].date.addingTimeInterval(60 * 60)
                     let minDate = writings[0].date.addingTimeInterval(-60 * 60)
                     var passNumber = 0

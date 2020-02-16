@@ -19,6 +19,8 @@ class TaskContentViewController: UIViewController {
     var restaurant: Restaurant?
     var task: TaskData?
     
+    var passTaskID: ((String) -> Void)?
+    
     var map: GMSMapView?
     
     override func viewDidLoad() {
@@ -52,16 +54,19 @@ class TaskContentViewController: UIViewController {
         guard let task = task, let user = UserProvider.shared.userData else { return }
         switch task.status {
         case 0:
-            guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
             
-            vc.map = map
-            vc.restaurant = restaurant
-            vc.task = task
-            vc.passTask = { [weak self] (task) in
-                self?.task = task
+            if task.people > 1 {
+                let ac = UIAlertController(title: "多人任務", message: "執行多人任務前記得要同步自己和同伴的任務代碼，不然確認任務時會失敗喔", preferredStyle: .alert)
+                let action = UIAlertAction(title: "繼續上傳", style: .default) { [weak self] (_) in
+                    self?.showExecuteTask()
+                }
+                let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                ac.addAction(action)
+                ac.addAction(cancel)
+                present(ac, animated: true)
+            } else {
+                showExecuteTask()
             }
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
             
         case 1:
             // 確認任務
@@ -168,8 +173,6 @@ class TaskContentViewController: UIViewController {
             ref.updateData(["status": 0])
             
             setTaskStatus()
-        case 2:
-            print("status: 2, not show?")
         default:
             print("task status error")
             return
@@ -195,6 +198,19 @@ class TaskContentViewController: UIViewController {
         }
     }
     
+    func showExecuteTask() {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
+        
+        vc.map = map
+        vc.restaurant = restaurant
+        vc.task = task
+        vc.passTask = { [weak self] (task) in
+            self?.task = task
+        }
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
+    
     @objc func showQRCode() {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController, let task = task else { return }
         vc.modalPresentationStyle = .overCurrentContext
@@ -205,6 +221,16 @@ class TaskContentViewController: UIViewController {
     @objc func scanQRCode() {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeScanViewController") as? QRCodeScanViewController else { return }
         vc.modalPresentationStyle = .overCurrentContext
+        vc.passTaskID = { [weak self] newTaskID in
+            guard let task = self?.task, let user = UserProvider.shared.userData else { return }
+            let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+            ref.updateData(["taskID": newTaskID])
+            for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
+                UserProvider.shared.userTasks[i].taskID = newTaskID
+            }
+            self?.passTaskID?(newTaskID)
+            self?.task?.taskID = newTaskID
+        }
         present(vc, animated: true)
     }
 }
