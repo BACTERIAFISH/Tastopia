@@ -67,6 +67,14 @@ class WritingProvider {
                         completion(Result.success(false))
                         return
                     }
+                    var uidSet = Set<String>()
+                    for writing in writings {
+                        uidSet.insert(writing.uid)
+                    }
+                    if uidSet.count < task.people {
+                        completion(Result.success(false))
+                        return
+                    }
                     let maxDate = writings[0].date.addingTimeInterval(60 * 60)
                     let minDate = writings[0].date.addingTimeInterval(-60 * 60)
                     var passNumber = 0

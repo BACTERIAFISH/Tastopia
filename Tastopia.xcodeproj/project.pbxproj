@@ -32,6 +32,8 @@
 		CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A623E98CF70056B532 /* WritingProvider.swift */; };
 		CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */; };
 		CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */; };
+		CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */; };
+		CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAD23F94012003B9CEB /* LaunchViewController.swift */; };
 		CF4B522723F7DE420006B07B /* TaskContentButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522623F7DE420006B07B /* TaskContentButtonTableViewCell.swift */; };
 		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
 		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
@@ -78,6 +80,8 @@
 		CF2A94A623E98CF70056B532 /* WritingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingProvider.swift; sourceTree = "<group>"; };
 		CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
 		CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentViewController.swift; sourceTree = "<group>"; };
+		CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
+		CF394DAD23F94012003B9CEB /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		CF4B522623F7DE420006B07B /* TaskContentButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentButtonTableViewCell.swift; sourceTree = "<group>"; };
 		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 		CF05175B23E40E30004EE1CB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				CF394DAD23F94012003B9CEB /* LaunchViewController.swift */,
 				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
 				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
 				CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */,
@@ -238,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */,
+				CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */,
 			);
 			path = "Third Party Wrapper";
 			sourceTree = "<group>";
@@ -441,7 +447,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */,
+				CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */,
 				CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */,
+				CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */,
 				CF4B522723F7DE420006B07B /* TaskContentButtonTableViewCell.swift in Sources */,
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,

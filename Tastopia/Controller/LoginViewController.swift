@@ -39,16 +39,23 @@ class LoginViewController: UIViewController {
         
     }
     
-    @IBAction func googleSignInPress(_ sender: Any) {
-        googleSignIn()
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        TTProgressHUD.shared.hud.dismiss(animated: false)
     }
     
-    func googleSignIn() {
+    @IBAction func googleSignInPress(_ sender: Any) {
+        showLogin()
         GIDSignIn.sharedInstance().signIn()
     }
     
     @IBAction func fbLogin(_ sender: Any) {
+        showLogin()
         facebookLogin()
+    }
+    
+    func showLogin() {
+        TTProgressHUD.shared.showLoading(in: view, text: "登入中")
     }
     
     func facebookLogin() {
@@ -59,8 +66,10 @@ class LoginViewController: UIViewController {
         ) { result in
             switch result {
             case .cancelled:
+                TTProgressHUD.shared.hud.dismiss()
                 print("fb login cancelled")
             case .failed(let error):
+                TTProgressHUD.shared.hud.dismiss()
                 print("fb login fail: \(error)")
             case .success(_, _, let accessToken):
                 print("fb login success")
@@ -104,6 +113,7 @@ class LoginViewController: UIViewController {
     
     @available(iOS 13, *)
     @objc func startSignInWithAppleFlow() {
+        showLogin()
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -141,8 +151,10 @@ extension LoginViewController: GIDSignInDelegate {
         
         if let error = error {
             if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
+                TTProgressHUD.shared.hud.dismiss()
                 print("The user has not signed in before or they have since signed out.")
             } else {
+                TTProgressHUD.shared.hud.dismiss()
                 print("\(error.localizedDescription)")
             }
             return
@@ -170,10 +182,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
+                TTProgressHUD.shared.hud.dismiss()
                 print("Unable to fetch identity token")
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                TTProgressHUD.shared.hud.dismiss()
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
@@ -192,6 +206,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // Handle error.
+        TTProgressHUD.shared.hud.dismiss()
         print("Sign in with Apple errored: \(error)")
     }
     

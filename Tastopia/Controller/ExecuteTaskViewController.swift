@@ -50,8 +50,6 @@ class ExecuteTaskViewController: UIViewController {
             compositionLabel.text = String(task.composition)
         }
         
-//        checkTask()
-        
     }
     
     @IBAction func back(_ sender: Any) {
@@ -121,7 +119,12 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func submitTask() {
-        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
+        TTProgressHUD.shared.showLoading(in: view, text: "上傳中")
+        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else {
+            TTProgressHUD.shared.hud.dismiss(animated: false)
+            TTProgressHUD.shared.showFail(in: view, text: "上傳失敗")
+            return
+        }
         
         let group = DispatchGroup()
         for (i, media) in selectedMedias.enumerated() {
@@ -165,10 +168,14 @@ class ExecuteTaskViewController: UIViewController {
             let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
             FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
             
-            self?.changeTaskStatus()
+            strongSelf.changeTaskStatus()
             
-            self?.dismiss(animated: false, completion: nil)
+            TTProgressHUD.shared.hud.dismiss(animated: false)
+            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "上傳成功")
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                strongSelf.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -202,6 +209,7 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
                 cell.imageView.image = media.image
             } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
                 let player = AVQueuePlayer()
+                player.isMuted = true
                 let playerItem = AVPlayerItem(url: url)
                 let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
                 playerLoopers.append(playerLooper)

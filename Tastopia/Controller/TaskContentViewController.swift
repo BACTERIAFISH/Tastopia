@@ -38,11 +38,6 @@ class TaskContentViewController: UIViewController {
         
         executeTaskButton.layer.cornerRadius = 5
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
         setTaskStatus()
     }
     
@@ -71,7 +66,9 @@ class TaskContentViewController: UIViewController {
         case 1:
             // 確認任務
             // check writings where restaurant, taskID, date >= task.people
+            TTProgressHUD.shared.showLoading(in: view, text: "確認中")
             WritingProvider().checkTaskWritings(task: task) { [weak self] (result) in
+                guard let strongSelf = self else { return }
                 switch result {
                 case .success(let pass):
                     if pass {
@@ -112,11 +109,15 @@ class TaskContentViewController: UIViewController {
                             }
                         }
                         
+                        TTProgressHUD.shared.hud.dismiss(animated: false)
+                        TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "確認成功")
+                        
                         self?.setTaskStatus()
                         
                     } else {
                         // show mission fail
-                        print("mission fail")
+                        TTProgressHUD.shared.hud.dismiss(animated: false)
+                        TTProgressHUD.shared.showFail(in: strongSelf.view, text: "確認失敗")
                     }
                     
                 case .failure(let error):
@@ -206,8 +207,9 @@ class TaskContentViewController: UIViewController {
         vc.task = task
         vc.passTask = { [weak self] (task) in
             self?.task = task
+            self?.setTaskStatus()
         }
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true)
     }
     

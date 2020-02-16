@@ -73,21 +73,14 @@ extension RecordContentImageTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecordContentCollectionViewCell", for: indexPath) as? RecordContentCollectionViewCell, let writing = writing else { return UICollectionViewCell() }
         
+        cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
+        cell.movieView.isHidden = true
+        cell.playerLooper = nil
+        
         if writing.mediaTypes[indexPath.item] == kUTTypeImage as String {
             cell.imageView.loadImage(writing.medias[indexPath.item], placeHolder: UIImage.asset(.Icon_512px_Ramen))
         } else if writing.mediaTypes[indexPath.item] == kUTTypeMovie as String {
-            if let url = URL(string: writing.medias[indexPath.item]) {
-                let player = AVQueuePlayer()
-                let playerItem = AVPlayerItem(url: url)
-                let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
-                playerLoopers.append(playerLooper)
-                let playerLayer = AVPlayerLayer(player: player)
-                playerLayer.videoGravity = .resizeAspectFill
-                let width = contentView.frame.width - 80
-                playerLayer.frame = CGRect(x: 0, y: 0, width: width, height: width)
-                cell.movieView.layer.addSublayer(playerLayer)
-                player.play()
-            }
+            cell.urlString = writing.medias[indexPath.item]
         }
         
         return cell

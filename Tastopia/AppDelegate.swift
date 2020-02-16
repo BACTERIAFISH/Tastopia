@@ -32,8 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        UserProvider.shared.autoLogin()
-        
         return true
     }
     

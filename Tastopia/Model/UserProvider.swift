@@ -19,24 +19,27 @@ class UserProvider {
     
     func autoLogin() {
         
-        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
-            return
-        }
-        
-        FirestoreManager.shared.readCustomData(collection: "Users", document: uid, dataType: UserData.self) { [weak self] (result) in
-            switch result {
-            case .success(let userData):
-                self?.userData = userData
-                self?.checkUserTasks()
-                
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
-                appDelegate.window?.rootViewController = tabBarVC
-                
-            case .failure(let error):
-                print("autoLogin error: \(error)")
+        if let uid = UserDefaults.standard.string(forKey: "uid") {
+            FirestoreManager.shared.readCustomData(collection: "Users", document: uid, dataType: UserData.self) { [weak self] (result) in
+                switch result {
+                case .success(let userData):
+                    self?.userData = userData
+                    self?.checkUserTasks()
+                    
+                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
+                    appDelegate.window?.rootViewController = tabBarVC
+                    
+                case .failure(let error):
+                    print("autoLogin error: \(error)")
+                }
             }
+        } else {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+            appDelegate.window?.rootViewController = loginVC
         }
         
     }

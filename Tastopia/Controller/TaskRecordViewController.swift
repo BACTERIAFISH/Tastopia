@@ -44,8 +44,6 @@ class TaskRecordViewController: UIViewController {
     
     var sortMethod: SortMethod = .dateDescending
     
-    var playerLoopers = [AVPlayerLooper]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -128,7 +126,6 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
-        playerLoopers = []
         guard let user = UserProvider.shared.userData else { return }
         
         personalWritings = personalWritingsOrigin
@@ -194,6 +191,10 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
+        cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
+        cell.playerLooper = nil
+        cell.movieView.isHidden = true
+        
         var writing: WritingData?
         if collectionView == taskRecordPersonalCollectionView {
             writing = personalWritings[indexPath.item]
@@ -201,26 +202,11 @@ extension TaskRecordViewController: UICollectionViewDataSource {
             writing = publicWritings[indexPath.item]
         }
         if let writing = writing {
-            if writing.medias.isEmpty {
-                cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
-            } else {
+            if !writing.medias.isEmpty {
                 if writing.mediaTypes[0] == kUTTypeImage as String {
                     cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_256px_Picture))
                 } else if writing.mediaTypes[0] == kUTTypeMovie as String {
-                    cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
-                    if let url = URL(string: writing.medias[0]) {
-                        let player = AVQueuePlayer()
-                        player.isMuted = true
-                        let playerItem = AVPlayerItem(url: url)
-                        let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
-                        playerLoopers.append(playerLooper)
-                        let playerLayer = AVPlayerLayer(player: player)
-                        playerLayer.videoGravity = .resizeAspectFill
-                        let width = view.frame.width - 2
-                        playerLayer.frame = CGRect(x: 0, y: 0, width: width, height: width)
-                        cell.movieView.layer.addSublayer(playerLayer)
-                        player.play()
-                    }
+                    cell.urlString = writing.medias[0]
                 }
                 
                 if writing.responseNumber > 0 {
