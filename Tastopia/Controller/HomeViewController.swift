@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskPhoneLabel: UILabel!
     
     var locationManager = CLLocationManager()
-    var isLargeIcon = true
+    var isLargeIcon = false
     
     var restaurantDatas = [RestaurantData]()
     var currentRestaurantData: RestaurantData?
@@ -32,15 +32,12 @@ class HomeViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        mapView.delegate = self
-        let locationAuthStatus = CLLocationManager.authorizationStatus()
-        if locationAuthStatus == .authorizedAlways || locationAuthStatus == .authorizedWhenInUse {
-            mapView.settings.myLocationButton = true
-            mapView.isMyLocationEnabled = true
-        }
-        mapView.settings.compassButton = true
+        TTProgressHUD.shared.hud.dismiss(animated: false)
         
-        mapView.isHidden = true
+        mapView.delegate = self
+        mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true
+        mapView.settings.compassButton = true
         
         do {
           if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
@@ -52,6 +49,15 @@ class HomeViewController: UIViewController {
           print("One or more of the map styles failed to load. \(error)")
         }
         
+        // taipei main station
+//        guard let latitudeDegrees = CLLocationDegrees(exactly: 25.047811), let longitudeDegrees = CLLocationDegrees(exactly: 121.517019) else { return }
+        
+        // AppWorks School
+        guard let latitudeDegrees = CLLocationDegrees(exactly: 25.042451), let longitudeDegrees = CLLocationDegrees(exactly: 121.564920) else { return }
+        
+        let camera = GMSCameraPosition.camera(withLatitude: latitudeDegrees, longitude: longitudeDegrees, zoom: 14)
+        mapView.camera = camera
+        
         getTaskRestaurant()
     }
     
@@ -59,14 +65,10 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        alertLocationAuth()
         
         taskViewBottomConstraint.constant = -taskView.layer.frame.height - 10
         
-        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         taskView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
         
         taskButton.layer.cornerRadius = 5
@@ -74,6 +76,11 @@ class HomeViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkLocationAuth()
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
@@ -95,7 +102,7 @@ class HomeViewController: UIViewController {
             let navigationVC = storyboard?.instantiateViewController(withIdentifier: "TaskRecordNavigationController") as? UINavigationController,
             let vc = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
-        
+
         vc.titleLabel.text = currentRestaurantData?.restaurant.name
 
         vc.restaurant = currentRestaurantData?.restaurant
@@ -125,15 +132,25 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func alertLocationAuth() {
-        if CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted {
+    func checkLocationAuth() {
+        let locationAuthStatus = CLLocationManager.authorizationStatus()
+        switch locationAuthStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView.isHidden = false
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            mapView.isHidden = true
             DispatchQueue.main.async {
-                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了有更佳的使用者體驗，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了進行遊戲，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
             }
+        @unknown default:
+            print("switch CLLocationManager.authorizationStatus() error")
         }
+
     }
     
     @objc func getTaskRestaurant() {
@@ -144,7 +161,7 @@ class HomeViewController: UIViewController {
                     let marker = GMSMarker()
                     marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
                     marker.title = restaurant.name
-                    let icon = UIImage.asset(.Icon_64px_Itsukushima)
+                    let icon = UIImage.asset(.Icon_32px_Itsukushima)
                     marker.icon = icon
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
@@ -168,7 +185,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-                
+
         if mapView.camera.zoom >= 17, !isLargeIcon {
             isLargeIcon = true
             for restaurantData in restaurantDatas {
@@ -231,34 +248,16 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         let location = locations.last!
         
-        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
+        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 14)
         
-        if mapView.isHidden {
-            mapView.isHidden = false
-            mapView.camera = camera
-        } else {
-            mapView.animate(to: camera)
-        }
+        mapView.camera = camera
         
         locationManager.stopUpdatingLocation()
     }
     
     // Handle authorization for the location manager.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
-        switch status {
-        case .restricted, .denied:
-            print("Location access was restricted or User denied access to location.")
-            let camera = GMSCameraPosition.camera(withLatitude: 25.042529, longitude: 121.564928, zoom: 17)
-            mapView.camera = camera
-            mapView.isHidden = false
-        case .notDetermined:
-            print("Location status not determined.")
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("Location status is OK.")
-            mapView.settings.myLocationButton = true
-            mapView.isMyLocationEnabled = true
-        }
+        checkLocationAuth()
     }
     
     // Handle location manager errors.

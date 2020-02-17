@@ -39,11 +39,6 @@ class LoginViewController: UIViewController {
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        TTProgressHUD.shared.hud.dismiss(animated: false)
-    }
-    
     @IBAction func googleSignInPress(_ sender: Any) {
         showLogin()
         GIDSignIn.sharedInstance().signIn()

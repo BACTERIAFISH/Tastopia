@@ -233,6 +233,10 @@ class TaskContentViewController: UIViewController {
             self?.passTaskID?(newTaskID)
             self?.task?.taskID = newTaskID
         }
+        vc.showHud = { [weak self] in
+            guard let strongSelf = self else { return }
+            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "同步代碼成功")
+        }
         present(vc, animated: true)
     }
 }

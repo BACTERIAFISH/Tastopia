@@ -16,6 +16,7 @@ class QRCodeScanViewController: UIViewController {
     @IBOutlet weak var borderView: UIView!
     
     var passTaskID: ((String) -> Void)?
+    var showHud: (() -> Void)?
     
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
@@ -114,7 +115,7 @@ class QRCodeScanViewController: UIViewController {
                 showAlert()
             } else {
                 passTaskID?(code)
-                dismiss(animated: true, completion: nil)
+                dismiss(animated: true, completion: showHud)
             }
         } catch {
             print("found regex error: \(error)")
