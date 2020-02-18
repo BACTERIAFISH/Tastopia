@@ -50,15 +50,20 @@ class HomeViewController: UIViewController {
         }
         
         // taipei main station
-//        guard let latitudeDegrees = CLLocationDegrees(exactly: 25.047811), let longitudeDegrees = CLLocationDegrees(exactly: 121.517019) else { return }
+        // (25.047811, 121.517019)
         
         // AppWorks School
-        guard let latitudeDegrees = CLLocationDegrees(exactly: 25.042451), let longitudeDegrees = CLLocationDegrees(exactly: 121.564920) else { return }
+        // (25.042451, 121.564920)
         
-        let camera = GMSCameraPosition.camera(withLatitude: latitudeDegrees, longitude: longitudeDegrees, zoom: 14)
+        let camera = GMSCameraPosition.camera(withLatitude: 25.042451, longitude: 121.564920, zoom: 14)
         mapView.camera = camera
         
         getTaskRestaurant()
+        
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+
     }
     
     override func viewDidLoad() {
@@ -155,11 +160,19 @@ class HomeViewController: UIViewController {
     
     @objc func getTaskRestaurant() {
         RestaurantProvider().getTaskRestaurant { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            
             switch result {
             case .success(let restaurants):
+                
+                var markerPositions = [CLLocationCoordinate2D]()
+                
                 for restaurant in restaurants {
                     let marker = GMSMarker()
                     marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
+                    
+                    markerPositions.append(marker.position)
+                    
                     marker.title = restaurant.name
                     let icon = UIImage.asset(.Icon_32px_Itsukushima)
                     marker.icon = icon
@@ -170,6 +183,9 @@ class HomeViewController: UIViewController {
                     self?.restaurantDatas.append(restaurantData)
                     
                 }
+                
+                MapProvider().createMapHollowPolygon(map: strongSelf.mapView, holes: markerPositions)
+                
             case .failure(let error):
                 print("getTaskRestaurant error: \(error)")
             }

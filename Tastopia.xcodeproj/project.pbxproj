@@ -26,7 +26,6 @@
 		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
 		CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */; };
 		CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */; };
-		CF2A949F23E90EA20056B532 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CF2A949E23E90EA20056B532 /* google-map-style.json */; };
 		CF2A94A123E96A4A0056B532 /* TaskRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */; };
 		CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */; };
 		CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A623E98CF70056B532 /* WritingProvider.swift */; };
@@ -40,6 +39,8 @@
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
+		CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68D5D623FA7DE1005B03ED /* MapProvider.swift */; };
+		CF68D5DB23FAD28E005B03ED /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DA23FAD28E005B03ED /* google-map-style.json */; };
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
@@ -74,7 +75,6 @@
 		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskViewController.swift; sourceTree = "<group>"; };
 		CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
-		CF2A949E23E90EA20056B532 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRecordViewController.swift; sourceTree = "<group>"; };
 		CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF2A94A623E98CF70056B532 /* WritingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingProvider.swift; sourceTree = "<group>"; };
@@ -88,6 +88,8 @@
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
+		CF68D5D623FA7DE1005B03ED /* MapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProvider.swift; sourceTree = "<group>"; };
+		CF68D5DA23FAD28E005B03ED /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
+				CF68D5D623FA7DE1005B03ED /* MapProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -198,7 +201,7 @@
 		CF05176223E504B6004EE1CB /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				CF2A949E23E90EA20056B532 /* google-map-style.json */,
+				CF68D5DA23FAD28E005B03ED /* google-map-style.json */,
 				CFF6435223E3F6BD003CD246 /* Fonts */,
 			);
 			path = Resource;
@@ -355,10 +358,10 @@
 				CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
+				CF68D5DB23FAD28E005B03ED /* google-map-style.json in Resources */,
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,
-				CF2A949F23E90EA20056B532 /* google-map-style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +459,7 @@
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
 				CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */,
+				CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */,
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,

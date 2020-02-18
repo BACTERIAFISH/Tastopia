@@ -114,6 +114,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地圖無法顯示" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cft-CX-UTf">
+                                <rect key="frame" x="147" y="436.5" width="120" height="23.5"/>
+                                <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="20"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lBf-Ac-Mwx" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -214,14 +220,16 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" name="SHIRONERI"/>
                         <constraints>
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="bottom" secondItem="JUZ-kW-ZMl" secondAttribute="bottom" id="75H-9z-YQ5"/>
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="leading" secondItem="JUZ-kW-ZMl" secondAttribute="leading" id="BOz-FT-mMK"/>
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="trailing" secondItem="JUZ-kW-ZMl" secondAttribute="trailing" id="FTE-Pa-65g"/>
+                            <constraint firstItem="cft-CX-UTf" firstAttribute="centerX" secondItem="68a-aH-evV" secondAttribute="centerX" id="NJX-VY-Ekb"/>
                             <constraint firstItem="HcF-VD-5Sh" firstAttribute="leading" secondItem="JUZ-kW-ZMl" secondAttribute="leading" id="Nsj-OX-MKE"/>
                             <constraint firstItem="JUZ-kW-ZMl" firstAttribute="bottom" secondItem="HcF-VD-5Sh" secondAttribute="bottom" id="SOw-CS-Uu0"/>
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="top" secondItem="68a-aH-evV" secondAttribute="top" id="qEI-WA-0dz"/>
+                            <constraint firstItem="cft-CX-UTf" firstAttribute="centerY" secondItem="68a-aH-evV" secondAttribute="centerY" id="tGg-qi-aqI"/>
                             <constraint firstItem="JUZ-kW-ZMl" firstAttribute="trailing" secondItem="HcF-VD-5Sh" secondAttribute="trailing" id="unP-5l-VVJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JUZ-kW-ZMl"/>

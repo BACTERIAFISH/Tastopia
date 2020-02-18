@@ -57,7 +57,7 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func submit(_ sender: UIButton) {
-        submitTask()
+        checkTask()
     }
     
     func openImagePicker() {
@@ -94,28 +94,27 @@ class ExecuteTaskViewController: UIViewController {
         
         // composition fail
         if composition.trimmingCharacters(in: .whitespacesAndNewlines).count < task.composition {
+            TTProgressHUD.shared.showFail(in: view, text: "字數不足")
             return
         }
         
         // media fail
         if selectedMedias.count < task.media {
+            TTProgressHUD.shared.showFail(in: view, text: "照片、影片不足")
             return
         }
         
         guard let location = map?.myLocation, let restaurant = restaurant else { return }
-        
-        let taskLatitude = restaurant.position.latitude
-        let taskLongitude = restaurant.position.longitude
-        
-        guard let latitudeDegree = CLLocationDegrees(exactly: taskLatitude), let longitudeDegree = CLLocationDegrees(exactly: taskLongitude) else { return }
-        
-        let distanceMeter = location.distance(from: CLLocation(latitude: latitudeDegree, longitude: longitudeDegree))
-        
+
+        let distanceMeter = location.distance(from: CLLocation(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude))
+
         // distance > 10 meters
         if distanceMeter > 10 {
+            TTProgressHUD.shared.showFail(in: view, text: "地點錯誤")
             return
         }
         
+        submitTask()
     }
     
     func submitTask() {
