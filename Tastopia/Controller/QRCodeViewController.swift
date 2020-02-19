@@ -19,7 +19,7 @@ class QRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        containView.layer.cornerRadius = 5
+        containView.layer.cornerRadius = 16
         containView.layer.createTTBorder()
 
         if let task = task {

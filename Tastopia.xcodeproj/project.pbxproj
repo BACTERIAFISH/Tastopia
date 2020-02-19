@@ -33,7 +33,6 @@
 		CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */; };
 		CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */; };
 		CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAD23F94012003B9CEB /* LaunchViewController.swift */; };
-		CF4B522723F7DE420006B07B /* TaskContentButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522623F7DE420006B07B /* TaskContentButtonTableViewCell.swift */; };
 		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
 		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
@@ -41,6 +40,12 @@
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
 		CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68D5D623FA7DE1005B03ED /* MapProvider.swift */; };
 		CF68D5DB23FAD28E005B03ED /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DA23FAD28E005B03ED /* google-map-style.json */; };
+		CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */; };
+		CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */; };
+		CF68D5E623FCBC65005B03ED /* NotoSansTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */; };
+		CF68D5E723FCBC65005B03ED /* NotoSansTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E123FCBC64005B03ED /* NotoSansTC-Medium.otf */; };
+		CF68D5E823FCBC65005B03ED /* NotoSansTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E223FCBC64005B03ED /* NotoSansTC-Regular.otf */; };
+		CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E323FCBC65005B03ED /* NotoSansTC-Bold.otf */; };
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
@@ -82,7 +87,6 @@
 		CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentViewController.swift; sourceTree = "<group>"; };
 		CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		CF394DAD23F94012003B9CEB /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
-		CF4B522623F7DE420006B07B /* TaskContentButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentButtonTableViewCell.swift; sourceTree = "<group>"; };
 		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -90,6 +94,12 @@
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
 		CF68D5D623FA7DE1005B03ED /* MapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProvider.swift; sourceTree = "<group>"; };
 		CF68D5DA23FAD28E005B03ED /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
+		CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Black.otf"; sourceTree = "<group>"; };
+		CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.otf"; sourceTree = "<group>"; };
+		CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Light.otf"; sourceTree = "<group>"; };
+		CF68D5E123FCBC64005B03ED /* NotoSansTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Medium.otf"; sourceTree = "<group>"; };
+		CF68D5E223FCBC64005B03ED /* NotoSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.otf"; sourceTree = "<group>"; };
+		CF68D5E323FCBC65005B03ED /* NotoSansTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Bold.otf"; sourceTree = "<group>"; };
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
@@ -254,9 +264,8 @@
 		CF4B522523F7DE140006B07B /* Task Content */ = {
 			isa = PBXGroup;
 			children = (
-				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
 				CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */,
-				CF4B522623F7DE420006B07B /* TaskContentButtonTableViewCell.swift */,
+				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
 			);
 			path = "Task Content";
 			sourceTree = "<group>";
@@ -284,6 +293,12 @@
 				CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */,
 				CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */,
 				CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */,
+				CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */,
+				CF68D5E323FCBC65005B03ED /* NotoSansTC-Bold.otf */,
+				CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */,
+				CF68D5E123FCBC64005B03ED /* NotoSansTC-Medium.otf */,
+				CF68D5E223FCBC64005B03ED /* NotoSansTC-Regular.otf */,
+				CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -350,18 +365,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF68D5E823FCBC65005B03ED /* NotoSansTC-Regular.otf in Resources */,
 				CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */,
 				CF05176923E578A7004EE1CB /* NotoSerifTC-Bold.otf in Resources */,
 				CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */,
 				CF05176423E57884004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */,
 				CF05176723E578A1004EE1CB /* NotoSerifTC-Medium.otf in Resources */,
 				CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */,
+				CF68D5E723FCBC65005B03ED /* NotoSansTC-Medium.otf in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
+				CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */,
+				CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */,
 				CF68D5DB23FAD28E005B03ED /* google-map-style.json in Resources */,
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,
+				CF68D5E623FCBC65005B03ED /* NotoSansTC-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +474,6 @@
 				CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */,
 				CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */,
 				CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */,
-				CF4B522723F7DE420006B07B /* TaskContentButtonTableViewCell.swift in Sources */,
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,

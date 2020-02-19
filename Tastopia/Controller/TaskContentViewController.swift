@@ -13,6 +13,8 @@ import Firebase
 class TaskContentViewController: UIViewController {
     
     @IBOutlet weak var taskContentTableView: UITableView!
+    @IBOutlet weak var showQRCodeButton: UIButton!
+    @IBOutlet weak var scanQRCodeButton: UIButton!
     @IBOutlet weak var requestCompanyButton: UIButton!
     @IBOutlet weak var executeTaskButton: UIButton!
     
@@ -29,20 +31,48 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.dataSource = self
         taskContentTableView.delegate = self
         
-        taskContentTableView.layer.cornerRadius = 5
+        taskContentTableView.layer.cornerRadius = 16
         taskContentTableView.contentInset.top = 16
-        taskContentTableView.clipsToBounds = false
         taskContentTableView.layer.createTTBorder()
         
-        requestCompanyButton.layer.cornerRadius = 5
-        
-        executeTaskButton.layer.cornerRadius = 5
+        showQRCodeButton.layer.cornerRadius = 16
+        scanQRCodeButton.layer.cornerRadius = 16
+        requestCompanyButton.layer.cornerRadius = 16
+        executeTaskButton.layer.cornerRadius = 16
         
         setTaskStatus()
     }
     
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func showQRCode() {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController, let task = task else { return }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.task = task
+        present(vc, animated: false)
+    }
+    
+    @IBAction func scanQRCode() {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeScanViewController") as? QRCodeScanViewController else { return }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.passTaskID = { [weak self] newTaskID in
+            guard let task = self?.task, let user = UserProvider.shared.userData else { return }
+            let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+            ref.updateData(["taskID": newTaskID])
+            for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
+                UserProvider.shared.userTasks[i].taskID = newTaskID
+            }
+            self?.passTaskID?(newTaskID)
+            self?.task?.taskID = newTaskID
+            self?.taskContentTableView.reloadData()
+        }
+        vc.showHud = { [weak self] in
+            guard let strongSelf = self else { return }
+            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "同步代碼成功")
+        }
+        present(vc, animated: true)
     }
     
     @IBAction func executeTask(_ sender: UIButton) {
@@ -213,35 +243,9 @@ class TaskContentViewController: UIViewController {
         present(vc, animated: true)
     }
     
-    @objc func showQRCode() {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController, let task = task else { return }
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.task = task
-        present(vc, animated: false)
-    }
-    
-    @objc func scanQRCode() {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeScanViewController") as? QRCodeScanViewController else { return }
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.passTaskID = { [weak self] newTaskID in
-            guard let task = self?.task, let user = UserProvider.shared.userData else { return }
-            let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-            ref.updateData(["taskID": newTaskID])
-            for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
-                UserProvider.shared.userTasks[i].taskID = newTaskID
-            }
-            self?.passTaskID?(newTaskID)
-            self?.task?.taskID = newTaskID
-        }
-        vc.showHud = { [weak self] in
-            guard let strongSelf = self else { return }
-            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "同步代碼成功")
-        }
-        present(vc, animated: true)
-    }
 }
 
-extension TaskContentViewController: UITableViewDataSource, UITableViewDelegate {
+extension TaskContentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
@@ -256,25 +260,28 @@ extension TaskContentViewController: UITableViewDataSource, UITableViewDelegate 
             titleCell.titleLabel.text = restaurant.name
             return titleCell
         case 1:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Pin)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Pin_Red)
             cell.contentLabel.text = restaurant.address
         case 2:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Phone)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Phone_Red)
             cell.contentLabel.text = restaurant.phone
         case 3:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User_Red)
             cell.contentLabel.text = "\(task.people)個人吃飯"
         case 4:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera_Red)
             cell.contentLabel.text = "拍攝照片或影片 x \(task.media)"
         case 5:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit)
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit_Red)
             cell.contentLabel.text = "寫\(task.composition)字感想"
         case 6:
-            guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: "TaskContentButtonTableViewCell") as? TaskContentButtonTableViewCell else { return UITableViewCell() }
-            buttonCell.showButton.addTarget(self, action: #selector(showQRCode), for: .touchUpInside)
-            buttonCell.changeButton.addTarget(self, action: #selector(scanQRCode), for: .touchUpInside)
-            return buttonCell
+            cell.iconImageView.image = UIImage.asset(.Icon_32px_Key_Red)
+            let index = task.taskID.index(task.taskID.startIndex, offsetBy: 4)
+            cell.contentLabel.text = "\(task.taskID[...index])（任務代碼前5碼）"
+//            guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: "TaskContentButtonTableViewCell") as? TaskContentButtonTableViewCell else { return UITableViewCell() }
+//            buttonCell.showButton.addTarget(self, action: #selector(showQRCode), for: .touchUpInside)
+//            buttonCell.changeButton.addTarget(self, action: #selector(scanQRCode), for: .touchUpInside)
+//            return buttonCell
         default:
             return cell
         }
@@ -282,4 +289,22 @@ extension TaskContentViewController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
     
+}
+
+extension TaskContentViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row > 0 {
+            let spring = UISpringTimingParameters(dampingRatio: 0.5, initialVelocity: CGVector(dx: 1.0, dy: 0.2))
+            let animator = UIViewPropertyAnimator(duration: 0.8, timingParameters: spring)
+            cell.alpha = 0
+            cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
+            animator.addAnimations { [weak self] in
+                cell.alpha = 1
+                cell.transform = .identity
+                self?.taskContentTableView.layoutIfNeeded()
+            }
+            animator.startAnimation(afterDelay: 0.1 * Double(indexPath.row))
+        }
+    }
 }

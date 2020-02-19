@@ -22,10 +22,11 @@ extension CALayer {
     }
     
     func createTTBorder(
-        width: CGFloat = 3,
-        color: CGColor = UIColor.SAKURA!.cgColor
+        width: CGFloat = 2,
+        color: CGColor = UIColor.SHIRONEZUMI!.cgColor
     ) {
         borderWidth = width
         borderColor = color
     }
+
 }

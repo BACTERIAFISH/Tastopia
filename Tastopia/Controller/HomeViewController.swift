@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskPhoneLabel: UILabel!
     
     var locationManager = CLLocationManager()
-    var isLargeIcon = false
+    var markIconSize: MarkerIconSize = .small
     
     var restaurantDatas = [RestaurantData]()
     var currentRestaurantData: RestaurantData?
@@ -55,7 +55,7 @@ class HomeViewController: UIViewController {
         // AppWorks School
         // (25.042451, 121.564920)
         
-        let camera = GMSCameraPosition.camera(withLatitude: 25.042451, longitude: 121.564920, zoom: 14)
+        let camera = GMSCameraPosition.camera(withLatitude: 25.042451, longitude: 121.564920, zoom: 15)
         mapView.camera = camera
         
         getTaskRestaurant()
@@ -72,12 +72,17 @@ class HomeViewController: UIViewController {
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         
-        taskViewBottomConstraint.constant = -taskView.layer.frame.height - 10
+        view.layoutIfNeeded()
+        taskViewBottomConstraint.constant = -taskView.layer.frame.height
         
-        taskView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
+        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        taskView.layer.cornerRadius = 16
+//        taskView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
         
-        taskButton.layer.cornerRadius = 5
-        recordButton.layer.cornerRadius = 5
+        taskButton.layer.cornerRadius = 16
+//        taskButton.layer.createTTBorder()
+        recordButton.layer.cornerRadius = 16
+//        recordButton.layer.createTTBorder()
 
         NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
@@ -174,7 +179,7 @@ class HomeViewController: UIViewController {
                     markerPositions.append(marker.position)
                     
                     marker.title = restaurant.name
-                    let icon = UIImage.asset(.Icon_32px_Itsukushima)
+                    let icon = UIImage.asset(.Icon_16px_Dot)
                     marker.icon = icon
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
@@ -202,18 +207,26 @@ extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
 
-        if mapView.camera.zoom >= 17, !isLargeIcon {
-            isLargeIcon = true
+        if mapView.camera.zoom >= 17, markIconSize != .large {
+            markIconSize = .large
             for restaurantData in restaurantDatas {
                 let icon = UIImage.asset(.Icon_64px_Itsukushima)
                 restaurantData.marker.icon = icon
             }
         }
         
-        if mapView.camera.zoom < 17, isLargeIcon {
-            isLargeIcon = false
+        if mapView.camera.zoom < 17, mapView.camera.zoom > 15, markIconSize != .medium {
+            markIconSize = .medium
             for restaurantData in restaurantDatas {
                 let icon = UIImage.asset(.Icon_32px_Itsukushima)
+                restaurantData.marker.icon = icon
+            }
+        }
+        
+        if mapView.camera.zoom <= 15, markIconSize != .small {
+            markIconSize = .small
+            for restaurantData in restaurantDatas {
+                let icon = UIImage.asset(.Icon_16px_Dot)
                 restaurantData.marker.icon = icon
             }
         }
@@ -242,8 +255,9 @@ extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
-            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210) - 10
-            self?.view.layoutIfNeeded()
+            guard let strongSelf = self else { return }
+            strongSelf.taskViewBottomConstraint.constant = -strongSelf.taskView.frame.height
+            strongSelf.view.layoutIfNeeded()
         }
         animator.startAnimation()
     }
@@ -264,7 +278,7 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         let location = locations.last!
         
-        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 14)
+        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 15)
         
         mapView.camera = camera
         
@@ -282,4 +296,10 @@ extension HomeViewController: CLLocationManagerDelegate {
         print("Location Manager Error: \(error)")
     }
     
+}
+
+enum MarkerIconSize {
+    case large
+    case medium
+    case small
 }

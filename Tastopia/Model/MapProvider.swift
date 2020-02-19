@@ -50,6 +50,8 @@ class MapProvider {
         polygon.path = polygonPath
         polygon.holes = holePaths
         polygon.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        polygon.zIndex = 100
         polygon.map = map
+        
     }
 }
