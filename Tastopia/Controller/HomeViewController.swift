@@ -23,23 +23,21 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskPhoneLabel: UILabel!
     
     var locationManager = CLLocationManager()
-    var currentZoom: Float = 18.0
+    var markIconSize: MarkerIconSize = .small
     
-    var tasks = [TaskData]()
-    var currentTask: TaskData?
+    var restaurantDatas = [RestaurantData]()
+    var currentRestaurantData: RestaurantData?
+    var currentUserTask: TaskData?
     
     override func loadView() {
         super.loadView()
         
-        mapView.delegate = self
-        let locationAuthStatus = CLLocationManager.authorizationStatus()
-        if locationAuthStatus == .authorizedAlways || locationAuthStatus == .authorizedWhenInUse {
-            mapView.settings.myLocationButton = true
-            mapView.isMyLocationEnabled = true
-        }
-        mapView.settings.compassButton = true
+        TTProgressHUD.shared.hud.dismiss(animated: false)
         
-        mapView.isHidden = true
+        mapView.delegate = self
+        mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true
+        mapView.settings.compassButton = true
         
         do {
           if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
@@ -50,43 +48,60 @@ class HomeViewController: UIViewController {
         } catch {
           print("One or more of the map styles failed to load. \(error)")
         }
-        //        let marker = GMSMarker()
-        //        marker.position = CLLocationCoordinate2D(latitude: 25.042461, longitude: 121.564931)
-        //        marker.title = "AppWorks School"
-        //        let icon = UIImage.asset(.Icon_64px_Itsukushima)
-        //        marker.icon = icon
-        //        marker.snippet = "iOS"
-        //        marker.map = mapView
         
+        // taipei main station
+        // (25.047811, 121.517019)
+        
+        // AppWorks School
+        // (25.042451, 121.564920)
+        
+        let camera = GMSCameraPosition.camera(withLatitude: 25.042451, longitude: 121.564920, zoom: 15)
+        mapView.camera = camera
+        
+        getTaskRestaurant()
+        
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
-        alertLocationAuth()
-        
-        taskViewBottomConstraint.constant = -taskView.layer.frame.height - 10
+        view.layoutIfNeeded()
+        taskViewBottomConstraint.constant = -taskView.layer.frame.height
         
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         taskView.layer.cornerRadius = 16
-        taskView.layer.shadowOpacity = 0.3
-        taskView.layer.shadowRadius = 3
-        taskView.layer.shadowColor = UIColor.SUMI?.cgColor
+        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
         
-        taskButton.layer.cornerRadius = 5
-        recordButton.layer.cornerRadius = 5
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("taskNumber"), object: nil)
+        taskButton.layer.cornerRadius = 16
+//        taskButton.layer.createTTBorder()
+        recordButton.layer.cornerRadius = 16
+//        recordButton.layer.createTTBorder()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkLocationAuth()
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "TaskContentViewController") as? TaskContentViewController else { return }
         
-        vc.restaurant = currentTask?.restaurant
+        vc.map = mapView
+        vc.restaurant = currentRestaurantData?.restaurant
+        vc.task = currentUserTask
+        vc.passTaskID = { [weak self] taskID in
+            self?.currentUserTask?.taskID = taskID
+        }
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
         
@@ -97,10 +112,10 @@ class HomeViewController: UIViewController {
             let navigationVC = storyboard?.instantiateViewController(withIdentifier: "TaskRecordNavigationController") as? UINavigationController,
             let vc = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
-        
-        vc.titleLabel.text = currentTask?.restaurant.name
 
-        vc.restaurant = currentTask?.restaurant
+        vc.titleLabel.text = currentRestaurantData?.restaurant.name
+
+        vc.restaurant = currentRestaurantData?.restaurant
         
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
@@ -116,8 +131,7 @@ class HomeViewController: UIViewController {
             try firebaseAuth.signOut()
             print("sign out")
             
-            UserDefaults.standard.removeObject(forKey: "firebaseToken")
-            UserDefaults.standard.removeObject(forKey: "userData")
+            UserDefaults.standard.removeObject(forKey: "uid")
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
             
@@ -128,72 +142,106 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func alertLocationAuth() {
-        if CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted {
+    func checkLocationAuth() {
+        let locationAuthStatus = CLLocationManager.authorizationStatus()
+        switch locationAuthStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView.isHidden = false
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            mapView.isHidden = true
             DispatchQueue.main.async {
-                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了有更佳的使用者體驗，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了進行遊戲，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
             }
+        @unknown default:
+            print("switch CLLocationManager.authorizationStatus() error")
         }
+
     }
     
     @objc func getTaskRestaurant() {
         RestaurantProvider().getTaskRestaurant { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            
             switch result {
             case .success(let restaurants):
+                
+                var markerPositions = [CLLocationCoordinate2D]()
+                
                 for restaurant in restaurants {
                     let marker = GMSMarker()
                     marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
+                    
+                    markerPositions.append(marker.position)
+                    
                     marker.title = restaurant.name
-                    let icon = UIImage.asset(.Icon_64px_Itsukushima)
+                    let icon = UIImage.asset(.Icon_16px_Dot_Flat)
                     marker.icon = icon
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
                     
-                    let task = TaskData(marker: marker, restaurant: restaurant)
-                    self?.tasks.append(task)
+                    let restaurantData = RestaurantData(marker: marker, restaurant: restaurant)
+                    self?.restaurantDatas.append(restaurantData)
+                    
                 }
+                
+                MapProvider().createMapHollowPolygon(map: strongSelf.mapView, holes: markerPositions)
+                
             case .failure(let error):
                 print("getTaskRestaurant error: \(error)")
             }
         }
     }
     
-    @objc func back() {
-        dismiss(animated: true, completion: nil)
+    @objc func userTasksGot() {
+        taskButton.isEnabled = true
     }
+
 }
 
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        
-        // MARK: current zoom
-        currentZoom = mapView.camera.zoom
-        
-        if currentZoom == 17 {
-            for task in tasks {
+
+        if mapView.camera.zoom >= 17, markIconSize != .large {
+            markIconSize = .large
+            for restaurantData in restaurantDatas {
                 let icon = UIImage.asset(.Icon_64px_Itsukushima)
-                task.marker.icon = icon
+                restaurantData.marker.icon = icon
             }
         }
-        if currentZoom == 16 {
-            for task in tasks {
+        
+        if mapView.camera.zoom < 17, mapView.camera.zoom > 15, markIconSize != .medium {
+            markIconSize = .medium
+            for restaurantData in restaurantDatas {
                 let icon = UIImage.asset(.Icon_32px_Itsukushima)
-                task.marker.icon = icon
+                restaurantData.marker.icon = icon
+            }
+        }
+        
+        if mapView.camera.zoom <= 15, markIconSize != .small {
+            markIconSize = .small
+            for restaurantData in restaurantDatas {
+                let icon = UIImage.asset(.Icon_16px_Dot_Flat)
+                restaurantData.marker.icon = icon
             }
         }
         
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        for task in tasks where task.marker == marker {
-            currentTask = task
-            taskNameLabel.text = task.restaurant.name
-            taskAddressLabel.text = task.restaurant.address
-            taskPhoneLabel.text = task.restaurant.phone
+        for restaurantData in restaurantDatas where restaurantData.marker == marker {
+            currentRestaurantData = restaurantData
+            for userTask in UserProvider.shared.userTasks where userTask.restaurantNumber == restaurantData.restaurant.number {
+                currentUserTask = userTask
+            }
+            taskNameLabel.text = restaurantData.restaurant.name
+            taskAddressLabel.text = restaurantData.restaurant.address
+            taskPhoneLabel.text = restaurantData.restaurant.phone
         }
         
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
@@ -207,8 +255,9 @@ extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
-            self?.taskViewBottomConstraint.constant = -(self?.taskView.frame.height ?? 210) - 10
-            self?.view.layoutIfNeeded()
+            guard let strongSelf = self else { return }
+            strongSelf.taskViewBottomConstraint.constant = -strongSelf.taskView.frame.height
+            strongSelf.view.layoutIfNeeded()
         }
         animator.startAnimation()
     }
@@ -229,34 +278,16 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         let location = locations.last!
         
-        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: currentZoom)
+        let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 15)
         
-        if mapView.isHidden {
-            mapView.isHidden = false
-            mapView.camera = camera
-        } else {
-            mapView.animate(to: camera)
-        }
+        mapView.camera = camera
         
         locationManager.stopUpdatingLocation()
     }
     
     // Handle authorization for the location manager.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
-        switch status {
-        case .restricted, .denied:
-            print("Location access was restricted or User denied access to location.")
-            let camera = GMSCameraPosition.camera(withLatitude: 25.042529, longitude: 121.564928, zoom: currentZoom)
-            mapView.camera = camera
-            mapView.isHidden = false
-        case .notDetermined:
-            print("Location status not determined.")
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("Location status is OK.")
-            mapView.settings.myLocationButton = true
-            mapView.isMyLocationEnabled = true
-        }
+        checkLocationAuth()
     }
     
     // Handle location manager errors.
@@ -264,4 +295,11 @@ extension HomeViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         print("Location Manager Error: \(error)")
     }
+    
+}
+
+enum MarkerIconSize {
+    case large
+    case medium
+    case small
 }

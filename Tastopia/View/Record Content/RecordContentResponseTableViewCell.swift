@@ -30,7 +30,7 @@ class RecordContentResponseTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        responseView.layer.cornerRadius = 5
+//        responseView.layer.cornerRadius = 5
 
     }
 

@@ -80,12 +80,14 @@
 		<string>NotoSerifTC-Black.otf</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>use location</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>use camera</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string></string>
+	<string>use photo library addtion</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>use photo library</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>use microphone</string>
 </dict>
 </plist>

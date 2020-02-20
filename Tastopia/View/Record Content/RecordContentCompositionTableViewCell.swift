@@ -17,7 +17,7 @@ class RecordContentCompositionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        compositionView.layer.cornerRadius = 5
+        compositionView.layer.cornerRadius = 16
         compositionView.layer.createTTBorder()
     }
 

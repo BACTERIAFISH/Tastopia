@@ -26,20 +26,31 @@
 		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
 		CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */; };
 		CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */; };
-		CF2A949F23E90EA20056B532 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CF2A949E23E90EA20056B532 /* google-map-style.json */; };
 		CF2A94A123E96A4A0056B532 /* TaskRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */; };
 		CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */; };
 		CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A623E98CF70056B532 /* WritingProvider.swift */; };
 		CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */; };
 		CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */; };
+		CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */; };
+		CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAD23F94012003B9CEB /* LaunchViewController.swift */; };
+		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
+		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
+		CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68D5D623FA7DE1005B03ED /* MapProvider.swift */; };
+		CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */; };
+		CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */; };
+		CF68D5E623FCBC65005B03ED /* NotoSansTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */; };
+		CF68D5E723FCBC65005B03ED /* NotoSansTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E123FCBC64005B03ED /* NotoSansTC-Medium.otf */; };
+		CF68D5E823FCBC65005B03ED /* NotoSansTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E223FCBC64005B03ED /* NotoSansTC-Regular.otf */; };
+		CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E323FCBC65005B03ED /* NotoSansTC-Bold.otf */; };
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
+		CFA113E823FD693400EBE412 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA113E723FD693400EBE412 /* google-map-style.json */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
@@ -69,20 +80,31 @@
 		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskViewController.swift; sourceTree = "<group>"; };
 		CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
-		CF2A949E23E90EA20056B532 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRecordViewController.swift; sourceTree = "<group>"; };
 		CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF2A94A623E98CF70056B532 /* WritingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingProvider.swift; sourceTree = "<group>"; };
 		CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
 		CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentViewController.swift; sourceTree = "<group>"; };
+		CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
+		CF394DAD23F94012003B9CEB /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
+		CF68D5D623FA7DE1005B03ED /* MapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProvider.swift; sourceTree = "<group>"; };
+		CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Black.otf"; sourceTree = "<group>"; };
+		CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.otf"; sourceTree = "<group>"; };
+		CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Light.otf"; sourceTree = "<group>"; };
+		CF68D5E123FCBC64005B03ED /* NotoSansTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Medium.otf"; sourceTree = "<group>"; };
+		CF68D5E223FCBC64005B03ED /* NotoSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.otf"; sourceTree = "<group>"; };
+		CF68D5E323FCBC65005B03ED /* NotoSansTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Bold.otf"; sourceTree = "<group>"; };
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CFA113E723FD693400EBE412 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
@@ -144,6 +166,7 @@
 		CF05175B23E40E30004EE1CB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				CF394DAD23F94012003B9CEB /* LaunchViewController.swift */,
 				CF12236123E26C91004A41B3 /* LoginViewController.swift */,
 				CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */,
 				CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */,
@@ -151,6 +174,8 @@
 				CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */,
 				CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */,
 				CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */,
+				CF4B522823F7E3250006B07B /* QRCodeViewController.swift */,
+				CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -160,8 +185,7 @@
 			children = (
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
-				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
-				CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */,
+				CF4B522523F7DE140006B07B /* Task Content */,
 				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
 				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
 				CFD07B6D23F2B5D30036A7A5 /* Record Content */,
@@ -179,6 +203,7 @@
 				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
+				CF68D5D623FA7DE1005B03ED /* MapProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -186,7 +211,7 @@
 		CF05176223E504B6004EE1CB /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				CF2A949E23E90EA20056B532 /* google-map-style.json */,
+				CFA113E723FD693400EBE412 /* google-map-style.json */,
 				CFF6435223E3F6BD003CD246 /* Fonts */,
 			);
 			path = Resource;
@@ -231,8 +256,18 @@
 			isa = PBXGroup;
 			children = (
 				CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */,
+				CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */,
 			);
 			path = "Third Party Wrapper";
+			sourceTree = "<group>";
+		};
+		CF4B522523F7DE140006B07B /* Task Content */ = {
+			isa = PBXGroup;
+			children = (
+				CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */,
+				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
+			);
+			path = "Task Content";
 			sourceTree = "<group>";
 		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
@@ -258,6 +293,12 @@
 				CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */,
 				CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */,
 				CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */,
+				CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */,
+				CF68D5E323FCBC65005B03ED /* NotoSansTC-Bold.otf */,
+				CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */,
+				CF68D5E123FCBC64005B03ED /* NotoSansTC-Medium.otf */,
+				CF68D5E223FCBC64005B03ED /* NotoSansTC-Regular.otf */,
+				CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -324,18 +365,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF68D5E823FCBC65005B03ED /* NotoSansTC-Regular.otf in Resources */,
 				CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */,
 				CF05176923E578A7004EE1CB /* NotoSerifTC-Bold.otf in Resources */,
 				CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */,
 				CF05176423E57884004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */,
 				CF05176723E578A1004EE1CB /* NotoSerifTC-Medium.otf in Resources */,
 				CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */,
+				CF68D5E723FCBC65005B03ED /* NotoSansTC-Medium.otf in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
+				CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */,
+				CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */,
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CFA113E823FD693400EBE412 /* google-map-style.json in Resources */,
+				CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,
-				CF2A949F23E90EA20056B532 /* google-map-style.json in Resources */,
+				CF68D5E623FCBC65005B03ED /* NotoSansTC-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,12 +471,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */,
+				CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */,
 				CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */,
+				CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */,
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
 				CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */,
+				CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */,
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
@@ -442,12 +492,14 @@
 				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
 				CF2A94A123E96A4A0056B532 /* TaskRecordViewController.swift in Sources */,
+				CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */,
 				CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */,
 				CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */,
 				CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */,
 				CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */,
 				CF2A94A523E989CF0056B532 /* TaskRecordCollectionViewCell.swift in Sources */,
 				CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */,
+				CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */,
 				CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */,
 				CFD07B7123F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift in Sources */,
 				CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */,
@@ -603,6 +655,145 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FIRAnalyticsConnector\"",
+					"-framework",
+					"\"FacebookCore\"",
+					"-framework",
+					"\"FacebookLogin\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseFirestoreSwift\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GLKit\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleMaps\"",
+					"-framework",
+					"\"GoogleMapsBase\"",
+					"-framework",
+					"\"GoogleMapsCore\"",
+					"-framework",
+					"\"GooglePlaces\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"IQKeyboardManagerSwift\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"JGProgressHUD\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"-weak_framework",
+					"\"Accelerate\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"CryptoKit\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bacteriafish.Tastopia;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,19 +7,22 @@
 //
 
 import UIKit
+import MobileCoreServices
+import AVFoundation
 
 enum SortMethod: String {
-    case agree = "中肯值"
-    case dateDescending = "日期 新 -> 舊"
-    case dateAscending = "日期 舊 -> 新"
-    case comment = "點過中肯或留言"
-    case response = "有留言"
+    case agree = "中肯"
+    case dateDescending = "最新"
+    case dateAscending = "最舊"
+    case comment = "中肯或留言"
+    case response = "留言"
 }
 
 class TaskRecordViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var personalRecordButton: UIButton!
@@ -55,14 +58,14 @@ class TaskRecordViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let restaurant = restaurant else { return }
+        guard let restaurant = restaurant, let user = UserProvider.shared.userData else { return }
         writingProvider.getWritings(number: restaurant.number) { [weak self] (result) in
             guard let strongSelf = self else { return }
             
             switch result {
             case .success(let writingsData):
-                strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == UserProvider.shared.uid })
-                strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != UserProvider.shared.uid })
+                strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == user.uid })
+                strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != user.uid })
                 strongSelf.sortRecord()
             case .failure(let error):
                 print("getWritings error: \(error)")
@@ -75,20 +78,22 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func sortFilterPressed(_ sender: Any) {
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: "中肯值", style: .default, handler: setSortMethod(action:))
+        let ac = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
               ac.addAction(action1)
-        let action2 = UIAlertAction(title: "日期 新 -> 舊", style: .default, handler: setSortMethod(action:))
+        let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
         ac.addAction(action2)
-        let action3 = UIAlertAction(title: "日期 舊 -> 新", style: .default, handler: setSortMethod(action:))
+        let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
         ac.addAction(action3)
-        var action4 = UIAlertAction(title: "點過中肯或留言", style: .default, handler: setSortMethod(action:))
+        var action4 = UIAlertAction(title: "中肯或留言", style: .default, handler: setSortMethod(action:))
         if personalCollectionViewTrailingConstraint.constant == 0 {
-            action4 = UIAlertAction(title: "有留言", style: .default, handler: setSortMethod(action:))
+            action4 = UIAlertAction(title: "留言", style: .default, handler: setSortMethod(action:))
         }
         ac.addAction(action4)
         let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         ac.addAction(actionCancel)
+        
+//        ac.view.tintColor = UIColor.AKABENI
         present(ac, animated: true)
     }
     
@@ -96,10 +101,16 @@ class TaskRecordViewController: UIViewController {
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
         
+        indicatorViewLeadingConstraint.isActive = false
+        
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
-            self?.indicatorViewLeadingConstraint.constant = 0
-            self?.personalCollectionViewTrailingConstraint.constant = 0
-            self?.view.layoutIfNeeded()
+            guard let strongSelf = self else { return }
+            
+            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.personalRecordButton.centerXAnchor)
+            strongSelf.indicatorViewLeadingConstraint.isActive = true
+//            self?.indicatorViewLeadingConstraint.constant = 20
+            strongSelf.personalCollectionViewTrailingConstraint.constant = 0
+            strongSelf.view.layoutIfNeeded()
         }
         animator.startAnimation()
     }
@@ -108,8 +119,14 @@ class TaskRecordViewController: UIViewController {
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
         
+        indicatorViewLeadingConstraint.isActive = false
+        
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
-            self?.indicatorViewLeadingConstraint.constant = sender.frame.width
+            guard let strongSelf = self else { return }
+            
+            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
+            strongSelf.indicatorViewLeadingConstraint.isActive = true
+//            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
             self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
             self?.view.layoutIfNeeded()
         }
@@ -124,6 +141,8 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
+        guard let user = UserProvider.shared.userData else { return }
+        
         personalWritings = personalWritingsOrigin
         publicWritings = publicWritingsOrigin
         
@@ -138,7 +157,7 @@ class TaskRecordViewController: UIViewController {
             personalWritings.sort(by: { $0.date < $1.date })
             publicWritings.sort(by: { $0.date < $1.date })
         case .comment, .response:
-            let writings = UserProvider.shared.agreeWritings + UserProvider.shared.disagreeWritings + UserProvider.shared.responseWritings
+            let writings = user.agreeWritings + user.disagreeWritings + user.responseWritings
             publicWritings = publicWritings.filter({ writings.contains($0.documentID) })
             personalWritings = personalWritings.filter({ $0.responseNumber > 0 })
         }
@@ -155,7 +174,7 @@ extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width
-        return CGSize(width: width / 2 - 2, height: width / 2 - 2)
+        return CGSize(width: width / 3 - 2, height: width / 3 - 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -187,32 +206,39 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
-        var writing: WritingData!
+        cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
+        cell.playerLooper = nil
+        cell.movieView.isHidden = true
+        
+        var writing: WritingData?
         if collectionView == taskRecordPersonalCollectionView {
             writing = personalWritings[indexPath.item]
         } else if collectionView == taskRecordPublicCollectionView {
             writing = publicWritings[indexPath.item]
         }
-        
-        if writing.images.isEmpty {
-            cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
-        } else {
-            cell.imageView.loadImage(writing.images[0], placeHolder: UIImage.asset(.Icon_512px_Ramen))
-            
-            if writing.responseNumber > 0 {
-                cell.commentImageView.isHidden = false
-            } else {
-                cell.commentImageView.isHidden = true
-            }
-            
-            switch sortMethod {
-            case .agree:
-                let ratio = Int(countAgreeRatio(agree: writing.agree, disagree: writing.disagree) * 100)
-                cell.sortLabel.text = "\(ratio)%"
-            case .dateAscending, .dateDescending, .comment, .response:
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                cell.sortLabel.text = dateFormatter.string(from: writing.date)
+        if let writing = writing {
+            if !writing.medias.isEmpty {
+                if writing.mediaTypes[0] == kUTTypeImage as String {
+                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_256px_Picture))
+                } else if writing.mediaTypes[0] == kUTTypeMovie as String {
+                    cell.urlString = writing.medias[0]
+                }
+                
+                if writing.responseNumber > 0 {
+                    cell.commentImageView.isHidden = false
+                } else {
+                    cell.commentImageView.isHidden = true
+                }
+                
+                switch sortMethod {
+                case .agree:
+                    let ratio = Int(countAgreeRatio(agree: writing.agree, disagree: writing.disagree) * 100)
+                    cell.sortLabel.text = "\(ratio)%"
+                case .dateAscending, .dateDescending, .comment, .response:
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    cell.sortLabel.text = dateFormatter.string(from: writing.date)
+                }
             }
         }
         
