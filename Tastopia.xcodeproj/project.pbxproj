@@ -39,7 +39,6 @@
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
 		CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68D5D623FA7DE1005B03ED /* MapProvider.swift */; };
-		CF68D5DB23FAD28E005B03ED /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DA23FAD28E005B03ED /* google-map-style.json */; };
 		CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */; };
 		CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */; };
 		CF68D5E623FCBC65005B03ED /* NotoSansTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */; };
@@ -51,6 +50,7 @@
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
+		CFA113E823FD693400EBE412 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA113E723FD693400EBE412 /* google-map-style.json */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
@@ -93,7 +93,6 @@
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
 		CF68D5D623FA7DE1005B03ED /* MapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProvider.swift; sourceTree = "<group>"; };
-		CF68D5DA23FAD28E005B03ED /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Black.otf"; sourceTree = "<group>"; };
 		CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.otf"; sourceTree = "<group>"; };
 		CF68D5E023FCBC64005B03ED /* NotoSansTC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Light.otf"; sourceTree = "<group>"; };
@@ -105,6 +104,7 @@
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CFA113E723FD693400EBE412 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 		CF05176223E504B6004EE1CB /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				CF68D5DA23FAD28E005B03ED /* google-map-style.json */,
+				CFA113E723FD693400EBE412 /* google-map-style.json */,
 				CFF6435223E3F6BD003CD246 /* Fonts */,
 			);
 			path = Resource;
@@ -377,8 +377,8 @@
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
 				CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */,
 				CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */,
-				CF68D5DB23FAD28E005B03ED /* google-map-style.json in Resources */,
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CFA113E823FD693400EBE412 /* google-map-style.json in Resources */,
 				CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
 				CF12236523E26C91004A41B3 /* Main.storyboard in Resources */,

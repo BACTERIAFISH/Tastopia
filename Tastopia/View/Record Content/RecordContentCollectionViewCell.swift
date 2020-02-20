@@ -27,6 +27,12 @@ class RecordContentCollectionViewCell: UICollectionViewCell {
     
     var playerLooper: AVPlayerLooper?
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        imageView.layer.cornerRadius = 16
+    }
+    
     func playMovie(urlString: String) {
         layoutIfNeeded()
         guard let url = URL(string: urlString) else { return }

@@ -77,7 +77,7 @@ class HomeViewController: UIViewController {
         
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         taskView.layer.cornerRadius = 16
-//        taskView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
+        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
         
         taskButton.layer.cornerRadius = 16
 //        taskButton.layer.createTTBorder()
@@ -179,7 +179,7 @@ class HomeViewController: UIViewController {
                     markerPositions.append(marker.position)
                     
                     marker.title = restaurant.name
-                    let icon = UIImage.asset(.Icon_16px_Dot)
+                    let icon = UIImage.asset(.Icon_16px_Dot_Flat)
                     marker.icon = icon
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
@@ -226,7 +226,7 @@ extension HomeViewController: GMSMapViewDelegate {
         if mapView.camera.zoom <= 15, markIconSize != .small {
             markIconSize = .small
             for restaurantData in restaurantDatas {
-                let icon = UIImage.asset(.Icon_16px_Dot)
+                let icon = UIImage.asset(.Icon_16px_Dot_Flat)
                 restaurantData.marker.icon = icon
             }
         }

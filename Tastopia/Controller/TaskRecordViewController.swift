@@ -11,17 +11,18 @@ import MobileCoreServices
 import AVFoundation
 
 enum SortMethod: String {
-    case agree = "中肯值"
-    case dateDescending = "日期 新 -> 舊"
-    case dateAscending = "日期 舊 -> 新"
-    case comment = "點過中肯或留言"
-    case response = "有留言"
+    case agree = "中肯"
+    case dateDescending = "最新"
+    case dateAscending = "最舊"
+    case comment = "中肯或留言"
+    case response = "留言"
 }
 
 class TaskRecordViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var personalRecordButton: UIButton!
@@ -77,20 +78,22 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func sortFilterPressed(_ sender: Any) {
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: "中肯值", style: .default, handler: setSortMethod(action:))
+        let ac = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
               ac.addAction(action1)
-        let action2 = UIAlertAction(title: "日期 新 -> 舊", style: .default, handler: setSortMethod(action:))
+        let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
         ac.addAction(action2)
-        let action3 = UIAlertAction(title: "日期 舊 -> 新", style: .default, handler: setSortMethod(action:))
+        let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
         ac.addAction(action3)
-        var action4 = UIAlertAction(title: "點過中肯或留言", style: .default, handler: setSortMethod(action:))
+        var action4 = UIAlertAction(title: "中肯或留言", style: .default, handler: setSortMethod(action:))
         if personalCollectionViewTrailingConstraint.constant == 0 {
-            action4 = UIAlertAction(title: "有留言", style: .default, handler: setSortMethod(action:))
+            action4 = UIAlertAction(title: "留言", style: .default, handler: setSortMethod(action:))
         }
         ac.addAction(action4)
         let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         ac.addAction(actionCancel)
+        
+//        ac.view.tintColor = UIColor.AKABENI
         present(ac, animated: true)
     }
     
@@ -98,10 +101,16 @@ class TaskRecordViewController: UIViewController {
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
         
+        indicatorViewLeadingConstraint.isActive = false
+        
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
-            self?.indicatorViewLeadingConstraint.constant = 0
-            self?.personalCollectionViewTrailingConstraint.constant = 0
-            self?.view.layoutIfNeeded()
+            guard let strongSelf = self else { return }
+            
+            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.personalRecordButton.centerXAnchor)
+            strongSelf.indicatorViewLeadingConstraint.isActive = true
+//            self?.indicatorViewLeadingConstraint.constant = 20
+            strongSelf.personalCollectionViewTrailingConstraint.constant = 0
+            strongSelf.view.layoutIfNeeded()
         }
         animator.startAnimation()
     }
@@ -110,8 +119,14 @@ class TaskRecordViewController: UIViewController {
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
         
+        indicatorViewLeadingConstraint.isActive = false
+        
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
-            self?.indicatorViewLeadingConstraint.constant = sender.frame.width
+            guard let strongSelf = self else { return }
+            
+            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
+            strongSelf.indicatorViewLeadingConstraint.isActive = true
+//            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
             self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
             self?.view.layoutIfNeeded()
         }
@@ -159,7 +174,7 @@ extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width
-        return CGSize(width: width / 2 - 2, height: width / 2 - 2)
+        return CGSize(width: width / 3 - 2, height: width / 3 - 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

@@ -19,10 +19,10 @@ class RecordContentTopTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        agreeRatioBackgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+//        agreeRatioBackgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         agreeRatioBackgroundView.layer.cornerRadius = agreeRatioBackgroundView.frame.height / 2
         
-        agreeRatioView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+//        agreeRatioView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         agreeRatioView.layer.cornerRadius = agreeRatioBackgroundView.frame.height / 2
         
     }

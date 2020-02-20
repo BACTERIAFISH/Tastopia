@@ -18,22 +18,22 @@ class RecordContentAgreeTableViewCell: UITableViewCell {
         didSet {
             guard let documentID = documentID, let user = UserProvider.shared.userData else { return }
             if user.agreeWritings.contains(documentID) {
-                agreeButton.backgroundColor = UIColor.AKABENI
-                agreeButton.setTitleColor(UIColor.SUMI, for: .normal)
-                agreeButton.tintColor = UIColor.SUMI
+                agreeButton.backgroundColor = UIColor.SUMI
+                agreeButton.setTitleColor(UIColor.white, for: .normal)
+                agreeButton.tintColor = UIColor.white
             } else {
                 agreeButton.backgroundColor = UIColor.SHIRONEZUMI
-                agreeButton.setTitleColor(UIColor.HAI, for: .normal)
-                agreeButton.tintColor = UIColor.HAI
+                agreeButton.setTitleColor(UIColor.white, for: .normal)
+                agreeButton.tintColor = UIColor.white
             }
             if user.disagreeWritings.contains(documentID) {
-                disagreeButton.backgroundColor = UIColor.AKABENI
-                disagreeButton.setTitleColor(UIColor.SUMI, for: .normal)
-                disagreeButton.tintColor = UIColor.SUMI
+                disagreeButton.backgroundColor = UIColor.SUMI
+                disagreeButton.setTitleColor(UIColor.white, for: .normal)
+                disagreeButton.tintColor = UIColor.white
             } else {
                 disagreeButton.backgroundColor = UIColor.SHIRONEZUMI
-                disagreeButton.setTitleColor(UIColor.HAI, for: .normal)
-                disagreeButton.tintColor = UIColor.HAI
+                disagreeButton.setTitleColor(UIColor.white, for: .normal)
+                disagreeButton.tintColor = UIColor.white
             }
         }
     }
@@ -45,8 +45,8 @@ class RecordContentAgreeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        agreeButton.layer.cornerRadius = 5
-        disagreeButton.layer.cornerRadius = 5
+        agreeButton.layer.cornerRadius = 16
+        disagreeButton.layer.cornerRadius = 16
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

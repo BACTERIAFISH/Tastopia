@@ -13,7 +13,10 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#fcfaf2"
+                "color": "#ffffff"
+            },
+            {
+                "saturation": "0"
             }
         ]
     },
@@ -22,7 +25,7 @@
         "elementType": "geometry.stroke",
         "stylers": [
             {
-                "color": "#828282"
+                "color": "#1c1c1c"
             }
         ]
     },
@@ -32,6 +35,15 @@
         "stylers": [
             {
                 "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#bdc0ba"
             }
         ]
     },
@@ -49,7 +61,7 @@
         "elementType": "geometry.stroke",
         "stylers": [
             {
-                "color": "#828282"
+                "color": "#1c1c1c"
             },
             {
                 "lightness": "0"
@@ -75,20 +87,11 @@
         ]
     },
     {
-        "featureType": "road",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
         "featureType": "road.highway",
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#fedfe1"
+                "color": "#1c1c1c"
             }
         ]
     },
@@ -115,7 +118,7 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#fedfe1"
+                "color": "#1c1c1c"
             }
         ]
     },
@@ -124,7 +127,7 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#fcfaf2"
+                "color": "#ffffff"
             }
         ]
     },
@@ -133,7 +136,7 @@
         "elementType": "geometry.stroke",
         "stylers": [
             {
-                "color": "#828282"
+                "color": "#1c1c1c"
             }
         ]
     },
@@ -142,7 +145,7 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#a5dee4"
+                "color": "#bdc0ba"
             }
         ]
     },

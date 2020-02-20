@@ -32,7 +32,7 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.delegate = self
         
         taskContentTableView.layer.cornerRadius = 16
-        taskContentTableView.contentInset.top = 16
+        taskContentTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
         taskContentTableView.layer.createTTBorder()
         
         showQRCodeButton.layer.cornerRadius = 16
@@ -278,10 +278,6 @@ extension TaskContentViewController: UITableViewDataSource {
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Key_Red)
             let index = task.taskID.index(task.taskID.startIndex, offsetBy: 4)
             cell.contentLabel.text = "\(task.taskID[...index])（任務代碼前5碼）"
-//            guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: "TaskContentButtonTableViewCell") as? TaskContentButtonTableViewCell else { return UITableViewCell() }
-//            buttonCell.showButton.addTarget(self, action: #selector(showQRCode), for: .touchUpInside)
-//            buttonCell.changeButton.addTarget(self, action: #selector(scanQRCode), for: .touchUpInside)
-//            return buttonCell
         default:
             return cell
         }
@@ -295,8 +291,8 @@ extension TaskContentViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row > 0 {
-            let spring = UISpringTimingParameters(dampingRatio: 0.5, initialVelocity: CGVector(dx: 1.0, dy: 0.2))
-            let animator = UIViewPropertyAnimator(duration: 0.8, timingParameters: spring)
+            let spring = UISpringTimingParameters(dampingRatio: 0.6, initialVelocity: CGVector(dx: 1.0, dy: 0.2))
+            let animator = UIViewPropertyAnimator(duration: 0.5, timingParameters: spring)
             cell.alpha = 0
             cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
             animator.addAnimations { [weak self] in
@@ -304,7 +300,7 @@ extension TaskContentViewController: UITableViewDelegate {
                 cell.transform = .identity
                 self?.taskContentTableView.layoutIfNeeded()
             }
-            animator.startAnimation(afterDelay: 0.1 * Double(indexPath.row))
+            animator.startAnimation(afterDelay: 0.05 * Double(indexPath.row))
         }
     }
 }

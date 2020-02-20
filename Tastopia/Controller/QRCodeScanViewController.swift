@@ -25,7 +25,8 @@ class QRCodeScanViewController: UIViewController {
         super.viewDidLoad()
         
         borderView.layer.cornerRadius = 5
-        borderView.layer.createTTBorder()
+        borderView.layer.borderColor = UIColor.white.cgColor
+        borderView.layer.borderWidth = 2
         
         captureSession = AVCaptureSession()
         

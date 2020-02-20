@@ -36,11 +36,12 @@ class RecordContentViewController: UIViewController {
         
         responseTextView.delegate = self
         
-        responseContainView.layer.createTTShadow(color: UIColor.SUMI!.cgColor, offset: CGSize(width: 0, height: -3), radius: 3, opacity: 0.3)
+        responseContainView.layer.cornerRadius = 16
+        responseContainView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
         
-        responseButton.layer.cornerRadius = 5
+        responseButton.layer.cornerRadius = 16
         
-        responseBackgroundView.layer.cornerRadius = 5
+        responseBackgroundView.layer.cornerRadius = 16
         responseBackgroundView.layer.createTTBorder()
         
         guard let writing = writing else { return }
@@ -123,7 +124,7 @@ class RecordContentViewController: UIViewController {
     
     func getResponse() {
         guard let documentID = writing?.documentID else { return }
-        ResponseProvider().getResponses(documentID: documentID, descending: true) { [weak self] (result) in
+        ResponseProvider().getResponses(documentID: documentID, descending: false) { [weak self] (result) in
             guard let strongSelf = self else { return }
             
             switch result {
@@ -262,6 +263,12 @@ extension RecordContentViewController: UITableViewDataSource {
         
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
+        }
+        return tableView.sectionHeaderHeight
+    }
 }
 
 extension RecordContentViewController: UITableViewDelegate {
@@ -285,8 +292,8 @@ extension RecordContentViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.contentView.backgroundColor = UIColor.SHIRONERI
-        header.textLabel?.font = UIFont(name: "NotoSerifTC-Black", size: 20)
+        header.contentView.backgroundColor = UIColor.white
+        header.textLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 22)
         header.textLabel?.textColor = UIColor.SUMI
 //        header.textLabel?.textAlignment = .center
     }
