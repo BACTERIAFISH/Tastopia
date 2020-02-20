@@ -23,6 +23,8 @@ class TaskContentViewController: UIViewController {
     
     var passTaskID: ((String) -> Void)?
     
+    var passTask: ((TaskData?) -> Void)?
+    
     var map: GMSMapView?
     
     override func viewDidLoad() {
@@ -64,8 +66,9 @@ class TaskContentViewController: UIViewController {
             for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
                 UserProvider.shared.userTasks[i].taskID = newTaskID
             }
-            self?.passTaskID?(newTaskID)
+//            self?.passTaskID?(newTaskID)
             self?.task?.taskID = newTaskID
+            self?.passTask?(self?.task)
             self?.taskContentTableView.reloadData()
         }
         vc.showHud = { [weak self] in
@@ -108,6 +111,7 @@ class TaskContentViewController: UIViewController {
                         }
                         let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                         ref.updateData(["status": 2])
+                        self?.passTask?(self?.task)
                                 
                         // 檢查是否有存進 user passRestaurant array
                         // 如果沒有，存user passRestaurant array
@@ -174,8 +178,10 @@ class TaskContentViewController: UIViewController {
                         UserProvider.shared.userTasks[i] = newTask
                     }
                     
+                    self?.passTask?(newTask)
                     self?.task = newTask
                     self?.setTaskStatus()
+                    self?.taskContentTableView.reloadData()
                 case .failure(let error):
                     print("getTaskTypes error: \(error)")
                 }
@@ -217,12 +223,16 @@ class TaskContentViewController: UIViewController {
             executeTaskButton.setTitle("上傳任務", for: .normal)
             requestCompanyButton.setTitle("徵求同伴", for: .normal)
             requestCompanyButton.isHidden = false
+            showQRCodeButton.isHidden = false
+            scanQRCodeButton.isHidden = false
         case 1:
             executeTaskButton.setTitle("確認任務", for: .normal)
             requestCompanyButton.setTitle("重新上傳任務", for: .normal)
         case 2:
             executeTaskButton.setTitle("挑戰新的任務", for: .normal)
             requestCompanyButton.isHidden = true
+            showQRCodeButton.isHidden = true
+            scanQRCodeButton.isHidden = true
         default:
             print("task status error")
             return
@@ -238,6 +248,7 @@ class TaskContentViewController: UIViewController {
         vc.passTask = { [weak self] (task) in
             self?.task = task
             self?.setTaskStatus()
+            self?.passTask?(task)
         }
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true)

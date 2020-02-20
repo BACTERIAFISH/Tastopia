@@ -102,6 +102,9 @@ class HomeViewController: UIViewController {
         vc.passTaskID = { [weak self] taskID in
             self?.currentUserTask?.taskID = taskID
         }
+        vc.passTask = { [weak self] task in
+            self?.currentUserTask = task
+        }
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
         

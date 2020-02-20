@@ -20,7 +20,8 @@ class QRCodeViewController: UIViewController {
         super.viewDidLoad()
         
         containView.layer.cornerRadius = 16
-        containView.layer.createTTBorder()
+        containView.layer.borderColor = UIColor.SUMI!.cgColor
+        containView.layer.borderWidth = 2
 
         if let task = task {
             let image = generateQRCode(from: task.taskID)

@@ -66,6 +66,24 @@ class ExecuteTaskViewController: UIViewController {
     
     func openImagePicker() {
         let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "Photos", style: .default) { [weak self] (_) in
+            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
+            
+            vc.passSelectedImages = { [weak self] images in
+                guard let strongSelf = self else { return }
+                for image in images {
+                    let media = TTMediaData(mediaType: kUTTypeImage as String, image: image)
+                    strongSelf.selectedMedias.append(media)
+                }
+                strongSelf.photoCollectionView.reloadData()
+                strongSelf.photoCollectionView.scrollToItem(at: IndexPath(item: strongSelf.selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
+            }
+            
+            self?.present(vc, animated: true)
+        }
+        ac.addAction(action)
+        
         let titles = ["Photo Library", "Camera", "Video"]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
