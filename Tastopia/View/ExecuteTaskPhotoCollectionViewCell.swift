@@ -18,7 +18,7 @@ class ExecuteTaskPhotoCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        imageView.layer.cornerRadius = 16
+        contentView.layer.cornerRadius = 16
     }
     
     var url: URL? {

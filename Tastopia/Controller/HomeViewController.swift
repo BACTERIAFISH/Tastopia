@@ -99,9 +99,6 @@ class HomeViewController: UIViewController {
         vc.map = mapView
         vc.restaurant = currentRestaurantData?.restaurant
         vc.task = currentUserTask
-        vc.passTaskID = { [weak self] taskID in
-            self?.currentUserTask?.taskID = taskID
-        }
         vc.passTask = { [weak self] task in
             self?.currentUserTask = task
         }

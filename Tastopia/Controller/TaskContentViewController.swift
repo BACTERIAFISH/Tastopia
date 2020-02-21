@@ -21,8 +21,6 @@ class TaskContentViewController: UIViewController {
     var restaurant: Restaurant?
     var task: TaskData?
     
-    var passTaskID: ((String) -> Void)?
-    
     var passTask: ((TaskData?) -> Void)?
     
     var map: GMSMapView?
@@ -66,7 +64,6 @@ class TaskContentViewController: UIViewController {
             for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
                 UserProvider.shared.userTasks[i].taskID = newTaskID
             }
-//            self?.passTaskID?(newTaskID)
             self?.task?.taskID = newTaskID
             self?.passTask?(self?.task)
             self?.taskContentTableView.reloadData()

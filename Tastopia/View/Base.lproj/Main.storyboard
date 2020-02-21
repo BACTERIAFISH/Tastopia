@@ -622,25 +622,25 @@
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_256px_Picture" translatesAutoresizingMaskIntoConstraints="NO" id="uAL-vE-JPX">
                                                                         <rect key="frame" x="40" y="0.0" width="190" height="198"/>
                                                                     </imageView>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E2l-hd-70g">
+                                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AnX-p2-0dn">
                                                                         <rect key="frame" x="40" y="0.0" width="190" height="198"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </view>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="uAL-vE-JPX" firstAttribute="leading" secondItem="MIF-jq-niW" secondAttribute="leading" constant="40" id="0LR-h5-sT9"/>
+                                                                    <constraint firstItem="AnX-p2-0dn" firstAttribute="top" secondItem="MIF-jq-niW" secondAttribute="top" id="2vv-HH-TbU"/>
                                                                     <constraint firstAttribute="trailing" secondItem="uAL-vE-JPX" secondAttribute="trailing" constant="40" id="Bdl-fP-EsU"/>
-                                                                    <constraint firstItem="E2l-hd-70g" firstAttribute="leading" secondItem="MIF-jq-niW" secondAttribute="leading" constant="40" id="DRD-UZ-Yre"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="E2l-hd-70g" secondAttribute="bottom" id="Gqg-Ol-7C8"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="E2l-hd-70g" secondAttribute="trailing" constant="40" id="IzQ-yu-yko"/>
+                                                                    <constraint firstItem="AnX-p2-0dn" firstAttribute="leading" secondItem="MIF-jq-niW" secondAttribute="leading" constant="40" id="Mr2-Ya-aud"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="AnX-p2-0dn" secondAttribute="trailing" constant="40" id="Mrs-P3-5HQ"/>
                                                                     <constraint firstItem="uAL-vE-JPX" firstAttribute="top" secondItem="MIF-jq-niW" secondAttribute="top" id="VRO-nB-o57"/>
-                                                                    <constraint firstItem="E2l-hd-70g" firstAttribute="top" secondItem="MIF-jq-niW" secondAttribute="top" id="oWE-y0-Xgn"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="AnX-p2-0dn" secondAttribute="bottom" id="bOc-ks-r9V"/>
                                                                     <constraint firstAttribute="bottom" secondItem="uAL-vE-JPX" secondAttribute="bottom" id="yaV-Hp-BfB"/>
                                                                 </constraints>
                                                             </collectionViewCellContentView>
                                                             <connections>
                                                                 <outlet property="imageView" destination="uAL-vE-JPX" id="8RH-9N-cMk"/>
-                                                                <outlet property="movieView" destination="E2l-hd-70g" id="ATs-H6-vFX"/>
+                                                                <outlet property="movieView" destination="AnX-p2-0dn" id="NTC-Wz-nHY"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -1339,6 +1339,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIF-vw-qa1">
+                                <rect key="frame" x="20" y="52" width="48" height="48"/>
+                                <color key="tintColor" name="AKABENI"/>
+                                <state key="normal" image="Icon_24px_Left_Arrow"/>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="Xue-WL-bol" eventType="touchUpInside" id="8zx-sK-Ujs"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="選擇照片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8S-dP-OWs">
+                                <rect key="frame" x="167" y="64" width="80" height="23.5"/>
+                                <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="z2g-Po-Tjs">
                                 <rect key="frame" x="0.0" y="107.5" width="414" height="345.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -1373,8 +1387,13 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Xfk-oF-KWd">
+                                <rect key="frame" x="0.0" y="434.5" width="414" height="37"/>
+                                <color key="pageIndicatorTintColor" name="SHIRONEZUMI"/>
+                                <color key="currentPageIndicatorTintColor" name="SUMI"/>
+                            </pageControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4ZA-dL-Jlg">
-                                <rect key="frame" x="0.0" y="473" width="414" height="389"/>
+                                <rect key="frame" x="0.0" y="107.5" width="414" height="754.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="HIh-K0-9Zr">
                                     <size key="itemSize" width="177" height="192"/>
@@ -1403,7 +1422,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" name="SUMI"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="qkE-VV-GG7" secondAttribute="height" multiplier="1:1" id="7B5-a6-Bie"/>
                                                         <constraint firstItem="hXe-3R-ca2" firstAttribute="centerY" secondItem="qkE-VV-GG7" secondAttribute="centerY" id="EpN-ph-bAF"/>
@@ -1429,25 +1448,6 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="選擇照片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8S-dP-OWs">
-                                <rect key="frame" x="167" y="64" width="80" height="23.5"/>
-                                <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
-                                <color key="textColor" name="SUMI"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIF-vw-qa1">
-                                <rect key="frame" x="20" y="52" width="48" height="48"/>
-                                <color key="tintColor" name="AKABENI"/>
-                                <state key="normal" image="Icon_24px_Left_Arrow"/>
-                                <connections>
-                                    <action selector="doneButtonPressed:" destination="Xue-WL-bol" eventType="touchUpInside" id="8zx-sK-Ujs"/>
-                                </connections>
-                            </button>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Xfk-oF-KWd">
-                                <rect key="frame" x="0.0" y="434.5" width="414" height="37"/>
-                                <color key="pageIndicatorTintColor" name="SHIRONEZUMI"/>
-                                <color key="currentPageIndicatorTintColor" name="SUMI"/>
-                            </pageControl>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1張" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYc-px-YPW">
                                 <rect key="frame" x="365" y="65.5" width="29" height="21"/>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="18"/>
@@ -1467,12 +1467,12 @@
                             <constraint firstItem="b8S-dP-OWs" firstAttribute="top" secondItem="K4v-Ph-FPZ" secondAttribute="top" constant="20" id="Rhj-BB-kcP"/>
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="trailing" secondItem="4ZA-dL-Jlg" secondAttribute="trailing" id="T1L-lu-Ubb"/>
                             <constraint firstItem="z2g-Po-Tjs" firstAttribute="top" secondItem="b8S-dP-OWs" secondAttribute="bottom" constant="20" id="UBu-od-w1y"/>
+                            <constraint firstItem="4ZA-dL-Jlg" firstAttribute="top" secondItem="b8S-dP-OWs" secondAttribute="bottom" constant="20" id="Z6B-Z4-0sJ"/>
                             <constraint firstItem="AYc-px-YPW" firstAttribute="centerY" secondItem="b8S-dP-OWs" secondAttribute="centerY" id="bsr-4C-nB5"/>
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="trailing" secondItem="Xfk-oF-KWd" secondAttribute="trailing" id="f8U-FK-CSV"/>
                             <constraint firstItem="4ZA-dL-Jlg" firstAttribute="leading" secondItem="K4v-Ph-FPZ" secondAttribute="leading" id="gMt-Wu-Nuh"/>
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="trailing" secondItem="AYc-px-YPW" secondAttribute="trailing" constant="20" id="gdH-ts-JbT"/>
                             <constraint firstItem="Xfk-oF-KWd" firstAttribute="leading" secondItem="K4v-Ph-FPZ" secondAttribute="leading" id="j9V-Oj-vc5"/>
-                            <constraint firstItem="4ZA-dL-Jlg" firstAttribute="top" secondItem="K4v-Ph-FPZ" secondAttribute="centerY" constant="20" id="pk6-jK-uF3"/>
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="trailing" secondItem="z2g-Po-Tjs" secondAttribute="trailing" id="uqz-km-rRN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="K4v-Ph-FPZ"/>
@@ -1482,6 +1482,7 @@
                         <outlet property="displayPageControl" destination="Xfk-oF-KWd" id="3hJ-X1-zmo"/>
                         <outlet property="doneButton" destination="jIF-vw-qa1" id="cN5-kz-73l"/>
                         <outlet property="imageCollectionView" destination="4ZA-dL-Jlg" id="K91-E7-ZkF"/>
+                        <outlet property="imageCollectionViewTopConstraint" destination="Z6B-Z4-0sJ" id="m6o-3H-5dR"/>
                         <outlet property="selectedLabel" destination="AYc-px-YPW" id="LTw-Wl-fax"/>
                     </connections>
                 </viewController>
@@ -1541,7 +1542,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lwc-lD-4iQ">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_256px_Picture" translatesAutoresizingMaskIntoConstraints="NO" id="lwc-lD-4iQ">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="lwc-lD-4iQ" secondAttribute="height" multiplier="1:1" id="X1Q-5m-fzJ"/>

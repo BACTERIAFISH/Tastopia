@@ -16,6 +16,7 @@ class SelectImageViewController: UIViewController {
     @IBOutlet weak var displayCollectionView: UICollectionView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var displayPageControl: UIPageControl!
+    @IBOutlet weak var imageCollectionViewTopConstraint: NSLayoutConstraint!
     
     var images: [UIImage] = []
     
@@ -23,16 +24,27 @@ class SelectImageViewController: UIViewController {
     
     var passSelectedImages: (([UIImage]) -> Void)?
     
+    var fetchedPage = 0
+    
+    var fetchStartIndex = 0
+    
+    var fetchRange = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         displayCollectionView.dataSource = self
         displayCollectionView.delegate = self
+        
         imageCollectionView.dataSource = self
         imageCollectionView.delegate = self
         
         displayPageControl.numberOfPages = selectedImages.count
         
+        let height = view.frame.height
+        let width = view.frame.width
+        fetchRange = (Int(height / (width / 3)) + 1) * 3 * 2
+
         grabPhotos()
     }
     
@@ -56,26 +68,63 @@ class SelectImageViewController: UIViewController {
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        //        fetchOptions.fetchLimit = 1
         
-        let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
-        if fetchResult.count > 0 {
+        var fetchEndIndex = fetchStartIndex + fetchRange
+        
+        if fetchEndIndex > fetchResult.count {
+            fetchEndIndex = fetchResult.count
+        }
+        
+        if fetchResult.count > 0, fetchStartIndex != fetchEndIndex {
             
-            for i in 0..<fetchResult.count {
-                
+            let group = DispatchGroup()
+            
+            for i in fetchStartIndex..<fetchEndIndex {
+                group.enter()
                 imgManager.requestImage(for: fetchResult.object(at: i), targetSize: CGSize(width: 500, height: 500), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
                     
                     if let image = image {
                         self?.images.append(image)
+                        group.leave()
                     } else {
                         print("grabPhotos: no image")
+                        group.leave()
                     }
                 }
             }
             
+            group.notify(queue: .main) { [weak self] in
+                self?.fetchStartIndex = fetchEndIndex
+                self?.imageCollectionView.reloadData()
+            }
+            
         } else {
             print("grabPhotos: no photos")
+        }
+        
+    }
+    
+    func toggleDisplayCollectionView() {
+        
+        if selectedImages.isEmpty {
+            
+            let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [weak self] in
+                self?.imageCollectionViewTopConstraint.constant = 20
+                self?.view.layoutIfNeeded()
+            }
+            animator.startAnimation()
+            
+        } else if imageCollectionViewTopConstraint.constant == 20 {
+            
+            let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.imageCollectionViewTopConstraint.constant = strongSelf.displayCollectionView.frame.height + 40
+                strongSelf.view.layoutIfNeeded()
+            }
+            animator.startAnimation()
+            
         }
         
     }
@@ -195,10 +244,23 @@ extension SelectImageViewController: UICollectionViewDelegate {
                 selectedLabel.isHidden = false
                 selectedLabel.text = "\(selectedImages.count)張"
             }
+            toggleDisplayCollectionView()
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        displayPageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
+        if scrollView == displayCollectionView {
+            displayPageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let page = Int(scrollView.contentOffset.y / view.frame.height)
+        if page > fetchedPage {
+            grabPhotos()
+            fetchedPage = page
+        }
+        
     }
 }

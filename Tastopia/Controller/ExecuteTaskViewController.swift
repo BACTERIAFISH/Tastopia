@@ -45,8 +45,6 @@ class ExecuteTaskViewController: UIViewController {
         
         submitButton.layer.cornerRadius = 16
         
-        compositionTextView.selectedTextRange = compositionTextView.textRange(from: compositionTextView.beginningOfDocument, to: compositionTextView.endOfDocument)
-        
         if let task = task {
             peopleLabel.text = String(task.people)
             mediaLabel.text = String(task.media)
@@ -70,6 +68,8 @@ class ExecuteTaskViewController: UIViewController {
         let action = UIAlertAction(title: "Photos", style: .default) { [weak self] (_) in
             guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
             
+            vc.modalPresentationStyle = .overCurrentContext
+            
             vc.passSelectedImages = { [weak self] images in
                 guard let strongSelf = self else { return }
                 for image in images {
@@ -84,14 +84,12 @@ class ExecuteTaskViewController: UIViewController {
         }
         ac.addAction(action)
         
-        let titles = ["Photo Library", "Camera", "Video"]
+        let titles = ["Camera", "Video"]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
                 let imagePicker = UIImagePickerController()
                 switch title {
-                case "Photo Library":
-                    imagePicker.sourceType = .photoLibrary
                 case "Camera":
                     imagePicker.sourceType = .camera
                 case "Video":
@@ -224,6 +222,10 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
             
+            cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
+            cell.playerLooper = nil
+            cell.movieView.isHidden = true
+            
             let media = selectedMedias[indexPath.item]
             
             if media.mediaType == kUTTypeImage as String {
@@ -270,49 +272,22 @@ extension ExecuteTaskViewController: UICollectionViewDelegate {
 
 extension ExecuteTaskViewController: UITextViewDelegate {
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText: String = textView.text
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-        
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        if textView.text == "寫下你的感想" && textView.textColor == UIColor.SHIRONEZUMI {
             
-            textView.text = "寫下你的感想"
-            textView.textColor = UIColor.SHIRONEZUMI
-            
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.text = ""
+            textView.textColor = .black
         }
-            
-            // Else if the text view's placeholder is showing and the
-            // length of the replacement string is greater than 0, set
-            // the text color to black then set its text to the
-            // replacement string
-        else if textView.textColor == UIColor.SHIRONEZUMI && !text.isEmpty {
-            textView.textColor = UIColor.SUMI
-            textView.text = text
-        }
-            
-            // For every other case, the text should change with the usual
-            // behavior...
-        else {
-            return true
-        }
-        
-        // ...otherwise return false since the updates have already
-        // been made
-        return false
+        return true
     }
     
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if self.view.window != nil {
-            if textView.textColor == UIColor.SHIRONEZUMI {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-            }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "寫下你的感想"
+            textView.textColor = UIColor.SHIRONEZUMI
         }
     }
+    
 }
 
 extension ExecuteTaskViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

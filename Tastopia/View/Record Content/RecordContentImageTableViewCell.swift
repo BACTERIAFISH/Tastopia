@@ -74,7 +74,7 @@ extension RecordContentImageTableViewCell: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecordContentCollectionViewCell", for: indexPath) as? RecordContentCollectionViewCell, let writing = writing else { return UICollectionViewCell() }
         
         cell.imageView.image = UIImage.asset(.Icon_512px_Ramen)
-        cell.movieView.isHidden = true
+//        cell.movieView.isHidden = true
         cell.playerLooper = nil
         
         if writing.mediaTypes[indexPath.item] == kUTTypeImage as String {
