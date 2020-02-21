@@ -39,6 +39,9 @@ enum ImageAsset: String {
     case Icon_256px_Picture
     
     case Image_Cancel
+    case Image_Uploaded
+    case Image_Completed
+    
     case Image_32px_Cancel
 
 }

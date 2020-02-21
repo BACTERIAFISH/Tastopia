@@ -1239,6 +1239,12 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Uploaded_Red" translatesAutoresizingMaskIntoConstraints="NO" id="ah4-di-kv0">
+                                <rect key="frame" x="207" y="254" width="207" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="lXm-Qo-G7A"/>
+                                </constraints>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BUp-ml-Vh5">
                                 <rect key="frame" x="20" y="706" width="374" height="48"/>
                                 <subviews>
@@ -1302,11 +1308,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="ah4-di-kv0" firstAttribute="centerY" secondItem="DVQ-hI-wfW" secondAttribute="centerY" multiplier="0.75" id="0L2-AU-de1"/>
                             <constraint firstAttribute="trailing" secondItem="APH-Pq-twS" secondAttribute="trailing" constant="20" id="0sS-4B-eH1"/>
                             <constraint firstItem="BUp-ml-Vh5" firstAttribute="top" secondItem="DVQ-hI-wfW" secondAttribute="bottom" constant="40" id="4c6-qe-6Gb"/>
+                            <constraint firstItem="ah4-di-kv0" firstAttribute="trailing" secondItem="LPo-mM-q38" secondAttribute="trailing" id="7fh-Ok-c3J"/>
                             <constraint firstItem="DVQ-hI-wfW" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="leading" constant="20" id="9Wf-7M-hYn"/>
                             <constraint firstItem="LPo-mM-q38" firstAttribute="trailing" secondItem="BUp-ml-Vh5" secondAttribute="trailing" constant="20" id="GB6-qd-FhC"/>
                             <constraint firstItem="pXp-ht-xqA" firstAttribute="centerX" secondItem="hJu-94-DpV" secondAttribute="centerX" id="H2O-18-ozv"/>
+                            <constraint firstItem="ah4-di-kv0" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="centerX" id="Iby-o9-rI8"/>
                             <constraint firstItem="APH-Pq-twS" firstAttribute="top" secondItem="BUp-ml-Vh5" secondAttribute="bottom" constant="20" id="JYm-83-ZpM"/>
                             <constraint firstItem="DR5-lb-5fh" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="leading" constant="20" id="Mjg-X1-nRY"/>
                             <constraint firstItem="DR5-lb-5fh" firstAttribute="top" secondItem="LPo-mM-q38" secondAttribute="top" constant="30" id="Vy3-w2-ft7"/>
@@ -1324,6 +1333,7 @@
                         <outlet property="requestCompanyButton" destination="Krx-3S-tVp" id="9hG-t8-C8s"/>
                         <outlet property="scanQRCodeButton" destination="JsW-SG-HrY" id="ksQ-ge-nws"/>
                         <outlet property="showQRCodeButton" destination="UA2-Sg-vAS" id="qUs-9c-hNt"/>
+                        <outlet property="statusImageView" destination="ah4-di-kv0" id="erb-vs-56S"/>
                         <outlet property="taskContentTableView" destination="DVQ-hI-wfW" id="Krr-IS-Jx6"/>
                     </connections>
                 </viewController>
@@ -1823,6 +1833,7 @@
         <image name="Image_Execute_Task" width="1037" height="304"/>
         <image name="Image_Task_Content" width="2300" height="712"/>
         <image name="Image_Tastopia_01" width="1330" height="589"/>
+        <image name="Image_Uploaded_Red" width="1255" height="697"/>
         <namedColor name="AKABENI">
             <color red="0.79607843137254897" green="0.25098039215686274" blue="0.25882352941176473" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

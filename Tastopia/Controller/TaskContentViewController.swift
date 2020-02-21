@@ -13,6 +13,7 @@ import Firebase
 class TaskContentViewController: UIViewController {
     
     @IBOutlet weak var taskContentTableView: UITableView!
+    @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var showQRCodeButton: UIButton!
     @IBOutlet weak var scanQRCodeButton: UIButton!
     @IBOutlet weak var requestCompanyButton: UIButton!
@@ -40,7 +41,18 @@ class TaskContentViewController: UIViewController {
         requestCompanyButton.layer.cornerRadius = 16
         executeTaskButton.layer.cornerRadius = 16
         
+        statusImageView.layer.cornerRadius = 16
+        statusImageView.layer.borderColor = UIColor.AKABENI!.cgColor
+        statusImageView.layer.borderWidth = 5
+        
         setTaskStatus()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        setStatusImage()
     }
     
     @IBAction func back(_ sender: Any) {
@@ -144,6 +156,7 @@ class TaskContentViewController: UIViewController {
                         TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "確認成功")
                         
                         self?.setTaskStatus()
+                        self?.setStatusImage()
                         
                     } else {
                         // show mission fail
@@ -178,6 +191,7 @@ class TaskContentViewController: UIViewController {
                     self?.passTask?(newTask)
                     self?.task = newTask
                     self?.setTaskStatus()
+                    self?.setStatusImage()
                     self?.taskContentTableView.reloadData()
                 case .failure(let error):
                     print("getTaskTypes error: \(error)")
@@ -247,8 +261,42 @@ class TaskContentViewController: UIViewController {
             self?.setTaskStatus()
             self?.passTask?(task)
         }
+        vc.setStatusImage = setStatusImage
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true)
+    }
+    
+    func setStatusImage() {
+        guard let task = task else { return }
+        switch task.status {
+        case 0:
+            statusImageView.isHidden = true
+        case 1:
+            statusImageView.image = UIImage.asset(.Image_Uploaded)
+            animateStatusImage()
+        case 2:
+            statusImageView.image = UIImage.asset(.Image_Completed)
+            animateStatusImage()
+        default:
+            print("task status error")
+            return
+        }
+    }
+    
+    func animateStatusImage() {
+        
+        statusImageView.isHidden = true
+        statusImageView.alpha = 0.5
+        statusImageView.transform = CGAffineTransform(scaleX: 2, y: 2).rotated(by: CGFloat.pi / 180 * 30)
+        statusImageView.layoutIfNeeded()
+        
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeIn) { [weak self] in
+            self?.statusImageView.isHidden = false
+            self?.statusImageView.alpha = 1
+            self?.statusImageView.transform = CGAffineTransform(scaleX: 1, y: 1).rotated(by: CGFloat.pi / 180 * 15)
+            self?.statusImageView.layoutIfNeeded()
+        }
+        animator.startAnimation()
     }
     
 }

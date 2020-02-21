@@ -27,6 +27,8 @@ class ExecuteTaskViewController: UIViewController {
     
     var passTask: ((TaskData) -> Void)?
     
+    var setStatusImage: (() -> Void)?
+    
     var map: GMSMapView?
     
     var selectedMedias = [TTMediaData]()
@@ -193,7 +195,9 @@ class ExecuteTaskViewController: UIViewController {
             TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "上傳成功")
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                strongSelf.dismiss(animated: true, completion: nil)
+                strongSelf.dismiss(animated: true, completion: { [weak self] in
+                    self?.setStatusImage?()
+                })
             }
         }
     }

@@ -110,7 +110,7 @@ class SelectImageViewController: UIViewController {
         
         if selectedImages.isEmpty {
             
-            let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [weak self] in
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
                 self?.imageCollectionViewTopConstraint.constant = 20
                 self?.view.layoutIfNeeded()
             }
@@ -118,7 +118,7 @@ class SelectImageViewController: UIViewController {
             
         } else if imageCollectionViewTopConstraint.constant == 20 {
             
-            let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [weak self] in
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.imageCollectionViewTopConstraint.constant = strongSelf.displayCollectionView.frame.height + 40
                 strongSelf.view.layoutIfNeeded()
