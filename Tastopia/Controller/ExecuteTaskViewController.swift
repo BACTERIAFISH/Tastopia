@@ -228,7 +228,6 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
             
             cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
             cell.playerLooper = nil
-            cell.movieView.isHidden = true
             
             let media = selectedMedias[indexPath.item]
             
@@ -236,27 +235,21 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
                 cell.imageView.image = media.image
             } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
                 cell.url = url
-                //                let player = AVQueuePlayer()
-                //                player.isMuted = true
-                //                let playerItem = AVPlayerItem(url: url)
-                //                let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
-                //                playerLoopers.append(playerLooper)
-                //                let playerLayer = AVPlayerLayer(player: player)
-                //                playerLayer.videoGravity = .resizeAspectFill
-                //                playerLayer.frame = cell.movieView.bounds
-                //                cell.movieView.layer.addSublayer(playerLayer)
-                //                player.play()
             }
             
-            //            cell.layer.cornerRadius = 5
-            //            cell.layer.createTTBorder()
+            cell.deleteImage = { [weak self] cell in
+                if let deleteIndexPath = self?.photoCollectionView.indexPath(for: cell) {
+                    self?.selectedMedias.remove(at: deleteIndexPath.item)
+                    self?.photoCollectionView.deleteItems(at: [deleteIndexPath])
+                }
+            }
+
             return cell
             
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
-            cell.layer.cornerRadius = 16
-            //            cell.layer.createTTBorder()
+//            cell.layer.cornerRadius = 16
             
             return cell
         }

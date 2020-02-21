@@ -44,7 +44,7 @@ class SelectImageViewController: UIViewController {
         let height = view.frame.height
         let width = view.frame.width
         fetchRange = (Int(height / (width / 3)) + 1) * 3 * 2
-
+        
         grabPhotos()
     }
     
@@ -79,26 +79,19 @@ class SelectImageViewController: UIViewController {
         
         if fetchResult.count > 0, fetchStartIndex != fetchEndIndex {
             
-            let group = DispatchGroup()
-            
             for i in fetchStartIndex..<fetchEndIndex {
-                group.enter()
                 imgManager.requestImage(for: fetchResult.object(at: i), targetSize: CGSize(width: 500, height: 500), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
                     
                     if let image = image {
                         self?.images.append(image)
-                        group.leave()
                     } else {
                         print("grabPhotos: no image")
-                        group.leave()
                     }
                 }
             }
             
-            group.notify(queue: .main) { [weak self] in
-                self?.fetchStartIndex = fetchEndIndex
-                self?.imageCollectionView.reloadData()
-            }
+            fetchStartIndex = fetchEndIndex
+            imageCollectionView.reloadData()
             
         } else {
             print("grabPhotos: no photos")
