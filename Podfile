@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '13.2'
+platform :ios, '12.0'
 
 target 'Tastopia' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -23,5 +23,6 @@ target 'Tastopia' do
   pod 'IQKeyboardManagerSwift'
   pod 'JGProgressHUD'
   pod 'SwiftLint'
+  pod 'SwiftMessages'
 
 end

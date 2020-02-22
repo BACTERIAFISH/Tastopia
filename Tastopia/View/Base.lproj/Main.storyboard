@@ -1067,7 +1067,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任務代碼 QRCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-WS-E8T">
-                                <rect key="frame" x="40" y="260.5" width="334" height="23.5"/>
+                                <rect key="frame" x="40" y="254" width="334" height="30"/>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1852,7 +1852,7 @@
         <image name="Image_Execute_Task" width="1037" height="304"/>
         <image name="Image_Task_Content" width="2300" height="712"/>
         <image name="Image_Tastopia_01" width="1330" height="589"/>
-        <image name="Image_Uploaded" width="1255" height="697"/>
+        <image name="Image_Uploaded" width="1428" height="784"/>
         <namedColor name="AKABENI">
             <color red="0.79607843137254897" green="0.25098039215686274" blue="0.25882352941176473" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
