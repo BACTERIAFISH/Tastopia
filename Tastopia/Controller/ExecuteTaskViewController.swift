@@ -60,14 +60,14 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func submit(_ sender: UIButton) {
-        //        checkTask()
-        submitTask()
+        checkTask()
+//        submitTask()
     }
     
     func openImagePicker() {
-        let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let action = UIAlertAction(title: "Photos", style: .default) { [weak self] (_) in
+        let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
             guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
             
             vc.modalPresentationStyle = .overCurrentContext
@@ -86,7 +86,7 @@ class ExecuteTaskViewController: UIViewController {
         }
         ac.addAction(action)
         
-        let titles = ["Camera", "Video"]
+        let titles = ["相片", "影片"]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
@@ -105,7 +105,7 @@ class ExecuteTaskViewController: UIViewController {
             }
             ac.addAction(action)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         ac.addAction(cancelAction)
         present(ac, animated: true)
     }
@@ -116,13 +116,13 @@ class ExecuteTaskViewController: UIViewController {
         
         // composition fail
         if composition.trimmingCharacters(in: .whitespacesAndNewlines).count < task.composition {
-            TTProgressHUD.shared.showFail(in: view, text: "字數不足")
+            TTSwiftMessages().checkTaskError(body: "字數不足")
             return
         }
         
         // media fail
         if selectedMedias.count < task.media {
-            TTProgressHUD.shared.showFail(in: view, text: "照片、影片不足")
+            TTSwiftMessages().checkTaskError(body: "照片、影片不足")
             return
         }
         
@@ -132,7 +132,7 @@ class ExecuteTaskViewController: UIViewController {
         
         // distance > 10 meters
         if distanceMeter > 10 {
-            TTProgressHUD.shared.showFail(in: view, text: "地點錯誤")
+            TTSwiftMessages().checkTaskError(body: "地點錯誤")
             return
         }
         
@@ -140,12 +140,8 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func submitTask() {
-        TTProgressHUD.shared.showLoading(in: view, text: "上傳中")
-        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else {
-            TTProgressHUD.shared.hud.dismiss(animated: false)
-            TTProgressHUD.shared.showFail(in: view, text: "上傳失敗")
-            return
-        }
+        TTSwiftMessages().wait(title: "上傳中")
+        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
         let group = DispatchGroup()
         for (i, media) in selectedMedias.enumerated() {
@@ -191,14 +187,12 @@ class ExecuteTaskViewController: UIViewController {
             
             strongSelf.changeTaskStatus()
             
-            TTProgressHUD.shared.hud.dismiss(animated: false)
-            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "上傳成功")
+            TTSwiftMessages().hide()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                strongSelf.dismiss(animated: true, completion: { [weak self] in
-                    self?.setStatusImage?()
-                })
-            }
+            strongSelf.dismiss(animated: true, completion: { [weak self] in
+                TTSwiftMessages().success(title: "上傳成功", body: "")
+                self?.setStatusImage?()
+            })
         }
     }
     

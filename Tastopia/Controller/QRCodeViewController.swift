@@ -15,6 +15,8 @@ class QRCodeViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     var task: TaskData?
+    
+    var startScan: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class QRCodeViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        startScan?()
         dismiss(animated: false, completion: nil)
     }
     

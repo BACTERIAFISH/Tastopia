@@ -9,12 +9,12 @@
 import UIKit
 import GoogleMaps
 import Firebase
+import SwiftMessages
 
 class TaskContentViewController: UIViewController {
     
     @IBOutlet weak var taskContentTableView: UITableView!
     @IBOutlet weak var statusImageView: UIImageView!
-    @IBOutlet weak var showQRCodeButton: UIButton!
     @IBOutlet weak var scanQRCodeButton: UIButton!
     @IBOutlet weak var requestCompanyButton: UIButton!
     @IBOutlet weak var executeTaskButton: UIButton!
@@ -36,7 +36,6 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
         taskContentTableView.layer.createTTBorder()
         
-        showQRCodeButton.layer.cornerRadius = 16
         scanQRCodeButton.layer.cornerRadius = 16
         requestCompanyButton.layer.cornerRadius = 16
         executeTaskButton.layer.cornerRadius = 16
@@ -56,19 +55,16 @@ class TaskContentViewController: UIViewController {
     }
     
     @IBAction func back(_ sender: Any) {
+        TTSwiftMessages().hideAll()
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func showQRCode() {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController, let task = task else { return }
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.task = task
-        present(vc, animated: false)
-    }
-    
     @IBAction func scanQRCode() {
+        TTSwiftMessages().hideAll()
+        
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeScanViewController") as? QRCodeScanViewController else { return }
         vc.modalPresentationStyle = .overCurrentContext
+        vc.task = task
         vc.passTaskID = { [weak self] newTaskID in
             guard let task = self?.task, let user = UserProvider.shared.userData else { return }
             let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
@@ -80,27 +76,18 @@ class TaskContentViewController: UIViewController {
             self?.passTask?(self?.task)
             self?.taskContentTableView.reloadData()
         }
-        vc.showHud = { [weak self] in
-            guard let strongSelf = self else { return }
-            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "同步代碼成功")
-        }
         present(vc, animated: true)
     }
     
     @IBAction func executeTask(_ sender: UIButton) {
+        TTSwiftMessages().hideAll()
+        
         guard let task = task, let user = UserProvider.shared.userData else { return }
         switch task.status {
         case 0:
             
             if task.people > 1 {
-                let ac = UIAlertController(title: "多人任務", message: "執行多人任務前記得要同步自己和同伴的任務代碼，不然確認任務時會失敗喔", preferredStyle: .alert)
-                let action = UIAlertAction(title: "繼續上傳", style: .default) { [weak self] (_) in
-                    self?.showExecuteTask()
-                }
-                let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                ac.addAction(action)
-                ac.addAction(cancel)
-                present(ac, animated: true)
+                TTSwiftMessages().question(title: "多人任務", body: "請先同步自己與同伴的任務代碼\n再開始執行任務", leftButtonTitle: "還沒同步", rightButtonTitle: "同步好了", leftHandler: nil, rightHandler: showExecuteTask)
             } else {
                 showExecuteTask()
             }
@@ -108,9 +95,9 @@ class TaskContentViewController: UIViewController {
         case 1:
             // 確認任務
             // check writings where restaurant, taskID, date >= task.people
-            TTProgressHUD.shared.showLoading(in: view, text: "確認中")
+            TTSwiftMessages().wait(title: "確認中")
             WritingProvider().checkTaskWritings(task: task) { [weak self] (result) in
-                guard let strongSelf = self else { return }
+//                guard let strongSelf = self else { return }
                 switch result {
                 case .success(let pass):
                     if pass {
@@ -152,16 +139,16 @@ class TaskContentViewController: UIViewController {
                             }
                         }
                         
-                        TTProgressHUD.shared.hud.dismiss(animated: false)
-                        TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "確認成功")
+                        TTSwiftMessages().hideAll()
+                        TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務完成", body: "")
                         
                         self?.setTaskStatus()
                         self?.setStatusImage()
                         
                     } else {
                         // show mission fail
-                        TTProgressHUD.shared.hud.dismiss(animated: false)
-                        TTProgressHUD.shared.showFail(in: strongSelf.view, text: "確認失敗")
+                        TTSwiftMessages().hideAll()
+                        TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "任務未完成", body: "1.上傳的食記數量不足\n2.上傳的食記任務代碼不一致", duration: nil)
                     }
                     
                 case .failure(let error):
@@ -193,6 +180,8 @@ class TaskContentViewController: UIViewController {
                     self?.setTaskStatus()
                     self?.setStatusImage()
                     self?.taskContentTableView.reloadData()
+                    
+                    TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務已更新", body: "")
                 case .failure(let error):
                     print("getTaskTypes error: \(error)")
                 }
@@ -206,6 +195,7 @@ class TaskContentViewController: UIViewController {
     }
     
     @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
+        TTSwiftMessages().hide()
         
         guard let task = task, let user = UserProvider.shared.userData else { return }
         
@@ -220,7 +210,10 @@ class TaskContentViewController: UIViewController {
             let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
             ref.updateData(["status": 0])
             
+            passTask?(self.task)
+            
             setTaskStatus()
+            setStatusImage()
         default:
             print("task status error")
             return
@@ -231,18 +224,16 @@ class TaskContentViewController: UIViewController {
         guard let task = task else { return }
         switch task.status {
         case 0:
-            executeTaskButton.setTitle("上傳任務", for: .normal)
+            executeTaskButton.setTitle("執行任務", for: .normal)
             requestCompanyButton.setTitle("徵求同伴", for: .normal)
             requestCompanyButton.isHidden = false
-            showQRCodeButton.isHidden = false
             scanQRCodeButton.isHidden = false
         case 1:
             executeTaskButton.setTitle("確認任務", for: .normal)
-            requestCompanyButton.setTitle("重新上傳任務", for: .normal)
+            requestCompanyButton.setTitle("重新執行任務", for: .normal)
         case 2:
             executeTaskButton.setTitle("挑戰新的任務", for: .normal)
             requestCompanyButton.isHidden = true
-            showQRCodeButton.isHidden = true
             scanQRCodeButton.isHidden = true
         default:
             print("task status error")
@@ -323,7 +314,7 @@ extension TaskContentViewController: UITableViewDataSource {
             cell.contentLabel.text = restaurant.phone
         case 3:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User_Red)
-            cell.contentLabel.text = "\(task.people)個人吃飯"
+            cell.contentLabel.text = "\(task.people)個人吃飯（\(task.people)篇食記）"
         case 4:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera_Red)
             cell.contentLabel.text = "拍攝照片或影片 x \(task.media)"

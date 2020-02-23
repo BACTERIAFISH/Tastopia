@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        TTProgressHUD.shared.hud.dismiss(animated: false)
+        TTSwiftMessages().hideAll()
         
         mapView.delegate = self
         mapView.settings.myLocationButton = true
@@ -80,12 +80,11 @@ class HomeViewController: UIViewController {
         taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
         
         taskButton.layer.cornerRadius = 16
-//        taskButton.layer.createTTBorder()
         recordButton.layer.cornerRadius = 16
-//        recordButton.layer.createTTBorder()
 
         NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

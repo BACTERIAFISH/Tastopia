@@ -25,6 +25,10 @@ enum ImageAsset: String {
     case Icon_32px_Edit_Red
     case Icon_32px_Key_Red
     
+    case Icon_32px_Time_White
+    case Icon_32px_Error_White
+    case Icon_32px_Success_White
+    
     case Icon_32px_Pin
     case Icon_32px_Phone
     case Icon_32px_Add_User
