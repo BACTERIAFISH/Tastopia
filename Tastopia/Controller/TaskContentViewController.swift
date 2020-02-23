@@ -195,7 +195,7 @@ class TaskContentViewController: UIViewController {
     }
     
     @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
-        TTSwiftMessages().hide()
+        TTSwiftMessages().hideAll()
         
         guard let task = task, let user = UserProvider.shared.userData else { return }
         
@@ -203,17 +203,20 @@ class TaskContentViewController: UIViewController {
         case 0:
             print("status: 0, request company")
         case 1:
-            self.task?.status = 0
-            for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
-                UserProvider.shared.userTasks[i].status = 0
-            }
-            let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-            ref.updateData(["status": 0])
-            
-            passTask?(self.task)
-            
-            setTaskStatus()
-            setStatusImage()
+            TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
+                self?.task?.status = 0
+                for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
+                    UserProvider.shared.userTasks[i].status = 0
+                }
+                let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+                ref.updateData(["status": 0])
+                
+                self?.passTask?(self?.task)
+                
+                self?.setTaskStatus()
+                self?.setStatusImage()
+                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "可以再次執行任務", body: "")
+            })
         default:
             print("task status error")
             return
@@ -226,11 +229,12 @@ class TaskContentViewController: UIViewController {
         case 0:
             executeTaskButton.setTitle("執行任務", for: .normal)
             requestCompanyButton.setTitle("徵求同伴", for: .normal)
-            requestCompanyButton.isHidden = false
+            requestCompanyButton.isHidden = true
             scanQRCodeButton.isHidden = false
         case 1:
             executeTaskButton.setTitle("確認任務", for: .normal)
             requestCompanyButton.setTitle("重新執行任務", for: .normal)
+            requestCompanyButton.isHidden = false
         case 2:
             executeTaskButton.setTitle("挑戰新的任務", for: .normal)
             requestCompanyButton.isHidden = true
