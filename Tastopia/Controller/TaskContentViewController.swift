@@ -59,6 +59,11 @@ class TaskContentViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func info(_ sender: Any) {
+        TTSwiftMessages().hideAll()
+        gameGuide()
+    }
+    
     @IBAction func scanQRCode() {
         TTSwiftMessages().hideAll()
         
@@ -235,6 +240,7 @@ class TaskContentViewController: UIViewController {
             executeTaskButton.setTitle("確認任務", for: .normal)
             requestCompanyButton.setTitle("重新執行任務", for: .normal)
             requestCompanyButton.isHidden = false
+            scanQRCodeButton.isHidden = true
         case 2:
             executeTaskButton.setTitle("挑戰新的任務", for: .normal)
             requestCompanyButton.isHidden = true
@@ -292,6 +298,30 @@ class TaskContentViewController: UIViewController {
             self?.statusImageView.layoutIfNeeded()
         }
         animator.startAnimation()
+    }
+    
+    func gameGuide() {
+        guard let task = task else { return }
+        switch task.status {
+        case 0:
+            TTSwiftMessages().info(title: "提示", body: "當任務人數超過1人時\n請先用掃描 QRCode 的方式\n同步自己與同伴的任務代碼\n彼此的任務代碼前5碼都相同後\n再開始執行任務\n", icon: nil, buttonTitle: "確認") {
+                
+                TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認") {
+                    
+                }
+            }
+        case 1:
+            TTSwiftMessages().info(title: "提示", body: "多人任務中\n如果全部人都已上傳食記\n卻無法完成任務\n代表上傳的食記任務代碼不一致\n請重新執行任務\n", icon: nil, buttonTitle: "確認") {
+                
+            }
+        case 2:
+            TTSwiftMessages().info(title: "提示", body: "完成任務後\n可以繼續挑戰新的任務\n", icon: nil, buttonTitle: "確認") {
+                
+            }
+        default:
+            print("task status error")
+            return
+        }
     }
     
 }

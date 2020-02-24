@@ -205,7 +205,7 @@ extension RecordContentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let writing = writing else { return UITableViewCell() }
-        
+
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 

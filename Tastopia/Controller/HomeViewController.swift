@@ -13,6 +13,8 @@ import GoogleMaps
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
+
+    @IBOutlet weak var UserButton: UIButton!
     
     @IBOutlet weak var taskView: UIView!
     @IBOutlet weak var taskButton: UIButton!
@@ -22,6 +24,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskAddressLabel: UILabel!
     @IBOutlet weak var taskPhoneLabel: UILabel!
     
+    @IBOutlet weak var shadowTopView: UIView!
     @IBOutlet weak var shadowContainView: UIView!
     @IBOutlet weak var shadowLeftView: UIView!
     @IBOutlet weak var shadowRightView: UIView!
@@ -68,6 +71,7 @@ class HomeViewController: UIViewController {
         locationManager.startUpdatingLocation()
         
         view.layoutIfNeeded()
+        UserButton.layer.cornerRadius = 30
         taskViewBottomConstraint.constant = taskView.layer.frame.height
         
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -92,8 +96,12 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if UserDefaults.standard.integer(forKey: "userStatus") == 0 {
-            gameGuide()
+//            gameGuide()
         }
+        
+    }
+    
+    @IBAction func userButtonPressed(_ sender: UIButton) {
         
     }
     
@@ -211,11 +219,11 @@ class HomeViewController: UIViewController {
             
             self?.mapView.animate(to: GMSCameraPosition(latitude: 25.042213, longitude: 121.563074, zoom: 15))
             
-            TTSwiftMessages().info(title: "尋找任務", body: "滑動地圖的時候\n你會發現地圖上有幾處被照亮的地方\n那就是任務所在的位置\n", icon: nil, buttonTitle: "下一步", handler: {
+            TTSwiftMessages().info(title: "尋找任務", body: "滑動地圖的時候\n你會發現地圖上有幾處被照亮的地方\n那就是任務所在的地點\n", icon: nil, buttonTitle: "下一步", handler: {
                 
                 self?.mapView.animate(toZoom: 17)
                 
-                TTSwiftMessages().info(title: "尋找任務", body: "放大地圖後\n可以更清楚的看到任務位置\n", icon: nil, buttonTitle: "下一步", handler: {
+                TTSwiftMessages().info(title: "尋找任務", body: "放大地圖後\n可以更清楚的看到任務地點\n", icon: nil, buttonTitle: "下一步", handler: {
                     
                     // MARK: 可加點擊動畫
                     self?.taskView.isHidden = false
@@ -224,7 +232,11 @@ class HomeViewController: UIViewController {
                         self?.view.layoutIfNeeded()
                     }
                     animator.addCompletion { _ in
+                        
+                        self?.shadowTopView.isHidden = false
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            
                             TTSwiftMessages().info(title: "查看任務", body: "點擊地圖上的任務圖案\n會彈出任務視窗\n顯示任務的基本訊息\n", icon: nil, buttonTitle: "下一步", handler: {
                                 
                                 self?.shadowContainView.isHidden = false
@@ -237,10 +249,12 @@ class HomeViewController: UIViewController {
                                     
                                     TTSwiftMessages().info(title: "任務內容", body: "顯示詳細的任務內容\n也是執行任務的地方\n", icon: nil, buttonTitle: "下一步", handler: {
                                         
-                                        self?.shadowContainView.isHidden = true
                                         self?.shadowRightView.isHidden = false
                                         
                                         TTSwiftMessages().info(title: "準備好了嗎？", body: "按下開始進入 Tastopia !!\n", icon: nil, buttonTitle: "開始", handler: {
+                                            
+                                            self?.shadowTopView.isHidden = true
+                                            self?.shadowContainView.isHidden = true
                                             
                                             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
                                                 guard let strongSelf = self else { return }
