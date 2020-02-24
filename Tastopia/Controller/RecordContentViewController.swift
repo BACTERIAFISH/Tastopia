@@ -37,6 +37,7 @@ class RecordContentViewController: UIViewController {
         responseTextView.delegate = self
         
         responseContainView.layer.cornerRadius = 16
+        responseContainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         responseContainView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
         
         responseButton.layer.cornerRadius = 16

@@ -32,46 +32,9 @@ class TTSwiftMessages {
         
         var config = SwiftMessages.Config()
         
-//        config.presentationStyle = .top
         config.duration = .forever
         config.dimMode = .gray(interactive: false)
         config.interactiveHide = false
-        
-        SwiftMessages.show(config: config, view: view)
-    }
-    
-    func checkTaskError(body: String) {
-        let view = MessageView.viewFromNib(layout: .cardView)
-        view.configureTheme(backgroundColor: UIColor.AKABENI!, foregroundColor: .white)
-        view.configureContent(title: "上傳失敗", body: body, iconImage: UIImage.asset(.Icon_32px_Error_White)!)
-        view.titleLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 20)
-        view.bodyLabel?.font = UIFont(name: "NotoSansTC-Regular", size: 18)
-        view.button?.isHidden = true
-        view.configureDropShadow()
-        view.layoutMarginAdditions = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        (view.backgroundView as? CornerRoundingView)?.cornerRadius = 16
-        
-        var config = SwiftMessages.Config()
-        
-        config.duration = .seconds(seconds: 1.5)
-        
-        SwiftMessages.show(config: config, view: view)
-    }
-    
-    func success(title: String, body: String) {
-        let view = MessageView.viewFromNib(layout: .cardView)
-        view.configureTheme(backgroundColor: UIColor.SUMI!, foregroundColor: .white)
-        view.configureContent(title: title, body: body, iconImage: UIImage.asset(.Icon_32px_Success_White)!)
-        view.titleLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 20)
-        view.bodyLabel?.font = UIFont(name: "NotoSansTC-Regular", size: 18)
-        view.button?.isHidden = true
-        view.configureDropShadow()
-        view.layoutMarginAdditions = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        (view.backgroundView as? CornerRoundingView)?.cornerRadius = 16
-        
-        var config = SwiftMessages.Config()
-        
-        config.duration = .seconds(seconds: 1.5)
         
         SwiftMessages.show(config: config, view: view)
     }
@@ -159,8 +122,36 @@ class TTSwiftMessages {
             SwiftMessages.show(config: config, view: view)
             
         } catch {
-            
+            print("TTSwiftMessages question error")
         }
+    }
+    
+    func info(title: String?, body: String?, icon: UIImage?, buttonTitle: String?, handler: (() -> Void)?) {
         
+        let view = MessageView.viewFromNib(layout: .centeredView)
+        view.configureContent(title: title, body: body, iconImage: icon, iconText: nil, buttonImage: nil, buttonTitle: buttonTitle, buttonTapHandler: { _ in
+            SwiftMessages.hide()
+            handler?()
+        })
+        view.configureTheme(backgroundColor: .white, foregroundColor: UIColor.SUMI!)
+        view.titleLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 20)
+        view.bodyLabel?.font = UIFont(name: "NotoSansTC-Regular", size: 18)
+        view.bodyLabel?.textAlignment = .left
+        view.button?.titleLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 20)
+        view.button?.layer.cornerRadius = 16
+        view.button?.contentEdgeInsets = UIEdgeInsets(top: 9, left: 50, bottom: 9, right: 50)
+        
+        view.configureDropShadow()
+        view.layoutMarginAdditions = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        (view.backgroundView as? CornerRoundingView)?.cornerRadius = 16
+        
+        var config = SwiftMessages.Config()
+        
+        config.presentationStyle = .center
+        config.dimMode = .color(color: .clear, interactive: false)
+        config.duration = .forever
+        config.interactiveHide = false
+        
+        SwiftMessages.show(config: config, view: view)
     }
 }

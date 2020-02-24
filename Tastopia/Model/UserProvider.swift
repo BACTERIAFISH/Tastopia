@@ -28,8 +28,8 @@ class UserProvider {
                     
                     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
-                    appDelegate.window?.rootViewController = tabBarVC
+                    guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+                    appDelegate.window?.rootViewController = homeVC
                     
                 case .failure(let error):
                     print("autoLogin error: \(error)")
@@ -87,8 +87,8 @@ class UserProvider {
                         }
                         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
-                        appDelegate.window?.rootViewController = tabBarVC
+                        guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+                        appDelegate.window?.rootViewController = homeVC
                     }
                 }
                 

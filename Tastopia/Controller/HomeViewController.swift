@@ -22,6 +22,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var taskAddressLabel: UILabel!
     @IBOutlet weak var taskPhoneLabel: UILabel!
     
+    @IBOutlet weak var shadowContainView: UIView!
+    @IBOutlet weak var shadowLeftView: UIView!
+    @IBOutlet weak var shadowRightView: UIView!
+    
     var locationManager = CLLocationManager()
     var markIconSize: MarkerIconSize = .small
     
@@ -49,15 +53,6 @@ class HomeViewController: UIViewController {
           print("One or more of the map styles failed to load. \(error)")
         }
         
-        // taipei main station
-        // (25.047811, 121.517019)
-        
-        // AppWorks School
-        // (25.042451, 121.564920)
-        
-        let camera = GMSCameraPosition.camera(withLatitude: 25.042451, longitude: 121.564920, zoom: 15)
-        mapView.camera = camera
-        
         getTaskRestaurant()
         
         MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
@@ -73,7 +68,7 @@ class HomeViewController: UIViewController {
         locationManager.startUpdatingLocation()
         
         view.layoutIfNeeded()
-        taskViewBottomConstraint.constant = -taskView.layer.frame.height
+        taskViewBottomConstraint.constant = taskView.layer.frame.height
         
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         taskView.layer.cornerRadius = 16
@@ -89,7 +84,17 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         checkLocationAuth()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if UserDefaults.standard.integer(forKey: "userStatus") == 0 {
+            gameGuide()
+        }
+        
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
@@ -200,6 +205,68 @@ class HomeViewController: UIViewController {
         taskButton.isEnabled = true
     }
 
+    func gameGuide() {
+                
+        TTSwiftMessages().info(title: "歡迎來到 Tastopia", body: "這裡有各式各樣的美食任務\n等著你去探索、品嚐、紀錄\n來看看目前有哪些美食任務吧\n", icon: nil, buttonTitle: "下一步", handler: { [weak self] in
+            
+            self?.mapView.animate(to: GMSCameraPosition(latitude: 25.042213, longitude: 121.563074, zoom: 15))
+            
+            TTSwiftMessages().info(title: "尋找任務", body: "滑動地圖的時候\n你會發現地圖上有幾處被照亮的地方\n那就是任務所在的位置\n", icon: nil, buttonTitle: "下一步", handler: {
+                
+                self?.mapView.animate(toZoom: 17)
+                
+                TTSwiftMessages().info(title: "尋找任務", body: "放大地圖後\n可以更清楚的看到任務位置\n", icon: nil, buttonTitle: "下一步", handler: {
+                    
+                    // MARK: 可加點擊動畫
+                    self?.taskView.isHidden = false
+                    let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
+                        self?.taskViewBottomConstraint.constant = 0
+                        self?.view.layoutIfNeeded()
+                    }
+                    animator.addCompletion { _ in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            TTSwiftMessages().info(title: "查看任務", body: "點擊地圖上的任務圖案\n會彈出任務視窗\n顯示任務的基本訊息\n", icon: nil, buttonTitle: "下一步", handler: {
+                                
+                                self?.shadowContainView.isHidden = false
+                                self?.shadowLeftView.isHidden = true
+
+                                TTSwiftMessages().info(title: "任務紀錄", body: "顯示之前的任務紀錄\n也可以查看別人的紀錄\n", icon: nil, buttonTitle: "下一步", handler: {
+                                    
+                                    self?.shadowLeftView.isHidden = false
+                                    self?.shadowRightView.isHidden = true
+                                    
+                                    TTSwiftMessages().info(title: "任務內容", body: "顯示詳細的任務內容\n也是執行任務的地方\n", icon: nil, buttonTitle: "下一步", handler: {
+                                        
+                                        self?.shadowContainView.isHidden = true
+                                        self?.shadowRightView.isHidden = false
+                                        
+                                        TTSwiftMessages().info(title: "準備好了嗎？", body: "按下開始進入 Tastopia !!\n", icon: nil, buttonTitle: "開始", handler: {
+                                            
+                                            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
+                                                guard let strongSelf = self else { return }
+                                                strongSelf.taskViewBottomConstraint.constant = strongSelf.taskView.frame.height
+                                                strongSelf.view.layoutIfNeeded()
+                                            }
+                                            animator.addCompletion { _ in
+                                                self?.taskView.isHidden = true
+                                                
+                                                guard let location = self?.mapView.myLocation?.coordinate else { return }
+                                                self?.mapView.animate(to: GMSCameraPosition(target: location, zoom: 15))
+                                                
+                                            }
+                                            animator.startAnimation()
+                                        })
+                                    })
+                                    
+                                })
+                            })
+                        }
+                    }
+                    animator.startAnimation()
+                })
+            })
+        })
+    }
 }
 
 extension HomeViewController: GMSMapViewDelegate {
@@ -242,23 +309,31 @@ extension HomeViewController: GMSMapViewDelegate {
             taskAddressLabel.text = restaurantData.restaurant.address
             taskPhoneLabel.text = restaurantData.restaurant.phone
         }
-        
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
-            self?.taskViewBottomConstraint.constant = 0
-            self?.view.layoutIfNeeded()
+        if taskView.isHidden {
+            taskView.isHidden = false
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
+                self?.taskViewBottomConstraint.constant = 0
+                self?.view.layoutIfNeeded()
+            }
+            animator.startAnimation()
         }
-        animator.startAnimation()
         
         return false
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.taskViewBottomConstraint.constant = -strongSelf.taskView.frame.height
-            strongSelf.view.layoutIfNeeded()
+        if !taskView.isHidden {
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.taskViewBottomConstraint.constant = strongSelf.taskView.frame.height
+                strongSelf.view.layoutIfNeeded()
+            }
+            animator.addCompletion { [weak self] _ in
+                self?.taskView.isHidden = true
+            }
+            animator.startAnimation()
         }
-        animator.startAnimation()
+        
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
@@ -274,6 +349,12 @@ extension HomeViewController: GMSMapViewDelegate {
 extension HomeViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        // taipei main station
+        // (25.047811, 121.517019)
+        
+        // AppWorks School
+        // (25.042451, 121.564920)
         
         let location = locations.last!
         

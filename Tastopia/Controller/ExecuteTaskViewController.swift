@@ -116,13 +116,13 @@ class ExecuteTaskViewController: UIViewController {
         
         // composition fail
         if composition.trimmingCharacters(in: .whitespacesAndNewlines).count < task.composition {
-            TTSwiftMessages().checkTaskError(body: "字數不足")
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "字數不足")
             return
         }
         
         // media fail
         if selectedMedias.count < task.media {
-            TTSwiftMessages().checkTaskError(body: "照片、影片不足")
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "照片、影片不足")
             return
         }
         
@@ -132,7 +132,7 @@ class ExecuteTaskViewController: UIViewController {
         
         // distance > 10 meters
         if distanceMeter > 10 {
-            TTSwiftMessages().checkTaskError(body: "地點錯誤")
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "地點錯誤")
             return
         }
         
@@ -190,7 +190,7 @@ class ExecuteTaskViewController: UIViewController {
             TTSwiftMessages().hide()
             
             strongSelf.dismiss(animated: true, completion: { [weak self] in
-                TTSwiftMessages().success(title: "上傳成功", body: "")
+                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "上傳成功", body: "")
                 self?.setStatusImage?()
             })
         }
