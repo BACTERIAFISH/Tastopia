@@ -26,6 +26,7 @@
 		CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */; };
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
+		CF18DDB9240407140038E2A9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF18DDB8240407140038E2A9 /* ProfileViewController.swift */; };
 		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
 		CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */; };
 		CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */; };
@@ -63,7 +64,6 @@
 		CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */; };
 		CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */; };
 		CFD07B7123F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */; };
-		CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */; };
 		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -86,6 +86,7 @@
 		CF12236923E26C92004A41B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF18DDB8240407140038E2A9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskViewController.swift; sourceTree = "<group>"; };
 		CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -123,7 +124,6 @@
 		CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentImageTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCompositionTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentAgreeTableViewCell.swift; sourceTree = "<group>"; };
-		CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResponseViewController.swift; sourceTree = "<group>"; };
 		CFDC910623EC02C900A45F23 /* ResponseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseProvider.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Regular.otf"; sourceTree = "<group>"; };
@@ -185,10 +185,10 @@
 				CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */,
 				CF2A94A023E96A4A0056B532 /* TaskRecordViewController.swift */,
 				CF2A94AB23EA701B0056B532 /* RecordContentViewController.swift */,
-				CFDC910423EB9BD000A45F23 /* RecordResponseViewController.swift */,
 				CF4B522823F7E3250006B07B /* QRCodeViewController.swift */,
 				CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */,
 				CF031D7423FE24030013B179 /* SelectImageViewController.swift */,
+				CF18DDB8240407140038E2A9 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -504,7 +504,6 @@
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
-				CFDC910523EB9BD000A45F23 /* RecordResponseViewController.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
@@ -526,6 +525,7 @@
 				CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */,
 				CF031D7523FE24030013B179 /* SelectImageViewController.swift in Sources */,
 				CFD07B7123F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift in Sources */,
+				CF18DDB9240407140038E2A9 /* ProfileViewController.swift in Sources */,
 				CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */,
 				CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */,
 			);

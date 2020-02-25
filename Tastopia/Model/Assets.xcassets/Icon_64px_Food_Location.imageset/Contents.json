@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Icon_16px_Dot@1x.png",
+      "filename" : "Icon_64px_Food_Location@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon_16px_Dot@2x.png",
+      "filename" : "Icon_64px_Food_Location@2x.png",
       "scale" : "2x"
     },
     {

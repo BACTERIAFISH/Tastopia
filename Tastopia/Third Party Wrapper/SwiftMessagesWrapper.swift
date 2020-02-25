@@ -126,14 +126,14 @@ class TTSwiftMessages {
         }
     }
     
-    func info(title: String?, body: String?, icon: UIImage?, buttonTitle: String?, handler: (() -> Void)?) {
+    func info(title: String?, body: String?, icon: UIImage?, buttonTitle: String?, backgroundColor: UIColor = .white, foregroundColor: UIColor = UIColor.SUMI!, handler: (() -> Void)?) {
         
         let view = MessageView.viewFromNib(layout: .centeredView)
         view.configureContent(title: title, body: body, iconImage: icon, iconText: nil, buttonImage: nil, buttonTitle: buttonTitle, buttonTapHandler: { _ in
             SwiftMessages.hide()
             handler?()
         })
-        view.configureTheme(backgroundColor: .white, foregroundColor: UIColor.SUMI!)
+        view.configureTheme(backgroundColor: backgroundColor, foregroundColor: foregroundColor)
         view.titleLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 20)
         view.bodyLabel?.font = UIFont(name: "NotoSansTC-Regular", size: 18)
         view.bodyLabel?.textAlignment = .left

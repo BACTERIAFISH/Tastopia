@@ -96,13 +96,37 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if UserDefaults.standard.integer(forKey: "userStatus") == 0 {
-//            gameGuide()
+            gameGuide()
         }
         
     }
     
     @IBAction func userButtonPressed(_ sender: UIButton) {
         
+        guard let profileVC = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { return }
+        
+        profileVC.user = UserProvider.shared.userData
+
+        profileVC.showGameGuide = { [weak self] in
+            guard let strongSelf = self else { return }
+            if !strongSelf.taskView.isHidden {
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
+                    strongSelf.taskViewBottomConstraint.constant = strongSelf.taskView.frame.height
+                    strongSelf.view.layoutIfNeeded()
+                }
+                animator.addCompletion { _ in
+                    strongSelf.taskView.isHidden = true
+                    strongSelf.gameGuide()
+                }
+                animator.startAnimation()
+            } else {
+                strongSelf.gameGuide()
+            }
+        }
+        
+        profileVC.modalPresentationStyle = .overFullScreen
+        present(profileVC, animated: false)
+
     }
     
     @IBAction func taskButtonPressed(_ sender: UIButton) {
@@ -133,27 +157,6 @@ class HomeViewController: UIViewController {
         present(navigationVC, animated: true)
     }
     
-    @IBAction func signOutPress(_ sender: Any) {
-        signOut()
-    }
-    
-    func signOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            print("sign out")
-            
-            UserDefaults.standard.removeObject(forKey: "uid")
-            
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
-            
-            appDelegate.window?.rootViewController = loginVC
-            
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
-    }
-    
     func checkLocationAuth() {
         let locationAuthStatus = CLLocationManager.authorizationStatus()
         switch locationAuthStatus {
@@ -178,20 +181,21 @@ class HomeViewController: UIViewController {
     @objc func getTaskRestaurant() {
         RestaurantProvider().getTaskRestaurant { [weak self] (result) in
             guard let strongSelf = self else { return }
+            guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
             
             switch result {
             case .success(let restaurants):
-                
-                var markerPositions = [CLLocationCoordinate2D]()
                 
                 for restaurant in restaurants {
                     let marker = GMSMarker()
                     marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
                     
-                    markerPositions.append(marker.position)
-                    
                     marker.title = restaurant.name
-                    let icon = UIImage.asset(.Icon_16px_Dot_Flat)
+                    
+                    var icon = UIImage.asset(.Icon_16px_Dot_Flat)
+                    if passRestaurant.contains(restaurant.number) {
+                        icon = UIImage.asset(.Icon_16px_Dot_Flat_Black)
+                    }
                     marker.icon = icon
                     //marker.snippet = "iOS"
                     marker.map = self?.mapView
@@ -201,7 +205,7 @@ class HomeViewController: UIViewController {
                     
                 }
                 
-                MapProvider().createMapHollowPolygon(map: strongSelf.mapView, holes: markerPositions)
+                MapProvider().createMapHollowPolygon(map: strongSelf.mapView, restaurants: restaurants)
                 
             case .failure(let error):
                 print("getTaskRestaurant error: \(error)")
@@ -237,7 +241,7 @@ class HomeViewController: UIViewController {
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             
-                            TTSwiftMessages().info(title: "查看任務", body: "點擊地圖上的任務圖案\n會彈出任務視窗\n顯示任務的基本訊息\n", icon: nil, buttonTitle: "下一步", handler: {
+                            TTSwiftMessages().info(title: "選擇任務", body: "點擊地圖上的任務圖案\n會彈出任務視窗\n顯示任務的基本訊息\n", icon: nil, buttonTitle: "下一步", handler: {
                                 
                                 self?.shadowContainView.isHidden = false
                                 self?.shadowLeftView.isHidden = true
@@ -247,11 +251,13 @@ class HomeViewController: UIViewController {
                                     self?.shadowLeftView.isHidden = false
                                     self?.shadowRightView.isHidden = true
                                     
-                                    TTSwiftMessages().info(title: "任務內容", body: "顯示詳細的任務內容\n也是執行任務的地方\n", icon: nil, buttonTitle: "下一步", handler: {
+                                    TTSwiftMessages().info(title: "查看任務", body: "顯示詳細的任務內容\n也是執行任務的地方\n", icon: nil, buttonTitle: "下一步", handler: {
                                         
                                         self?.shadowRightView.isHidden = false
                                         
                                         TTSwiftMessages().info(title: "準備好了嗎？", body: "按下開始進入 Tastopia !!\n", icon: nil, buttonTitle: "開始", handler: {
+                                            
+                                            UserDefaults.standard.set(1, forKey: "userStatus")
                                             
                                             self?.shadowTopView.isHidden = true
                                             self?.shadowContainView.isHidden = true
@@ -286,19 +292,26 @@ class HomeViewController: UIViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-
-        if mapView.camera.zoom >= 17, markIconSize != .large {
+        guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
+        
+        if mapView.camera.zoom >= 19, markIconSize != .large {
             markIconSize = .large
             for restaurantData in restaurantDatas {
-                let icon = UIImage.asset(.Icon_64px_Itsukushima)
+                var icon = UIImage.asset(.Icon_128px_Food_Location)
+                if passRestaurant.contains(restaurantData.restaurant.number) {
+                    icon = UIImage.asset(.Icon_128px_Food_Location_Black)
+                }
                 restaurantData.marker.icon = icon
             }
         }
         
-        if mapView.camera.zoom < 17, mapView.camera.zoom > 15, markIconSize != .medium {
+        if mapView.camera.zoom < 19, mapView.camera.zoom > 15, markIconSize != .medium {
             markIconSize = .medium
             for restaurantData in restaurantDatas {
-                let icon = UIImage.asset(.Icon_32px_Itsukushima)
+                var icon = UIImage.asset(.Icon_64px_Food_Location)
+                if passRestaurant.contains(restaurantData.restaurant.number) {
+                    icon = UIImage.asset(.Icon_64px_Food_Location_Black)
+                }
                 restaurantData.marker.icon = icon
             }
         }
@@ -306,7 +319,10 @@ extension HomeViewController: GMSMapViewDelegate {
         if mapView.camera.zoom <= 15, markIconSize != .small {
             markIconSize = .small
             for restaurantData in restaurantDatas {
-                let icon = UIImage.asset(.Icon_16px_Dot_Flat)
+                var icon = UIImage.asset(.Icon_16px_Dot_Flat)
+                if passRestaurant.contains(restaurantData.restaurant.number) {
+                    icon = UIImage.asset(.Icon_16px_Dot_Flat_Black)
+                }
                 restaurantData.marker.icon = icon
             }
         }

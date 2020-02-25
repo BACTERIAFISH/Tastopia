@@ -9,6 +9,7 @@
 import UIKit
 import MobileCoreServices
 import AVFoundation
+import collection_view_layouts
 
 enum SortMethod: String {
     case agree = "中肯"
@@ -53,6 +54,12 @@ class TaskRecordViewController: UIViewController {
         
         taskRecordPublicCollectionView.dataSource = self
         taskRecordPublicCollectionView.delegate = self
+        
+        // MARK: collection-view-layouts
+        let layout = InstagramLayout()
+        layout.delegate = self
+        layout.cellsPadding = ItemsPadding(horizontal: 1, vertical: 1)
+        taskRecordPublicCollectionView.collectionViewLayout = layout
         
     }
     
@@ -174,19 +181,19 @@ extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width
-        return CGSize(width: width / 3 - 2, height: width / 3 - 2)
+        return CGSize(width: width / 2 - 7.5, height: width / 2  - 7.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+        return UIEdgeInsets(top: 1, left: 5, bottom: 5, right: 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        1
+        5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        1
+        5
     }
     
 }
@@ -260,6 +267,15 @@ extension TaskRecordViewController: UICollectionViewDelegate {
         }
         
         show(vc, sender: nil)
+    }
+    
+}
+
+// MARK: collection-view-layouts
+extension TaskRecordViewController: LayoutDelegate {
+    
+    func cellSize(indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 10, height: 10)
     }
     
 }

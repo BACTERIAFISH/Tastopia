@@ -97,6 +97,26 @@ class UserProvider {
         }
     }
     
+    func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            print("sign out")
+            
+            UserDefaults.standard.removeObject(forKey: "uid")
+            UserDefaults.standard.removeObject(forKey: "userStatus")
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+            
+            appDelegate.window?.rootViewController = loginVC
+            
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
     func checkUserTasks() {
         
         guard let userData = userData else {

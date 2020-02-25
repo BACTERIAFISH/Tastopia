@@ -24,5 +24,6 @@ target 'Tastopia' do
   pod 'JGProgressHUD'
   pod 'SwiftLint'
   pod 'SwiftMessages'
+  pod 'collection-view-layouts'
 
 end
