@@ -35,6 +35,8 @@ class TaskRecordViewController: UIViewController {
     
     @IBOutlet weak var taskRecordPublicCollectionView: UICollectionView!
     
+    @IBOutlet weak var EmptyView: UIView!
+    
     var restaurant: Restaurant?
     
     let writingProvider = WritingProvider()
@@ -74,6 +76,7 @@ class TaskRecordViewController: UIViewController {
                 strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == user.uid })
                 strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != user.uid })
                 strongSelf.sortRecord()
+                
             case .failure(let error):
                 print("getWritings error: \(error)")
             }
@@ -105,6 +108,7 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
+        EmptyView.isHidden = true
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
         
@@ -119,10 +123,14 @@ class TaskRecordViewController: UIViewController {
             strongSelf.personalCollectionViewTrailingConstraint.constant = 0
             strongSelf.view.layoutIfNeeded()
         }
+        animator.addCompletion { [weak self] _ in
+            self?.toggleEmptyView()
+        }
         animator.startAnimation()
     }
     
     @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
+        EmptyView.isHidden = true
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
         
@@ -137,6 +145,9 @@ class TaskRecordViewController: UIViewController {
             self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
             self?.view.layoutIfNeeded()
         }
+        animator.addCompletion { [weak self] _ in
+            self?.toggleEmptyView()
+        }
         animator.startAnimation()
     }
     
@@ -148,6 +159,8 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
+        EmptyView.isHidden = true
+        
         guard let user = UserProvider.shared.userData else { return }
         
         personalWritings = personalWritingsOrigin
@@ -170,10 +183,23 @@ class TaskRecordViewController: UIViewController {
         }
         taskRecordPersonalCollectionView.reloadData()
         taskRecordPublicCollectionView.reloadData()
+        toggleEmptyView()
     }
     
     func countAgreeRatio(agree: Int, disagree: Int) -> Float {
          return Float(agree) / (Float(agree) + Float(disagree))
+    }
+    
+    func toggleEmptyView() {
+        if personalCollectionViewTrailingConstraint.constant == 0 {
+            if personalWritings.isEmpty {
+                EmptyView.isHidden = false
+            }
+        } else {
+            if publicWritings.isEmpty {
+                EmptyView.isHidden = false
+            }
+        }
     }
 }
 
@@ -213,7 +239,7 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
+        cell.imageView.image = UIImage.asset(.Image_Tastopia_01_square)
         cell.playerLooper = nil
         cell.movieView.isHidden = true
         
@@ -226,7 +252,7 @@ extension TaskRecordViewController: UICollectionViewDataSource {
         if let writing = writing {
             if !writing.medias.isEmpty {
                 if writing.mediaTypes[0] == kUTTypeImage as String {
-                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_256px_Picture))
+                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Image_Tastopia_01_square))
                 } else if writing.mediaTypes[0] == kUTTypeMovie as String {
                     cell.urlString = writing.medias[0]
                 }

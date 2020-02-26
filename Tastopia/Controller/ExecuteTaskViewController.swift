@@ -220,7 +220,7 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
+            cell.imageView.image = UIImage.asset(.Image_Tastopia_01_square)
             cell.playerLooper = nil
             
             let media = selectedMedias[indexPath.item]

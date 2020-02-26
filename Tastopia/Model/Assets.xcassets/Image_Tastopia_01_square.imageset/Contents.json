@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Icon_64px_Cutlery@1x.png",
+      "filename" : "Image_Tastopia_01_square.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon_64px_Cutlery@2x.png",
       "scale" : "2x"
     },
     {

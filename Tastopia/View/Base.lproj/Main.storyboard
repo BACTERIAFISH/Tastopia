@@ -349,9 +349,32 @@
                                     <constraint firstAttribute="width" constant="88" id="cxt-Bj-ych"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b88-ma-NxE">
+                                <rect key="frame" x="0.0" y="136" width="414" height="726"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01" translatesAutoresizingMaskIntoConstraints="NO" id="prj-UX-jcw">
+                                        <rect key="frame" x="0.0" y="145" width="414" height="218"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前沒有紀錄可以顯示" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPD-ER-62z">
+                                        <rect key="frame" x="107" y="363" width="200" height="30"/>
+                                        <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
+                                        <color key="textColor" name="SUMI"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="prj-UX-jcw" secondAttribute="trailing" id="33A-rt-WQo"/>
+                                    <constraint firstItem="prj-UX-jcw" firstAttribute="height" secondItem="b88-ma-NxE" secondAttribute="height" multiplier="0.3" id="A1b-vm-ktI"/>
+                                    <constraint firstItem="DPD-ER-62z" firstAttribute="top" secondItem="b88-ma-NxE" secondAttribute="centerY" id="KPq-mu-NDA"/>
+                                    <constraint firstItem="prj-UX-jcw" firstAttribute="leading" secondItem="b88-ma-NxE" secondAttribute="leading" id="R4b-yU-FWS"/>
+                                    <constraint firstItem="DPD-ER-62z" firstAttribute="centerX" secondItem="b88-ma-NxE" secondAttribute="centerX" id="Rfp-9a-bHB"/>
+                                    <constraint firstItem="prj-UX-jcw" firstAttribute="bottom" secondItem="b88-ma-NxE" secondAttribute="centerY" id="bDP-4D-ffa"/>
+                                </constraints>
+                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V3k-Lb-fHY">
                                 <rect key="frame" x="0.0" y="135" width="414" height="727"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="aCg-ka-0on">
                                     <size key="itemSize" width="203" height="213"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -366,7 +389,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="203" height="213"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_256px_Picture" translatesAutoresizingMaskIntoConstraints="NO" id="Ffh-bI-fIm">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01_square" translatesAutoresizingMaskIntoConstraints="NO" id="Ffh-bI-fIm">
                                                     <rect key="frame" x="0.0" y="0.0" width="203" height="213"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IrE-D4-mdK">
@@ -374,10 +397,10 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="517-Tf-79N">
-                                                    <rect key="frame" x="0.0" y="182" width="59.5" height="31"/>
+                                                    <rect key="frame" x="0.0" y="177" width="67" height="36"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vD5-Iv-AYb">
-                                                            <rect key="frame" x="5" y="5" width="44.5" height="21"/>
+                                                            <rect key="frame" x="5" y="5" width="52" height="26"/>
                                                             <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
                                                             <color key="textColor" name="SHIRONERI"/>
                                                             <nil key="highlightedColor"/>
@@ -426,7 +449,7 @@
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="87N-BW-jR6">
                                 <rect key="frame" x="-414" y="135" width="414" height="727"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fSV-TY-ab2">
                                     <size key="itemSize" width="200" height="195"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -449,10 +472,10 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o4E-b4-8ib">
-                                                    <rect key="frame" x="0.0" y="164" width="59.5" height="31"/>
+                                                    <rect key="frame" x="0.0" y="159" width="67" height="36"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-j0-eTv">
-                                                            <rect key="frame" x="5" y="5" width="44.5" height="21"/>
+                                                            <rect key="frame" x="5" y="5" width="52" height="26"/>
                                                             <fontDescription key="fontDescription" name="NotoSerifTC-Black" family="Noto Serif TC" pointSize="18"/>
                                                             <color key="textColor" name="SHIRONERI"/>
                                                             <nil key="highlightedColor"/>
@@ -500,16 +523,20 @@
                                 </cells>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="0Jg-NV-bfi" firstAttribute="bottom" secondItem="b88-ma-NxE" secondAttribute="bottom" id="7gc-88-7zT"/>
                             <constraint firstItem="0Jg-NV-bfi" firstAttribute="trailing" secondItem="czl-yB-w35" secondAttribute="trailing" id="GET-IG-l9J"/>
                             <constraint firstItem="czl-yB-w35" firstAttribute="leading" secondItem="0Jg-NV-bfi" secondAttribute="leading" id="GYJ-LO-hgK"/>
+                            <constraint firstItem="b88-ma-NxE" firstAttribute="leading" secondItem="0Jg-NV-bfi" secondAttribute="leading" id="Jaz-Ff-ngl"/>
                             <constraint firstItem="87N-BW-jR6" firstAttribute="bottom" secondItem="V3k-Lb-fHY" secondAttribute="bottom" id="K1b-zM-arD"/>
                             <constraint firstItem="czl-yB-w35" firstAttribute="top" secondItem="0Jg-NV-bfi" secondAttribute="top" id="Mlo-sR-NMp"/>
+                            <constraint firstItem="b88-ma-NxE" firstAttribute="top" secondItem="czl-yB-w35" secondAttribute="bottom" id="UL0-E1-Bnl"/>
                             <constraint firstItem="czl-yB-w35" firstAttribute="bottom" secondItem="V3k-Lb-fHY" secondAttribute="top" constant="1" id="WkJ-GR-kQj"/>
                             <constraint firstItem="V3k-Lb-fHY" firstAttribute="trailing" secondItem="0Jg-NV-bfi" secondAttribute="trailing" id="fb1-hG-em1"/>
                             <constraint firstItem="87N-BW-jR6" firstAttribute="trailing" secondItem="V3k-Lb-fHY" secondAttribute="leading" id="fgJ-jB-liX"/>
                             <constraint firstItem="87N-BW-jR6" firstAttribute="top" secondItem="V3k-Lb-fHY" secondAttribute="top" id="fqc-2E-SN2"/>
+                            <constraint firstItem="0Jg-NV-bfi" firstAttribute="trailing" secondItem="b88-ma-NxE" secondAttribute="trailing" id="gzy-GD-Mp6"/>
                             <constraint firstItem="V3k-Lb-fHY" firstAttribute="width" secondItem="jrV-os-h5d" secondAttribute="width" id="hNO-kq-MP9"/>
                             <constraint firstItem="0Jg-NV-bfi" firstAttribute="bottom" secondItem="V3k-Lb-fHY" secondAttribute="bottom" id="iZO-RH-IiF"/>
                             <constraint firstItem="87N-BW-jR6" firstAttribute="width" secondItem="V3k-Lb-fHY" secondAttribute="width" id="k1E-D4-rWt"/>
@@ -552,6 +579,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="EmptyView" destination="b88-ma-NxE" id="jy3-Wy-kp9"/>
                         <outlet property="indicatorView" destination="6FK-1w-GSM" id="OeA-fX-4ei"/>
                         <outlet property="indicatorViewLeadingConstraint" destination="vfw-jl-pWX" id="BYb-E3-Qa2"/>
                         <outlet property="personalCollectionViewTrailingConstraint" destination="fb1-hG-em1" id="14q-FN-67Q"/>
@@ -676,7 +704,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="270" height="198"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_256px_Picture" translatesAutoresizingMaskIntoConstraints="NO" id="uAL-vE-JPX">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01_square" translatesAutoresizingMaskIntoConstraints="NO" id="uAL-vE-JPX">
                                                                         <rect key="frame" x="40" y="0.0" width="190" height="198"/>
                                                                     </imageView>
                                                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AnX-p2-0dn">
@@ -1520,7 +1548,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_256px_Picture" translatesAutoresizingMaskIntoConstraints="NO" id="lwc-lD-4iQ">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01_square" translatesAutoresizingMaskIntoConstraints="NO" id="lwc-lD-4iQ">
                                                     <rect key="frame" x="0.0" y="10" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="lwc-lD-4iQ" secondAttribute="height" multiplier="1:1" id="X1Q-5m-fzJ"/>
@@ -1886,6 +1914,7 @@
         <image name="Image_Info" width="767" height="767"/>
         <image name="Image_Task_Content" width="2300" height="712"/>
         <image name="Image_Tastopia_01" width="1330" height="589"/>
+        <image name="Image_Tastopia_01_square" width="500" height="500"/>
         <image name="Image_Uploaded" width="1428" height="784"/>
         <namedColor name="AKABENI">
             <color red="0.79607843137254897" green="0.25098039215686274" blue="0.25882352941176473" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
