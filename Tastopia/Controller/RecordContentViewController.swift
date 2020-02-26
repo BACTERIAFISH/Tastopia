@@ -132,8 +132,8 @@ class RecordContentViewController: UIViewController {
             case .success(let responsesData):
                 strongSelf.responses = responsesData
                 var indexPaths = [IndexPath]()
-                for i in 0..<responsesData.count {
-                    indexPaths.append(IndexPath(item: i, section: 1))
+                for index in 0..<responsesData.count {
+                    indexPaths.append(IndexPath(item: index, section: 1))
                 }
                 self?.recordTableView.insertRows(at: indexPaths, with: .automatic)
             case .failure(let error):

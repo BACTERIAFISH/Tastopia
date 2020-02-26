@@ -37,15 +37,15 @@ class MapProvider {
             let path = GMSMutablePath()
             let latitude = restaurant.position.latitude + 0.0003
             let longitude = restaurant.position.longitude
-            var r = 0.001
+            var radius = 0.001
             if passRestaurants.contains(restaurant.number) {
-                r = 0.0014
+                radius = 0.0014
             }
             
-            for i in stride(from: 0, to: 360, by: 10) {
+            for index in stride(from: 0, to: 360, by: 10) {
                 
-                let radian = Double(i) * Double.pi / 180
-                path.addLatitude(latitude + r * sin(radian), longitude: longitude + r * cos(radian))
+                let radian = Double(index) * Double.pi / 180
+                path.addLatitude(latitude + radius * sin(radian), longitude: longitude + radius * cos(radian))
                 
             }
             

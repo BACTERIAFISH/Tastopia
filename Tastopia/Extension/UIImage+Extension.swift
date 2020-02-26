@@ -9,6 +9,7 @@
 import UIKit
 
 enum ImageAsset: String {
+    // swiftlint:disable identifier_name
     
 //    case Icon_64px_Itsukushima
 //    case Icon_32px_Itsukushima
@@ -55,6 +56,7 @@ enum ImageAsset: String {
     
     case Image_Tastopia_01_square
 
+    // swiftlint:enable identifier_name
 }
 
 extension UIImage {

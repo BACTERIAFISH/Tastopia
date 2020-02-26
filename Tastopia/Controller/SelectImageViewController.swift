@@ -79,8 +79,8 @@ class SelectImageViewController: UIViewController {
         
         if fetchResult.count > 0, fetchStartIndex != fetchEndIndex {
             
-            for i in fetchStartIndex..<fetchEndIndex {
-                imgManager.requestImage(for: fetchResult.object(at: i), targetSize: CGSize(width: 500, height: 500), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
+            for index in fetchStartIndex..<fetchEndIndex {
+                imgManager.requestImage(for: fetchResult.object(at: index), targetSize: CGSize(width: 500, height: 500), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
                     
                     if let image = image {
                         self?.images.append(image)

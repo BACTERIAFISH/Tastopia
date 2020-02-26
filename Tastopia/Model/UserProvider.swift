@@ -151,10 +151,10 @@ class UserProvider {
                         switch result {
                         case .success(let taskTypes):
                             var tasks = [TaskData]()
-                            for i in 0..<userData.taskNumber + 3 {
+                            for index in 0..<userData.taskNumber + 3 {
                                 guard let taskType = taskTypes.randomElement() else { return }
                                 let ref = FirestoreManager.shared.db.collection("Users").document(userData.uid).collection("Tasks").document()
-                                let task = TaskData(documentID: ref.documentID, restaurantNumber: i, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
+                                let task = TaskData(documentID: ref.documentID, restaurantNumber: index, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
                                 tasks.append(task)
                                 
                                 FirestoreManager.shared.addCustomData(docRef: ref, data: task)

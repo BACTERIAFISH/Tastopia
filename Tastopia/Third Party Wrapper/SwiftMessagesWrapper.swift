@@ -126,7 +126,7 @@ class TTSwiftMessages {
         }
     }
     
-    func info(title: String?, body: String?, icon: UIImage?, buttonTitle: String?, backgroundColor: UIColor = .white, foregroundColor: UIColor = UIColor.SUMI!, handler: (() -> Void)?) {
+    func info(title: String?, body: String?, icon: UIImage?, buttonTitle: String?, backgroundColor: UIColor = .white, foregroundColor: UIColor = UIColor.SUMI!, isStatusBarLight: Bool = true, handler: (() -> Void)?) {
         
         let view = MessageView.viewFromNib(layout: .centeredView)
         view.configureContent(title: title, body: body, iconImage: icon, iconText: nil, buttonImage: nil, buttonTitle: buttonTitle, buttonTapHandler: { _ in
@@ -151,6 +151,10 @@ class TTSwiftMessages {
         config.dimMode = .color(color: .clear, interactive: false)
         config.duration = .forever
         config.interactiveHide = false
+        
+        if isStatusBarLight {
+            config.preferredStatusBarStyle = .lightContent
+        }
         
         SwiftMessages.show(config: config, view: view)
     }

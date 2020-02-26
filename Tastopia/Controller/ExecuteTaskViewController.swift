@@ -144,13 +144,13 @@ class ExecuteTaskViewController: UIViewController {
         guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
         let group = DispatchGroup()
-        for (i, media) in selectedMedias.enumerated() {
+        for (index, media) in selectedMedias.enumerated() {
             group.enter()
             if media.mediaType == kUTTypeImage as String, let image = media.image {
                 FirestoreManager.shared.uploadImage(image: image) { [weak self]  (result) in
                     switch result {
                     case .success(let urlString):
-                        self?.selectedMedias[i].urlString = urlString
+                        self?.selectedMedias[index].urlString = urlString
                         group.leave()
                     case .failure(let error):
                         print("submitTask error: \(error)")
@@ -161,7 +161,7 @@ class ExecuteTaskViewController: UIViewController {
                 FirestoreManager.shared.uploadVideo(url: url) { [weak self] (result) in
                     switch result {
                     case .success(let urlString):
-                        self?.selectedMedias[i].urlString = urlString
+                        self?.selectedMedias[index].urlString = urlString
                         group.leave()
                     case .failure(let error):
                         print("submitTask error: \(error)")
@@ -200,8 +200,8 @@ class ExecuteTaskViewController: UIViewController {
         guard let user = UserProvider.shared.userData, var task = task else { return }
         task.status = 1
         passTask?(task)
-        for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].documentID == task.documentID {
-            UserProvider.shared.userTasks[i].status = 1
+        for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].documentID == task.documentID {
+            UserProvider.shared.userTasks[index].status = 1
         }
         let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
         FirestoreManager.shared.addData(docRef: ref, data: ["status": 1])

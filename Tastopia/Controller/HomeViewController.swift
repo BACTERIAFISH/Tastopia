@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
 
-    @IBOutlet weak var UserButton: UIButton!
+    @IBOutlet weak var userButton: UIButton!
     
     @IBOutlet weak var taskView: UIView!
     @IBOutlet weak var taskButton: UIButton!
@@ -35,6 +35,10 @@ class HomeViewController: UIViewController {
     var restaurantDatas = [RestaurantData]()
     var currentRestaurantData: RestaurantData?
     var currentUserTask: TaskData?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func loadView() {
         super.loadView()
@@ -71,7 +75,7 @@ class HomeViewController: UIViewController {
         locationManager.startUpdatingLocation()
         
         view.layoutIfNeeded()
-        UserButton.layer.cornerRadius = 30
+        userButton.layer.cornerRadius = 30
         taskViewBottomConstraint.constant = taskView.layer.frame.height
         
         taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

@@ -35,7 +35,7 @@ class TaskRecordViewController: UIViewController {
     
     @IBOutlet weak var taskRecordPublicCollectionView: UICollectionView!
     
-    @IBOutlet weak var EmptyView: UIView!
+    @IBOutlet weak var emptyView: UIView!
     
     var restaurant: Restaurant?
     
@@ -108,7 +108,7 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
-        EmptyView.isHidden = true
+        emptyView.isHidden = true
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
         
@@ -130,7 +130,7 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
-        EmptyView.isHidden = true
+        emptyView.isHidden = true
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
         
@@ -159,7 +159,7 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
-        EmptyView.isHidden = true
+        emptyView.isHidden = true
         
         guard let user = UserProvider.shared.userData else { return }
         
@@ -193,11 +193,11 @@ class TaskRecordViewController: UIViewController {
     func toggleEmptyView() {
         if personalCollectionViewTrailingConstraint.constant == 0 {
             if personalWritings.isEmpty {
-                EmptyView.isHidden = false
+                emptyView.isHidden = false
             }
         } else {
             if publicWritings.isEmpty {
-                EmptyView.isHidden = false
+                emptyView.isHidden = false
             }
         }
     }

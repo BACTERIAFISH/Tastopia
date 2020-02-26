@@ -74,8 +74,8 @@ class TaskContentViewController: UIViewController {
             guard let task = self?.task, let user = UserProvider.shared.userData else { return }
             let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
             ref.updateData(["taskID": newTaskID])
-            for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
-                UserProvider.shared.userTasks[i].taskID = newTaskID
+            for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
+                UserProvider.shared.userTasks[index].taskID = newTaskID
             }
             self?.task?.taskID = newTaskID
             self?.passTask?(self?.task)
@@ -107,8 +107,8 @@ class TaskContentViewController: UIViewController {
                 case .success(let pass):
                     if pass {
                         self?.task?.status = 2
-                        for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
-                            UserProvider.shared.userTasks[i].status = 2
+                        for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
+                            UserProvider.shared.userTasks[index].status = 2
                         }
                         let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                         ref.updateData(["status": 2])
@@ -176,8 +176,8 @@ class TaskContentViewController: UIViewController {
                     let oldRef = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                     oldRef.delete()
                     
-                    for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
-                        UserProvider.shared.userTasks[i] = newTask
+                    for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
+                        UserProvider.shared.userTasks[index] = newTask
                     }
                     
                     self?.passTask?(newTask)
@@ -210,8 +210,8 @@ class TaskContentViewController: UIViewController {
         case 1:
             TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
                 self?.task?.status = 0
-                for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].taskID == task.taskID {
-                    UserProvider.shared.userTasks[i].status = 0
+                for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
+                    UserProvider.shared.userTasks[index].status = 0
                 }
                 let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                 ref.updateData(["status": 0])
@@ -304,18 +304,18 @@ class TaskContentViewController: UIViewController {
         guard let task = task else { return }
         switch task.status {
         case 0:
-            TTSwiftMessages().info(title: "提示", body: "當任務人數超過1人時\n請先用掃描 QRCode 的方式\n同步自己與同伴的任務代碼\n彼此的任務代碼前5碼都相同後\n再開始執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white) {
+            TTSwiftMessages().info(title: "提示", body: "當任務人數超過1人時\n請先用掃描 QRCode 的方式\n同步自己與同伴的任務代碼\n彼此的任務代碼前5碼都相同後\n再開始執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
                 
-                TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white) {
+                TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
                     
                 }
             }
         case 1:
-            TTSwiftMessages().info(title: "提示", body: "多人任務中\n如果全部人都已上傳食記\n卻無法完成任務\n代表上傳的食記任務代碼不一致\n請重新執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white) {
+            TTSwiftMessages().info(title: "提示", body: "多人任務中\n如果全部人都已上傳食記\n卻無法完成任務\n代表上傳的食記任務代碼不一致\n請重新執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white,  isStatusBarLight: false) {
                 
             }
         case 2:
-            TTSwiftMessages().info(title: "提示", body: "完成任務後\n可以繼續挑戰新的任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white) {
+            TTSwiftMessages().info(title: "提示", body: "完成任務後\n可以繼續挑戰新的任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white,  isStatusBarLight: false) {
                 
             }
         default:
