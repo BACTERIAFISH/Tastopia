@@ -10,6 +10,8 @@ import UIKit
 
 class RecordContentViewController: UIViewController {
     
+    @IBOutlet weak var userButtonItem: UIBarButtonItem!
+    
     @IBOutlet weak var recordTableView: UITableView!
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -45,9 +47,17 @@ class RecordContentViewController: UIViewController {
         responseBackgroundView.layer.cornerRadius = 16
         responseBackgroundView.layer.createTTBorder()
         
-        guard let writing = writing else { return }
+        guard let writing = writing, let user = UserProvider.shared.userData else { return }
         
         titleLabel.text = writing.userName
+        
+        if user.uid == writing.uid {
+            userButtonItem.isEnabled = false
+        }
+        
+        navigationController?.navigationBar.tintColor = UIColor.AKABENI!
+        navigationController?.navigationBar.backIndicatorImage = UIImage.asset(.Icon_24px_Left_Arrow)
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage.asset(.Icon_24px_Left_Arrow)
         
         getResponse()
     }
@@ -57,8 +67,20 @@ class RecordContentViewController: UIViewController {
         
     }
     
-    @IBAction func backButtonPressed(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+    @IBAction func userButtonPressed(_ sender: Any) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        //        let seeAction = UIAlertAction(title: "查看作者", style: .default) { (action) in
+        //
+        //        }
+        let blockAction = UIAlertAction(title: "封鎖作者", style: .default) { [weak self] _ in
+            TTSwiftMessages().question(title: "封鎖作者", body: "不再顯示該作者的文章和留言\n確定要封鎖作者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
+                self?.blockAuthor()
+            })
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(blockAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     @IBAction func responseButtonPressed(_ sender: UIButton) {
@@ -124,18 +146,14 @@ class RecordContentViewController: UIViewController {
     }
     
     func getResponse() {
-        guard let documentID = writing?.documentID else { return }
+        guard let documentID = writing?.documentID, let user = UserProvider.shared.userData else { return }
+        
         ResponseProvider().getResponses(documentID: documentID, descending: false) { [weak self] (result) in
-            guard let strongSelf = self else { return }
             
             switch result {
             case .success(let responsesData):
-                strongSelf.responses = responsesData
-                var indexPaths = [IndexPath]()
-                for index in 0..<responsesData.count {
-                    indexPaths.append(IndexPath(item: index, section: 1))
-                }
-                self?.recordTableView.insertRows(at: indexPaths, with: .automatic)
+                self?.responses = responsesData.filter({ !user.blackList.contains($0.uid) })
+                self?.recordTableView.reloadData()
             case .failure(let error):
                 print("getResponses error: \(error)")
             }
@@ -181,6 +199,48 @@ class RecordContentViewController: UIViewController {
         
         recordTableView.scrollToRow(at: IndexPath(item: responses.count - 1, section: 1), at: .bottom, animated: true)
     }
+    
+    func blockAuthor() {
+        
+        guard let writing = writing, let user = UserProvider.shared.userData else { return }
+        
+        TTSwiftMessages().wait(title: "封鎖中")
+        
+        if !user.blackList.contains(writing.uid) {
+            UserProvider.shared.userData?.blackList.append(writing.uid)
+        }
+        
+        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "blackList", data: [writing.uid]) { [weak self] error in
+            if let error = error {
+                print("blockAuthor error: \(error)")
+            }
+            TTSwiftMessages().hideAll()
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func blockResponser(uid: String) {
+        
+        guard var user = UserProvider.shared.userData else { return }
+        
+        TTSwiftMessages().wait(title: "封鎖中")
+        
+        if !user.blackList.contains(uid) {
+            UserProvider.shared.userData?.blackList.append(uid)
+            user.blackList.append(uid)
+        }
+        
+        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "blackList", data: [uid]) { [weak self] error in
+            guard let strongSelf = self else { return }
+            
+            if let error = error {
+                print("blockAuthor error: \(error)")
+            }
+            TTSwiftMessages().hideAll()
+            self?.responses = strongSelf.responses.filter({ !user.blackList.contains($0.uid) })
+            self?.recordTableView.reloadData()
+        }
+    }
 }
 
 extension RecordContentViewController: UITableViewDataSource {
@@ -205,7 +265,7 @@ extension RecordContentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let writing = writing else { return UITableViewCell() }
-
+        
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 
@@ -296,8 +356,34 @@ extension RecordContentViewController: UITableViewDelegate {
         header.contentView.backgroundColor = UIColor.white
         header.textLabel?.font = UIFont(name: "NotoSansTC-Bold", size: 22)
         header.textLabel?.textColor = UIColor.SUMI
-//        header.textLabel?.textAlignment = .center
+        //        header.textLabel?.textAlignment = .center
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let responseUid = responses[indexPath.row].uid
+            if UserProvider.shared.userData?.uid == responseUid {
+                return
+            }
+            
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            //        let seeAction = UIAlertAction(title: "查看留言者", style: .default) { (action) in
+            //
+            //        }
+            let blockAction = UIAlertAction(title: "封鎖留言者", style: .default) { [weak self] _ in
+
+                TTSwiftMessages().question(title: "封鎖留言者", body: "不再顯示該留言者的文章和留言\n確定要封鎖留言者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
+                    
+                    self?.blockResponser(uid: responseUid)
+                })
+            }
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alertController.addAction(blockAction)
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true)
+        }
+    }
+    
 }
 
 extension RecordContentViewController: UITextViewDelegate {

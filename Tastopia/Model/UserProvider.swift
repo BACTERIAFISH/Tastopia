@@ -210,6 +210,7 @@ struct UserData: Codable {
     var disagreeWritings: [String] = []
     var responseWritings: [String] = []
     var passRestaurant: [Int] = []
+    var blackList: [String] = []
 }
 
 struct TaskData: Codable {

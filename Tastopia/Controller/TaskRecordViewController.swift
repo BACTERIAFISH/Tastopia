@@ -63,6 +63,8 @@ class TaskRecordViewController: UIViewController {
         layout.cellsPadding = ItemsPadding(horizontal: 1, vertical: 1)
         taskRecordPublicCollectionView.collectionViewLayout = layout
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -164,7 +166,7 @@ class TaskRecordViewController: UIViewController {
         guard let user = UserProvider.shared.userData else { return }
         
         personalWritings = personalWritingsOrigin
-        publicWritings = publicWritingsOrigin
+        publicWritings = publicWritingsOrigin.filter({ !user.blackList.contains($0.uid) })
         
         switch sortMethod {
         case .agree:

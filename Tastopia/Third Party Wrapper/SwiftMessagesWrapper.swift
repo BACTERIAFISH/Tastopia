@@ -35,6 +35,7 @@ class TTSwiftMessages {
         config.duration = .forever
         config.dimMode = .gray(interactive: false)
         config.interactiveHide = false
+        config.presentationContext = .window(windowLevel: .normal)
         
         SwiftMessages.show(config: config, view: view)
     }

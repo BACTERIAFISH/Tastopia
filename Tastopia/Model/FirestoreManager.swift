@@ -79,10 +79,12 @@ class FirestoreManager {
         }
     }
     
-    func updateArrayData<T: Codable>(collection: String, document: String, field: String, data: [T]) {
+    func updateArrayData<T: Codable>(collection: String, document: String, field: String, data: [T], completion: ((Error?) -> Void)? = { _ in }) {
         db.collection(collection).document(document).updateData([
             field: FieldValue.arrayUnion(data)
-        ])
+        ]) { error in
+            completion?(error)
+        }
     }
     
     func incrementData(collection: String, document: String, field: String, increment: Int64) {
