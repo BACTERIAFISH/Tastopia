@@ -54,6 +54,8 @@ enum ImageAsset: String {
     
     case Image_32px_Cancel
     
+    case Image_Tastopia_01
+    case Image_Tastopia_Placeholder
     case Image_Tastopia_01_square
 
     // swiftlint:enable identifier_name

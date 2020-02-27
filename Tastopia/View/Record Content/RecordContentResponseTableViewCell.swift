@@ -10,6 +10,8 @@ import UIKit
 
 class RecordContentResponseTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var userImageContainView: UIView!
+    @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var responseView: UIView!
@@ -17,13 +19,15 @@ class RecordContentResponseTableViewCell: UITableViewCell {
     
     var response: ResponseData? {
         didSet {
+            guard let response = response else { return }
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            if let date = response?.date {
-                dateLabel.text = formatter.string(from: date)
-            }
-            nameLabel.text = response?.userName
-            responseLabel.text = response?.response
+            dateLabel.text = formatter.string(from: response.date)
+            
+            nameLabel.text = response.userName
+            responseLabel.text = response.response
+            userImageView.loadImage(response.userImagePath, placeHolder: UIImage.asset(.Image_Tastopia_Placeholder))
+            
         }
     }
     
@@ -31,7 +35,9 @@ class RecordContentResponseTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
 //        responseView.layer.cornerRadius = 5
-
+        userImageContainView.layer.cornerRadius = userImageContainView.frame.width / 2
+        userImageContainView.layer.createTTBorder()
+        userImageView.layer.cornerRadius = userImageView.frame.width / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

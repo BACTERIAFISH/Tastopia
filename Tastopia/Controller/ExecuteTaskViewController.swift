@@ -147,7 +147,7 @@ class ExecuteTaskViewController: UIViewController {
         for (index, media) in selectedMedias.enumerated() {
             group.enter()
             if media.mediaType == kUTTypeImage as String, let image = media.image {
-                FirestoreManager.shared.uploadImage(image: image) { [weak self]  (result) in
+                FirestoreManager.shared.uploadImage(image: image, fileName: nil) { [weak self]  (result) in
                     switch result {
                     case .success(let urlString):
                         self?.selectedMedias[index].urlString = urlString
@@ -182,7 +182,7 @@ class ExecuteTaskViewController: UIViewController {
             }
             
             let docRef = FirestoreManager.shared.db.collection("Writings").document()
-            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
+            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, userImagePath: user.imagePath, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
             FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
             
             strongSelf.changeTaskStatus()

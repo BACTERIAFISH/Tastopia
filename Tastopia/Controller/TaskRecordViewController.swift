@@ -50,7 +50,7 @@ class TaskRecordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         taskRecordPersonalCollectionView.dataSource = self
         taskRecordPersonalCollectionView.delegate = self
         
@@ -92,7 +92,7 @@ class TaskRecordViewController: UIViewController {
     @IBAction func sortFilterPressed(_ sender: Any) {
         let ac = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
-              ac.addAction(action1)
+        ac.addAction(action1)
         let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
         ac.addAction(action2)
         let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
@@ -105,7 +105,7 @@ class TaskRecordViewController: UIViewController {
         let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         ac.addAction(actionCancel)
         
-//        ac.view.tintColor = UIColor.AKABENI
+        //        ac.view.tintColor = UIColor.AKABENI
         present(ac, animated: true)
     }
     
@@ -114,6 +114,9 @@ class TaskRecordViewController: UIViewController {
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
         
+        personalRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
+        publicRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
+        
         indicatorViewLeadingConstraint.isActive = false
         
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
@@ -121,7 +124,7 @@ class TaskRecordViewController: UIViewController {
             
             strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.personalRecordButton.centerXAnchor)
             strongSelf.indicatorViewLeadingConstraint.isActive = true
-//            self?.indicatorViewLeadingConstraint.constant = 20
+            //            self?.indicatorViewLeadingConstraint.constant = 20
             strongSelf.personalCollectionViewTrailingConstraint.constant = 0
             strongSelf.view.layoutIfNeeded()
         }
@@ -136,6 +139,9 @@ class TaskRecordViewController: UIViewController {
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
         
+        personalRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
+        publicRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
+        
         indicatorViewLeadingConstraint.isActive = false
         
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
@@ -143,7 +149,7 @@ class TaskRecordViewController: UIViewController {
             
             strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
             strongSelf.indicatorViewLeadingConstraint.isActive = true
-//            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
+            //            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
             self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
             self?.view.layoutIfNeeded()
         }
@@ -189,7 +195,7 @@ class TaskRecordViewController: UIViewController {
     }
     
     func countAgreeRatio(agree: Int, disagree: Int) -> Float {
-         return Float(agree) / (Float(agree) + Float(disagree))
+        return Float(agree) / (Float(agree) + Float(disagree))
     }
     
     func toggleEmptyView() {
@@ -287,6 +293,8 @@ extension TaskRecordViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
+        
+        vc.titleLabel.text = restaurant?.name
         
         if collectionView == taskRecordPersonalCollectionView {
             vc.writing = personalWritings[indexPath.item]

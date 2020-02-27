@@ -13,6 +13,7 @@ class SelectImageViewController: UIViewController {
     
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var selectedLabel: UILabel!
+    @IBOutlet weak var placeholderView: UIView!
     @IBOutlet weak var displayCollectionView: UICollectionView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var displayPageControl: UIPageControl!
@@ -30,6 +31,8 @@ class SelectImageViewController: UIViewController {
     
     var fetchRange = 0
     
+    var isSelectUserImage = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +48,8 @@ class SelectImageViewController: UIViewController {
         let width = view.frame.width
         fetchRange = (Int(height / (width / 3)) + 1) * 3 * 2
         
-        grabPhotos()
+        checkPhotoLibraryPermission()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -56,6 +60,35 @@ class SelectImageViewController: UIViewController {
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            grabPhotos()
+        case .denied, .restricted :
+            placeholderView.isHidden = false
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { [weak self] status in
+                switch status {
+                case .authorized:
+                    DispatchQueue.main.async {
+                        self?.grabPhotos()
+                    }
+                case .denied, .restricted:
+                    DispatchQueue.main.async {
+                        self?.placeholderView.isHidden = false
+                    }
+                case .notDetermined:
+                    print("PHPhotoLibrary.requestAuthorization notDetermined")
+                @unknown default:
+                    print("PHPhotoLibrary.requestAuthorization unknown error")
+                }
+            }
+        @unknown default:
+            print("PHPhotoLibrary.authorizationStatus() unknown error")
+        }
     }
     
     func grabPhotos() {
@@ -121,6 +154,7 @@ class SelectImageViewController: UIViewController {
         }
         
     }
+    
 }
 
 extension SelectImageViewController: UICollectionViewDelegateFlowLayout {
@@ -217,27 +251,46 @@ extension SelectImageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == imageCollectionView {
-            if let index = selectedImages.firstIndex(of: images[indexPath.item]) {
-                selectedImages.remove(at: index)
-                if index < displayPageControl.currentPage {
-                    displayPageControl.currentPage -= 1
-                    displayCollectionView.scrollToItem(at: IndexPath(item: displayPageControl.currentPage, section: 0), at: .centeredHorizontally, animated: false)
+            if isSelectUserImage {
+                if selectedImages.isEmpty {
+                    selectedImages.append(images[indexPath.item])
+                } else if selectedImages[0] == images[indexPath.item] {
+                    selectedImages.remove(at: 0)
+                } else {
+                    selectedImages.remove(at: 0)
+                    selectedImages.append(images[indexPath.item])
                 }
+                if selectedImages.isEmpty {
+                    doneButton.setImage(UIImage.asset(.Icon_24px_Left_Arrow), for: .normal)
+                } else {
+                    doneButton.setImage(UIImage.asset(.Icon_24px_Check), for: .normal)
+                }
+                toggleDisplayCollectionView()
+                
             } else {
-                selectedImages.append(images[indexPath.item])
+                if let index = selectedImages.firstIndex(of: images[indexPath.item]) {
+                    selectedImages.remove(at: index)
+                    if index < displayPageControl.currentPage {
+                        displayPageControl.currentPage -= 1
+                        displayCollectionView.scrollToItem(at: IndexPath(item: displayPageControl.currentPage, section: 0), at: .centeredHorizontally, animated: false)
+                    }
+                } else {
+                    selectedImages.append(images[indexPath.item])
+                }
+                displayPageControl.numberOfPages = selectedImages.count
+                if selectedImages.isEmpty {
+                    doneButton.setImage(UIImage.asset(.Icon_24px_Left_Arrow), for: .normal)
+                    selectedLabel.isHidden = true
+                } else {
+                    doneButton.setImage(UIImage.asset(.Icon_24px_Check), for: .normal)
+                    selectedLabel.isHidden = false
+                    selectedLabel.text = "\(selectedImages.count)張"
+                }
+                toggleDisplayCollectionView()
             }
             collectionView.reloadData()
             displayCollectionView.reloadData()
-            displayPageControl.numberOfPages = selectedImages.count
-            if selectedImages.isEmpty {
-                doneButton.setImage(UIImage.asset(.Icon_24px_Left_Arrow), for: .normal)
-                selectedLabel.isHidden = true
-            } else {
-                doneButton.setImage(UIImage.asset(.Icon_24px_Check), for: .normal)
-                selectedLabel.isHidden = false
-                selectedLabel.text = "\(selectedImages.count)張"
-            }
-            toggleDisplayCollectionView()
+            
         }
     }
     

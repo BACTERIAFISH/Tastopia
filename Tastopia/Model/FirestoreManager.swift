@@ -99,10 +99,13 @@ class FirestoreManager {
         ])
     }
     
-    func uploadImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+    func uploadImage(image: UIImage, fileName: String?, completion: @escaping (Result<String, Error>) -> Void) {
         
         let uuid = NSUUID().uuidString
-        let path = "images/\(uuid).JPEG"
+        var path = "images/\(uuid).JPEG"
+        if let fileName = fileName {
+            path = "users/\(fileName).JPEG"
+        }
         
         let imageRef = storageRef.child(path)
         
@@ -164,6 +167,7 @@ struct WritingData: Codable {
     let number: Int
     let uid: String
     let userName: String
+    let userImagePath: String
     var composition: String
     var medias: [String]
     var mediaTypes: [String]
@@ -178,5 +182,6 @@ struct ResponseData: Codable {
     let date: Date
     let uid: String
     let userName: String
+    let userImagePath: String
     let response: String
 }

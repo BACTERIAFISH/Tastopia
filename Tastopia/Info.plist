@@ -48,6 +48,26 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>use camera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>use location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>use microphone</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>use photo library addtion</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>use photo library</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSerifTC-ExtraLight.otf</string>
+		<string>NotoSerifTC-Light.otf</string>
+		<string>NotoSerifTC-Regular.otf</string>
+		<string>NotoSerifTC-Medium.otf</string>
+		<string>NotoSerifTC-SemiBold.otf</string>
+		<string>NotoSerifTC-Bold.otf</string>
+		<string>NotoSerifTC-Black.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -59,8 +79,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -69,25 +87,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>NotoSerifTC-ExtraLight.otf</string>
-		<string>NotoSerifTC-Light.otf</string>
-		<string>NotoSerifTC-Regular.otf</string>
-		<string>NotoSerifTC-Medium.otf</string>
-		<string>NotoSerifTC-SemiBold.otf</string>
-		<string>NotoSerifTC-Bold.otf</string>
-		<string>NotoSerifTC-Black.otf</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>use location</string>
-	<key>NSCameraUsageDescription</key>
-	<string>use camera</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>use photo library addtion</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>use photo library</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>use microphone</string>
 </dict>
 </plist>

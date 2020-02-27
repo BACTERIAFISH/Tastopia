@@ -49,7 +49,7 @@ class RecordContentViewController: UIViewController {
         
         guard let writing = writing, let user = UserProvider.shared.userData else { return }
         
-        titleLabel.text = writing.userName
+        //        titleLabel.text = writing.userName
         
         if user.uid == writing.uid {
             userButtonItem.isEnabled = false
@@ -177,7 +177,7 @@ class RecordContentViewController: UIViewController {
         
         let docRef = FirestoreManager.shared.db.collection("Writings").document(writing.documentID).collection("Responses").document()
         
-        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: user.uid, userName: user.name, response: response)
+        let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: user.uid, userName: user.name, userImagePath: user.imagePath, response: response)
         
         FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
         
@@ -271,6 +271,10 @@ extension RecordContentViewController: UITableViewDataSource {
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentTopTableViewCell") as? RecordContentTopTableViewCell else { return UITableViewCell() }
                 
+                cell.authorImagePath = writing.userImagePath
+                
+                cell.nameLabel.text = writing.userName
+                
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let date = writing.date
@@ -339,13 +343,13 @@ extension RecordContentViewController: UITableViewDelegate {
             if let cell = cell as? RecordContentTopTableViewCell, let writing = writing {
                 let agreeRatio = CGFloat(countAgreeRatio(agree: writing.agree, disagree: writing.disagree))
                 
-                DispatchQueue.main.async {
-                    let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
-                        cell.agreeRatioWidthConstraint.constant =  cell.agreeRatioBackgroundView.frame.width * agreeRatio
-                        self?.view.layoutIfNeeded()
-                    }
-                    animator.startAnimation()
+                cell.agreeRatioView.frame.size.width = 0
+                
+                let animator = UIViewPropertyAnimator(duration: 1.5, curve: .easeInOut) { [weak self] in
+                    cell.agreeRatioWidthConstraint.constant =  cell.agreeRatioBackgroundView.frame.width * agreeRatio
+                    self?.view.layoutIfNeeded()
                 }
+                animator.startAnimation()
                 
             }
         }
@@ -371,7 +375,7 @@ extension RecordContentViewController: UITableViewDelegate {
             //
             //        }
             let blockAction = UIAlertAction(title: "封鎖留言者", style: .default) { [weak self] _ in
-
+                
                 TTSwiftMessages().question(title: "封鎖留言者", body: "不再顯示該留言者的文章和留言\n確定要封鎖留言者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
                     
                     self?.blockResponser(uid: responseUid)

@@ -10,11 +10,21 @@ import UIKit
 
 class RecordContentTopTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var authorImageContainView: UIView!
+    @IBOutlet weak var authorImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var agreeRatioBackgroundView: UIView!
     @IBOutlet weak var agreeRatioView: UIView!
     @IBOutlet weak var agreeRatioWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var agreeRatioLabel: UILabel!
+    
+    var authorImagePath: String? {
+        didSet {
+            guard let urlString = authorImagePath else { return }
+            authorImageView.loadImage(urlString, placeHolder: UIImage.asset(.Image_Tastopia_Placeholder))
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +34,11 @@ class RecordContentTopTableViewCell: UITableViewCell {
         
 //        agreeRatioView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         agreeRatioView.layer.cornerRadius = agreeRatioBackgroundView.frame.height / 2
+        
+        authorImageContainView.layer.cornerRadius = authorImageContainView.frame.width / 2
+        authorImageContainView.layer.createTTBorder()
+        
+        authorImageView.layer.cornerRadius = authorImageView.frame.width / 2
         
     }
 
