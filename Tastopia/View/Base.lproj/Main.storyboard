@@ -108,8 +108,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地圖無法顯示" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cft-CX-UTf">
-                                <rect key="frame" x="147" y="436.5" width="120" height="23.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01" translatesAutoresizingMaskIntoConstraints="NO" id="fcu-Ur-gct">
+                                <rect key="frame" x="0.0" y="241" width="414" height="207"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fcu-Ur-gct" secondAttribute="height" multiplier="2:1" id="a3t-cQ-iaG"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cft-CX-UTf">
+                                <rect key="frame" x="87" y="448" width="240" height="47"/>
+                                <string key="text">地圖無法顯示
+請至設定開啟位置使用權限</string>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
                                 <color key="textColor" name="SUMI"/>
                                 <nil key="highlightedColor"/>
@@ -268,6 +276,7 @@
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="leading" secondItem="JUZ-kW-ZMl" secondAttribute="leading" id="BOz-FT-mMK"/>
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="trailing" secondItem="JUZ-kW-ZMl" secondAttribute="trailing" id="FTE-Pa-65g"/>
                             <constraint firstItem="5L3-G4-d1I" firstAttribute="leading" secondItem="JUZ-kW-ZMl" secondAttribute="leading" constant="20" id="K6z-Nq-NRX"/>
+                            <constraint firstItem="fcu-Ur-gct" firstAttribute="leading" secondItem="JUZ-kW-ZMl" secondAttribute="leading" id="KfC-2s-Jil"/>
                             <constraint firstItem="5L3-G4-d1I" firstAttribute="top" secondItem="JUZ-kW-ZMl" secondAttribute="top" constant="20" id="KuL-yS-3f5"/>
                             <constraint firstItem="cft-CX-UTf" firstAttribute="centerX" secondItem="68a-aH-evV" secondAttribute="centerX" id="NJX-VY-Ekb"/>
                             <constraint firstItem="HcF-VD-5Sh" firstAttribute="leading" secondItem="JUZ-kW-ZMl" secondAttribute="leading" id="Nsj-OX-MKE"/>
@@ -277,9 +286,11 @@
                             <constraint firstItem="OKd-N8-4B8" firstAttribute="top" secondItem="68a-aH-evV" secondAttribute="top" id="nQ8-UP-DnN"/>
                             <constraint firstItem="qco-NY-Trz" firstAttribute="top" secondItem="HcF-VD-5Sh" secondAttribute="top" id="oSG-gv-0D0"/>
                             <constraint firstItem="lBf-Ac-Mwx" firstAttribute="top" secondItem="68a-aH-evV" secondAttribute="top" id="qEI-WA-0dz"/>
-                            <constraint firstItem="cft-CX-UTf" firstAttribute="centerY" secondItem="68a-aH-evV" secondAttribute="centerY" id="tGg-qi-aqI"/>
+                            <constraint firstItem="JUZ-kW-ZMl" firstAttribute="trailing" secondItem="fcu-Ur-gct" secondAttribute="trailing" id="rM2-pF-MYF"/>
+                            <constraint firstItem="cft-CX-UTf" firstAttribute="top" secondItem="68a-aH-evV" secondAttribute="centerY" id="tGg-qi-aqI"/>
                             <constraint firstItem="JUZ-kW-ZMl" firstAttribute="trailing" secondItem="HcF-VD-5Sh" secondAttribute="trailing" id="unP-5l-VVJ"/>
                             <constraint firstItem="JUZ-kW-ZMl" firstAttribute="trailing" secondItem="OKd-N8-4B8" secondAttribute="trailing" id="yeM-xx-8ia"/>
+                            <constraint firstItem="fcu-Ur-gct" firstAttribute="bottom" secondItem="68a-aH-evV" secondAttribute="centerY" id="z1f-mZ-L5C"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JUZ-kW-ZMl"/>
                     </view>
@@ -310,11 +321,11 @@
             <objects>
                 <viewController storyboardIdentifier="TaskRecordViewController" id="Bmz-Cz-u2O" customClass="TaskRecordViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jrV-os-h5d">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="czl-yB-w35">
-                                <rect key="frame" x="0.0" y="88" width="414" height="48"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aH4-6R-fe2">
                                         <rect key="frame" x="0.0" y="0.0" width="207" height="48"/>
@@ -342,7 +353,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6FK-1w-GSM">
-                                <rect key="frame" x="59.5" y="127" width="88" height="2"/>
+                                <rect key="frame" x="59.5" y="39" width="88" height="2"/>
                                 <color key="backgroundColor" name="AKABENI"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="EG7-FB-2Gd"/>
@@ -350,7 +361,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b88-ma-NxE">
-                                <rect key="frame" x="0.0" y="136" width="414" height="726"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="726"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01" translatesAutoresizingMaskIntoConstraints="NO" id="prj-UX-jcw">
                                         <rect key="frame" x="0.0" y="145" width="414" height="218"/>
@@ -373,7 +384,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V3k-Lb-fHY">
-                                <rect key="frame" x="0.0" y="135" width="414" height="727"/>
+                                <rect key="frame" x="0.0" y="47" width="414" height="727"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="aCg-ka-0on">
                                     <size key="itemSize" width="203" height="213"/>
@@ -448,7 +459,7 @@
                                 </cells>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="87N-BW-jR6">
-                                <rect key="frame" x="-414" y="135" width="414" height="727"/>
+                                <rect key="frame" x="-414" y="47" width="414" height="727"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fSV-TY-ab2">
                                     <size key="itemSize" width="200" height="195"/>
@@ -548,7 +559,6 @@
                     <navigationItem key="navigationItem" id="ypN-rF-8bp">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" image="Icon_24px_Left_Arrow" id="zWW-py-Icl">
-                            <color key="tintColor" name="AKABENI"/>
                             <connections>
                                 <action selector="backButtonPressed:" destination="Bmz-Cz-u2O" id="Akl-b6-aTd"/>
                             </connections>
@@ -572,7 +582,6 @@
                             </constraints>
                         </view>
                         <barButtonItem key="rightBarButtonItem" image="Icon_24px_Sort" id="VvA-D3-uRs">
-                            <color key="tintColor" name="AKABENI"/>
                             <connections>
                                 <action selector="sortFilterPressed:" destination="Bmz-Cz-u2O" id="bvw-3D-Pu3"/>
                             </connections>
@@ -604,7 +613,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="lgn-Id-Bgg">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RecordContentTopTableViewCell" id="POI-6G-aWh" customClass="RecordContentTopTableViewCell" customModule="Tastopia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="414" height="99"/>
@@ -697,6 +706,7 @@
                                                 <constraint firstItem="ufy-Aw-DdB" firstAttribute="leading" secondItem="hgY-ym-fje" secondAttribute="leading" constant="10" id="yuO-F0-HrF"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="agreeRatioBackgroundView" destination="hgY-ym-fje" id="7bt-EK-14S"/>
                                             <outlet property="agreeRatioLabel" destination="ufy-Aw-DdB" id="rbI-k3-oNw"/>
@@ -725,7 +735,7 @@
                                                 </pageControl>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4Yh-sh-7gh">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="334"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Hl3-91-wH6">
                                                         <size key="itemSize" width="270" height="198"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -767,6 +777,7 @@
                                                     </cells>
                                                 </collectionView>
                                             </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="KLb-oh-NTg" firstAttribute="top" secondItem="4Yh-sh-7gh" secondAttribute="bottom" id="0dw-HI-23C"/>
                                                 <constraint firstAttribute="trailing" secondItem="4Yh-sh-7gh" secondAttribute="trailing" id="AJW-n8-w0c"/>
@@ -778,6 +789,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="KLb-oh-NTg" secondAttribute="trailing" constant="40" id="xpo-aF-LwP"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="imageCollectionView" destination="4Yh-sh-7gh" id="Bbu-fc-gSh"/>
                                             <outlet property="imagePageControl" destination="KLb-oh-NTg" id="sMg-YR-FZg"/>
@@ -816,6 +828,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="BMB-aU-6yZ" secondAttribute="trailing" constant="20" id="Xwy-Pc-Ox1"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="compositionLabel" destination="2dy-sy-uvh" id="UHI-kf-hIO"/>
                                             <outlet property="compositionView" destination="BMB-aU-6yZ" id="eXL-ha-eHG"/>
@@ -871,6 +884,7 @@
                                                 <constraint firstItem="XZL-z9-mz5" firstAttribute="top" secondItem="CQy-wT-qIF" secondAttribute="top" constant="20" id="mCf-gO-Ivm"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="agreeButton" destination="dpe-CN-iFl" id="Hr5-lr-Jci"/>
                                             <outlet property="disagreeButton" destination="WPF-GE-Jwa" id="S0u-uy-M7o"/>
@@ -962,6 +976,7 @@
                                                 <constraint firstItem="86A-U8-xer" firstAttribute="leading" secondItem="1ZW-rv-hgi" secondAttribute="trailing" constant="10" id="z7b-d7-w2G"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dateLabel" destination="S42-GR-qCH" id="9HU-gy-bja"/>
                                             <outlet property="nameLabel" destination="86A-U8-xer" id="Kbg-5o-Yo1"/>
@@ -1011,7 +1026,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Ryr-le-oPj" secondAttribute="trailing" constant="20" id="8gG-sT-WHg"/>
                                     <constraint firstAttribute="bottom" secondItem="Ryr-le-oPj" secondAttribute="bottom" constant="10" id="aR6-go-gaL"/>
@@ -1022,7 +1037,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="dYM-qS-gT1" firstAttribute="trailing" secondItem="0ZC-Qq-nXZ" secondAttribute="trailing" id="AzA-37-TeA"/>
                             <constraint firstItem="dYM-qS-gT1" firstAttribute="trailing" secondItem="lgn-Id-Bgg" secondAttribute="trailing" id="Tr4-pL-z94"/>
@@ -1093,7 +1108,7 @@
                                         <rect key="frame" x="10" y="10" width="228" height="228"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="z8w-Gz-xb3" firstAttribute="top" secondItem="r0S-81-lf0" secondAttribute="top" constant="10" id="894-B8-YTv"/>
                                     <constraint firstAttribute="trailing" secondItem="z8w-Gz-xb3" secondAttribute="trailing" constant="10" id="DDC-i9-O0H"/>
@@ -1103,7 +1118,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任務代碼 QRCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-WS-E8T">
-                                <rect key="frame" x="40" y="254" width="334" height="30"/>
+                                <rect key="frame" x="40" y="260.5" width="334" height="23.5"/>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1265,7 +1280,7 @@
                                                 <constraint firstItem="6V2-oF-Ppz" firstAttribute="centerX" secondItem="Wp6-AY-gyH" secondAttribute="centerX" id="SZJ-u9-7dA"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="titleLabel" destination="6V2-oF-Ppz" id="3Jq-3Q-dls"/>
                                         </connections>
@@ -1300,13 +1315,18 @@
                                                 <constraint firstAttribute="bottom" secondItem="4Nk-tn-DqI" secondAttribute="bottom" constant="10" id="mgi-tx-6hy"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="contentLabel" destination="55h-aT-c3E" id="92C-FZ-8mf"/>
                                             <outlet property="iconImageView" destination="4Nk-tn-DqI" id="d9K-RP-iyk"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </tableView>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Uploaded" translatesAutoresizingMaskIntoConstraints="NO" id="ah4-di-kv0">
                                 <rect key="frame" x="207" y="254" width="207" height="100"/>
@@ -1544,7 +1564,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="bottom" secondItem="4ZA-dL-Jlg" secondAttribute="bottom" id="3i7-OJ-1Aa"/>
                             <constraint firstItem="z2g-Po-Tjs" firstAttribute="bottom" secondItem="K4v-Ph-FPZ" secondAttribute="centerY" id="67B-6L-tCt"/>
@@ -2012,9 +2032,13 @@
             <objects>
                 <navigationController storyboardIdentifier="TaskRecordNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="uWT-Hd-p0X" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JPJ-Jb-Yl4">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="JPJ-Jb-Yl4">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" name="AKABENI"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

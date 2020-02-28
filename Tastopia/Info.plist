@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>785623095265300</string>
 	<key>FacebookDisplayName</key>
@@ -49,15 +49,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>use camera</string>
+	<string>需要使用相機功能拍照或錄影，來完成美食紀錄。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>use location</string>
+	<string>需要使用定位功能，來判斷美食任務的位置。</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>use microphone</string>
+	<string>錄影的時候，需要使用麥克風功能，來完成美食紀錄。</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>use photo library addtion</string>
+	<string>需要使用相簿功能，來完成美食紀錄。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>use photo library</string>
+	<string>需要使用相簿功能，來完成美食紀錄。</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSerifTC-ExtraLight.otf</string>
@@ -76,6 +76,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDarkContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -87,5 +89,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>
