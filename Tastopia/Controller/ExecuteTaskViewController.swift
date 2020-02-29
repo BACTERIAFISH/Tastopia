@@ -60,8 +60,11 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func submit(_ sender: UIButton) {
-        checkTask()
-//        submitTask()
+        if isForTest() {
+            submitTask()
+        } else {
+            checkTask()
+        }
     }
     
     func openImagePicker() {
@@ -110,12 +113,38 @@ class ExecuteTaskViewController: UIViewController {
         present(ac, animated: true)
     }
     
+    func isForTest() -> Bool {
+        var isTester = false
+        var hasKeyword = false
+        let testers = TastopiaTest.shared.testers
+        let keyword = TastopiaTest.shared.keyword
+        
+        guard let user = UserProvider.shared.userData, let composition = compositionTextView.text else { return false }
+        
+        if testers.contains(user.email) {
+            isTester = true
+        }
+        
+        let range = NSRange(location: 0, length: composition.utf16.count)
+        do {
+            let regex = try NSRegularExpression(pattern: keyword)
+            if regex.firstMatch(in: composition, options: [], range: range) != nil {
+                hasKeyword = true
+            }
+            
+        } catch {
+            print("isForTest regex error: \(error)")
+        }
+        
+        return isTester && hasKeyword
+    }
+    
     func checkTask() {
         
         guard let task = task, let composition = compositionTextView.text else { return }
         
         // composition fail
-        if composition.trimmingCharacters(in: .whitespacesAndNewlines).count < task.composition {
+        if composition.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count < task.composition {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "字數不足")
             return
         }

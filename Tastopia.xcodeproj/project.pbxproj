@@ -20,6 +20,7 @@
 		CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435523E3F6EA003CD246 /* NotoSerifTC-SemiBold.otf */; };
 		CF05176923E578A7004EE1CB /* NotoSerifTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */; };
 		CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */; };
+		CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF11C4542409EE8F00F36F35 /* TastopiaTest.swift */; };
 		CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12235D23E26C91004A41B3 /* AppDelegate.swift */; };
 		CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12236123E26C91004A41B3 /* LoginViewController.swift */; };
 		CF12236523E26C91004A41B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236323E26C91004A41B3 /* Main.storyboard */; };
@@ -78,6 +79,7 @@
 		CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CF05175E23E447DD004EE1CB /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CF05176323E52833004EE1CB /* Tastopia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tastopia.entitlements; sourceTree = "<group>"; };
+		CF11C4542409EE8F00F36F35 /* TastopiaTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastopiaTest.swift; sourceTree = "<group>"; };
 		CF12235A23E26C90004A41B3 /* Tastopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tastopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF12235D23E26C91004A41B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF12236123E26C91004A41B3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			children = (
 				CFA113E723FD693400EBE412 /* google-map-style.json */,
 				CFF6435223E3F6BD003CD246 /* Fonts */,
+				CF11C4542409EE8F00F36F35 /* TastopiaTest.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
+				CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */,
 				CF303EC5240166FE005EE7E4 /* QuestionView.swift in Sources */,
 				CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */,
 				CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */,

@@ -297,7 +297,9 @@ extension RecordContentViewController: UITableViewDataSource {
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentCompositionTableViewCell") as? RecordContentCompositionTableViewCell else { return UITableViewCell() }
                 
-                cell.compositionLabel.text = writing.composition
+                let keyword = TastopiaTest.shared.keyword
+                let composition = writing.composition.replacingOccurrences(of: keyword, with: "")
+                cell.compositionLabel.text = composition
                 return cell
                 
             } else if indexPath.row == 3 {

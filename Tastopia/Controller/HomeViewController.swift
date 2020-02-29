@@ -86,7 +86,7 @@ class HomeViewController: UIViewController {
         recordButton.layer.cornerRadius = 16
 
         NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
         
     }
     
@@ -94,15 +94,6 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         checkLocationAuth()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if UserDefaults.standard.integer(forKey: "userStatus") == 0 {
-            gameGuide()
-        }
-        
     }
     
     @IBAction func userButtonPressed(_ sender: UIButton) {
@@ -113,6 +104,15 @@ class HomeViewController: UIViewController {
 
         profileVC.showGameGuide = { [weak self] in
             guard let strongSelf = self else { return }
+            
+            let locationAuthStatus = CLLocationManager.authorizationStatus()
+            if locationAuthStatus != .authorizedAlways || locationAuthStatus != .authorizedWhenInUse {
+                
+                TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
+                
+                return
+            }
+            
             if !strongSelf.taskView.isHidden {
                 let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
                     strongSelf.taskViewBottomConstraint.constant = strongSelf.taskView.frame.height
@@ -170,19 +170,14 @@ class HomeViewController: UIViewController {
             locationManager.requestWhenInUseAuthorization()
         case .denied, .restricted:
             mapView.isHidden = true
-            DispatchQueue.main.async {
-                let alertController = UIAlertController(title: "定位權限未開啟", message: "為了進行遊戲，請至 設定 > 隱私權 > 定位服務，變更權限。", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
-            }
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
         @unknown default:
             print("switch CLLocationManager.authorizationStatus() error")
         }
 
     }
     
-    @objc func getTaskRestaurant() {
+    func getTaskRestaurant() {
         RestaurantProvider().getTaskRestaurant { [weak self] (result) in
             guard let strongSelf = self else { return }
             guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
@@ -215,6 +210,16 @@ class HomeViewController: UIViewController {
                 print("getTaskRestaurant error: \(error)")
             }
         }
+    }
+    
+    @objc func addTaskRestaurant() {
+        mapView.clear()
+        
+        getTaskRestaurant()
+        
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
     }
     
     @objc func userTasksGot() {
@@ -397,6 +402,10 @@ extension HomeViewController: CLLocationManagerDelegate {
         mapView.camera = camera
         
         locationManager.stopUpdatingLocation()
+        
+        if UserDefaults.standard.integer(forKey: "userStatus") == 0 {
+            gameGuide()
+        }
     }
     
     // Handle authorization for the location manager.
