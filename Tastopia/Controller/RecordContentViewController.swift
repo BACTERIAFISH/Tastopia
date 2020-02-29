@@ -418,6 +418,12 @@ extension RecordContentViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        submitResponse()
+        responseButton.setTitle("留言", for: .normal)
+        view.layoutIfNeeded()
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut, animations: { [weak self] in
+            self?.responseBackgroundHeightConstraint.constant = 48
+            self?.view.layoutIfNeeded()
+        })
+        animator.startAnimation()
     }
 }
