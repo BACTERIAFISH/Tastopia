@@ -43,6 +43,14 @@ class WritingProvider {
                 completion(Result.failure(error))
                 return
             } else {
+                
+                // MARK: for tester
+                guard let user = UserProvider.shared.userData else { return }
+                if TastopiaTest.shared.testers.contains(user.email) {
+                    completion(Result.success(true))
+                    return
+                }
+                
                 if query!.documents.count < task.people {
                     completion(Result.success(false))
                 } else {
