@@ -13,6 +13,7 @@ target 'Tastopia' do
   pod 'Firebase/Storage'
   pod 'Fabric', '~> 1.10.2'
   pod 'Crashlytics', '~> 3.14.0'
+  pod 'FirebaseInstanceID'
 
   pod 'GoogleMaps'
   pod 'GooglePlaces'
