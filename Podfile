@@ -11,6 +11,8 @@ target 'Tastopia' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Storage'
+  pod 'Fabric', '~> 1.10.2'
+  pod 'Crashlytics', '~> 3.14.0'
 
   pod 'GoogleMaps'
   pod 'GooglePlaces'

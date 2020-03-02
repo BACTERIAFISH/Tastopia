@@ -338,6 +338,7 @@
 				F9B9F171711603314EAC4EC5 /* [CP] Embed Pods Frameworks */,
 				8B34B303FB227F0201579F21 /* [CP] Copy Pods Resources */,
 				CF12237423E27801004A41B3 /* SwiftLint */,
+				CFBF40D2240D1572007744F6 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -467,6 +468,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		CFBF40D2240D1572007744F6 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
 		};
 		F9B9F171711603314EAC4EC5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -679,6 +698,7 @@
 				CODE_SIGN_ENTITLEMENTS = Tastopia/Tastopia.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = RA386DSWA5;
 				INFOPLIST_FILE = Tastopia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
