@@ -22,10 +22,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let handle = UserProvider.shared.handle {
-            Auth.auth().removeStateDidChangeListener(handle)
-        }
-        
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
 

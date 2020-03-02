@@ -12,8 +12,6 @@ class UserProvider {
     
     static let shared = UserProvider()
     
-    var handle: AuthStateDidChangeListenerHandle?
-    
     var userData: UserData?
     var userTasks = [TaskData]()
     
@@ -21,33 +19,30 @@ class UserProvider {
     
     func autoLogin() {
         
-        handle = Auth.auth().addStateDidChangeListener { (_, user) in
+        if let user = Auth.auth().currentUser {
             
-            if let user = user {
-                
-                FirestoreManager.shared.readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
-                    switch result {
-                    case .success(let userData):
-                        self?.userData = userData
-                        self?.checkUserTasks()
-                        
-                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
-                        appDelegate.window?.rootViewController = homeVC
-                        
-                    case .failure(let error):
-                        print("autoLogin error: \(error)")
-                    }
+            FirestoreManager.shared.readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
+                switch result {
+                case .success(let userData):
+                    self?.userData = userData
+                    self?.checkUserTasks()
+                    
+                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+                    appDelegate.window?.rootViewController = homeVC
+                    
+                case .failure(let error):
+                    print("autoLogin error: \(error)")
                 }
-                
-            } else {
-                
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
-                appDelegate.window?.rootViewController = loginVC
             }
+            
+        } else {
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+            appDelegate.window?.rootViewController = loginVC
         }
         
     }
@@ -114,7 +109,7 @@ class UserProvider {
                             }
                             
                         }
-
+                        
                     }
                 }
                 

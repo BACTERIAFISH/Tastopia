@@ -70,11 +70,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let handle = UserProvider.shared.handle {
-            Auth.auth().removeStateDidChangeListener(handle)
-        }
-        
+
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         
