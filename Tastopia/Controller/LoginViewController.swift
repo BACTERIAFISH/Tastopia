@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var appleView: UIView!
+    @IBOutlet weak var privacyButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,19 @@ class LoginViewController: UIViewController {
             appleView.addSubview(button)
         }
         
+        let attribute: [NSAttributedString.Key: Any] = [
+            .font: UIFont(name: "NotoSansTC-Bold", size: 16)!,
+            .foregroundColor: UIColor.SUMI!,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributeString = NSMutableAttributedString(string: "隱私權政策", attributes: attribute)
+        privacyButton.setAttributedTitle(attributeString, for: .normal)
+    }
+    
+    @IBAction func privacyButtonPressed(_ sender: UIButton) {
+        if let url = URL(string: "https://bacteriafish.github.io") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     @IBAction func googleSignInPress(_ sender: Any) {
