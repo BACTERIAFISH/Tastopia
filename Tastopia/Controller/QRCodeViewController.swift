@@ -15,12 +15,15 @@ class QRCodeViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     var task: TaskData?
+    
+    var startScan: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         containView.layer.cornerRadius = 16
-        containView.layer.createTTBorder()
+        containView.layer.borderColor = UIColor.SUMI!.cgColor
+        containView.layer.borderWidth = 2
 
         if let task = task {
             let image = generateQRCode(from: task.taskID)
@@ -31,6 +34,7 @@ class QRCodeViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        startScan?()
         dismiss(animated: false, completion: nil)
     }
     

@@ -27,6 +27,8 @@ class ExecuteTaskViewController: UIViewController {
     
     var passTask: ((TaskData) -> Void)?
     
+    var setStatusImage: (() -> Void)?
+    
     var map: GMSMapView?
     
     var selectedMedias = [TTMediaData]()
@@ -45,8 +47,6 @@ class ExecuteTaskViewController: UIViewController {
         
         submitButton.layer.cornerRadius = 16
         
-        compositionTextView.selectedTextRange = compositionTextView.textRange(from: compositionTextView.beginningOfDocument, to: compositionTextView.endOfDocument)
-        
         if let task = task {
             peopleLabel.text = String(task.people)
             mediaLabel.text = String(task.media)
@@ -60,20 +60,41 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     @IBAction func submit(_ sender: UIButton) {
-        //        checkTask()
-        submitTask()
+        if isForTest() {
+            submitTask()
+        } else {
+            checkTask()
+        }
     }
     
     func openImagePicker() {
-        let ac = UIAlertController(title: "新增照片從...", message: nil, preferredStyle: .actionSheet)
-        let titles = ["Photo Library", "Camera", "Video"]
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
+            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
+            
+            vc.modalPresentationStyle = .overCurrentContext
+            
+            vc.passSelectedImages = { [weak self] images in
+                guard let strongSelf = self else { return }
+                for image in images {
+                    let media = TTMediaData(mediaType: kUTTypeImage as String, image: image)
+                    strongSelf.selectedMedias.append(media)
+                }
+                strongSelf.photoCollectionView.reloadData()
+                strongSelf.photoCollectionView.scrollToItem(at: IndexPath(item: strongSelf.selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
+            }
+            
+            self?.present(vc, animated: true)
+        }
+        ac.addAction(action)
+        
+        let titles = ["相片", "影片"]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
                 let imagePicker = UIImagePickerController()
                 switch title {
-                case "Photo Library":
-                    imagePicker.sourceType = .photoLibrary
                 case "Camera":
                     imagePicker.sourceType = .camera
                 case "Video":
@@ -87,9 +108,35 @@ class ExecuteTaskViewController: UIViewController {
             }
             ac.addAction(action)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         ac.addAction(cancelAction)
         present(ac, animated: true)
+    }
+    
+    func isForTest() -> Bool {
+        var isTester = false
+        var hasKeyword = false
+        let testers = TastopiaTest.shared.testers
+        let keyword = TastopiaTest.shared.keyword
+        
+        guard let user = UserProvider.shared.userData, let composition = compositionTextView.text else { return false }
+        
+        if testers.contains(user.email) {
+            isTester = true
+        }
+        
+        let range = NSRange(location: 0, length: composition.utf16.count)
+        do {
+            let regex = try NSRegularExpression(pattern: keyword)
+            if regex.firstMatch(in: composition, options: [], range: range) != nil {
+                hasKeyword = true
+            }
+            
+        } catch {
+            print("isForTest regex error: \(error)")
+        }
+        
+        return isTester && hasKeyword
     }
     
     func checkTask() {
@@ -97,14 +144,14 @@ class ExecuteTaskViewController: UIViewController {
         guard let task = task, let composition = compositionTextView.text else { return }
         
         // composition fail
-        if composition.trimmingCharacters(in: .whitespacesAndNewlines).count < task.composition {
-            TTProgressHUD.shared.showFail(in: view, text: "字數不足")
+        if composition.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count < task.composition {
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "字數不足")
             return
         }
         
         // media fail
         if selectedMedias.count < task.media {
-            TTProgressHUD.shared.showFail(in: view, text: "照片、影片不足")
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "照片、影片不足")
             return
         }
         
@@ -114,7 +161,7 @@ class ExecuteTaskViewController: UIViewController {
         
         // distance > 10 meters
         if distanceMeter > 10 {
-            TTProgressHUD.shared.showFail(in: view, text: "地點錯誤")
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "地點錯誤")
             return
         }
         
@@ -122,21 +169,17 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func submitTask() {
-        TTProgressHUD.shared.showLoading(in: view, text: "上傳中")
-        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else {
-            TTProgressHUD.shared.hud.dismiss(animated: false)
-            TTProgressHUD.shared.showFail(in: view, text: "上傳失敗")
-            return
-        }
+        TTSwiftMessages().wait(title: "上傳中")
+        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
         let group = DispatchGroup()
-        for (i, media) in selectedMedias.enumerated() {
+        for (index, media) in selectedMedias.enumerated() {
             group.enter()
             if media.mediaType == kUTTypeImage as String, let image = media.image {
-                FirestoreManager.shared.uploadImage(image: image) { [weak self]  (result) in
+                FirestoreManager.shared.uploadImage(image: image, fileName: nil) { [weak self]  (result) in
                     switch result {
                     case .success(let urlString):
-                        self?.selectedMedias[i].urlString = urlString
+                        self?.selectedMedias[index].urlString = urlString
                         group.leave()
                     case .failure(let error):
                         print("submitTask error: \(error)")
@@ -147,7 +190,7 @@ class ExecuteTaskViewController: UIViewController {
                 FirestoreManager.shared.uploadVideo(url: url) { [weak self] (result) in
                     switch result {
                     case .success(let urlString):
-                        self?.selectedMedias[i].urlString = urlString
+                        self?.selectedMedias[index].urlString = urlString
                         group.leave()
                     case .failure(let error):
                         print("submitTask error: \(error)")
@@ -168,17 +211,17 @@ class ExecuteTaskViewController: UIViewController {
             }
             
             let docRef = FirestoreManager.shared.db.collection("Writings").document()
-            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
+            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, userImagePath: user.imagePath, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
             FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
             
             strongSelf.changeTaskStatus()
             
-            TTProgressHUD.shared.hud.dismiss(animated: false)
-            TTProgressHUD.shared.showSuccess(in: strongSelf.view, text: "上傳成功")
+            TTSwiftMessages().hide()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                strongSelf.dismiss(animated: true, completion: nil)
-            }
+            strongSelf.dismiss(animated: true, completion: { [weak self] in
+                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "上傳成功", body: "")
+                self?.setStatusImage?()
+            })
         }
     }
     
@@ -186,8 +229,8 @@ class ExecuteTaskViewController: UIViewController {
         guard let user = UserProvider.shared.userData, var task = task else { return }
         task.status = 1
         passTask?(task)
-        for i in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[i].documentID == task.documentID {
-            UserProvider.shared.userTasks[i].status = 1
+        for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].documentID == task.documentID {
+            UserProvider.shared.userTasks[index].status = 1
         }
         let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
         FirestoreManager.shared.addData(docRef: ref, data: ["status": 1])
@@ -206,33 +249,30 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
             
+            cell.imageView.image = UIImage.asset(.Image_Tastopia_01_square)
+            cell.playerLooper = nil
+            
             let media = selectedMedias[indexPath.item]
             
             if media.mediaType == kUTTypeImage as String {
                 cell.imageView.image = media.image
             } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
                 cell.url = url
-                //                let player = AVQueuePlayer()
-                //                player.isMuted = true
-                //                let playerItem = AVPlayerItem(url: url)
-                //                let playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
-                //                playerLoopers.append(playerLooper)
-                //                let playerLayer = AVPlayerLayer(player: player)
-                //                playerLayer.videoGravity = .resizeAspectFill
-                //                playerLayer.frame = cell.movieView.bounds
-                //                cell.movieView.layer.addSublayer(playerLayer)
-                //                player.play()
             }
             
-            //            cell.layer.cornerRadius = 5
-            //            cell.layer.createTTBorder()
+            cell.deleteImage = { [weak self] cell in
+                if let deleteIndexPath = self?.photoCollectionView.indexPath(for: cell) {
+                    self?.selectedMedias.remove(at: deleteIndexPath.item)
+                    self?.photoCollectionView.deleteItems(at: [deleteIndexPath])
+                }
+            }
+
             return cell
             
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
-            cell.layer.cornerRadius = 16
-            //            cell.layer.createTTBorder()
+//            cell.layer.cornerRadius = 16
             
             return cell
         }
@@ -252,49 +292,22 @@ extension ExecuteTaskViewController: UICollectionViewDelegate {
 
 extension ExecuteTaskViewController: UITextViewDelegate {
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText: String = textView.text
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-        
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        if textView.text == "寫下你的感想" && textView.textColor == UIColor.SHIRONEZUMI {
             
-            textView.text = "寫下你的感想"
-            textView.textColor = UIColor.SHIRONEZUMI
-            
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.text = ""
+            textView.textColor = .black
         }
-            
-            // Else if the text view's placeholder is showing and the
-            // length of the replacement string is greater than 0, set
-            // the text color to black then set its text to the
-            // replacement string
-        else if textView.textColor == UIColor.SHIRONEZUMI && !text.isEmpty {
-            textView.textColor = UIColor.SUMI
-            textView.text = text
-        }
-            
-            // For every other case, the text should change with the usual
-            // behavior...
-        else {
-            return true
-        }
-        
-        // ...otherwise return false since the updates have already
-        // been made
-        return false
+        return true
     }
     
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if self.view.window != nil {
-            if textView.textColor == UIColor.SHIRONEZUMI {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-            }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "寫下你的感想"
+            textView.textColor = UIColor.SHIRONEZUMI
         }
     }
+    
 }
 
 extension ExecuteTaskViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

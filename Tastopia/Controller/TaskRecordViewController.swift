@@ -9,6 +9,7 @@
 import UIKit
 import MobileCoreServices
 import AVFoundation
+import collection_view_layouts
 
 enum SortMethod: String {
     case agree = "中肯"
@@ -34,6 +35,8 @@ class TaskRecordViewController: UIViewController {
     
     @IBOutlet weak var taskRecordPublicCollectionView: UICollectionView!
     
+    @IBOutlet weak var emptyView: UIView!
+    
     var restaurant: Restaurant?
     
     let writingProvider = WritingProvider()
@@ -47,12 +50,20 @@ class TaskRecordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         taskRecordPersonalCollectionView.dataSource = self
         taskRecordPersonalCollectionView.delegate = self
         
         taskRecordPublicCollectionView.dataSource = self
         taskRecordPublicCollectionView.delegate = self
+        
+        // MARK: collection-view-layouts
+        let layout = InstagramLayout()
+        layout.delegate = self
+        layout.cellsPadding = ItemsPadding(horizontal: 1, vertical: 1)
+        taskRecordPublicCollectionView.collectionViewLayout = layout
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
         
     }
     
@@ -67,6 +78,7 @@ class TaskRecordViewController: UIViewController {
                 strongSelf.personalWritingsOrigin = writingsData.filter({ $0.uid == user.uid })
                 strongSelf.publicWritingsOrigin = writingsData.filter({ $0.uid != user.uid })
                 strongSelf.sortRecord()
+                
             case .failure(let error):
                 print("getWritings error: \(error)")
             }
@@ -80,7 +92,7 @@ class TaskRecordViewController: UIViewController {
     @IBAction func sortFilterPressed(_ sender: Any) {
         let ac = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
-              ac.addAction(action1)
+        ac.addAction(action1)
         let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
         ac.addAction(action2)
         let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
@@ -93,13 +105,17 @@ class TaskRecordViewController: UIViewController {
         let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         ac.addAction(actionCancel)
         
-//        ac.view.tintColor = UIColor.AKABENI
+        //        ac.view.tintColor = UIColor.AKABENI
         present(ac, animated: true)
     }
     
     @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
+        emptyView.isHidden = true
         personalRecordButton.isEnabled = false
         publicRecordButton.isEnabled = true
+        
+        personalRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
+        publicRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
         
         indicatorViewLeadingConstraint.isActive = false
         
@@ -108,16 +124,23 @@ class TaskRecordViewController: UIViewController {
             
             strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.personalRecordButton.centerXAnchor)
             strongSelf.indicatorViewLeadingConstraint.isActive = true
-//            self?.indicatorViewLeadingConstraint.constant = 20
+            //            self?.indicatorViewLeadingConstraint.constant = 20
             strongSelf.personalCollectionViewTrailingConstraint.constant = 0
             strongSelf.view.layoutIfNeeded()
+        }
+        animator.addCompletion { [weak self] _ in
+            self?.toggleEmptyView()
         }
         animator.startAnimation()
     }
     
     @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
+        emptyView.isHidden = true
         personalRecordButton.isEnabled = true
         publicRecordButton.isEnabled = false
+        
+        personalRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
+        publicRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
         
         indicatorViewLeadingConstraint.isActive = false
         
@@ -126,9 +149,12 @@ class TaskRecordViewController: UIViewController {
             
             strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
             strongSelf.indicatorViewLeadingConstraint.isActive = true
-//            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
+            //            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
             self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
             self?.view.layoutIfNeeded()
+        }
+        animator.addCompletion { [weak self] _ in
+            self?.toggleEmptyView()
         }
         animator.startAnimation()
     }
@@ -141,10 +167,12 @@ class TaskRecordViewController: UIViewController {
     }
     
     func sortRecord() {
+        emptyView.isHidden = true
+        
         guard let user = UserProvider.shared.userData else { return }
         
         personalWritings = personalWritingsOrigin
-        publicWritings = publicWritingsOrigin
+        publicWritings = publicWritingsOrigin.filter({ !user.blackList.contains($0.uid) })
         
         switch sortMethod {
         case .agree:
@@ -163,10 +191,23 @@ class TaskRecordViewController: UIViewController {
         }
         taskRecordPersonalCollectionView.reloadData()
         taskRecordPublicCollectionView.reloadData()
+        toggleEmptyView()
     }
     
     func countAgreeRatio(agree: Int, disagree: Int) -> Float {
-         return Float(agree) / (Float(agree) + Float(disagree))
+        return Float(agree) / (Float(agree) + Float(disagree))
+    }
+    
+    func toggleEmptyView() {
+        if personalCollectionViewTrailingConstraint.constant == 0 {
+            if personalWritings.isEmpty {
+                emptyView.isHidden = false
+            }
+        } else {
+            if publicWritings.isEmpty {
+                emptyView.isHidden = false
+            }
+        }
     }
 }
 
@@ -174,19 +215,19 @@ extension TaskRecordViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width
-        return CGSize(width: width / 3 - 2, height: width / 3 - 2)
+        return CGSize(width: width / 2 - 7.5, height: width / 2  - 7.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+        return UIEdgeInsets(top: 1, left: 5, bottom: 5, right: 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        1
+        5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        1
+        5
     }
     
 }
@@ -206,7 +247,7 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.imageView.image = UIImage.asset(.Icon_256px_Picture)
+        cell.imageView.image = UIImage.asset(.Image_Tastopia_01_square)
         cell.playerLooper = nil
         cell.movieView.isHidden = true
         
@@ -219,7 +260,7 @@ extension TaskRecordViewController: UICollectionViewDataSource {
         if let writing = writing {
             if !writing.medias.isEmpty {
                 if writing.mediaTypes[0] == kUTTypeImage as String {
-                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Icon_256px_Picture))
+                    cell.imageView.loadImage(writing.medias[0], placeHolder: UIImage.asset(.Image_Tastopia_01_square))
                 } else if writing.mediaTypes[0] == kUTTypeMovie as String {
                     cell.urlString = writing.medias[0]
                 }
@@ -253,6 +294,8 @@ extension TaskRecordViewController: UICollectionViewDelegate {
         
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
         
+        vc.titleLabel.text = restaurant?.name
+        
         if collectionView == taskRecordPersonalCollectionView {
             vc.writing = personalWritings[indexPath.item]
         } else if collectionView == taskRecordPublicCollectionView {
@@ -260,6 +303,15 @@ extension TaskRecordViewController: UICollectionViewDelegate {
         }
         
         show(vc, sender: nil)
+    }
+    
+}
+
+// MARK: collection-view-layouts
+extension TaskRecordViewController: LayoutDelegate {
+    
+    func cellSize(indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 10, height: 10)
     }
     
 }

@@ -15,8 +15,11 @@ class QRCodeScanViewController: UIViewController {
     
     @IBOutlet weak var borderView: UIView!
     
+    @IBOutlet weak var showQRButton: UIButton!
+    
+    var task: TaskData?
+    
     var passTaskID: ((String) -> Void)?
-    var showHud: (() -> Void)?
     
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
@@ -24,9 +27,11 @@ class QRCodeScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        borderView.layer.cornerRadius = 5
+        borderView.layer.cornerRadius = 16
         borderView.layer.borderColor = UIColor.white.cgColor
         borderView.layer.borderWidth = 2
+        
+        showQRButton.layer.cornerRadius = 16
         
         captureSession = AVCaptureSession()
         
@@ -91,20 +96,25 @@ class QRCodeScanViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    @IBAction func showQRButtonPressed(_ sender: UIButton) {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController else { return }
+        
+        captureSession.stopRunning()
+        
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.task = task
+        vc.startScan = { [weak self] in
+            self?.captureSession.startRunning()
+        }
+        
+        present(vc, animated: false)
+    }
+    
     func failed() {
         let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
         captureSession = nil
-    }
-    
-    func showAlert() {
-        let ac = UIAlertController(title: "掃錯 QRCode 囉～", message: "請重新掃取同伴的任務代碼 QRCode", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
-            self?.captureSession.startRunning()
-        })
-        ac.addAction(action)
-        present(ac, animated: true)
     }
     
     func found(code: String) {
@@ -113,10 +123,14 @@ class QRCodeScanViewController: UIViewController {
         do {
             let regex = try NSRegularExpression(pattern: "([a-zA-Z0-9]){20}")
             if regex.firstMatch(in: code, options: [], range: range) == nil {
-                showAlert()
+                TTSwiftMessages().pause(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "任務代碼錯誤", body: "請重新掃描同伴的任務代碼 QRCode") { [weak self] in
+                    self?.captureSession.startRunning()
+                }
             } else {
                 passTaskID?(code)
-                dismiss(animated: true, completion: showHud)
+                dismiss(animated: true, completion: {
+                    TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "同步任務代碼成功", body: "")
+                })
             }
         } catch {
             print("found regex error: \(error)")

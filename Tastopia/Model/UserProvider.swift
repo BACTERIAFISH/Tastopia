@@ -19,8 +19,9 @@ class UserProvider {
     
     func autoLogin() {
         
-        if let uid = UserDefaults.standard.string(forKey: "uid") {
-            FirestoreManager.shared.readCustomData(collection: "Users", document: uid, dataType: UserData.self) { [weak self] (result) in
+        if let user = Auth.auth().currentUser {
+            
+            FirestoreManager.shared.readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
                 switch result {
                 case .success(let userData):
                     self?.userData = userData
@@ -28,14 +29,16 @@ class UserProvider {
                     
                     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
-                    appDelegate.window?.rootViewController = tabBarVC
+                    guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+                    appDelegate.window?.rootViewController = homeVC
                     
                 case .failure(let error):
                     print("autoLogin error: \(error)")
                 }
             }
+            
         } else {
+            
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             guard let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
@@ -73,27 +76,63 @@ class UserProvider {
                             self?.userData = userData
                             self?.checkUserTasks()
                             
+                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+                            appDelegate.window?.rootViewController = homeVC
+                            
                         case .failure(_):
-                            let userData = UserData(uid: user.uid, name: name, email: email)
-                            self?.userData = userData
-                            do {
-                                try FirestoreManager.shared.db.collection("Users").document(user.uid).setData(from: userData)
-                                
-                                self?.checkUserTasks()
-                                
-                            } catch {
-                                print("login create new user error: \(error)")
+                            
+                            FirestoreManager.shared.uploadImage(image: UIImage.asset(.Image_Tastopia_01)!, fileName: user.uid) { (result) in
+                                switch result {
+                                case .success(let urlString):
+                                    print(urlString)
+                                    
+                                    let userData = UserData(uid: user.uid, name: name, email: email, imagePath: urlString)
+                                    self?.userData = userData
+                                    do {
+                                        try FirestoreManager.shared.db.collection("Users").document(user.uid).setData(from: userData)
+                                        
+                                        self?.checkUserTasks()
+                                        
+                                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                        guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+                                        appDelegate.window?.rootViewController = homeVC
+                                        
+                                    } catch {
+                                        print("login create new user error: \(error)")
+                                    }
+                                case .failure(let error):
+                                    print("login upload image error: \(error)")
+                                }
                             }
+                            
                         }
-                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        guard let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else { return }
-                        appDelegate.window?.rootViewController = tabBarVC
+                        
                     }
                 }
                 
-                UserDefaults.standard.set(user.uid, forKey: "uid")
             }
+        }
+    }
+    
+    func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            print("sign out")
+            
+            UserDefaults.standard.removeObject(forKey: "userStatus")
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+            
+            appDelegate.window?.rootViewController = loginVC
+            
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
         }
     }
     
@@ -131,10 +170,10 @@ class UserProvider {
                         switch result {
                         case .success(let taskTypes):
                             var tasks = [TaskData]()
-                            for i in 0..<userData.taskNumber + 3 {
+                            for index in 0..<userData.taskNumber + 3 {
                                 guard let taskType = taskTypes.randomElement() else { return }
                                 let ref = FirestoreManager.shared.db.collection("Users").document(userData.uid).collection("Tasks").document()
-                                let task = TaskData(documentID: ref.documentID, restaurantNumber: i, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
+                                let task = TaskData(documentID: ref.documentID, restaurantNumber: index, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
                                 tasks.append(task)
                                 
                                 FirestoreManager.shared.addCustomData(docRef: ref, data: task)
@@ -185,11 +224,13 @@ struct UserData: Codable {
     let uid: String
     let name: String
     let email: String
+    var imagePath: String
     var taskNumber: Int = 0
     var agreeWritings: [String] = []
     var disagreeWritings: [String] = []
     var responseWritings: [String] = []
     var passRestaurant: [Int] = []
+    var blackList: [String] = []
 }
 
 struct TaskData: Codable {
