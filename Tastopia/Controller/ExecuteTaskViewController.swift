@@ -176,7 +176,7 @@ class ExecuteTaskViewController: UIViewController {
         for (index, media) in selectedMedias.enumerated() {
             group.enter()
             if media.mediaType == kUTTypeImage as String, let image = media.image {
-                FirestoreManager.shared.uploadImage(image: image, fileName: nil) { [weak self]  (result) in
+                FirestoreManager().uploadImage(image: image, fileName: nil) { [weak self]  (result) in
                     switch result {
                     case .success(let urlString):
                         self?.selectedMedias[index].urlString = urlString
@@ -187,7 +187,7 @@ class ExecuteTaskViewController: UIViewController {
                     }
                 }
             } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
-                FirestoreManager.shared.uploadVideo(url: url) { [weak self] (result) in
+                FirestoreManager().uploadVideo(url: url) { [weak self] (result) in
                     switch result {
                     case .success(let urlString):
                         self?.selectedMedias[index].urlString = urlString
@@ -210,9 +210,9 @@ class ExecuteTaskViewController: UIViewController {
                 mediaTypes.append(media.mediaType)
             }
             
-            let docRef = FirestoreManager.shared.db.collection("Writings").document()
+            let docRef = FirestoreManager().db.collection("Writings").document()
             let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, userImagePath: user.imagePath, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
-            FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
+            FirestoreManager().addCustomData(docRef: docRef, data: data)
             
             strongSelf.changeTaskStatus()
             
@@ -232,8 +232,8 @@ class ExecuteTaskViewController: UIViewController {
         for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].documentID == task.documentID {
             UserProvider.shared.userTasks[index].status = 1
         }
-        let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-        FirestoreManager.shared.addData(docRef: ref, data: ["status": 1])
+        let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+        FirestoreManager().addData(docRef: ref, data: ["status": 1])
     }
 }
 

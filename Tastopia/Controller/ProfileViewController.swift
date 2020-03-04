@@ -164,7 +164,7 @@ class ProfileViewController: UIViewController {
         
         TTSwiftMessages().wait(title: "照片更換中")
         
-        FirestoreManager.shared.uploadImage(image: image, fileName: user.uid) { [weak self] (result) in
+        FirestoreManager().uploadImage(image: image, fileName: user.uid) { [weak self] (result) in
             switch result {
             case .success(let url):
                 self?.personalImageView.image = image

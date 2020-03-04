@@ -17,52 +17,31 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var appleView: UIView!
+    @IBOutlet weak var appleButtonView: UIView!
     @IBOutlet weak var privacyButton: UIButton!
+    
+    fileprivate var currentNonce: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
+        
+        setStartLayout()
+        
+        setAppleButton()
 
-        googleButton.layer.cornerRadius = 24
-        facebookButton.layer.cornerRadius = 24
-        
-        if #available(iOS 13, *) {
-            appleView.isHidden = false
-            let button = ASAuthorizationAppleIDButton(type: .default, style: .black)
-            button.frame = CGRect(x: 0, y: 0, width: appleView.frame.width, height: appleView.frame.height)
-            button.cornerRadius = 24
-            button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
-            appleView.addSubview(button)
-        }
-        
-        let attribute: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "NotoSansTC-Bold", size: 16)!,
-            .foregroundColor: UIColor.SUMI!,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-        let attributeString = NSMutableAttributedString(string: "隱私權政策", attributes: attribute)
-        privacyButton.setAttributedTitle(attributeString, for: .normal)
     }
     
-    @IBAction func privacyButtonPressed(_ sender: UIButton) {
-        if let url = URL(string: "https://bacteriafish.github.io") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    @IBAction func googleSignInPress(_ sender: Any) {
+    @IBAction func googleSignIn(_ sender: UIButton) {
         GIDSignIn.sharedInstance().signIn()
     }
     
-    @IBAction func fbLogin(_ sender: Any) {
-        facebookLogin()
-    }
-    
-    func facebookLogin() {
+    @IBAction func facebookLogin(_ sender: UIButton) {
+        
         let loginManager = LoginManager()
+        
         loginManager.logIn(
             permissions: [.publicProfile, .email],
             viewController: self
@@ -78,6 +57,44 @@ class LoginViewController: UIViewController {
                 UserProvider.shared.login(credential: credential, name: nil, email: nil)
                 TTSwiftMessages().wait(title: "登入中")
             }
+        }
+        
+    }
+    
+    @IBAction func showPrivacyPolicy(_ sender: UIButton) {
+        if let url = URL(string: "https://bacteriafish.github.io") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    private func setStartLayout() {
+        
+        googleButton.layer.cornerRadius = 24
+        facebookButton.layer.cornerRadius = 24
+        
+        setPrivacyButtonTitle()
+    }
+    
+    private func setPrivacyButtonTitle() {
+        
+        let attribute: [NSAttributedString.Key: Any] = [
+            .font: UIFont(name: "NotoSansTC-Bold", size: 16)!,
+            .foregroundColor: UIColor.SUMI!,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributeString = NSMutableAttributedString(string: "隱私權政策", attributes: attribute)
+        privacyButton.setAttributedTitle(attributeString, for: .normal)
+    }
+    
+    private func setAppleButton() {
+        
+        if #available(iOS 13, *) {
+            appleButtonView.isHidden = false
+            let button = ASAuthorizationAppleIDButton(type: .default, style: .black)
+            button.frame = CGRect(x: 0, y: 0, width: appleButtonView.frame.width, height: appleButtonView.frame.height)
+            button.cornerRadius = 24
+            button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
+            appleButtonView.addSubview(button)
         }
     }
     
@@ -109,9 +126,6 @@ class LoginViewController: UIViewController {
         
         return result
     }
-    
-    // Unhashed nonce.
-    fileprivate var currentNonce: String?
     
     @available(iOS 13, *)
     @objc func startSignInWithAppleFlow() {
@@ -195,16 +209,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             let name = "\(givenName) \(familyName)".trimmingCharacters(in: .whitespaces)
             let email = appleIDCredential.email
 
-            // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            // Sign in with Firebase.
+
             UserProvider.shared.login(credential: credential, name: name, email: email)
             TTSwiftMessages().wait(title: "登入中")
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // Handle error.
         
         TTSwiftMessages().hide()
         

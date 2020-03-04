@@ -72,7 +72,7 @@ class TaskContentViewController: UIViewController {
         vc.task = task
         vc.passTaskID = { [weak self] newTaskID in
             guard let task = self?.task, let user = UserProvider.shared.userData else { return }
-            let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+            let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
             ref.updateData(["taskID": newTaskID])
             for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
                 UserProvider.shared.userTasks[index].taskID = newTaskID
@@ -110,7 +110,7 @@ class TaskContentViewController: UIViewController {
                         for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
                             UserProvider.shared.userTasks[index].status = 2
                         }
-                        let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+                        let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                         ref.updateData(["status": 2])
                         self?.passTask?(self?.task)
                                 
@@ -121,8 +121,8 @@ class TaskContentViewController: UIViewController {
                         if !user.passRestaurant.contains(task.restaurantNumber) {
                             UserProvider.shared.userData?.passRestaurant.append(task.restaurantNumber)
                             UserProvider.shared.userData?.taskNumber += 1
-                            let ref = FirestoreManager.shared.db.collection("Users").document(user.uid)
-                            FirestoreManager.shared.addData(docRef: ref, data: [
+                            let ref = FirestoreManager().db.collection("Users").document(user.uid)
+                            FirestoreManager().addData(docRef: ref, data: [
                                 "taskNumber": user.taskNumber + 1,
                                 "passRestaurant": FieldValue.arrayUnion([task.restaurantNumber])
                             ])
@@ -131,9 +131,9 @@ class TaskContentViewController: UIViewController {
                                 switch result {
                                 case .success(let taskTypes):
                                     guard let taskType = taskTypes.randomElement() else { return }
-                                    let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document()
+                                    let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document()
                                     let newTask = TaskData(documentID: ref.documentID, restaurantNumber: user.taskNumber + 3, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
-                                    FirestoreManager.shared.addCustomData(docRef: ref, data: newTask)
+                                    FirestoreManager().addCustomData(docRef: ref, data: newTask)
                                     
                                     UserProvider.shared.userTasks.append(newTask)
                                     
@@ -169,11 +169,11 @@ class TaskContentViewController: UIViewController {
                 switch result {
                 case .success(let taskTypes):
                     guard let taskType = taskTypes.randomElement() else { return }
-                    let newRef = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document()
+                    let newRef = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document()
                     let newTask = TaskData(documentID: newRef.documentID, restaurantNumber: task.restaurantNumber, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: newRef.documentID)
-                    FirestoreManager.shared.addCustomData(docRef: newRef, data: newTask)
+                    FirestoreManager().addCustomData(docRef: newRef, data: newTask)
                     
-                    let oldRef = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+                    let oldRef = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                     oldRef.delete()
                     
                     for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
@@ -213,7 +213,7 @@ class TaskContentViewController: UIViewController {
                 for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
                     UserProvider.shared.userTasks[index].status = 0
                 }
-                let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+                let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                 ref.updateData(["status": 0])
                 
                 self?.passTask?(self?.task)

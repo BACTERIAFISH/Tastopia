@@ -41,6 +41,9 @@
 		CF303EC5240166FE005EE7E4 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF303EC4240166FE005EE7E4 /* QuestionView.swift */; };
 		CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */; };
 		CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF394DAD23F94012003B9CEB /* LaunchViewController.swift */; };
+		CF3BD7F2240E44B30044B3DD /* FirestoreParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3BD7F1240E44B30044B3DD /* FirestoreParser.swift */; };
+		CF3BD7F4240E47240044B3DD /* FirestoreReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3BD7F3240E47240044B3DD /* FirestoreReference.swift */; };
+		CF3BD7F7240EB86E0044B3DD /* TTConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3BD7F6240EB86E0044B3DD /* TTConstant.swift */; };
 		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
 		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
@@ -102,6 +105,9 @@
 		CF303EC4240166FE005EE7E4 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		CF394DAD23F94012003B9CEB /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		CF3BD7F1240E44B30044B3DD /* FirestoreParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreParser.swift; sourceTree = "<group>"; };
+		CF3BD7F3240E47240044B3DD /* FirestoreReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReference.swift; sourceTree = "<group>"; };
+		CF3BD7F6240EB86E0044B3DD /* TTConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTConstant.swift; sourceTree = "<group>"; };
 		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -217,7 +223,7 @@
 			children = (
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
-				CF78268023E57D4800B70ED4 /* FirestoreManager.swift */,
+				CF3BD7F5240E473C0044B3DD /* Firestore */,
 				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
 				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
@@ -230,6 +236,7 @@
 		CF05176223E504B6004EE1CB /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				CF3BD7F6240EB86E0044B3DD /* TTConstant.swift */,
 				CFA113E723FD693400EBE412 /* google-map-style.json */,
 				CFF6435223E3F6BD003CD246 /* Fonts */,
 				CF11C4542409EE8F00F36F35 /* TastopiaTest.swift */,
@@ -280,6 +287,16 @@
 				CF303EC02400AA9B005EE7E4 /* SwiftMessagesWrapper.swift */,
 			);
 			path = "Third Party Wrapper";
+			sourceTree = "<group>";
+		};
+		CF3BD7F5240E473C0044B3DD /* Firestore */ = {
+			isa = PBXGroup;
+			children = (
+				CF78268023E57D4800B70ED4 /* FirestoreManager.swift */,
+				CF3BD7F3240E47240044B3DD /* FirestoreReference.swift */,
+				CF3BD7F1240E44B30044B3DD /* FirestoreParser.swift */,
+			);
+			path = Firestore;
 			sourceTree = "<group>";
 		};
 		CF4B522523F7DE140006B07B /* Task Content */ = {
@@ -531,8 +548,11 @@
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
 				CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */,
 				CF303EC5240166FE005EE7E4 /* QuestionView.swift in Sources */,
+				CF3BD7F2240E44B30044B3DD /* FirestoreParser.swift in Sources */,
 				CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */,
+				CF3BD7F7240EB86E0044B3DD /* TTConstant.swift in Sources */,
 				CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */,
+				CF3BD7F4240E47240044B3DD /* FirestoreReference.swift in Sources */,
 				CF05175D23E412ED004EE1CB /* UIImage+Extension.swift in Sources */,
 				CF12236823E26C91004A41B3 /* Tastopia.xcdatamodeld in Sources */,
 				CF2A94A123E96A4A0056B532 /* TaskRecordViewController.swift in Sources */,

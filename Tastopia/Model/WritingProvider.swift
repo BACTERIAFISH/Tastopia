@@ -11,7 +11,7 @@ import Foundation
 class WritingProvider {
     
     func getWritings(number: Int, order: String = "date", completion: @escaping (Result<[WritingData], Error>) -> Void) {
-        FirestoreManager.shared.db.collection("Writings").whereField("number", isEqualTo: number).order(by: "date", descending: true).getDocuments { (query, error) in
+        FirestoreManager().db.collection("Writings").whereField("number", isEqualTo: number).order(by: "date", descending: true).getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
                 return
@@ -38,7 +38,7 @@ class WritingProvider {
     }
     
     func checkTaskWritings(task: TaskData, completion: @escaping (Result<Bool, Error>) -> Void) {
-        FirestoreManager.shared.db.collection("Writings").whereField("taskID", isEqualTo: task.taskID).getDocuments { (query, error) in
+        FirestoreManager().db.collection("Writings").whereField("taskID", isEqualTo: task.taskID).getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
                 return

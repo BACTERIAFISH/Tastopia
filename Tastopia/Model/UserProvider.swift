@@ -17,32 +17,33 @@ class UserProvider {
     
     private init() {}
     
-    func autoLogin() {
+    func autoLogin(completion: @escaping (Bool) -> Void) {
         
         if let user = Auth.auth().currentUser {
             
-            FirestoreManager.shared.readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
+            FirestoreManager().readData(FirestoreReference().usersDocumentRef(doc: user.uid)) { (result) in
+                
                 switch result {
-                case .success(let userData):
-                    self?.userData = userData
-                    self?.checkUserTasks()
-                    
-                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
-                    appDelegate.window?.rootViewController = homeVC
-                    
+                case .success(let snapshot):
+                    FirestoreParser().parseDocument(decode: snapshot, from: UserData.self) { [weak self] (result) in
+                        switch result {
+                        case .success(let user):
+                            self?.userData = user
+                            self?.checkUserTasks()
+                            
+                            completion(true)
+                        case .failure(let error):
+                            print("FirestoreParser parseDocument error: \(error)")
+                        }
+                    }
                 case .failure(let error):
-                    print("autoLogin error: \(error)")
+                    print("FirestoreManager readData error: \(error)")
                 }
             }
             
         } else {
             
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
-            appDelegate.window?.rootViewController = loginVC
+            completion(false)
         }
         
     }
@@ -68,9 +69,9 @@ class UserProvider {
                     email = user.email
                 }
                 
-                if let name = name, let email = email { FirestoreManager.shared.db.collection("Users").document(user.uid).setData(["name": name], merge: true)
+                if let name = name, let email = email { FirestoreManager().db.collection("Users").document(user.uid).setData(["name": name], merge: true)
                     
-                    FirestoreManager.shared.readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
+                    FirestoreManager().readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
                         switch result {
                         case .success(let userData):
                             self?.userData = userData
@@ -83,7 +84,7 @@ class UserProvider {
                             
                         case .failure(_):
                             
-                            FirestoreManager.shared.uploadImage(image: UIImage.asset(.Image_Tastopia_01)!, fileName: user.uid) { (result) in
+                            FirestoreManager().uploadImage(image: UIImage.asset(.Image_Tastopia_01)!, fileName: user.uid) { (result) in
                                 switch result {
                                 case .success(let urlString):
                                     print(urlString)
@@ -91,7 +92,7 @@ class UserProvider {
                                     let userData = UserData(uid: user.uid, name: name, email: email, imagePath: urlString)
                                     self?.userData = userData
                                     do {
-                                        try FirestoreManager.shared.db.collection("Users").document(user.uid).setData(from: userData)
+                                        try FirestoreManager().db.collection("Users").document(user.uid).setData(from: userData)
                                         
                                         self?.checkUserTasks()
                                         
@@ -142,7 +143,7 @@ class UserProvider {
             return
         }
         
-        let ref = FirestoreManager.shared.db.collection("Users").document(userData.uid).collection("Tasks").order(by: "restaurantNumber")
+        let ref = FirestoreManager().db.collection("Users").document(userData.uid).collection("Tasks").order(by: "restaurantNumber")
         
         ref.getDocuments { [weak self] (query, error) in
             if let error = error {
@@ -172,11 +173,11 @@ class UserProvider {
                             var tasks = [TaskData]()
                             for index in 0..<userData.taskNumber + 3 {
                                 guard let taskType = taskTypes.randomElement() else { return }
-                                let ref = FirestoreManager.shared.db.collection("Users").document(userData.uid).collection("Tasks").document()
+                                let ref = FirestoreManager().db.collection("Users").document(userData.uid).collection("Tasks").document()
                                 let task = TaskData(documentID: ref.documentID, restaurantNumber: index, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
                                 tasks.append(task)
                                 
-                                FirestoreManager.shared.addCustomData(docRef: ref, data: task)
+                                FirestoreManager().addCustomData(docRef: ref, data: task)
                             }
                             self?.userTasks = tasks
                             NotificationCenter.default.post(name: NSNotification.Name("userTasks"), object: nil)
@@ -192,7 +193,7 @@ class UserProvider {
     }
     
     func getTaskTypes(completion: @escaping (Result<[TaskType], Error>) -> Void) {
-        let ref = FirestoreManager.shared.db.collection("TaskTypes")
+        let ref = FirestoreManager().db.collection("TaskTypes")
         
         ref.getDocuments { (query, error) in
             if let error = error {

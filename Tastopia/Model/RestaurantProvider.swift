@@ -17,7 +17,7 @@ class RestaurantProvider {
         
         let number = user.taskNumber + 3
         
-        FirestoreManager.shared.db.collection("Restaurants")
+        FirestoreManager().db.collection("Restaurants")
         .whereField("number", isLessThan: number)
         .getDocuments { (query, error) in
             if let error = error {
