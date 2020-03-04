@@ -53,9 +53,18 @@ class LoginViewController: UIViewController {
                 print("fb login fail: \(error)")
             case .success(_, _, let accessToken):
                 print("fb login success")
+                
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-                UserProvider.shared.login(credential: credential, name: nil, email: nil)
+                
                 TTSwiftMessages().wait(title: "登入中")
+                UserProvider.shared.login(credential: credential, name: nil, email: nil) { [weak self] (isLogin) in
+                    if isLogin {
+                        self?.showHomeVC()
+                    } else {
+                        TTSwiftMessages().hide()
+                        TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "登入失敗", body: "")
+                    }
+                }
             }
         }
         
@@ -96,6 +105,17 @@ class LoginViewController: UIViewController {
             button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
             appleButtonView.addSubview(button)
         }
+    }
+    
+    private func showHomeVC() {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let mainStoryboard = UIStoryboard(name: TTConstant.main, bundle: nil)
+        
+        guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+        
+        appDelegate.window?.rootViewController = homeVC
     }
     
     private func randomNonceString(length: Int = 32) -> String {
@@ -175,9 +195,16 @@ extension LoginViewController: GIDSignInDelegate {
         
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        
-        UserProvider.shared.login(credential: credential, name: nil, email: nil)
+    
         TTSwiftMessages().wait(title: "登入中")
+        UserProvider.shared.login(credential: credential, name: nil, email: nil) { [weak self] (isLogin) in
+            if isLogin {
+                self?.showHomeVC()
+            } else {
+                TTSwiftMessages().hide()
+                TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "登入失敗", body: "")
+            }
+        }
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -211,8 +238,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
 
-            UserProvider.shared.login(credential: credential, name: name, email: email)
             TTSwiftMessages().wait(title: "登入中")
+            UserProvider.shared.login(credential: credential, name: name, email: email) { [weak self] (isLogin) in
+                if isLogin {
+                    self?.showHomeVC()
+                } else {
+                    TTSwiftMessages().hide()
+                    TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "登入失敗", body: "")
+                }
+            }
         }
     }
     

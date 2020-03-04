@@ -15,29 +15,21 @@ class UserProvider {
     var userData: UserData?
     var userTasks = [TaskData]()
     
+    let firestoreManager = FirestoreManager()
+    let firestoreReference = FirestoreReference()
+    let firestoreParser = FirestoreParser()
+    
     private init() {}
     
     func autoLogin(completion: @escaping (Bool) -> Void) {
         
         if let user = Auth.auth().currentUser {
             
-            FirestoreManager().readData(FirestoreReference().usersDocumentRef(doc: user.uid)) { (result) in
-                
-                switch result {
-                case .success(let snapshot):
-                    FirestoreParser().parseDocument(decode: snapshot, from: UserData.self) { [weak self] (result) in
-                        switch result {
-                        case .success(let user):
-                            self?.userData = user
-                            self?.checkUserTasks()
-                            
-                            completion(true)
-                        case .failure(let error):
-                            print("FirestoreParser parseDocument error: \(error)")
-                        }
-                    }
-                case .failure(let error):
-                    print("FirestoreManager readData error: \(error)")
+            getUserData(uid: user.uid, name: nil) { (gotUserData) in
+                if gotUserData {
+                    completion(true)
+                } else {
+                    completion(false)
                 }
             }
             
@@ -48,74 +40,46 @@ class UserProvider {
         
     }
     
-    func login(credential: AuthCredential, name inputName: String?, email inputEmail: String?) {
-        
-        var name = inputName
-        var email = inputEmail
+    func login(credential: AuthCredential, name inputName: String?, email inputEmail: String?, completion: @escaping (Bool) -> Void) {
         
         Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
+            
             if let error = error {
                 print("firebase signIn error: \(error)")
                 return
             }
             
-            if let user = authResult?.user {
+            guard
+                let strongSelf = self,
+                let user = authResult?.user,
+                let name = inputName ?? user.displayName,
+                let email = inputEmail ?? user.email
+                else { return }
+            
+            strongSelf.getUserData(uid: user.uid, name: name) { (gotUserData) in
                 
-                if name == nil {
-                    name = user.displayName
-                }
-                
-                if email == nil {
-                    email = user.email
-                }
-                
-                if let name = name, let email = email { FirestoreManager().db.collection("Users").document(user.uid).setData(["name": name], merge: true)
+                if gotUserData {
                     
-                    FirestoreManager().readCustomData(collection: "Users", document: user.uid, dataType: UserData.self) { [weak self] (result) in
-                        switch result {
-                        case .success(let userData):
-                            self?.userData = userData
-                            self?.checkUserTasks()
-                            
-                            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
-                            appDelegate.window?.rootViewController = homeVC
-                            
-                        case .failure(_):
-                            
-                            FirestoreManager().uploadImage(image: UIImage.asset(.Image_Tastopia_01)!, fileName: user.uid) { (result) in
-                                switch result {
-                                case .success(let urlString):
-                                    print(urlString)
-                                    
-                                    let userData = UserData(uid: user.uid, name: name, email: email, imagePath: urlString)
-                                    self?.userData = userData
-                                    do {
-                                        try FirestoreManager().db.collection("Users").document(user.uid).setData(from: userData)
-                                        
-                                        self?.checkUserTasks()
-                                        
-                                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                                        guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
-                                        appDelegate.window?.rootViewController = homeVC
-                                        
-                                    } catch {
-                                        print("login create new user error: \(error)")
-                                    }
-                                case .failure(let error):
-                                    print("login upload image error: \(error)")
-                                }
-                            }
-                            
-                        }
+                    completion(true)
+                    
+                } else {
+                    
+                    strongSelf.registerUser(uid: user.uid, name: name, email: email) { (isRegistered) in
                         
+                        if isRegistered {
+                            
+                            completion(true)
+                            
+                        } else {
+                            
+                            completion(false)
+                        }
                     }
+                    
                 }
-                
             }
         }
+        
     }
     
     func signOut() {
@@ -137,57 +101,138 @@ class UserProvider {
         }
     }
     
-    func checkUserTasks() {
+    private func getUserData(uid: String, name: String?, completion: @escaping (Bool) -> Void) {
         
-        guard let userData = userData else {
-            return
-        }
-        
-        let ref = FirestoreManager().db.collection("Users").document(userData.uid).collection("Tasks").order(by: "restaurantNumber")
-        
-        ref.getDocuments { [weak self] (query, error) in
-            if let error = error {
-                print("checkUserTasks error: \(error)")
-                return
-            } else {
-                if query!.documents.count > 0 {
-                    for doc in query!.documents {
-                        let result = Result {
-                            try doc.data(as: TaskData.self)
+        firestoreManager.readData(firestoreReference.usersDocumentRef(doc: uid)) { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let snapshot):
+                strongSelf.firestoreParser.parseDocument(decode: snapshot, from: UserData.self) { (result) in
+                    
+                    switch result {
+                    case .success(var user):
+                        
+                        if let name = name, name != user.name {
+                            
+                            let ref = strongSelf.firestoreReference.usersDocumentRef(doc: user.uid)
+                            
+                            ref.setData(["name": name], merge: true)
+                            
+                            user.name = name
                         }
                         
+                        strongSelf.userData = user
+                        strongSelf.checkUserTasks()
+                        
+                        completion(true)
+                        
+                    case .failure(let error):
+                        
+                        print("FirestoreParser parseDocument error: \(error)")
+                    
+                        completion(false)
+                    }
+                }
+            case .failure(let error):
+                print("FirestoreManager readData error: \(error)")
+                completion(false)
+            }
+        }
+    }
+    
+    private func registerUser(uid: String, name: String, email: String, completion: @escaping (Bool) -> Void) {
+        
+        firestoreManager.uploadImage(image: UIImage.asset(.Image_Tastopia_01)!, fileName: uid) { [weak self] (result) in
+            
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let urlString):
+
+                let userData = UserData(uid: uid, name: name, email: email, imagePath: urlString)
+                
+                strongSelf.userData = userData
+                
+                do {
+                    let ref = strongSelf.firestoreReference.usersDocumentRef(doc: uid)
+                    try ref.setData(from: userData)
+
+                    strongSelf.checkUserTasks()
+                    
+                    completion(true)
+
+                } catch {
+                    print("registerUser create new user error: \(error)")
+                    completion(false)
+                }
+            case .failure(let error):
+                print("registerUser upload image error: \(error)")
+                completion(false)
+            }
+        }
+    }
+    
+    private func checkUserTasks() {
+        
+        guard let userData = userData else { return }
+        
+        let ref = firestoreReference.usersTasksCollectionRef(doc: userData.uid)
+        
+        firestoreManager.readData(ref) { [weak self] (result) in
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let snapshot):
+                if snapshot!.documents.count > 0 {
+                    
+                    strongSelf.firestoreParser.parseDocuments(decode: snapshot, from: TaskData.self) { (result) in
                         switch result {
-                        case .success(let task):
-                            if let task = task {
-                                self?.userTasks.append(task)
-                            }
+                        case .success(let taskDataArr):
+                            strongSelf.userTasks = taskDataArr
+                            NotificationCenter.default.post(name: TTConstant.userTasksNC, object: nil)
                         case .failure(let error):
-                            print("checkUserTasks decode error: \(error)")
+                            print("checkUserTasks error: \(error)")
                         }
                     }
-                    NotificationCenter.default.post(name: NSNotification.Name("userTasks"), object: nil)
-                } else {
-                    self?.getTaskTypes(completion: { (result) in
-                        switch result {
-                        case .success(let taskTypes):
-                            var tasks = [TaskData]()
-                            for index in 0..<userData.taskNumber + 3 {
-                                guard let taskType = taskTypes.randomElement() else { return }
-                                let ref = FirestoreManager().db.collection("Users").document(userData.uid).collection("Tasks").document()
-                                let task = TaskData(documentID: ref.documentID, restaurantNumber: index, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
-                                tasks.append(task)
-                                
-                                FirestoreManager().addCustomData(docRef: ref, data: task)
-                            }
-                            self?.userTasks = tasks
-                            NotificationCenter.default.post(name: NSNotification.Name("userTasks"), object: nil)
-                        case .failure(let error):
-                            print("getTaskTypes error: \(error)")
-                        }
-                    })
                     
+                } else {
+                    
+                    strongSelf.createUserTasks()
+
                 }
-                
+            case .failure(let error):
+                print("checkUserTasks error: \(error)")
+            }
+        }
+        
+    }
+    
+    private func createUserTasks() {
+        
+        guard let userData = userData else { return }
+        
+        let ref = firestoreReference.taskTypesCollectionRef()
+        
+        firestoreParser.parseDocuments(decode: ref, from: TaskType.self) { [weak self] (result) in
+            
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let taskTypes):
+                var tasks = [TaskData]()
+                for index in 0..<userData.taskNumber + 3 {
+                    guard let taskType = taskTypes.randomElement() else { return }
+                    let ref = strongSelf.firestoreReference.newUsersTasksDocumentRef(doc: userData.uid)
+                    let task = TaskData(documentID: ref.documentID, restaurantNumber: index, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
+                    tasks.append(task)
+                    
+                    strongSelf.firestoreManager.addCustomData(docRef: ref, data: task)
+                }
+                strongSelf.userTasks = tasks
+                NotificationCenter.default.post(name: TTConstant.userTasksNC, object: nil)
+            case .failure(let error):
+                print("checkUserTasks error: \(error)")
             }
         }
     }
@@ -223,7 +268,7 @@ class UserProvider {
 
 struct UserData: Codable {
     let uid: String
-    let name: String
+    var name: String
     let email: String
     var imagePath: String
     var taskNumber: Int = 0

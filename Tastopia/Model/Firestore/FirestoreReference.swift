@@ -15,10 +15,25 @@ class FirestoreReference {
         static let taskTypes = "TaskTypes"
         static let restaurants = "Restaurants"
         static let writings = "Writings"
+        static let tasks = "Tasks"
     }
     
+    let db = Firestore.firestore()
+    
     func usersDocumentRef(doc path: String) -> DocumentReference {
-        return Firestore.firestore().collection(FirestorePath.users).document(path)
+        return db.collection(FirestorePath.users).document(path)
+    }
+    
+    func usersTasksCollectionRef(doc path: String) -> CollectionReference {
+        return db.collection(FirestorePath.users).document(path).collection(FirestorePath.tasks)
+    }
+    
+    func newUsersTasksDocumentRef(doc path: String) -> DocumentReference {
+        return db.collection(FirestorePath.users).document(path).collection(FirestorePath.tasks).document()
+    }
+    
+    func taskTypesCollectionRef() -> CollectionReference {
+        return db.collection(FirestorePath.taskTypes)
     }
     
 }

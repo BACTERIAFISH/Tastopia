@@ -6,7 +6,11 @@
 //  Copyright © 2020 FISH. All rights reserved.
 //
 
+import Foundation
+
 class TTConstant {
     
     static let main = "Main"
+    
+    static let userTasksNC = NSNotification.Name("userTasks")
 }
