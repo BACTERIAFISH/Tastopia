@@ -88,13 +88,7 @@ class UserProvider {
             try firebaseAuth.signOut()
             print("sign out")
             
-            UserDefaults.standard.removeObject(forKey: "userStatus")
-            
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
-            
-            appDelegate.window?.rootViewController = loginVC
+            UserDefaults.standard.removeObject(forKey: TTConstant.userStatus)
             
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
@@ -238,32 +232,19 @@ class UserProvider {
     }
     
     func getTaskTypes(completion: @escaping (Result<[TaskType], Error>) -> Void) {
-        let ref = FirestoreManager().db.collection("TaskTypes")
         
-        ref.getDocuments { (query, error) in
-            if let error = error {
-                completion(Result.failure(error))
-                return
-            } else {
-                var taskTypes = [TaskType]()
-                for doc in query!.documents {
-                    let result = Result {
-                        try doc.data(as: TaskType.self)
-                    }
-                    
-                    switch result {
-                    case .success(let taskType):
-                        if let taskType = taskType {
-                            taskTypes.append(taskType)
-                        }
-                    case .failure(let error):
-                        print("checkUserTasks decode error: \(error)")
-                    }
-                }
+        let ref = firestoreReference.taskTypesCollectionRef()
+        
+        firestoreParser.parseDocuments(decode: ref, from: TaskType.self) { (result) in
+            switch result {
+            case .success(let taskTypes):
                 completion(Result.success(taskTypes))
+            case .failure(let error):
+                completion(Result.failure(error))
             }
         }
     }
+    
 }
 
 struct UserData: Codable {

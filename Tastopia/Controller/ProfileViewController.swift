@@ -99,6 +99,12 @@ class ProfileViewController: UIViewController {
     
     @IBAction func signOutButtonPressed(_ sender: UIButton) {
         UserProvider.shared.signOut()
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let storyboard = UIStoryboard(name: TTConstant.main, bundle: nil)
+        guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+        
+        appDelegate.window?.rootViewController = loginVC
     }
     
     @objc func back() {

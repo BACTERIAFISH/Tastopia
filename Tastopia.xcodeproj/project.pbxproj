@@ -222,13 +222,13 @@
 			isa = PBXGroup;
 			children = (
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
-				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 				CF3BD7F5240E473C0044B3DD /* Firestore */,
-				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
 				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
+				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
 				CF68D5D623FA7DE1005B03ED /* MapProvider.swift */,
+				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";

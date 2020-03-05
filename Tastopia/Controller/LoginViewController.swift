@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var appleButtonView: UIView!
     @IBOutlet weak var privacyButton: UIButton!
+    @IBOutlet weak var eulaButton: UIButton!
     
     fileprivate var currentNonce: String?
     
@@ -76,23 +77,31 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @IBAction func showEULA(_ sender: UIButton) {
+        if let url = URL(string: "https://www.eulatemplate.com/live.php?token=EeoBzLEiaDGeNQo59O8FrAV2alEGII6t") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     private func setStartLayout() {
         
         googleButton.layer.cornerRadius = 24
         facebookButton.layer.cornerRadius = 24
         
-        setPrivacyButtonTitle()
+        setButtonTitleUnderline(button: privacyButton, title: "隱私權政策")
+        setButtonTitleUnderline(button: eulaButton, title: "使用條款")
+
     }
     
-    private func setPrivacyButtonTitle() {
+    private func setButtonTitleUnderline(button: UIButton, title: String) {
         
         let attribute: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "NotoSansTC-Bold", size: 16)!,
             .foregroundColor: UIColor.SUMI!,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
-        let attributeString = NSMutableAttributedString(string: "隱私權政策", attributes: attribute)
-        privacyButton.setAttributedTitle(attributeString, for: .normal)
+        let attributeString = NSMutableAttributedString(string: title, attributes: attribute)
+        button.setAttributedTitle(attributeString, for: .normal)
     }
     
     private func setAppleButton() {

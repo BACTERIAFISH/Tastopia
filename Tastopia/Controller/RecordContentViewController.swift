@@ -72,12 +72,19 @@ class RecordContentViewController: UIViewController {
         //        let seeAction = UIAlertAction(title: "查看作者", style: .default) { (action) in
         //
         //        }
+        let reportAction = UIAlertAction(title: "檢舉文章", style: .default) { _ in
+            TTSwiftMessages().question(title: "檢舉文章", body: "確定要檢舉這篇文章？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
+                
+                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "檢舉已收到", body: "將會盡快處理您的檢舉\n如果不想看到文章\n請選擇封鎖作者", duration: 3)
+            })
+        }
         let blockAction = UIAlertAction(title: "封鎖作者", style: .default) { [weak self] _ in
             TTSwiftMessages().question(title: "封鎖作者", body: "不再顯示該作者的文章和留言\n確定要封鎖作者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
                 self?.blockAuthor()
             })
         }
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(reportAction)
         alertController.addAction(blockAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
@@ -376,6 +383,12 @@ extension RecordContentViewController: UITableViewDelegate {
             //        let seeAction = UIAlertAction(title: "查看留言者", style: .default) { (action) in
             //
             //        }
+            let reportAction = UIAlertAction(title: "檢舉留言", style: .default) { _ in
+                TTSwiftMessages().question(title: "檢舉留言", body: "確定要檢舉這則留言？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
+                    
+                    TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "檢舉已收到", body: "將會盡快處理您的檢舉\n如果不想看到留言\n請選擇封鎖留言者", duration: 3)
+                })
+            }
             let blockAction = UIAlertAction(title: "封鎖留言者", style: .default) { [weak self] _ in
                 
                 TTSwiftMessages().question(title: "封鎖留言者", body: "不再顯示該留言者的文章和留言\n確定要封鎖留言者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
@@ -384,6 +397,7 @@ extension RecordContentViewController: UITableViewDelegate {
                 })
             }
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alertController.addAction(reportAction)
             alertController.addAction(blockAction)
             alertController.addAction(cancelAction)
             present(alertController, animated: true)

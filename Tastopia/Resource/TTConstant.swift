@@ -12,5 +12,7 @@ class TTConstant {
     
     static let main = "Main"
     
+    static let userStatus = "userStatus"
+    
     static let userTasksNC = NSNotification.Name("userTasks")
 }
