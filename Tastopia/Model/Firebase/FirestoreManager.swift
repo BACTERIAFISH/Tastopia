@@ -10,8 +10,6 @@ import Firebase
 import FirebaseFirestoreSwift
 
 class FirestoreManager {
-
-//    static let shared = FirestoreManager()
     
     let db = Firestore.firestore()
     
@@ -34,21 +32,6 @@ class FirestoreManager {
             print("Firestore setData error: \(error)")
         }
     }
-    
-//    func readData(collection: String, document: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
-//        let docRef = db.collection(collection).document(document)
-//        docRef.getDocument { (doc, error) in
-//            if let error = error {
-//                completion(Result.failure(error))
-//                return
-//            }
-//            if let doc = doc, doc.exists, let data = doc.data() {
-//                completion(Result.success(data))
-//            } else {
-//                print("Document does not exist.")
-//            }
-//        }
-//    }
     
     func readData(_ ref: DocumentReference, completion: @escaping (Result<DocumentSnapshot?, Error>) -> Void) {
 

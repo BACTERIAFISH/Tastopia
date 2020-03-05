@@ -89,15 +89,15 @@ class ExecuteTaskViewController: UIViewController {
         }
         ac.addAction(action)
         
-        let titles = ["相片", "影片"]
+        let titles = [TTConstant.photo, TTConstant.video]
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
                 let imagePicker = UIImagePickerController()
                 switch title {
-                case "相片":
+                case TTConstant.photo:
                     imagePicker.sourceType = .camera
-                case "影片":
+                case TTConstant.video:
                     imagePicker.sourceType = .camera
                     imagePicker.mediaTypes = [kUTTypeMovie as String]
                 default:

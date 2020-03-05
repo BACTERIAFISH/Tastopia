@@ -10,7 +10,13 @@ import GoogleMaps
 
 class MapProvider {
     
-    func createMapRectangle(map: GMSMapView, latitude: CLLocationDegrees, longitude: CLLocationDegrees, height: CLLocationDegrees, width: CLLocationDegrees, fillColor: UIColor = .black) {
+    func createWorldMapShadow(map: GMSMapView) {
+        createMapRectangle(map: map, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        createMapRectangle(map: map, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        createMapRectangle(map: map, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+    }
+    
+    private func createMapRectangle(map: GMSMapView, latitude: CLLocationDegrees, longitude: CLLocationDegrees, height: CLLocationDegrees, width: CLLocationDegrees, fillColor: UIColor = .black) {
         let path = GMSMutablePath()
         
         path.addLatitude(latitude, longitude: longitude)

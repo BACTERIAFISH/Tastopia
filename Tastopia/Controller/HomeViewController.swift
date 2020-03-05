@@ -29,6 +29,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var shadowLeftView: UIView!
     @IBOutlet weak var shadowRightView: UIView!
     
+    let mapProvider = MapProvider()
+    
     var locationManager = CLLocationManager()
     var markIconSize: MarkerIconSize = .small
     
@@ -45,26 +47,28 @@ class HomeViewController: UIViewController {
         
         TTSwiftMessages().hideAll()
         
-        mapView.delegate = self
-        mapView.settings.myLocationButton = true
-        mapView.isMyLocationEnabled = true
-        mapView.settings.compassButton = true
+        setMap()
         
-        do {
-          if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
-            mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-          } else {
-            print("Unable to find style.json")
-          }
-        } catch {
-          print("One or more of the map styles failed to load. \(error)")
-        }
+//        mapView.delegate = self
+//        mapView.settings.myLocationButton = true
+//        mapView.isMyLocationEnabled = true
+//        mapView.settings.compassButton = true
+//
+//        do {
+//          if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
+//            mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+//          } else {
+//            print("Unable to find google-map-style.json")
+//          }
+//        } catch {
+//          print("The map styles failed to load. \(error)")
+//        }
         
         getTaskRestaurant()
         
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
 
     }
     
@@ -172,9 +176,33 @@ class HomeViewController: UIViewController {
             mapView.isHidden = true
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
         @unknown default:
-            print("switch CLLocationManager.authorizationStatus() error")
+            print("checkLocationAuth switch CLLocationManager.authorizationStatus() error")
         }
 
+    }
+    
+    func setMap() {
+        
+        mapView.delegate = self
+        mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true
+        mapView.settings.compassButton = true
+        
+        do {
+          if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
+            mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+          } else {
+            print("Unable to find google-map-style.json")
+          }
+        } catch {
+          print("The map styles failed to load. \(error)")
+        }
+        
+        mapProvider.createWorldMapShadow(map: mapView)
+        
+//        mapProvider.createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        mapProvider.createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        mapProvider.createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
     }
     
     func getTaskRestaurant() {
@@ -215,11 +243,13 @@ class HomeViewController: UIViewController {
     @objc func addTaskRestaurant() {
         mapView.clear()
         
+        mapProvider.createWorldMapShadow(map: mapView)
+        
         getTaskRestaurant()
         
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+//        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
     }
     
     @objc func userTasksGot() {

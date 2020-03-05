@@ -59,6 +59,7 @@
 		CF78268123E57D4800B70ED4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268023E57D4800B70ED4 /* FirestoreManager.swift */; };
 		CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */; };
 		CF78268723E675CD00B70ED4 /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78268623E675CD00B70ED4 /* UserProvider.swift */; };
+		CF79015C2410F23F00BFC387 /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF79015B2410F23F00BFC387 /* UserObject.swift */; };
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFA113E823FD693400EBE412 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA113E723FD693400EBE412 /* google-map-style.json */; };
@@ -123,6 +124,7 @@
 		CF78268023E57D4800B70ED4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantProvider.swift; sourceTree = "<group>"; };
 		CF78268623E675CD00B70ED4 /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
+		CF79015B2410F23F00BFC387 /* UserObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFA113E723FD693400EBE412 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
@@ -222,8 +224,8 @@
 			isa = PBXGroup;
 			children = (
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
-				CF3BD7F5240E473C0044B3DD /* Firestore */,
-				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
+				CF3BD7F5240E473C0044B3DD /* Firebase */,
+				CF79015D2410F2D000BFC387 /* User */,
 				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
@@ -289,14 +291,14 @@
 			path = "Third Party Wrapper";
 			sourceTree = "<group>";
 		};
-		CF3BD7F5240E473C0044B3DD /* Firestore */ = {
+		CF3BD7F5240E473C0044B3DD /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
 				CF78268023E57D4800B70ED4 /* FirestoreManager.swift */,
 				CF3BD7F3240E47240044B3DD /* FirestoreReference.swift */,
 				CF3BD7F1240E44B30044B3DD /* FirestoreParser.swift */,
 			);
-			path = Firestore;
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		CF4B522523F7DE140006B07B /* Task Content */ = {
@@ -306,6 +308,15 @@
 				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
 			);
 			path = "Task Content";
+			sourceTree = "<group>";
+		};
+		CF79015D2410F2D000BFC387 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				CF78268623E675CD00B70ED4 /* UserProvider.swift */,
+				CF79015B2410F23F00BFC387 /* UserObject.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
@@ -529,6 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */,
+				CF79015C2410F23F00BFC387 /* UserObject.swift in Sources */,
 				CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */,
 				CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */,
 				CF394DAC23F91CDD003B9CEB /* JGProgressHUDWrapper.swift in Sources */,

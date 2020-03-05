@@ -206,9 +206,7 @@ class UserProvider {
         
         guard let userData = userData else { return }
         
-        let ref = firestoreReference.taskTypesCollectionRef()
-        
-        firestoreParser.parseDocuments(decode: ref, from: TaskType.self) { [weak self] (result) in
+        getTaskTypes { [weak self] (result) in
             
             guard let strongSelf = self else { return }
             
@@ -226,7 +224,7 @@ class UserProvider {
                 strongSelf.userTasks = tasks
                 NotificationCenter.default.post(name: TTConstant.userTasksNC, object: nil)
             case .failure(let error):
-                print("checkUserTasks error: \(error)")
+                print("ceateUserTasks error: \(error)")
             }
         }
     }
@@ -245,34 +243,4 @@ class UserProvider {
         }
     }
     
-}
-
-struct UserData: Codable {
-    let uid: String
-    var name: String
-    let email: String
-    var imagePath: String
-    var taskNumber: Int = 0
-    var agreeWritings: [String] = []
-    var disagreeWritings: [String] = []
-    var responseWritings: [String] = []
-    var passRestaurant: [Int] = []
-    var blackList: [String] = []
-}
-
-struct TaskData: Codable {
-    let documentID: String
-    let restaurantNumber: Int
-    let people: Int
-    let media: Int
-    let composition: Int
-    var status: Int // 0, 1, 2
-    var taskID: String
-}
-
-struct TaskType: Codable {
-    let documentID: String
-    let people: Int
-    let media: Int
-    let composition: Int
 }
