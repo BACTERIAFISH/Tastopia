@@ -14,5 +14,10 @@ class TTConstant {
     
     static let userStatus = "userStatus"
     
+    static let photo = "相片"
+    
+    static let video = "影片"
+    
     static let userTasksNC = NSNotification.Name("userTasks")
+
 }

@@ -38,6 +38,13 @@ class WritingProvider {
     }
     
     func checkTaskWritings(task: TaskData, completion: @escaping (Result<Bool, Error>) -> Void) {
+        
+        // MARK: for newer
+        if task.restaurantNumber == 0 {
+            completion(Result.success(true))
+            return
+        }
+        
         FirestoreManager().db.collection("Writings").whereField("taskID", isEqualTo: task.taskID).getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))

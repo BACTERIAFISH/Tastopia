@@ -95,9 +95,9 @@ class ExecuteTaskViewController: UIViewController {
                 
                 let imagePicker = UIImagePickerController()
                 switch title {
-                case "Camera":
+                case "相片":
                     imagePicker.sourceType = .camera
-                case "Video":
+                case "影片":
                     imagePicker.sourceType = .camera
                     imagePicker.mediaTypes = [kUTTypeMovie as String]
                 default:
@@ -143,13 +143,11 @@ class ExecuteTaskViewController: UIViewController {
         
         guard let task = task, let composition = compositionTextView.text else { return }
         
-        // composition fail
         if composition.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count < task.composition {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "字數不足")
             return
         }
         
-        // media fail
         if selectedMedias.count < task.media {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "照片、影片不足")
             return
@@ -159,8 +157,7 @@ class ExecuteTaskViewController: UIViewController {
         
         let distanceMeter = location.distance(from: CLLocation(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude))
         
-        // distance > 10 meters
-        if distanceMeter > 10 {
+        if distanceMeter > 10, task.restaurantNumber != 0 {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "地點錯誤")
             return
         }
