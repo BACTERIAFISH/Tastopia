@@ -175,7 +175,7 @@
                                     <color key="titleColor" name="SUMI"/>
                                 </state>
                                 <connections>
-                                    <action selector="userButtonPressed:" destination="dpX-QH-2EF" eventType="touchUpInside" id="Ys7-cH-mTT"/>
+                                    <action selector="showProfile:" destination="dpX-QH-2EF" eventType="touchUpInside" id="Ys7-cH-mTT"/>
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HcF-VD-5Sh">
@@ -224,7 +224,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="recordButtonPressed:" destination="dpX-QH-2EF" eventType="touchUpInside" id="aRK-mf-WEi"/>
+                                                    <action selector="showRecordContent:" destination="dpX-QH-2EF" eventType="touchUpInside" id="aRK-mf-WEi"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bax-s2-pu9">
@@ -235,7 +235,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="taskButtonPressed:" destination="dpX-QH-2EF" eventType="touchUpInside" id="AD7-bl-Eaw"/>
+                                                    <action selector="showTaskContent:" destination="dpX-QH-2EF" eventType="touchUpInside" id="AD7-bl-Eaw"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1155,7 +1155,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任務代碼 QRCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-WS-E8T">
-                                <rect key="frame" x="40" y="254" width="334" height="30"/>
+                                <rect key="frame" x="40" y="260.5" width="334" height="23.5"/>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

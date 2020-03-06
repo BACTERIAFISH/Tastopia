@@ -29,7 +29,7 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
-        setStartLayout()
+        setBeginLayout()
         
         setAppleButton()
 
@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func setStartLayout() {
+    private func setBeginLayout() {
         
         googleButton.layer.cornerRadius = 24
         facebookButton.layer.cornerRadius = 24

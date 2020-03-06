@@ -10,6 +10,18 @@ import GoogleMaps
 
 class MapProvider {
     
+    func setMapStyle(map: GMSMapView) {
+        do {
+          if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
+            map.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+          } else {
+            print("Unable to find google-map-style.json")
+          }
+        } catch {
+          print("The map styles failed to load. \(error)")
+        }
+    }
+    
     func createWorldMapShadow(map: GMSMapView) {
         createMapRectangle(map: map, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
         createMapRectangle(map: map, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
@@ -64,6 +76,6 @@ class MapProvider {
         polygon.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         polygon.zIndex = 100
         polygon.map = map
-        
     }
+    
 }

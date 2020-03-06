@@ -86,9 +86,8 @@ class UserProvider {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            print("sign out")
             
-            UserDefaults.standard.removeObject(forKey: TTConstant.userStatus)
+            UserDefaults.standard.removeObject(forKey: TTConstant.UserDefaultKey.userStatus)
             
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
@@ -111,7 +110,7 @@ class UserProvider {
                             
                             let ref = strongSelf.firestoreReference.usersDocumentRef(doc: user.uid)
                             
-                            ref.setData(["name": name], merge: true)
+                            ref.setData([TTConstant.FirestoreFieldKey.name: name], merge: true)
                             
                             user.name = name
                         }
@@ -184,7 +183,7 @@ class UserProvider {
                         switch result {
                         case .success(let taskDataArr):
                             strongSelf.userTasks = taskDataArr
-                            NotificationCenter.default.post(name: TTConstant.userTasksNC, object: nil)
+                            NotificationCenter.default.post(name: TTConstant.NotificationName.userTasks, object: nil)
                         case .failure(let error):
                             print("checkUserTasks error: \(error)")
                         }
@@ -222,7 +221,7 @@ class UserProvider {
                     strongSelf.firestoreManager.addCustomData(docRef: ref, data: task)
                 }
                 strongSelf.userTasks = tasks
-                NotificationCenter.default.post(name: TTConstant.userTasksNC, object: nil)
+                NotificationCenter.default.post(name: TTConstant.NotificationName.userTasks, object: nil)
             case .failure(let error):
                 print("ceateUserTasks error: \(error)")
             }
