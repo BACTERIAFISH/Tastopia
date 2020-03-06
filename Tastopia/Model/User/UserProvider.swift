@@ -110,7 +110,7 @@ class UserProvider {
                             
                             let ref = strongSelf.firestoreReference.usersDocumentRef(doc: user.uid)
                             
-                            ref.setData([TTConstant.FirestoreFieldKey.name: name], merge: true)
+                            ref.setData([FirestoreReference.FieldKey.name: name], merge: true)
                             
                             user.name = name
                         }

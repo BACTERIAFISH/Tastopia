@@ -63,6 +63,7 @@
 		CF7E979023E2B9DA00BD38B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */; };
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFA113E823FD693400EBE412 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA113E723FD693400EBE412 /* google-map-style.json */; };
+		CFA7D0AE241233B000BD62DC /* RestaurantObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0AD241233B000BD62DC /* RestaurantObject.swift */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
@@ -128,6 +129,7 @@
 		CF7E978F23E2B9DA00BD38B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFA113E723FD693400EBE412 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
+		CFA7D0AD241233B000BD62DC /* RestaurantObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantObject.swift; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
@@ -226,10 +228,9 @@
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF3BD7F5240E473C0044B3DD /* Firebase */,
 				CF79015D2410F2D000BFC387 /* User */,
-				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
+				CFA7D0AC2412330D00BD62DC /* Map */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
-				CF68D5D623FA7DE1005B03ED /* MapProvider.swift */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 			);
 			path = Model;
@@ -317,6 +318,16 @@
 				CF79015B2410F23F00BFC387 /* UserObject.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		CFA7D0AC2412330D00BD62DC /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				CF68D5D623FA7DE1005B03ED /* MapProvider.swift */,
+				CF78268223E65E4800B70ED4 /* RestaurantProvider.swift */,
+				CFA7D0AD241233B000BD62DC /* RestaurantObject.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
@@ -548,6 +559,7 @@
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
 				CF303EC12400AA9B005EE7E4 /* SwiftMessagesWrapper.swift in Sources */,
+				CFA7D0AE241233B000BD62DC /* RestaurantObject.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
 				CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */,
 				CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */,

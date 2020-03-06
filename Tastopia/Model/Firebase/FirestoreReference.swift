@@ -10,7 +10,8 @@ import Firebase
 
 class FirestoreReference {
     
-    struct FirestorePath {
+    struct Path {
+        
         static let users = "Users"
         static let taskTypes = "TaskTypes"
         static let restaurants = "Restaurants"
@@ -18,22 +19,31 @@ class FirestoreReference {
         static let tasks = "Tasks"
     }
     
+    struct FieldKey {
+        
+        static let name = "name"
+        static let number = "number"
+    }
+    
     let db = Firestore.firestore()
     
     func usersDocumentRef(doc path: String) -> DocumentReference {
-        return db.collection(FirestorePath.users).document(path)
+        return db.collection(Path.users).document(path)
     }
     
     func usersTasksCollectionRef(doc path: String) -> CollectionReference {
-        return db.collection(FirestorePath.users).document(path).collection(FirestorePath.tasks)
+        return db.collection(Path.users).document(path).collection(Path.tasks)
     }
     
     func newUsersTasksDocumentRef(doc path: String) -> DocumentReference {
-        return db.collection(FirestorePath.users).document(path).collection(FirestorePath.tasks).document()
+        return db.collection(Path.users).document(path).collection(Path.tasks).document()
     }
     
     func taskTypesCollectionRef() -> CollectionReference {
-        return db.collection(FirestorePath.taskTypes)
+        return db.collection(Path.taskTypes)
     }
     
+    func restaurantsQuery(isLessThan number: Int) -> Query {
+        return db.collection(Path.restaurants).whereField(FieldKey.number, isLessThan: number)
+    }
 }

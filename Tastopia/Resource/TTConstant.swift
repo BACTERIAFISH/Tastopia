@@ -37,8 +37,4 @@ struct TTConstant {
         static let taskRecordNavigationController = "TaskRecordNavigationController"
     }
     
-    struct FirestoreFieldKey {
-        
-        static let name = "name"
-    }
 }

@@ -200,7 +200,7 @@ class HomeViewController: UIViewController {
                 strongSelf.mapProvider.createMapHollowPolygon(map: strongSelf.mapView, restaurants: restaurants)
                 
             case .failure(let error):
-                print("getTaskRestaurant error: \(error)")
+                print("RestaurantProvider getTaskRestaurant error: \(error)")
             }
         }
     }
@@ -318,24 +318,24 @@ extension HomeViewController: GMSMapViewDelegate {
         if mapView.camera.zoom >= 19, markIconSize != .large {
             markIconSize = .large
             
-            setMarkIconByZoom(imageAsset: .Icon_128px_Food_Location, blackImageAsset: .Icon_128px_Food_Location_Black)
+            setMarkerIconByZoom(imageAsset: .Icon_128px_Food_Location, blackImageAsset: .Icon_128px_Food_Location_Black)
         }
         
         if mapView.camera.zoom < 19, mapView.camera.zoom > 15, markIconSize != .medium {
             markIconSize = .medium
             
-            setMarkIconByZoom(imageAsset: .Icon_64px_Food_Location, blackImageAsset: .Icon_64px_Food_Location_Black)
+            setMarkerIconByZoom(imageAsset: .Icon_64px_Food_Location, blackImageAsset: .Icon_64px_Food_Location_Black)
         }
         
         if mapView.camera.zoom <= 15, markIconSize != .small {
             markIconSize = .small
             
-            setMarkIconByZoom(imageAsset: .Icon_16px_Dot_Flat, blackImageAsset: .Icon_16px_Dot_Flat_Black)
+            setMarkerIconByZoom(imageAsset: .Icon_16px_Dot_Flat, blackImageAsset: .Icon_16px_Dot_Flat_Black)
         }
         
     }
     
-    private func setMarkIconByZoom(imageAsset: ImageAsset, blackImageAsset: ImageAsset) {
+    private func setMarkerIconByZoom(imageAsset: ImageAsset, blackImageAsset: ImageAsset) {
         
         guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
         

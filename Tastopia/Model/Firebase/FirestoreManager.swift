@@ -11,6 +11,10 @@ import FirebaseFirestoreSwift
 
 class FirestoreManager {
     
+    enum FirestoreManagerError: Error {
+        case fetchError(String)
+    }
+    
     let db = Firestore.firestore()
     
     let storage = Storage.storage()
@@ -38,7 +42,7 @@ class FirestoreManager {
         ref.getDocument { (snapshot, error) in
             
             if let error = error {
-                completion(Result.failure(error))
+                completion(Result.failure(FirestoreManagerError.fetchError(error.localizedDescription)))
                 return
             }
             
@@ -51,8 +55,7 @@ class FirestoreManager {
         
         ref.getDocuments { (snapshot, error) in
             
-            if let error = error {
-                completion(Result.failure(error))
+            if let error = error {            completion(Result.failure(FirestoreManagerError.fetchError(error.localizedDescription)))
                 return
             }
             
@@ -65,8 +68,7 @@ class FirestoreManager {
         
         ref.getDocuments { (snapshot, error) in
             
-            if let error = error {
-                completion(Result.failure(error))
+            if let error = error {                completion(Result.failure(FirestoreManagerError.fetchError(error.localizedDescription)))
                 return
             }
             
