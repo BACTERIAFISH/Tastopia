@@ -12,6 +12,12 @@ import GoogleMaps
 
 class HomeViewController: UIViewController {
     
+    enum MarkerIconSize {
+        case large
+        case medium
+        case small
+    }
+    
     @IBOutlet weak var mapView: GMSMapView!
 
     @IBOutlet weak var userButton: UIButton!
@@ -431,10 +437,4 @@ extension HomeViewController: CLLocationManagerDelegate {
         print("Location Manager Error: \(error)")
     }
     
-}
-
-enum MarkerIconSize {
-    case large
-    case medium
-    case small
 }

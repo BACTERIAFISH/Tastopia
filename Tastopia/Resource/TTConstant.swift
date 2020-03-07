@@ -16,6 +16,8 @@ struct TTConstant {
     
     static let video = "影片"
     
+    static let appleCom = "apple.com"
+    
     struct UserDefaultKey {
         
         static let userStatus = "userStatus"
@@ -35,6 +37,8 @@ struct TTConstant {
         static let taskContentViewController = "TaskContentViewController"
         
         static let taskRecordNavigationController = "TaskRecordNavigationController"
+        
+        static let qrCodeScanViewController = "QRCodeScanViewController"
     }
     
 }

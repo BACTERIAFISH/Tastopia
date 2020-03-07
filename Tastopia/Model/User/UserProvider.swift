@@ -25,7 +25,7 @@ class UserProvider {
         
         if let user = Auth.auth().currentUser {
             
-            getUserData(uid: user.uid, name: nil) { (gotUserData) in
+            getUserData(uid: user.uid, name: nil, credential: nil) { (gotUserData) in
                 if gotUserData {
                     completion(true)
                 } else {
@@ -43,7 +43,7 @@ class UserProvider {
     func login(credential: AuthCredential, name inputName: String?, email inputEmail: String?, completion: @escaping (Bool) -> Void) {
         
         Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
-            
+
             if let error = error {
                 print("firebase signIn error: \(error)")
                 return
@@ -56,7 +56,7 @@ class UserProvider {
                 let email = inputEmail ?? user.email
                 else { return }
             
-            strongSelf.getUserData(uid: user.uid, name: name) { (gotUserData) in
+            strongSelf.getUserData(uid: user.uid, name: name, credential: credential) { (gotUserData) in
                 
                 if gotUserData {
                     
@@ -94,7 +94,7 @@ class UserProvider {
         }
     }
     
-    private func getUserData(uid: String, name: String?, completion: @escaping (Bool) -> Void) {
+    private func getUserData(uid: String, name: String?, credential: AuthCredential?, completion: @escaping (Bool) -> Void) {
         
         firestoreManager.readData(firestoreReference.usersDocumentRef(doc: uid)) { [weak self] (result) in
             guard let strongSelf = self else { return }
@@ -106,7 +106,7 @@ class UserProvider {
                     switch result {
                     case .success(var user):
                         
-                        if let name = name, name != user.name {
+                        if let credential = credential, credential.provider != TTConstant.appleCom, let name = name, name != user.name {
                             
                             let ref = strongSelf.firestoreReference.usersDocumentRef(doc: user.uid)
                             
@@ -242,4 +242,15 @@ class UserProvider {
         }
     }
     
+    func changeTaskID(with newTaskID: String, in task: TaskData) {
+        guard let user = userData else { return }
+        
+        let ref = FirestoreManager().db.collection(FirestoreReference.Path.users).document(user.uid).collection(FirestoreReference.Path.tasks).document(task.documentID)
+        
+        ref.updateData([FirestoreReference.FieldKey.taskID: newTaskID])
+        
+        for index in 0..<userTasks.count where userTasks[index].taskID == task.taskID {
+            userTasks[index].taskID = newTaskID
+        }
+    }
 }

@@ -21,9 +21,7 @@ class TaskContentViewController: UIViewController {
     
     var restaurant: Restaurant?
     var task: TaskData?
-    
     var passTask: ((TaskData?) -> Void)?
-    
     var map: GMSMapView?
     
     override func viewDidLoad() {
@@ -32,17 +30,7 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.dataSource = self
         taskContentTableView.delegate = self
         
-        taskContentTableView.layer.cornerRadius = 16
-        taskContentTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
-        taskContentTableView.layer.createTTBorder()
-        
-        scanQRCodeButton.layer.cornerRadius = 16
-        requestCompanyButton.layer.cornerRadius = 16
-        executeTaskButton.layer.cornerRadius = 16
-        
-        statusImageView.layer.cornerRadius = 16
-        statusImageView.layer.borderColor = UIColor.AKABENI!.cgColor
-        statusImageView.layer.borderWidth = 5
+        setBeginLayout()
         
         setTaskStatus()
         
@@ -55,28 +43,31 @@ class TaskContentViewController: UIViewController {
     }
     
     @IBAction func back(_ sender: Any) {
+        
         TTSwiftMessages().hideAll()
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func info(_ sender: Any) {
+        
         TTSwiftMessages().hideAll()
         gameGuide()
     }
     
     @IBAction func scanQRCode() {
+        
         TTSwiftMessages().hideAll()
         
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeScanViewController") as? QRCodeScanViewController else { return }
-        vc.modalPresentationStyle = .overCurrentContext
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.qrCodeScanViewController) as? QRCodeScanViewController else { return }
+        
+        vc.modalPresentationStyle = .overFullScreen
         vc.task = task
         vc.passTaskID = { [weak self] newTaskID in
-            guard let task = self?.task, let user = UserProvider.shared.userData else { return }
-            let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-            ref.updateData(["taskID": newTaskID])
-            for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
-                UserProvider.shared.userTasks[index].taskID = newTaskID
-            }
+            
+            guard let task = self?.task else { return }
+            
+            UserProvider.shared.changeTaskID(with: newTaskID, in: task)
+
             self?.task?.taskID = newTaskID
             self?.passTask?(self?.task)
             self?.taskContentTableView.reloadData()
@@ -226,6 +217,22 @@ class TaskContentViewController: UIViewController {
             print("task status error")
             return
         }
+    }
+    
+    func setBeginLayout() {
+        
+        taskContentTableView.layer.cornerRadius = 16
+        taskContentTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        taskContentTableView.layer.createTTBorder()
+        
+        scanQRCodeButton.layer.cornerRadius = 16
+        requestCompanyButton.layer.cornerRadius = 16
+        executeTaskButton.layer.cornerRadius = 16
+        
+        statusImageView.layer.cornerRadius = 16
+        statusImageView.layer.borderColor = UIColor.AKABENI!.cgColor
+        statusImageView.layer.borderWidth = 5
+
     }
     
     func setTaskStatus() {

@@ -9,7 +9,7 @@
 class RestaurantProvider {
     
     func getTaskRestaurant(completion: @escaping (Result<[Restaurant], Error>) -> Void) {
-        
+
         guard let user = UserProvider.shared.userData else { return }
         
         let number = user.taskNumber + 3

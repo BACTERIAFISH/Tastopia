@@ -23,6 +23,7 @@ class FirestoreReference {
         
         static let name = "name"
         static let number = "number"
+        static let taskID = "taskID"
     }
     
     let db = Firestore.firestore()
