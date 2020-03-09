@@ -366,7 +366,7 @@ extension HomeViewController: GMSMapViewDelegate {
     private func setCurrentRestaurantData(marker: GMSMarker) {
         for restaurantData in restaurantDatas where restaurantData.marker == marker {
             currentRestaurantData = restaurantData
-            for userTask in UserProvider.shared.userTasks where userTask.restaurantNumber == restaurantData.restaurant.number {
+            for userTask in TaskProvider.shared.userTasks where userTask.restaurantNumber == restaurantData.restaurant.number {
                 currentUserTask = userTask
             }
             taskNameLabel.text = restaurantData.restaurant.name

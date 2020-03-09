@@ -66,7 +66,7 @@ class TaskContentViewController: UIViewController {
             
             guard let task = self?.task else { return }
             
-            UserProvider.shared.changeTaskID(with: newTaskID, in: task)
+            TaskProvider.shared.changeTaskID(with: newTaskID, in: task)
 
             self?.task?.taskID = newTaskID
             self?.passTask?(self?.task)
@@ -78,9 +78,10 @@ class TaskContentViewController: UIViewController {
     @IBAction func executeTask(_ sender: UIButton) {
         TTSwiftMessages().hideAll()
         
-        guard let task = task, let user = UserProvider.shared.userData else { return }
-        switch task.status {
-        case 0:
+        guard let task = task, let taskStatus = TTTaskStstus(rawValue: task.status) else { return }
+        
+        switch taskStatus {
+        case .start:
             
             if task.people > 1 {
                 TTSwiftMessages().question(title: "多人任務", body: "請先同步自己與同伴的任務代碼\n再開始執行任務", leftButtonTitle: "還沒同步", rightButtonTitle: "同步好了", leftHandler: nil, rightHandler: showExecuteTask)
@@ -88,52 +89,20 @@ class TaskContentViewController: UIViewController {
                 showExecuteTask()
             }
             
-        case 1:
-            // 確認任務
-            // check writings where restaurant, taskID, date >= task.people
+        case .submitted:
+            
             TTSwiftMessages().wait(title: "確認中")
-            WritingProvider().checkTaskWritings(task: task) { [weak self] (result) in
-//                guard let strongSelf = self else { return }
+            
+            TaskProvider.shared.checkIsTaskPassed(task: task) { [weak self] (result) in
                 switch result {
-                case .success(let pass):
-                    if pass {
+                case .success(let isPassed):
+                    
+                    if isPassed {
+                        
                         self?.task?.status = 2
-                        for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
-                            UserProvider.shared.userTasks[index].status = 2
-                        }
-                        let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-                        ref.updateData(["status": 2])
                         self?.passTask?(self?.task)
-                                
-                        // 檢查是否有存進 user passRestaurant array
-                        // 如果沒有，存user passRestaurant array
-                        // taskNumber += 1
-                        // add task in Tasks
-                        if !user.passRestaurant.contains(task.restaurantNumber) {
-                            UserProvider.shared.userData?.passRestaurant.append(task.restaurantNumber)
-                            UserProvider.shared.userData?.taskNumber += 1
-                            let ref = FirestoreManager().db.collection("Users").document(user.uid)
-                            FirestoreManager().addData(docRef: ref, data: [
-                                "taskNumber": user.taskNumber + 1,
-                                "passRestaurant": FieldValue.arrayUnion([task.restaurantNumber])
-                            ])
-                            
-                            UserProvider.shared.getTaskTypes { (result) in
-                                switch result {
-                                case .success(let taskTypes):
-                                    guard let taskType = taskTypes.randomElement() else { return }
-                                    let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document()
-                                    let newTask = TaskData(documentID: ref.documentID, restaurantNumber: user.taskNumber + 3, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
-                                    FirestoreManager().addCustomData(docRef: ref, data: newTask)
-                                    
-                                    UserProvider.shared.userTasks.append(newTask)
-                                    
-                                    NotificationCenter.default.post(name: NSNotification.Name("addRestaurant"), object: nil)
-                                case .failure(let error):
-                                    print("getTaskTypes error: \(error)")
-                                }
-                            }
-                        }
+                        
+                        UserProvider.shared.checkWhetherAddMoreTask(task: task)
                         
                         TTSwiftMessages().hideAll()
                         TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務完成", body: "")
@@ -142,35 +111,23 @@ class TaskContentViewController: UIViewController {
                         self?.setStatusImage()
                         
                     } else {
-                        // show mission fail
+                        
                         TTSwiftMessages().hideAll()
                         TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "任務未完成", body: "1.上傳的食記數量不足\n2.上傳的食記任務代碼不一致", duration: nil)
                     }
                     
                 case .failure(let error):
-                    print("checkTaskWritings error: \(error)")
+                    print("checkIsTaskPassed error: \(error)")
                 }
             }
-        case 2:
-            // 接新任務
-            // create new task in Tasks
-            // delete old task in Tasks
             
-            UserProvider.shared.getTaskTypes { [weak self] (result) in
+        case .complete:
+            
+            TaskProvider.shared.updateTask(task: task) { [weak self] (result) in
+                
                 switch result {
-                case .success(let taskTypes):
-                    guard let taskType = taskTypes.randomElement() else { return }
-                    let newRef = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document()
-                    let newTask = TaskData(documentID: newRef.documentID, restaurantNumber: task.restaurantNumber, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: newRef.documentID)
-                    FirestoreManager().addCustomData(docRef: newRef, data: newTask)
-                    
-                    let oldRef = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-                    oldRef.delete()
-                    
-                    for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
-                        UserProvider.shared.userTasks[index] = newTask
-                    }
-                    
+                case .success(let newTask):
+
                     self?.passTask?(newTask)
                     self?.task = newTask
                     self?.setTaskStatus()
@@ -178,15 +135,121 @@ class TaskContentViewController: UIViewController {
                     self?.taskContentTableView.reloadData()
                     
                     TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務已更新", body: "")
+                    
                 case .failure(let error):
-                    print("getTaskTypes error: \(error)")
+                    print("TaskProvider updateTask error: \(error)")
                 }
             }
-            
-        default:
-            print("task status error")
-            return
         }
+        
+//        switch task.status {
+//        case 0:
+//
+//            if task.people > 1 {
+//                TTSwiftMessages().question(title: "多人任務", body: "請先同步自己與同伴的任務代碼\n再開始執行任務", leftButtonTitle: "還沒同步", rightButtonTitle: "同步好了", leftHandler: nil, rightHandler: showExecuteTask)
+//            } else {
+//                showExecuteTask()
+//            }
+//
+//        case 1:
+//            // 確認任務
+//            // check writings where restaurant, taskID, date >= task.people
+//            TTSwiftMessages().wait(title: "確認中")
+//            WritingProvider().checkTaskWritings(task: task) { [weak self] (result) in
+////                guard let strongSelf = self else { return }
+//                switch result {
+//                case .success(let pass):
+//                    if pass {
+//                        self?.task?.status = 2
+//                        for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].taskID == task.taskID {
+//                            TaskProvider.shared.userTasks[index].status = 2
+//                        }
+//                        let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+//                        ref.updateData(["status": 2])
+//                        self?.passTask?(self?.task)
+//
+//                        // 檢查是否有存進 user passRestaurant array
+//                        // 如果沒有，存user passRestaurant array
+//                        // taskNumber += 1
+//                        // add task in Tasks
+//                        if !user.passRestaurant.contains(task.restaurantNumber) {
+//                            UserProvider.shared.userData?.passRestaurant.append(task.restaurantNumber)
+//                            UserProvider.shared.userData?.taskNumber += 1
+//                            let ref = FirestoreManager().db.collection("Users").document(user.uid)
+//                            FirestoreManager().addData(docRef: ref, data: [
+//                                "taskNumber": user.taskNumber + 1,
+//                                "passRestaurant": FieldValue.arrayUnion([task.restaurantNumber])
+//                            ])
+//
+//                            TaskProvider.shared.getTaskTypes { (result) in
+//                                switch result {
+//                                case .success(let taskTypes):
+//                                    guard let taskType = taskTypes.randomElement() else { return }
+//                                    let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document()
+//                                    let newTask = TaskData(documentID: ref.documentID, restaurantNumber: user.taskNumber + 3, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
+//                                    FirestoreManager().addCustomData(docRef: ref, data: newTask)
+//
+//                                    TaskProvider.shared.userTasks.append(newTask)
+//
+//                                    NotificationCenter.default.post(name: NSNotification.Name("addRestaurant"), object: nil)
+//                                case .failure(let error):
+//                                    print("getTaskTypes error: \(error)")
+//                                }
+//                            }
+//                        }
+//
+//                        TTSwiftMessages().hideAll()
+//                        TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務完成", body: "")
+//
+//                        self?.setTaskStatus()
+//                        self?.setStatusImage()
+//
+//                    } else {
+//                        // show mission fail
+//                        TTSwiftMessages().hideAll()
+//                        TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "任務未完成", body: "1.上傳的食記數量不足\n2.上傳的食記任務代碼不一致", duration: nil)
+//                    }
+//
+//                case .failure(let error):
+//                    print("checkTaskWritings error: \(error)")
+//                }
+//            }
+//        case 2:
+//            // 接新任務
+//            // create new task in Tasks
+//            // delete old task in Tasks
+//
+//            TaskProvider.shared.getTaskTypes { [weak self] (result) in
+//                switch result {
+//                case .success(let taskTypes):
+//                    guard let taskType = taskTypes.randomElement() else { return }
+//                    let newRef = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document()
+//                    let newTask = TaskData(documentID: newRef.documentID, restaurantNumber: task.restaurantNumber, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: newRef.documentID)
+//                    FirestoreManager().addCustomData(docRef: newRef, data: newTask)
+//
+//                    let oldRef = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+//                    oldRef.delete()
+//
+//                    for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].taskID == task.taskID {
+//                        TaskProvider.shared.userTasks[index] = newTask
+//                    }
+//
+//                    self?.passTask?(newTask)
+//                    self?.task = newTask
+//                    self?.setTaskStatus()
+//                    self?.setStatusImage()
+//                    self?.taskContentTableView.reloadData()
+//
+//                    TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務已更新", body: "")
+//                case .failure(let error):
+//                    print("getTaskTypes error: \(error)")
+//                }
+//            }
+//
+//        default:
+//            print("task status error")
+//            return
+//        }
         
     }
     
@@ -201,8 +264,8 @@ class TaskContentViewController: UIViewController {
         case 1:
             TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
                 self?.task?.status = 0
-                for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].taskID == task.taskID {
-                    UserProvider.shared.userTasks[index].status = 0
+                for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].taskID == task.taskID {
+                    TaskProvider.shared.userTasks[index].status = 0
                 }
                 let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
                 ref.updateData(["status": 0])

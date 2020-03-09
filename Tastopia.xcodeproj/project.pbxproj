@@ -64,6 +64,8 @@
 		CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */; };
 		CFA113E823FD693400EBE412 /* google-map-style.json in Resources */ = {isa = PBXBuildFile; fileRef = CFA113E723FD693400EBE412 /* google-map-style.json */; };
 		CFA7D0AE241233B000BD62DC /* RestaurantObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0AD241233B000BD62DC /* RestaurantObject.swift */; };
+		CFA7D0B02413E14A00BD62DC /* TaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */; };
+		CFA7D0B32413E16F00BD62DC /* TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0B22413E16F00BD62DC /* TaskObject.swift */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
@@ -130,6 +132,8 @@
 		CF7E979123E2CF4D00BD38B7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFA113E723FD693400EBE412 /* google-map-style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-map-style.json"; sourceTree = "<group>"; };
 		CFA7D0AD241233B000BD62DC /* RestaurantObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantObject.swift; sourceTree = "<group>"; };
+		CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProvider.swift; sourceTree = "<group>"; };
+		CFA7D0B22413E16F00BD62DC /* TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskObject.swift; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
@@ -228,6 +232,7 @@
 				CF12236923E26C92004A41B3 /* Assets.xcassets */,
 				CF3BD7F5240E473C0044B3DD /* Firebase */,
 				CF79015D2410F2D000BFC387 /* User */,
+				CFA7D0B12413E15200BD62DC /* Task */,
 				CFA7D0AC2412330D00BD62DC /* Map */,
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
@@ -328,6 +333,15 @@
 				CFA7D0AD241233B000BD62DC /* RestaurantObject.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		CFA7D0B12413E15200BD62DC /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */,
+				CFA7D0B22413E16F00BD62DC /* TaskObject.swift */,
+			);
+			path = Task;
 			sourceTree = "<group>";
 		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
@@ -551,6 +565,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */,
+				CFA7D0B32413E16F00BD62DC /* TaskObject.swift in Sources */,
 				CF79015C2410F23F00BFC387 /* UserObject.swift in Sources */,
 				CF394DAE23F94012003B9CEB /* LaunchViewController.swift in Sources */,
 				CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */,
@@ -563,6 +578,7 @@
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
 				CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */,
 				CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */,
+				CFA7D0B02413E14A00BD62DC /* TaskProvider.swift in Sources */,
 				CF031D7923FE67680013B179 /* SelectImageDisplayCollectionViewCell.swift in Sources */,
 				CF2A94AA23E999E60056B532 /* KingFisherWrapper.swift in Sources */,
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
