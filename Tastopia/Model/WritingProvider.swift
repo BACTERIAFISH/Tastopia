@@ -7,11 +7,16 @@
 //
 
 import Foundation
+//import AVFoundation
+import MobileCoreServices
 
 class WritingProvider {
     
+    let firestoreManager = FirestoreManager()
+    
     func getWritings(number: Int, order: String = "date", completion: @escaping (Result<[WritingData], Error>) -> Void) {
-        FirestoreManager().db.collection("Writings").whereField("number", isEqualTo: number).order(by: "date", descending: true).getDocuments { (query, error) in
+        
+        firestoreManager.db.collection("Writings").whereField("number", isEqualTo: number).order(by: "date", descending: true).getDocuments { (query, error) in
             if let error = error {
                 completion(Result.failure(error))
                 return
@@ -37,75 +42,66 @@ class WritingProvider {
         }
     }
     
-    func checkTaskWritings(task: TaskData, completion: @escaping (Result<Bool, Error>) -> Void) {
+    func uploadWriting(selectedMedias: [TTMediaData], user: UserData, task: TaskData, composition: String, completion: @escaping () -> Void) {
         
-        // MARK: for newer
-        if task.restaurantNumber == 0 {
-            completion(Result.success(true))
-            return
-        }
+        var medias = selectedMedias
         
-        FirestoreManager().db.collection("Writings").whereField("taskID", isEqualTo: task.taskID).getDocuments { (query, error) in
-            if let error = error {
-                completion(Result.failure(error))
-                return
-            } else {
+        let group = DispatchGroup()
+        for (index, media) in medias.enumerated() {
+            
+            group.enter()
+            if media.mediaType == kUTTypeImage as String, let image = media.image {
                 
-                // MARK: for tester
-                guard let user = UserProvider.shared.userData else { return }
-                if TastopiaTest.shared.testers.contains(user.email) {
-                    completion(Result.success(true))
-                    return
+                firestoreManager.uploadImage(image: image, fileName: nil) { (result) in
+                    switch result {
+                    case .success(let urlString):
+                        
+                        medias[index].urlString = urlString
+                        group.leave()
+                        
+                    case .failure(let error):
+                        
+                        print("submitTask error: \(error)")
+                        group.leave()
+                    }
                 }
                 
-                if query!.documents.count < task.people {
-                    completion(Result.success(false))
-                } else {
-                    var writings = [WritingData]()
-                    for doc in query!.documents {
-                        let result = Result {
-                            try doc.data(as: WritingData.self)
-                        }
+            } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
+                
+                firestoreManager.uploadVideo(url: url) { (result) in
+                    
+                    switch result {
+                    case .success(let urlString):
                         
-                        switch result {
-                        case .success(let writing):
-                            if let writing = writing {
-                                writings.append(writing)
-                            }
-                        case .failure(let error):
-                            completion(Result.failure(error))
-                            return
-                        }
-                    }
-                    writings = writings.filter({ $0.number == task.restaurantNumber })
-                    if writings.count < task.people {
-                        completion(Result.success(false))
-                        return
-                    }
-                    var uidSet = Set<String>()
-                    for writing in writings {
-                        uidSet.insert(writing.uid)
-                    }
-                    if uidSet.count < task.people {
-                        completion(Result.success(false))
-                        return
-                    }
-                    let maxDate = writings[0].date.addingTimeInterval(60 * 60)
-                    let minDate = writings[0].date.addingTimeInterval(-60 * 60)
-                    var passNumber = 0
-                    for writing in writings {
-                        if writing.date <= maxDate, writing.date >= minDate {
-                            passNumber += 1
-                        }
-                    }
-                    if passNumber < task.people {
-                        completion(Result.success(false))
-                    } else {
-                        completion(Result.success(true))
+                        medias[index].urlString = urlString
+                        group.leave()
+                        
+                    case .failure(let error):
+                        
+                        print("submitTask error: \(error)")
+                        group.leave()
                     }
                 }
             }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
             
+            var urlStrings = [String]()
+            var mediaTypes = [String]()
+            
+            for media in medias {
+                urlStrings.append(media.urlString)
+                mediaTypes.append(media.mediaType)
+            }
+            
+            let docRef = FirestoreReference().newWritingRef()
+            
+            let data = WritingData(documentID: docRef.documentID, date: Date(), number: task.restaurantNumber, uid: user.uid, userName: user.name, userImagePath: user.imagePath, composition: composition, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
+            
+            self?.firestoreManager.addCustomData(docRef: docRef, data: data)
+            
+            completion()
         }
     }
     

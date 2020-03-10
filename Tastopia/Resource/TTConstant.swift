@@ -39,6 +39,8 @@ struct TTConstant {
         static let taskRecordNavigationController = "TaskRecordNavigationController"
         
         static let qrCodeScanViewController = "QRCodeScanViewController"
+        
+        static let selectImageViewController = "SelectImageViewController"
     }
     
 }

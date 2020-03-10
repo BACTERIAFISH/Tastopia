@@ -58,4 +58,8 @@ class FirestoreReference {
     func writingsQuery(isEqualTo taskID: String) -> Query {
         return db.collection(Path.writings).whereField(FieldKey.taskID, isEqualTo: taskID)
     }
+    
+    func newWritingRef() -> DocumentReference {
+        return db.collection(Path.writings).document()
+    }
 }

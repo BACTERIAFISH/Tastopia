@@ -35,6 +35,10 @@ class ExecuteTaskViewController: UIViewController {
     
     var playerLoopers = [AVPlayerLooper]()
     
+    let firestoreManager = FirestoreManager()
+    
+    let writingProvider = WritingProvider()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,28 +72,33 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func openImagePicker() {
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
-            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
+            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.selectImageViewController) as? SelectImageViewController else { return }
             
             vc.modalPresentationStyle = .overCurrentContext
             
             vc.passSelectedImages = { [weak self] images in
+                
                 guard let strongSelf = self else { return }
+                
                 for image in images {
                     let media = TTMediaData(mediaType: kUTTypeImage as String, image: image)
                     strongSelf.selectedMedias.append(media)
                 }
+                
                 strongSelf.photoCollectionView.reloadData()
+                
                 strongSelf.photoCollectionView.scrollToItem(at: IndexPath(item: strongSelf.selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
             }
             
             self?.present(vc, animated: true)
         }
-        ac.addAction(action)
+        alertController.addAction(action)
         
         let titles = [TTConstant.photo, TTConstant.video]
+        
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
@@ -106,11 +115,13 @@ class ExecuteTaskViewController: UIViewController {
                 imagePicker.delegate = self
                 self?.present(imagePicker, animated: true)
             }
-            ac.addAction(action)
+            alertController.addAction(action)
         }
+        
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
     
     func isForTest() -> Bool {
@@ -166,60 +177,23 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func submitTask() {
+        
         TTSwiftMessages().wait(title: "上傳中")
-        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
-        let group = DispatchGroup()
-        for (index, media) in selectedMedias.enumerated() {
-            group.enter()
-            if media.mediaType == kUTTypeImage as String, let image = media.image {
-                FirestoreManager().uploadImage(image: image, fileName: nil) { [weak self]  (result) in
-                    switch result {
-                    case .success(let urlString):
-                        self?.selectedMedias[index].urlString = urlString
-                        group.leave()
-                    case .failure(let error):
-                        print("submitTask error: \(error)")
-                        group.leave()
-                    }
-                }
-            } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
-                FirestoreManager().uploadVideo(url: url) { [weak self] (result) in
-                    switch result {
-                    case .success(let urlString):
-                        self?.selectedMedias[index].urlString = urlString
-                        group.leave()
-                    case .failure(let error):
-                        print("submitTask error: \(error)")
-                        group.leave()
-                    }
-                }
-            }
-        }
+        guard let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
-        group.notify(queue: .main) { [weak self] in
-            guard let strongSelf = self else { return }
+        writingProvider.uploadWriting(selectedMedias: selectedMedias, user: user, task: task, composition: compositionText) { [weak self] in
             
-            var urlStrings = [String]()
-            var mediaTypes = [String]()
-            for media in strongSelf.selectedMedias {
-                urlStrings.append(media.urlString)
-                mediaTypes.append(media.mediaType)
-            }
-            
-            let docRef = FirestoreManager().db.collection("Writings").document()
-            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, userImagePath: user.imagePath, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
-            FirestoreManager().addCustomData(docRef: docRef, data: data)
-            
-            strongSelf.changeTaskStatus()
+            self?.changeTaskStatus()
             
             TTSwiftMessages().hide()
             
-            strongSelf.dismiss(animated: true, completion: { [weak self] in
+            self?.dismiss(animated: true, completion: { [weak self] in
                 TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "上傳成功", body: "")
                 self?.setStatusImage?()
             })
         }
+        
     }
     
     func changeTaskStatus() {

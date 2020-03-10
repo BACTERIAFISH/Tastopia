@@ -8,20 +8,11 @@
 
 import Firebase
 
-class StatusManager {
-    
-    static let shared = StatusManager()
-    
-    
-    
-}
-
 class UserProvider {
     
     static let shared = UserProvider()
     
     var userData: UserData?
-//    var userTasks = [TaskData]()
     
     private let firestoreManager = FirestoreManager()
     private let firestoreReference = FirestoreReference()
@@ -134,7 +125,6 @@ class UserProvider {
                         
                         strongSelf.userData = user
                         TaskProvider.shared.checkUserTasks(userData: strongSelf.userData)
-//                        strongSelf.checkUserTasks()
                         
                         completion(true)
                         
@@ -170,7 +160,6 @@ class UserProvider {
                     try ref.setData(from: userData)
 
                     TaskProvider.shared.checkUserTasks(userData: strongSelf.userData)
-//                    strongSelf.checkUserTasks()
                     
                     completion(true)
 
@@ -216,91 +205,4 @@ class UserProvider {
         })
     }
     
-//    private func checkUserTasks() {
-//        
-//        guard let userData = userData else { return }
-//        
-//        let ref = firestoreReference.usersTasksCollectionRef(doc: userData.uid)
-//        
-//        firestoreManager.readData(ref) { [weak self] (result) in
-//            guard let strongSelf = self else { return }
-//            
-//            switch result {
-//            case .success(let snapshot):
-//                if snapshot!.documents.count > 0 {
-//                    
-//                    strongSelf.firestoreParser.parseDocuments(decode: snapshot, from: TaskData.self) { (result) in
-//                        switch result {
-//                        case .success(let taskDataArr):
-//                            strongSelf.userTasks = taskDataArr
-//                            NotificationCenter.default.post(name: TTConstant.NotificationName.userTasks, object: nil)
-//                        case .failure(let error):
-//                            print("checkUserTasks error: \(error)")
-//                        }
-//                    }
-//                    
-//                } else {
-//                    
-//                    strongSelf.createUserTasks()
-//
-//                }
-//            case .failure(let error):
-//                print("checkUserTasks error: \(error)")
-//            }
-//        }
-//        
-//    }
-    
-//    private func createUserTasks() {
-//
-//        guard let userData = userData else { return }
-//
-//        getTaskTypes { [weak self] (result) in
-//
-//            guard let strongSelf = self else { return }
-//
-//            switch result {
-//            case .success(let taskTypes):
-//                var tasks = [TaskData]()
-//                for index in 0..<userData.taskNumber + 3 {
-//                    guard let taskType = taskTypes.randomElement() else { return }
-//                    let ref = strongSelf.firestoreReference.newUsersTasksDocumentRef(doc: userData.uid)
-//                    let task = TaskData(documentID: ref.documentID, restaurantNumber: index, people: taskType.people, media: taskType.media, composition: taskType.composition, status: 0, taskID: ref.documentID)
-//                    tasks.append(task)
-//
-//                    strongSelf.firestoreManager.addCustomData(docRef: ref, data: task)
-//                }
-//                strongSelf.userTasks = tasks
-//                NotificationCenter.default.post(name: TTConstant.NotificationName.userTasks, object: nil)
-//            case .failure(let error):
-//                print("ceateUserTasks error: \(error)")
-//            }
-//        }
-//    }
-    
-//    func getTaskTypes(completion: @escaping (Result<[TaskType], Error>) -> Void) {
-//
-//        let ref = firestoreReference.taskTypesCollectionRef()
-//
-//        firestoreParser.parseDocuments(decode: ref, from: TaskType.self) { (result) in
-//            switch result {
-//            case .success(let taskTypes):
-//                completion(Result.success(taskTypes))
-//            case .failure(let error):
-//                completion(Result.failure(error))
-//            }
-//        }
-//    }
-    
-//    func changeTaskID(with newTaskID: String, in task: TaskData) {
-//        guard let user = userData else { return }
-//
-//        let ref = FirestoreManager().db.collection(FirestoreReference.Path.users).document(user.uid).collection(FirestoreReference.Path.tasks).document(task.documentID)
-//
-//        ref.updateData([FirestoreReference.FieldKey.taskID: newTaskID])
-//
-//        for index in 0..<userTasks.count where userTasks[index].taskID == task.taskID {
-//            userTasks[index].taskID = newTaskID
-//        }
-//    }
 }
