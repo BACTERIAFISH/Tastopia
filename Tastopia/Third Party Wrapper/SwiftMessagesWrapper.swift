@@ -54,6 +54,8 @@ class TTSwiftMessages {
         
         var config = SwiftMessages.Config()
         
+        config.presentationContext = .window(windowLevel: .normal)
+        
         if let duration = duration {
             config.duration = .seconds(seconds: duration)
         } else {

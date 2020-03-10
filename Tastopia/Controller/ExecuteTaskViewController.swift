@@ -35,6 +35,10 @@ class ExecuteTaskViewController: UIViewController {
     
     var playerLoopers = [AVPlayerLooper]()
     
+    let firestoreManager = FirestoreManager()
+    
+    let writingProvider = WritingProvider()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,36 +72,41 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func openImagePicker() {
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
-            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
+            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.selectImageViewController) as? SelectImageViewController else { return }
             
             vc.modalPresentationStyle = .overCurrentContext
             
             vc.passSelectedImages = { [weak self] images in
+                
                 guard let strongSelf = self else { return }
+                
                 for image in images {
                     let media = TTMediaData(mediaType: kUTTypeImage as String, image: image)
                     strongSelf.selectedMedias.append(media)
                 }
+                
                 strongSelf.photoCollectionView.reloadData()
+                
                 strongSelf.photoCollectionView.scrollToItem(at: IndexPath(item: strongSelf.selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
             }
             
             self?.present(vc, animated: true)
         }
-        ac.addAction(action)
+        alertController.addAction(action)
         
-        let titles = ["相片", "影片"]
+        let titles = [TTConstant.photo, TTConstant.video]
+        
         for title in titles {
             let action = UIAlertAction(title: title, style: .default) { [weak self] (_) in
                 
                 let imagePicker = UIImagePickerController()
                 switch title {
-                case "Camera":
+                case TTConstant.photo:
                     imagePicker.sourceType = .camera
-                case "Video":
+                case TTConstant.video:
                     imagePicker.sourceType = .camera
                     imagePicker.mediaTypes = [kUTTypeMovie as String]
                 default:
@@ -106,11 +115,13 @@ class ExecuteTaskViewController: UIViewController {
                 imagePicker.delegate = self
                 self?.present(imagePicker, animated: true)
             }
-            ac.addAction(action)
+            alertController.addAction(action)
         }
+        
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
     
     func isForTest() -> Bool {
@@ -143,13 +154,11 @@ class ExecuteTaskViewController: UIViewController {
         
         guard let task = task, let composition = compositionTextView.text else { return }
         
-        // composition fail
         if composition.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count < task.composition {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "字數不足")
             return
         }
         
-        // media fail
         if selectedMedias.count < task.media {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "照片、影片不足")
             return
@@ -159,8 +168,7 @@ class ExecuteTaskViewController: UIViewController {
         
         let distanceMeter = location.distance(from: CLLocation(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude))
         
-        // distance > 10 meters
-        if distanceMeter > 10 {
+        if distanceMeter > 10, task.restaurantNumber != 0 {
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "地點錯誤")
             return
         }
@@ -169,72 +177,34 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func submitTask() {
+        
         TTSwiftMessages().wait(title: "上傳中")
-        guard let restaurant = restaurant, let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
-        let group = DispatchGroup()
-        for (index, media) in selectedMedias.enumerated() {
-            group.enter()
-            if media.mediaType == kUTTypeImage as String, let image = media.image {
-                FirestoreManager.shared.uploadImage(image: image, fileName: nil) { [weak self]  (result) in
-                    switch result {
-                    case .success(let urlString):
-                        self?.selectedMedias[index].urlString = urlString
-                        group.leave()
-                    case .failure(let error):
-                        print("submitTask error: \(error)")
-                        group.leave()
-                    }
-                }
-            } else if media.mediaType == kUTTypeMovie as String, let url = media.url {
-                FirestoreManager.shared.uploadVideo(url: url) { [weak self] (result) in
-                    switch result {
-                    case .success(let urlString):
-                        self?.selectedMedias[index].urlString = urlString
-                        group.leave()
-                    case .failure(let error):
-                        print("submitTask error: \(error)")
-                        group.leave()
-                    }
-                }
-            }
-        }
+        guard let task = task, let user = UserProvider.shared.userData, let compositionText = compositionTextView.text else { return }
         
-        group.notify(queue: .main) { [weak self] in
-            guard let strongSelf = self else { return }
+        writingProvider.uploadWriting(selectedMedias: selectedMedias, user: user, task: task, composition: compositionText) { [weak self] in
             
-            var urlStrings = [String]()
-            var mediaTypes = [String]()
-            for media in strongSelf.selectedMedias {
-                urlStrings.append(media.urlString)
-                mediaTypes.append(media.mediaType)
-            }
-            
-            let docRef = FirestoreManager.shared.db.collection("Writings").document()
-            let data = WritingData(documentID: docRef.documentID, date: Date(), number: restaurant.number, uid: user.uid, userName: user.name, userImagePath: user.imagePath, composition: compositionText, medias: urlStrings, mediaTypes: mediaTypes, agree: 1, disagree: 0, responseNumber: 0, taskID: task.taskID)
-            FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
-            
-            strongSelf.changeTaskStatus()
+            self?.changeTaskStatus()
             
             TTSwiftMessages().hide()
             
-            strongSelf.dismiss(animated: true, completion: { [weak self] in
+            self?.dismiss(animated: true, completion: { [weak self] in
                 TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "上傳成功", body: "")
                 self?.setStatusImage?()
             })
         }
+        
     }
     
     func changeTaskStatus() {
-        guard let user = UserProvider.shared.userData, var task = task else { return }
-        task.status = 1
+        guard var task = task else { return }
+        
+        task.status = TTTaskStstus.submitted.rawValue
         passTask?(task)
-        for index in 0..<UserProvider.shared.userTasks.count where UserProvider.shared.userTasks[index].documentID == task.documentID {
-            UserProvider.shared.userTasks[index].status = 1
-        }
-        let ref = FirestoreManager.shared.db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-        FirestoreManager.shared.addData(docRef: ref, data: ["status": 1])
+        
+        TaskProvider.shared.changeTaskStatus(task: task, status: .submitted)
     }
+    
 }
 
 extension ExecuteTaskViewController: UICollectionViewDataSource {
