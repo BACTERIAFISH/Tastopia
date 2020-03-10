@@ -42,21 +42,7 @@ class ExecuteTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        photoCollectionView.dataSource = self
-        photoCollectionView.delegate = self
-        compositionTextView.delegate = self
-        
-        compositionShadowView.layer.cornerRadius = 16
-        compositionShadowView.layer.createTTBorder()
-        
-        submitButton.layer.cornerRadius = 16
-        
-        if let task = task {
-            peopleLabel.text = String(task.people)
-            mediaLabel.text = String(task.media)
-            compositionLabel.text = String(task.composition)
-        }
-        
+        setBeginLayout()
     }
     
     @IBAction func back(_ sender: Any) {
@@ -71,7 +57,25 @@ class ExecuteTaskViewController: UIViewController {
         }
     }
     
-    func openImagePicker() {
+    private func setBeginLayout() {
+        
+        photoCollectionView.dataSource = self
+        photoCollectionView.delegate = self
+        compositionTextView.delegate = self
+        
+        compositionShadowView.layer.cornerRadius = 16
+        compositionShadowView.layer.createTTBorder()
+        
+        submitButton.layer.cornerRadius = 16
+        
+        if let task = task {
+            peopleLabel.text = String(task.people)
+            mediaLabel.text = String(task.media)
+            compositionLabel.text = String(task.composition)
+        }
+    }
+    
+    private func openImagePicker() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
@@ -124,7 +128,7 @@ class ExecuteTaskViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    func isForTest() -> Bool {
+    private func isForTest() -> Bool {
         var isTester = false
         var hasKeyword = false
         let testers = TastopiaTest.shared.testers
@@ -150,7 +154,7 @@ class ExecuteTaskViewController: UIViewController {
         return isTester && hasKeyword
     }
     
-    func checkTask() {
+    private func checkTask() {
         
         guard let task = task, let composition = compositionTextView.text else { return }
         
@@ -176,7 +180,7 @@ class ExecuteTaskViewController: UIViewController {
         submitTask()
     }
     
-    func submitTask() {
+    private func submitTask() {
         
         TTSwiftMessages().wait(title: "上傳中")
         
@@ -196,7 +200,7 @@ class ExecuteTaskViewController: UIViewController {
         
     }
     
-    func changeTaskStatus() {
+    private func changeTaskStatus() {
         guard var task = task else { return }
         
         task.status = TTTaskStstus.submitted.rawValue
