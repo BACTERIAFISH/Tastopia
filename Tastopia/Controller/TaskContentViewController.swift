@@ -26,7 +26,7 @@ class TaskContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         taskContentTableView.dataSource = self
         taskContentTableView.delegate = self
         
@@ -67,7 +67,7 @@ class TaskContentViewController: UIViewController {
             guard let task = self?.task else { return }
             
             TaskProvider.shared.changeTaskID(with: newTaskID, in: task)
-
+            
             self?.task?.taskID = newTaskID
             self?.passTask?(self?.task)
             self?.taskContentTableView.reloadData()
@@ -127,7 +127,7 @@ class TaskContentViewController: UIViewController {
                 
                 switch result {
                 case .success(let newTask):
-
+                    
                     self?.passTask?(newTask)
                     self?.task = newTask
                     self?.setTaskStatus()
@@ -144,54 +144,31 @@ class TaskContentViewController: UIViewController {
         
     }
     
-    @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
+    @IBAction func requestTaskRestart(_ sender: UIButton) {
         TTSwiftMessages().hideAll()
         
-        guard let task = task, let status = TTTaskStstus(rawValue: task.status), let user = UserProvider.shared.userData else { return }
+        guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
         
         switch status {
         case .start:
             print("task status: start(0), request company")
         case .submitted:
             TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
-                self?.task?.status = 0
-                for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].taskID == task.taskID {
-                    TaskProvider.shared.userTasks[index].status = 0
-                }
-                let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-                ref.updateData(["status": 0])
+                
+                self?.task?.status = TTTaskStstus.start.rawValue
+                
+                TaskProvider.shared.changeTaskStatus(task: task, status: .start)
                 
                 self?.passTask?(self?.task)
                 
                 self?.setTaskStatus()
+                
                 self?.setStatusImage()
+                
                 TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "可以再次執行任務", body: "")
             })
         case .complete:
-            print("task status: start(0), request company")
-        }
-        
-        switch task.status {
-        case 0:
-            print("status: 0, request company")
-        case 1:
-            TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
-                self?.task?.status = 0
-                for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].taskID == task.taskID {
-                    TaskProvider.shared.userTasks[index].status = 0
-                }
-                let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-                ref.updateData(["status": 0])
-                
-                self?.passTask?(self?.task)
-                
-                self?.setTaskStatus()
-                self?.setStatusImage()
-                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "可以再次執行任務", body: "")
-            })
-        default:
-            print("task status error")
-            return
+            print("task status: complete(2)")
         }
     }
     
@@ -208,29 +185,32 @@ class TaskContentViewController: UIViewController {
         statusImageView.layer.cornerRadius = 16
         statusImageView.layer.borderColor = UIColor.AKABENI!.cgColor
         statusImageView.layer.borderWidth = 5
-
+        
     }
     
     func setTaskStatus() {
-        guard let task = task else { return }
-        switch task.status {
-        case 0:
+        guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
+        
+        switch status {
+        case .start:
+            
             executeTaskButton.setTitle("執行任務", for: .normal)
             requestCompanyButton.setTitle("徵求同伴", for: .normal)
             requestCompanyButton.isHidden = true
             scanQRCodeButton.isHidden = false
-        case 1:
+            
+        case .submitted:
+            
             executeTaskButton.setTitle("確認任務", for: .normal)
             requestCompanyButton.setTitle("重新執行任務", for: .normal)
             requestCompanyButton.isHidden = false
             scanQRCodeButton.isHidden = true
-        case 2:
+            
+        case .complete:
+            
             executeTaskButton.setTitle("挑戰新的任務", for: .normal)
             requestCompanyButton.isHidden = true
             scanQRCodeButton.isHidden = true
-        default:
-            print("task status error")
-            return
         }
     }
     
@@ -251,19 +231,23 @@ class TaskContentViewController: UIViewController {
     }
     
     func setStatusImage() {
-        guard let task = task else { return }
-        switch task.status {
-        case 0:
+        
+        guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
+        
+        switch status {
+        case .start:
+            
             statusImageView.isHidden = true
-        case 1:
+            
+        case .submitted:
+            
             statusImageView.image = UIImage.asset(.Image_Uploaded)
             animateStatusImage()
-        case 2:
+            
+        case .complete:
+            
             statusImageView.image = UIImage.asset(.Image_Completed)
             animateStatusImage()
-        default:
-            print("task status error")
-            return
         }
     }
     
@@ -284,26 +268,22 @@ class TaskContentViewController: UIViewController {
     }
     
     func gameGuide() {
-        guard let task = task else { return }
-        switch task.status {
-        case 0:
+        guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
+        switch status {
+        case .start:
+            
             TTSwiftMessages().info(title: "提示", body: "當任務人數超過1人時\n請先用掃描 QRCode 的方式\n同步自己與同伴的任務代碼\n彼此的任務代碼前5碼都相同後\n再開始執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
                 
-                TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
-                    
-                }
+                TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
             }
-        case 1:
-            TTSwiftMessages().info(title: "提示", body: "多人任務中\n如果全部人都已上傳食記\n卻無法完成任務\n代表上傳的食記任務代碼不一致\n請重新執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
-                
-            }
-        case 2:
-            TTSwiftMessages().info(title: "提示", body: "完成任務後\n可以繼續挑戰新的任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
-                
-            }
-        default:
-            print("task status error")
-            return
+            
+        case .submitted:
+            
+            TTSwiftMessages().info(title: "提示", body: "多人任務中\n如果全部人都已上傳食記\n卻無法完成任務\n代表上傳的食記任務代碼不一致\n請重新執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
+            
+        case .complete:
+            
+            TTSwiftMessages().info(title: "提示", body: "完成任務後\n可以繼續挑戰新的任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
         }
     }
     
