@@ -147,7 +147,29 @@ class TaskContentViewController: UIViewController {
     @IBAction func requestCompanyButtonPressed(_ sender: UIButton) {
         TTSwiftMessages().hideAll()
         
-        guard let task = task, let user = UserProvider.shared.userData else { return }
+        guard let task = task, let status = TTTaskStstus(rawValue: task.status), let user = UserProvider.shared.userData else { return }
+        
+        switch status {
+        case .start:
+            print("task status: start(0), request company")
+        case .submitted:
+            TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
+                self?.task?.status = 0
+                for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].taskID == task.taskID {
+                    TaskProvider.shared.userTasks[index].status = 0
+                }
+                let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
+                ref.updateData(["status": 0])
+                
+                self?.passTask?(self?.task)
+                
+                self?.setTaskStatus()
+                self?.setStatusImage()
+                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "可以再次執行任務", body: "")
+            })
+        case .complete:
+            print("task status: start(0), request company")
+        }
         
         switch task.status {
         case 0:

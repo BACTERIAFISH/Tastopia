@@ -133,7 +133,7 @@ class TaskProvider {
     func checkIsTaskPassed(task: TaskData, completion: @escaping (Result<Bool, Error>) -> Void) {
         
         if task.restaurantNumber == 0 {
-            changeTaskStatus(task: task)
+            changeTaskStatus(task: task, status: .complete)
             completion(Result.success(true))
             return
         }
@@ -184,7 +184,7 @@ class TaskProvider {
                             return
                         }
                            
-                        self?.changeTaskStatus(task: task)
+                        self?.changeTaskStatus(task: task, status: .complete)
                         completion(Result.success(true))
                         
                     case .failure(let error):
@@ -200,17 +200,19 @@ class TaskProvider {
         }
     }
     
-    private func changeTaskStatus(task: TaskData) {
+    func changeTaskStatus(task: TaskData, status: TTTaskStstus) {
         
         guard let user = UserProvider.shared.userData else { return }
         
+        let statusInt = status.rawValue
+        
         for index in 0..<userTasks.count where userTasks[index].taskID == task.taskID {
-            userTasks[index].status = 2
+            userTasks[index].status = statusInt
         }
         
         let ref = firestoreReference.usersTasksDocumentRef(userPath: user.uid, taskPath: task.documentID)
 
-        ref.updateData([FirestoreReference.FieldKey.status: 2])
+        ref.updateData([FirestoreReference.FieldKey.status: statusInt])
     }
     
     func addMoreTask() {

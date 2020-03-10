@@ -197,15 +197,14 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     func changeTaskStatus() {
-        guard let user = UserProvider.shared.userData, var task = task else { return }
-        task.status = 1
+        guard var task = task else { return }
+        
+        task.status = TTTaskStstus.submitted.rawValue
         passTask?(task)
-        for index in 0..<TaskProvider.shared.userTasks.count where TaskProvider.shared.userTasks[index].documentID == task.documentID {
-            TaskProvider.shared.userTasks[index].status = 1
-        }
-        let ref = FirestoreManager().db.collection("Users").document(user.uid).collection("Tasks").document(task.documentID)
-        FirestoreManager().addData(docRef: ref, data: ["status": 1])
+        
+        TaskProvider.shared.changeTaskStatus(task: task, status: .submitted)
     }
+    
 }
 
 extension ExecuteTaskViewController: UICollectionViewDataSource {
