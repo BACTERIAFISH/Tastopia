@@ -172,7 +172,7 @@ class TaskContentViewController: UIViewController {
         }
     }
     
-    func setBeginLayout() {
+    private func setBeginLayout() {
         
         taskContentTableView.layer.cornerRadius = 16
         taskContentTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
@@ -188,7 +188,7 @@ class TaskContentViewController: UIViewController {
         
     }
     
-    func setTaskStatus() {
+    private func setTaskStatus() {
         guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
         
         switch status {
@@ -214,7 +214,7 @@ class TaskContentViewController: UIViewController {
         }
     }
     
-    func showExecuteTask() {
+    private func showExecuteTask() {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
         
         vc.map = map
@@ -230,7 +230,7 @@ class TaskContentViewController: UIViewController {
         present(vc, animated: true)
     }
     
-    func setStatusImage() {
+    private func setStatusImage() {
         
         guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
         
@@ -251,7 +251,7 @@ class TaskContentViewController: UIViewController {
         }
     }
     
-    func animateStatusImage() {
+    private func animateStatusImage() {
         
         statusImageView.isHidden = true
         statusImageView.alpha = 0.5
@@ -267,7 +267,7 @@ class TaskContentViewController: UIViewController {
         animator.startAnimation()
     }
     
-    func gameGuide() {
+    private func gameGuide() {
         guard let task = task, let status = TTTaskStstus(rawValue: task.status) else { return }
         switch status {
         case .start:
@@ -291,39 +291,49 @@ class TaskContentViewController: UIViewController {
 
 extension TaskContentViewController: UITableViewDataSource {
     
+    enum TableViewCellCategory: CaseIterable {
+        case title
+        case address
+        case phone
+        case people
+        case media
+        case composition
+        case taskID
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return TableViewCellCategory.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TaskContentTableViewCell", for: indexPath) as? TaskContentTableViewCell, let restaurant = restaurant, let task = task else { return UITableViewCell() }
         
-        switch indexPath.row {
-        case 0:
+        let category = TableViewCellCategory.allCases[indexPath.row]
+        
+        switch category {
+        case .title:
             guard let titleCell = tableView.dequeueReusableCell(withIdentifier: "TaskContentTitleTableViewCell", for: indexPath) as? TaskContentTitleTableViewCell else { return UITableViewCell() }
             titleCell.titleLabel.text = restaurant.name
             return titleCell
-        case 1:
+        case .address:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Pin_Red)
             cell.contentLabel.text = restaurant.address
-        case 2:
+        case .phone:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Phone_Red)
             cell.contentLabel.text = restaurant.phone
-        case 3:
+        case .people:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User_Red)
             cell.contentLabel.text = "\(task.people)個人吃飯（\(task.people)篇食記）"
-        case 4:
+        case .media:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera_Red)
             cell.contentLabel.text = "拍攝照片或影片 x \(task.media)"
-        case 5:
+        case .composition:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit_Red)
             cell.contentLabel.text = "寫\(task.composition)字感想"
-        case 6:
+        case .taskID:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Key_Red)
             let index = task.taskID.index(task.taskID.startIndex, offsetBy: 4)
             cell.contentLabel.text = "\(task.taskID[...index])（任務代碼前5碼）"
-        default:
-            return cell
         }
         
         return cell
@@ -347,4 +357,5 @@ extension TaskContentViewController: UITableViewDelegate {
             animator.startAnimation(afterDelay: 0.05 * Double(indexPath.row))
         }
     }
+    
 }
