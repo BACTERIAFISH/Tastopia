@@ -84,7 +84,7 @@ class TaskContentViewController: UIViewController {
         case .start:
             
             if task.people > 1 {
-                TTSwiftMessages().question(title: "多人任務", body: "請先同步自己與同伴的任務代碼\n再開始執行任務", leftButtonTitle: "還沒同步", rightButtonTitle: "同步好了", leftHandler: nil, rightHandler: showExecuteTask)
+                TTSwiftMessages().question(title: "多人任務", body: "請先同步自己與同伴的任務代碼\n再開始執行任務", leftButtonTitle: "還沒同步", rightButtonTitle: "同步好了", rightHandler: showExecuteTask)
             } else {
                 showExecuteTask()
             }
@@ -153,7 +153,7 @@ class TaskContentViewController: UIViewController {
         case .start:
             print("task status: start(0), request company")
         case .submitted:
-            TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: { [weak self] in
+            TTSwiftMessages().question(title: "確定重新執行任務？", body: nil, leftButtonTitle: "取消", rightButtonTitle: "確定", rightHandler: { [weak self] in
                 
                 self?.task?.status = TTTaskStstus.start.rawValue
                 

@@ -1155,7 +1155,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任務代碼 QRCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-WS-E8T">
-                                <rect key="frame" x="40" y="260.5" width="334" height="23.5"/>
+                                <rect key="frame" x="40" y="254" width="334" height="30"/>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1606,6 +1606,7 @@
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="bottom" secondItem="4ZA-dL-Jlg" secondAttribute="bottom" id="3i7-OJ-1Aa"/>
                             <constraint firstItem="z2g-Po-Tjs" firstAttribute="bottom" secondItem="K4v-Ph-FPZ" secondAttribute="centerY" id="67B-6L-tCt"/>
                             <constraint firstItem="jIF-vw-qa1" firstAttribute="centerY" secondItem="b8S-dP-OWs" secondAttribute="centerY" id="9ER-O6-NX1"/>
+                            <constraint firstItem="AYc-px-YPW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="b8S-dP-OWs" secondAttribute="trailing" constant="8" symbolic="YES" id="BsY-be-BfL"/>
                             <constraint firstItem="Xfk-oF-KWd" firstAttribute="centerY" secondItem="K4v-Ph-FPZ" secondAttribute="centerY" id="HQz-RJ-QMU"/>
                             <constraint firstItem="jIF-vw-qa1" firstAttribute="leading" secondItem="K4v-Ph-FPZ" secondAttribute="leading" constant="20" id="Ik0-Ux-EXF"/>
                             <constraint firstItem="b8S-dP-OWs" firstAttribute="centerX" secondItem="Gwj-Xc-g1D" secondAttribute="centerX" id="MAI-Fy-edL"/>
