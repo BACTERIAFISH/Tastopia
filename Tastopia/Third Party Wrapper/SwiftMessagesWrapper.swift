@@ -91,7 +91,7 @@ class TTSwiftMessages {
         SwiftMessages.show(config: config, view: view)
     }
     
-    func question(title: String?, body: String?, leftButtonTitle: String?, rightButtonTitle: String?, leftHandler: (() -> Void)?, rightHandler: (() -> Void)?) {
+    func question(title: String?, body: String?, leftButtonTitle: String?, rightButtonTitle: String?, rightHandler: (() -> Void)?) {
         
         do {
             let view: QuestionView = try SwiftMessages.viewFromNib()
@@ -103,12 +103,12 @@ class TTSwiftMessages {
             
             view.titleLabel.text = title
             view.bodyLabel.text = body
-            view.leftButton.setTitle(leftButtonTitle, for: .normal)
+            view.leftButton.setTitle("取消", for: .normal)
             view.rightButton.setTitle(rightButtonTitle, for: .normal)
             
             view.leftHandler = { button in
                 SwiftMessages.hide()
-                leftHandler?()
+//                leftHandler?()
             }
             
             view.rightHandler = { button in

@@ -136,7 +136,7 @@
             </objects>
             <point key="canvasLocation" x="938" y="-502"/>
         </scene>
-        <!--Map-->
+        <!--Home View Controller-->
         <scene sceneID="3cX-wF-okm">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" id="dpX-QH-2EF" customClass="HomeViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
@@ -330,7 +330,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JUZ-kW-ZMl"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="Icon_32px_Map" selectedImage="Icon_32px_Map_Fill" id="by7-W2-5mx"/>
                     <navigationItem key="navigationItem" id="Ca6-PE-o5M"/>
                     <connections>
                         <outlet property="mapView" destination="lBf-Ac-Mwx" id="KHx-qX-25v"/>
@@ -511,7 +510,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="195"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_256px_Picture" translatesAutoresizingMaskIntoConstraints="NO" id="Z3c-ET-zp5">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01_square" translatesAutoresizingMaskIntoConstraints="NO" id="Z3c-ET-zp5">
                                                     <rect key="frame" x="0.0" y="0.0" width="200" height="195"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyl-Fm-xdw">
@@ -1155,7 +1154,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任務代碼 QRCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-WS-E8T">
-                                <rect key="frame" x="40" y="260.5" width="334" height="23.5"/>
+                                <rect key="frame" x="40" y="254" width="334" height="30"/>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1382,7 +1381,7 @@
                                             <color key="titleColor" name="SHIRONERI"/>
                                         </state>
                                         <connections>
-                                            <action selector="requestCompanyButtonPressed:" destination="gMw-db-der" eventType="touchUpInside" id="gCK-l8-Ckp"/>
+                                            <action selector="requestTaskRestart:" destination="gMw-db-der" eventType="touchUpInside" id="gCK-l8-Ckp"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eUx-7E-cPh">
@@ -1606,6 +1605,7 @@
                             <constraint firstItem="K4v-Ph-FPZ" firstAttribute="bottom" secondItem="4ZA-dL-Jlg" secondAttribute="bottom" id="3i7-OJ-1Aa"/>
                             <constraint firstItem="z2g-Po-Tjs" firstAttribute="bottom" secondItem="K4v-Ph-FPZ" secondAttribute="centerY" id="67B-6L-tCt"/>
                             <constraint firstItem="jIF-vw-qa1" firstAttribute="centerY" secondItem="b8S-dP-OWs" secondAttribute="centerY" id="9ER-O6-NX1"/>
+                            <constraint firstItem="AYc-px-YPW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="b8S-dP-OWs" secondAttribute="trailing" constant="8" symbolic="YES" id="BsY-be-BfL"/>
                             <constraint firstItem="Xfk-oF-KWd" firstAttribute="centerY" secondItem="K4v-Ph-FPZ" secondAttribute="centerY" id="HQz-RJ-QMU"/>
                             <constraint firstItem="jIF-vw-qa1" firstAttribute="leading" secondItem="K4v-Ph-FPZ" secondAttribute="leading" constant="20" id="Ik0-Ux-EXF"/>
                             <constraint firstItem="b8S-dP-OWs" firstAttribute="centerX" secondItem="Gwj-Xc-g1D" secondAttribute="centerX" id="MAI-Fy-edL"/>
@@ -2094,14 +2094,11 @@
         <image name="Icon_24px_QRCode" width="24" height="24"/>
         <image name="Icon_24px_Sort" width="24" height="24"/>
         <image name="Icon_24px_User" width="24" height="24"/>
-        <image name="Icon_256px_Picture" width="256" height="256"/>
         <image name="Icon_32px_Add_User_Red" width="32" height="32"/>
         <image name="Icon_32px_Chat" width="32" height="32"/>
         <image name="Icon_32px_Delete" width="32" height="32"/>
         <image name="Icon_32px_Edit_Red" width="32" height="32"/>
         <image name="Icon_32px_Joke" width="32" height="32"/>
-        <image name="Icon_32px_Map" width="32" height="32"/>
-        <image name="Icon_32px_Map_Fill" width="32" height="32"/>
         <image name="Icon_32px_Phone_Red" width="32" height="32"/>
         <image name="Icon_32px_Photo_Camera" width="32" height="32"/>
         <image name="Icon_32px_Photo_Camera_Red" width="32" height="32"/>

@@ -43,4 +43,15 @@ struct TTConstant {
         static let selectImageViewController = "SelectImageViewController"
     }
     
+    struct CellIdentifier {
+        
+        static let recordContentTopTableViewCell = "RecordContentTopTableViewCell"
+        
+        static let recordContentImageTableViewCell = "RecordContentImageTableViewCell"
+        
+        static let recordContentCompositionTableViewCell = "RecordContentCompositionTableViewCell"
+        
+        static let recordContentAgreeTableViewCell = "RecordContentAgreeTableViewCell"
+    }
+    
 }

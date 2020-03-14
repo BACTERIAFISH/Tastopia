@@ -66,7 +66,7 @@ class FirebaseManagerLuke {
     
     func request(resource: Resource, completion: @escaping (Result<Data, FirebaseManagerLukeError>) -> Void) {
         
-        if case .collection = resource.paths.last  {
+        if case .collection = resource.paths.last {
             
             let reference = resource.colletionReference()
         
@@ -116,7 +116,7 @@ private extension Resource {
                     collectionReference = documentReference.collection(path)
                 }
 
-            case .document(let path): break
+            case .document(let path):
 
                 documentReference = collectionReference.document(path)
             }
@@ -146,7 +146,7 @@ private extension Resource {
                     collectionReference = documentReference.collection(path)
                 }
 
-            case .document(let path): break
+            case .document(let path):
 
                 documentReference = collectionReference.document(path)
             }
