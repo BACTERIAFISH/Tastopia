@@ -7,15 +7,45 @@
 
 * ### 使用說明
 
+![game guide](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_gameGuide.gif)
 
 * ### 操作地圖
 
+![manipulate map](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_map.gif)
+
 * ### 任務
+  * #### 查看任務
+  
+  ![check task](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_checkTask.gif)
+  
+  * #### 任務提示
+  
+  ![task hint](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_hint.gif)
+  
   * #### 同步任務代碼
-  * #### 上傳食記
+  
+  ![scan QRCode](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_qrcode.gif)
+  
+  * #### 上傳任務
+  
+  ![upload task](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_uploadTask.gif)
+  
+  * #### 重新執行任務
+  
+  ![restart task](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_restartTask.gif)
+  
   * #### 完成任務
+  
+  ![complete task](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_completeTask.gif)
+  
 * ### 觀看食記
+
+![browse tasks](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_browseTask.gif)
 
 * ### 評論留言
 
+![comment](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_comment.gif)
+
 * ### 檢舉封鎖
+
+![block](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_block.gif)
