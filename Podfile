@@ -28,5 +28,10 @@ target 'Tastopia' do
   pod 'SwiftLint'
   pod 'SwiftMessages'
   pod 'collection-view-layouts'
+  
+  #target 'RecapPracticeTests' do
+    #inherit! :search_paths
+    # Pods for testing
+  #end
 
 end

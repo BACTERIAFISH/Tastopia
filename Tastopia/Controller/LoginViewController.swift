@@ -17,52 +17,32 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var appleView: UIView!
+    @IBOutlet weak var appleButtonView: UIView!
     @IBOutlet weak var privacyButton: UIButton!
+    @IBOutlet weak var eulaButton: UIButton!
+    
+    fileprivate var currentNonce: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
+        
+        setBeginLayout()
+        
+        setAppleButton()
 
-        googleButton.layer.cornerRadius = 24
-        facebookButton.layer.cornerRadius = 24
-        
-        if #available(iOS 13, *) {
-            appleView.isHidden = false
-            let button = ASAuthorizationAppleIDButton(type: .default, style: .black)
-            button.frame = CGRect(x: 0, y: 0, width: appleView.frame.width, height: appleView.frame.height)
-            button.cornerRadius = 24
-            button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
-            appleView.addSubview(button)
-        }
-        
-        let attribute: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "NotoSansTC-Bold", size: 16)!,
-            .foregroundColor: UIColor.SUMI!,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-        let attributeString = NSMutableAttributedString(string: "隱私權政策", attributes: attribute)
-        privacyButton.setAttributedTitle(attributeString, for: .normal)
     }
     
-    @IBAction func privacyButtonPressed(_ sender: UIButton) {
-        if let url = URL(string: "https://bacteriafish.github.io") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    @IBAction func googleSignInPress(_ sender: Any) {
+    @IBAction func googleSignIn(_ sender: UIButton) {
         GIDSignIn.sharedInstance().signIn()
     }
     
-    @IBAction func fbLogin(_ sender: Any) {
-        facebookLogin()
-    }
-    
-    func facebookLogin() {
+    @IBAction func facebookLogin(_ sender: UIButton) {
+        
         let loginManager = LoginManager()
+        
         loginManager.logIn(
             permissions: [.publicProfile, .email],
             viewController: self
@@ -74,11 +54,77 @@ class LoginViewController: UIViewController {
                 print("fb login fail: \(error)")
             case .success(_, _, let accessToken):
                 print("fb login success")
+                
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-                UserProvider.shared.login(credential: credential, name: nil, email: nil)
+                
                 TTSwiftMessages().wait(title: "登入中")
+                UserProvider.shared.login(credential: credential, name: nil, email: nil) { [weak self] (isLogin) in
+                    if isLogin {
+                        self?.showHomeVC()
+                    } else {
+                        TTSwiftMessages().hide()
+                        TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "登入失敗", body: "")
+                    }
+                }
             }
         }
+        
+    }
+    
+    @IBAction func showPrivacyPolicy(_ sender: UIButton) {
+        if let url = URL(string: "https://bacteriafish.github.io") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    @IBAction func showEULA(_ sender: UIButton) {
+        if let url = URL(string: "https://www.eulatemplate.com/live.php?token=EeoBzLEiaDGeNQo59O8FrAV2alEGII6t") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    private func setBeginLayout() {
+        
+        googleButton.layer.cornerRadius = 24
+        facebookButton.layer.cornerRadius = 24
+        
+        setButtonTitleUnderline(button: privacyButton, title: "隱私權政策")
+        setButtonTitleUnderline(button: eulaButton, title: "使用條款")
+
+    }
+    
+    private func setButtonTitleUnderline(button: UIButton, title: String) {
+        
+        let attribute: [NSAttributedString.Key: Any] = [
+            .font: UIFont(name: "NotoSansTC-Bold", size: 16)!,
+            .foregroundColor: UIColor.SUMI!,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributeString = NSMutableAttributedString(string: title, attributes: attribute)
+        button.setAttributedTitle(attributeString, for: .normal)
+    }
+    
+    private func setAppleButton() {
+        
+        if #available(iOS 13, *) {
+            appleButtonView.isHidden = false
+            let button = ASAuthorizationAppleIDButton(type: .default, style: .black)
+            button.frame = CGRect(x: 0, y: 0, width: appleButtonView.frame.width, height: appleButtonView.frame.height)
+            button.cornerRadius = 24
+            button.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
+            appleButtonView.addSubview(button)
+        }
+    }
+    
+    private func showHomeVC() {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let mainStoryboard = UIStoryboard(name: TTConstant.main, bundle: nil)
+        
+        guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+        
+        appDelegate.window?.rootViewController = homeVC
     }
     
     private func randomNonceString(length: Int = 32) -> String {
@@ -109,9 +155,6 @@ class LoginViewController: UIViewController {
         
         return result
     }
-    
-    // Unhashed nonce.
-    fileprivate var currentNonce: String?
     
     @available(iOS 13, *)
     @objc func startSignInWithAppleFlow() {
@@ -161,9 +204,16 @@ extension LoginViewController: GIDSignInDelegate {
         
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        
-        UserProvider.shared.login(credential: credential, name: nil, email: nil)
+    
         TTSwiftMessages().wait(title: "登入中")
+        UserProvider.shared.login(credential: credential, name: nil, email: nil) { [weak self] (isLogin) in
+            if isLogin {
+                self?.showHomeVC()
+            } else {
+                TTSwiftMessages().hide()
+                TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "登入失敗", body: "")
+            }
+        }
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -195,16 +245,21 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             let name = "\(givenName) \(familyName)".trimmingCharacters(in: .whitespaces)
             let email = appleIDCredential.email
 
-            // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            // Sign in with Firebase.
-            UserProvider.shared.login(credential: credential, name: name, email: email)
+
             TTSwiftMessages().wait(title: "登入中")
+            UserProvider.shared.login(credential: credential, name: name, email: email) { [weak self] (isLogin) in
+                if isLogin {
+                    self?.showHomeVC()
+                } else {
+                    TTSwiftMessages().hide()
+                    TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "登入失敗", body: "")
+                }
+            }
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // Handle error.
         
         TTSwiftMessages().hide()
         

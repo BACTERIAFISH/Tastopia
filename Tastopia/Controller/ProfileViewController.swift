@@ -99,6 +99,12 @@ class ProfileViewController: UIViewController {
     
     @IBAction func signOutButtonPressed(_ sender: UIButton) {
         UserProvider.shared.signOut()
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let storyboard = UIStoryboard(name: TTConstant.main, bundle: nil)
+        guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+        
+        appDelegate.window?.rootViewController = loginVC
     }
     
     @objc func back() {
@@ -126,7 +132,7 @@ class ProfileViewController: UIViewController {
     }
     
     func openImagePicker() {
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let action1 = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
             guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
@@ -142,7 +148,7 @@ class ProfileViewController: UIViewController {
             
             self?.present(vc, animated: true)
         }
-        ac.addAction(action1)
+        alertController.addAction(action1)
         
         let action2 = UIAlertAction(title: "相片", style: .default) { [weak self] (_) in
             
@@ -151,11 +157,11 @@ class ProfileViewController: UIViewController {
             imagePicker.delegate = self
             self?.present(imagePicker, animated: true)
         }
-        ac.addAction(action2)
+        alertController.addAction(action2)
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     func uploadUserImage(image: UIImage) {
@@ -164,9 +170,9 @@ class ProfileViewController: UIViewController {
         
         TTSwiftMessages().wait(title: "照片更換中")
         
-        FirestoreManager.shared.uploadImage(image: image, fileName: user.uid) { [weak self] (result) in
+        FirestoreManager().uploadImage(image: image, fileName: user.uid) { [weak self] (result) in
             switch result {
-            case .success(let url):
+            case .success:
                 self?.personalImageView.image = image
                 self?.backgroundImageView.image = image
                 ImageCache.default.clearMemoryCache()

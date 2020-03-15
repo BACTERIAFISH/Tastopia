@@ -90,23 +90,23 @@ class TaskRecordViewController: UIViewController {
     }
     
     @IBAction func sortFilterPressed(_ sender: Any) {
-        let ac = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
-        ac.addAction(action1)
+        alertController.addAction(action1)
         let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
-        ac.addAction(action2)
+        alertController.addAction(action2)
         let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
-        ac.addAction(action3)
+        alertController.addAction(action3)
         var action4 = UIAlertAction(title: "中肯或留言", style: .default, handler: setSortMethod(action:))
         if personalCollectionViewTrailingConstraint.constant == 0 {
             action4 = UIAlertAction(title: "留言", style: .default, handler: setSortMethod(action:))
         }
-        ac.addAction(action4)
+        alertController.addAction(action4)
         let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        ac.addAction(actionCancel)
+        alertController.addAction(actionCancel)
         
         //        ac.view.tintColor = UIColor.AKABENI
-        present(ac, animated: true)
+        present(alertController, animated: true)
     }
     
     @IBAction func personalRecordButtonPressed(_ sender: UIButton) {

@@ -12,6 +12,12 @@ import GoogleMaps
 
 class HomeViewController: UIViewController {
     
+    enum MarkerIconSize {
+        case large
+        case medium
+        case small
+    }
+    
     @IBOutlet weak var mapView: GMSMapView!
 
     @IBOutlet weak var userButton: UIButton!
@@ -29,6 +35,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var shadowLeftView: UIView!
     @IBOutlet weak var shadowRightView: UIView!
     
+    let mapProvider = MapProvider()
+    
     var locationManager = CLLocationManager()
     var markIconSize: MarkerIconSize = .small
     
@@ -45,26 +53,9 @@ class HomeViewController: UIViewController {
         
         TTSwiftMessages().hideAll()
         
-        mapView.delegate = self
-        mapView.settings.myLocationButton = true
-        mapView.isMyLocationEnabled = true
-        mapView.settings.compassButton = true
+        setMap()
         
-        do {
-          if let styleURL = Bundle.main.url(forResource: "google-map-style", withExtension: "json") {
-            mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-          } else {
-            print("Unable to find style.json")
-          }
-        } catch {
-          print("One or more of the map styles failed to load. \(error)")
-        }
-        
-        getTaskRestaurant()
-        
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        setTaskMarkerWithShadow()
 
     }
     
@@ -74,19 +65,10 @@ class HomeViewController: UIViewController {
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         
-        view.layoutIfNeeded()
-        userButton.layer.cornerRadius = 30
-        taskViewBottomConstraint.constant = taskView.layer.frame.height
-        
-        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        taskView.layer.cornerRadius = 16
-        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
-        
-        taskButton.layer.cornerRadius = 16
-        recordButton.layer.cornerRadius = 16
+        setBeginLayout()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: NSNotification.Name("userTasks"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(addTaskRestaurant), name: NSNotification.Name("addRestaurant"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userTasksGot), name: TTConstant.NotificationName.userTasks, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addTaskRestaurant), name: TTConstant.NotificationName.addRestaurant, object: nil)
         
     }
     
@@ -96,9 +78,9 @@ class HomeViewController: UIViewController {
         checkLocationAuth()
     }
     
-    @IBAction func userButtonPressed(_ sender: UIButton) {
+    @IBAction func showProfile(_ sender: UIButton) {
         
-        guard let profileVC = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { return }
+        guard let profileVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.profileViewController) as? ProfileViewController else { return }
         
         profileVC.user = UserProvider.shared.userData
 
@@ -106,7 +88,7 @@ class HomeViewController: UIViewController {
             guard let strongSelf = self else { return }
             
             let locationAuthStatus = CLLocationManager.authorizationStatus()
-            if locationAuthStatus != .authorizedAlways || locationAuthStatus != .authorizedWhenInUse {
+            if locationAuthStatus != .authorizedAlways, locationAuthStatus != .authorizedWhenInUse {
                 
                 TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
                 
@@ -133,8 +115,8 @@ class HomeViewController: UIViewController {
 
     }
     
-    @IBAction func taskButtonPressed(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "TaskContentViewController") as? TaskContentViewController else { return }
+    @IBAction func showTaskContent(_ sender: UIButton) {
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
         
         vc.map = mapView
         vc.restaurant = currentRestaurantData?.restaurant
@@ -147,9 +129,9 @@ class HomeViewController: UIViewController {
         
     }
     
-    @IBAction func recordButtonPressed(_ sender: UIButton) {
+    @IBAction func showRecordContent(_ sender: UIButton) {
         guard
-            let navigationVC = storyboard?.instantiateViewController(withIdentifier: "TaskRecordNavigationController") as? UINavigationController,
+            let navigationVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskRecordNavigationController) as? UINavigationController,
             let vc = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
 
@@ -161,8 +143,24 @@ class HomeViewController: UIViewController {
         present(navigationVC, animated: true)
     }
     
+    func setBeginLayout() {
+        
+        view.layoutIfNeeded()
+        userButton.layer.cornerRadius = 30
+        taskViewBottomConstraint.constant = taskView.layer.frame.height
+        
+        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        taskView.layer.cornerRadius = 16
+        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
+        
+        taskButton.layer.cornerRadius = 16
+        recordButton.layer.cornerRadius = 16
+    }
+    
     func checkLocationAuth() {
+        
         let locationAuthStatus = CLLocationManager.authorizationStatus()
+        
         switch locationAuthStatus {
         case .authorizedAlways, .authorizedWhenInUse:
             mapView.isHidden = false
@@ -172,54 +170,75 @@ class HomeViewController: UIViewController {
             mapView.isHidden = true
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
         @unknown default:
-            print("switch CLLocationManager.authorizationStatus() error")
+            print("checkLocationAuth switch CLLocationManager.authorizationStatus() error")
         }
-
     }
     
-    func getTaskRestaurant() {
+    func setMap() {
+        
+        mapView.delegate = self
+        mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true
+        mapView.settings.compassButton = true
+        
+        mapProvider.setMapStyle(map: mapView)
+        
+        mapProvider.createWorldMapShadow(map: mapView)
+    }
+    
+    func setTaskMarkerWithShadow() {
         RestaurantProvider().getTaskRestaurant { [weak self] (result) in
+            
             guard let strongSelf = self else { return }
-            guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
             
             switch result {
             case .success(let restaurants):
                 
                 for restaurant in restaurants {
-                    let marker = GMSMarker()
-                    marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
                     
-                    marker.title = restaurant.name
-                    
-                    var icon = UIImage.asset(.Icon_16px_Dot_Flat)
-                    if passRestaurant.contains(restaurant.number) {
-                        icon = UIImage.asset(.Icon_16px_Dot_Flat_Black)
-                    }
-                    marker.icon = icon
-                    //marker.snippet = "iOS"
-                    marker.map = self?.mapView
+                    let marker = strongSelf.setTaskMarker(for: restaurant)
                     
                     let restaurantData = RestaurantData(marker: marker, restaurant: restaurant)
-                    self?.restaurantDatas.append(restaurantData)
+                    strongSelf.restaurantDatas.append(restaurantData)
                     
                 }
                 
-                MapProvider().createMapHollowPolygon(map: strongSelf.mapView, restaurants: restaurants)
+                strongSelf.mapProvider.createMapHollowPolygon(map: strongSelf.mapView, restaurants: restaurants)
                 
             case .failure(let error):
-                print("getTaskRestaurant error: \(error)")
+                print("RestaurantProvider getTaskRestaurant error: \(error)")
             }
         }
+    }
+    
+    func setTaskMarker(for restaurant: Restaurant) -> GMSMarker {
+        
+        guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else {
+            return GMSMarker()
+        }
+        
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude)
+        
+        marker.title = restaurant.name
+        
+        var icon = UIImage.asset(.Icon_16px_Dot_Flat)
+        if passRestaurant.contains(restaurant.number) {
+            icon = UIImage.asset(.Icon_16px_Dot_Flat_Black)
+        }
+        marker.icon = icon
+        
+        marker.map = mapView
+        
+        return marker
     }
     
     @objc func addTaskRestaurant() {
         mapView.clear()
         
-        getTaskRestaurant()
+        mapProvider.createWorldMapShadow(map: mapView)
         
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: 90, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: 180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
-        MapProvider().createMapRectangle(map: mapView, latitude: 0, longitude: 0, height: -89, width: -180, fillColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.6))
+        setTaskMarkerWithShadow()
     }
     
     @objc func userTasksGot() {
@@ -266,7 +285,7 @@ class HomeViewController: UIViewController {
                                         
                                         TTSwiftMessages().info(title: "準備好了嗎？", body: "按下開始進入 Tastopia !!\n", icon: nil, buttonTitle: "開始", handler: {
                                             
-                                            UserDefaults.standard.set(1, forKey: "userStatus")
+                                            UserDefaults.standard.set(1, forKey: TTConstant.UserDefaultKey.userStatus)
                                             
                                             self?.shadowTopView.isHidden = true
                                             self?.shadowContainView.isHidden = true
@@ -301,66 +320,82 @@ class HomeViewController: UIViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
         
         if mapView.camera.zoom >= 19, markIconSize != .large {
             markIconSize = .large
-            for restaurantData in restaurantDatas {
-                var icon = UIImage.asset(.Icon_128px_Food_Location)
-                if passRestaurant.contains(restaurantData.restaurant.number) {
-                    icon = UIImage.asset(.Icon_128px_Food_Location_Black)
-                }
-                restaurantData.marker.icon = icon
-            }
+            
+            setMarkerIconByZoom(imageAsset: .Icon_128px_Food_Location, blackImageAsset: .Icon_128px_Food_Location_Black)
         }
         
         if mapView.camera.zoom < 19, mapView.camera.zoom > 15, markIconSize != .medium {
             markIconSize = .medium
-            for restaurantData in restaurantDatas {
-                var icon = UIImage.asset(.Icon_64px_Food_Location)
-                if passRestaurant.contains(restaurantData.restaurant.number) {
-                    icon = UIImage.asset(.Icon_64px_Food_Location_Black)
-                }
-                restaurantData.marker.icon = icon
-            }
+            
+            setMarkerIconByZoom(imageAsset: .Icon_64px_Food_Location, blackImageAsset: .Icon_64px_Food_Location_Black)
         }
         
         if mapView.camera.zoom <= 15, markIconSize != .small {
             markIconSize = .small
-            for restaurantData in restaurantDatas {
-                var icon = UIImage.asset(.Icon_16px_Dot_Flat)
-                if passRestaurant.contains(restaurantData.restaurant.number) {
-                    icon = UIImage.asset(.Icon_16px_Dot_Flat_Black)
-                }
-                restaurantData.marker.icon = icon
-            }
+            
+            setMarkerIconByZoom(imageAsset: .Icon_16px_Dot_Flat, blackImageAsset: .Icon_16px_Dot_Flat_Black)
         }
         
     }
     
+    private func setMarkerIconByZoom(imageAsset: ImageAsset, blackImageAsset: ImageAsset) {
+        
+        guard let passRestaurant = UserProvider.shared.userData?.passRestaurant else { return }
+        
+        for restaurantData in restaurantDatas {
+            var icon = UIImage.asset(imageAsset)
+            if passRestaurant.contains(restaurantData.restaurant.number) {
+                icon = UIImage.asset(blackImageAsset)
+            }
+            restaurantData.marker.icon = icon
+        }
+    }
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        
+        setCurrentRestaurantData(marker: marker)
+        
+        showTaskView()
+        
+        return false
+    }
+    
+    private func setCurrentRestaurantData(marker: GMSMarker) {
         for restaurantData in restaurantDatas where restaurantData.marker == marker {
             currentRestaurantData = restaurantData
-            for userTask in UserProvider.shared.userTasks where userTask.restaurantNumber == restaurantData.restaurant.number {
+            for userTask in TaskProvider.shared.userTasks where userTask.restaurantNumber == restaurantData.restaurant.number {
                 currentUserTask = userTask
             }
             taskNameLabel.text = restaurantData.restaurant.name
             taskAddressLabel.text = restaurantData.restaurant.address
             taskPhoneLabel.text = restaurantData.restaurant.phone
         }
+    }
+    
+    private func showTaskView() {
         if taskView.isHidden {
+            
             taskView.isHidden = false
+            view.layoutIfNeeded()
+            
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
                 self?.taskViewBottomConstraint.constant = 0
                 self?.view.layoutIfNeeded()
             }
             animator.startAnimation()
         }
-        
-        return false
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        
+        hideTaskView()
+    }
+    
+    private func hideTaskView() {
+        
         if !taskView.isHidden {
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) { [weak self] in
                 guard let strongSelf = self else { return }
@@ -372,15 +407,6 @@ extension HomeViewController: GMSMapViewDelegate {
             }
             animator.startAnimation()
         }
-        
-    }
-    
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        
-    }
-    
-    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-        
     }
     
 }
@@ -388,13 +414,7 @@ extension HomeViewController: GMSMapViewDelegate {
 extension HomeViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        // taipei main station
-        // (25.047811, 121.517019)
-        
-        // AppWorks School
-        // (25.042451, 121.564920)
-        
+                
         let location = locations.last!
         
         let camera = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 15)
@@ -403,26 +423,18 @@ extension HomeViewController: CLLocationManagerDelegate {
         
         locationManager.stopUpdatingLocation()
         
-        if UserDefaults.standard.integer(forKey: "userStatus") == 0 {
+        if UserDefaults.standard.integer(forKey: TTConstant.UserDefaultKey.userStatus) == 0 {
             gameGuide()
         }
     }
     
-    // Handle authorization for the location manager.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuth()
     }
     
-    // Handle location manager errors.
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Location Manager Error: \(error)")
     }
     
-}
-
-enum MarkerIconSize {
-    case large
-    case medium
-    case small
 }

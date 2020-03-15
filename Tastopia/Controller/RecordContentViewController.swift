@@ -8,6 +8,89 @@
 
 import UIKit
 
+protocol TTCellModel {
+    
+    var identifier: String { get }
+    
+    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?)
+}
+
+extension TTCellModel {
+    
+    func countAgreeRatio(agree: Int, disagree: Int) -> Float {
+    
+        return Float(agree) / (Float(agree) + Float(disagree))
+    }
+}
+
+struct TTRecordContentTopCellModel: TTCellModel {
+        
+    let identifier: String = TTConstant.CellIdentifier.recordContentTopTableViewCell
+    
+    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
+        
+        guard let cell = tableViewCell as? RecordContentTopTableViewCell else { return }
+        
+        cell.authorImagePath = writing.userImagePath
+        
+        cell.nameLabel.text = writing.userName
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date = writing.date
+        cell.dateLabel.text = dateFormatter.string(from: date)
+        
+        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
+        cell.agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
+    }
+            
+}
+
+struct TTRecordContentImageCellModel: TTCellModel {
+    
+    let identifier: String = TTConstant.CellIdentifier.recordContentImageTableViewCell
+    
+    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
+        
+        guard let cell = tableViewCell as? RecordContentImageTableViewCell else { return }
+        
+        cell.writing = writing
+        cell.imageCollectionView.reloadData()
+    }
+}
+
+struct TTRecordContentCompositionCellModel: TTCellModel {
+    
+    let identifier: String = TTConstant.CellIdentifier.recordContentCompositionTableViewCell
+    
+    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
+        
+        guard let cell = tableViewCell as? RecordContentCompositionTableViewCell else { return }
+        
+        let keyword = TastopiaTest.shared.keyword
+        let composition = writing.composition.replacingOccurrences(of: keyword, with: "")
+        cell.compositionLabel.text = composition
+    }
+}
+
+struct TTRecordContentAgreeCellModel: TTCellModel {
+    
+    let identifier: String = TTConstant.CellIdentifier.recordContentAgreeTableViewCell
+    
+    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
+        
+        if UserProvider.shared.userData?.uid == writing.uid {
+            // MARK: for edit composition
+        }
+        
+        guard let cell = tableViewCell as? RecordContentAgreeTableViewCell else { return }
+        
+        cell.documentID = writing.documentID
+        cell.agree = agreeMethod
+        cell.disagree = disagreeMethod
+    }
+}
+
 class RecordContentViewController: UIViewController {
     
     @IBOutlet weak var userButtonItem: UIBarButtonItem!
@@ -29,6 +112,13 @@ class RecordContentViewController: UIViewController {
     var writing: WritingData?
     
     var responses = [ResponseData]()
+    
+    var cells: [TTCellModel] = [
+        TTRecordContentTopCellModel(),
+        TTRecordContentImageCellModel(),
+        TTRecordContentCompositionCellModel(),
+        TTRecordContentAgreeCellModel()
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,12 +162,19 @@ class RecordContentViewController: UIViewController {
         //        let seeAction = UIAlertAction(title: "查看作者", style: .default) { (action) in
         //
         //        }
+        let reportAction = UIAlertAction(title: "檢舉文章", style: .default) { _ in
+            TTSwiftMessages().question(title: "檢舉文章", body: "確定要檢舉這篇文章？", leftButtonTitle: "取消", rightButtonTitle: "確定", rightHandler: {
+                
+                TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "檢舉已收到", body: "將會盡快處理您的檢舉\n如果不想看到文章\n請選擇封鎖作者", duration: 3)
+            })
+        }
         let blockAction = UIAlertAction(title: "封鎖作者", style: .default) { [weak self] _ in
-            TTSwiftMessages().question(title: "封鎖作者", body: "不再顯示該作者的文章和留言\n確定要封鎖作者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
+            TTSwiftMessages().question(title: "封鎖作者", body: "不再顯示該作者的文章和留言\n確定要封鎖作者？", leftButtonTitle: "取消", rightButtonTitle: "確定", rightHandler: {
                 self?.blockAuthor()
             })
         }
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(reportAction)
         alertController.addAction(blockAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
@@ -94,20 +191,20 @@ class RecordContentViewController: UIViewController {
         if user.agreeWritings.contains(documentID) {
             writing.agree -= 1
             UserProvider.shared.userData?.agreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
+            FirestoreManager().deleteArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager().incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
         } else {
             writing.agree += 1
             UserProvider.shared.userData?.agreeWritings.append(documentID)
-            FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
+            FirestoreManager().updateArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager().incrementData(collection: "Writings", document: documentID, field: "agree", increment: 1)
         }
         
         if user.disagreeWritings.contains(documentID) {
             writing.disagree -= 1
             UserProvider.shared.userData?.disagreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
+            FirestoreManager().deleteArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager().incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
         }
         
         self.writing = writing
@@ -121,20 +218,20 @@ class RecordContentViewController: UIViewController {
         if user.disagreeWritings.contains(documentID) {
             writing.disagree -= 1
             UserProvider.shared.userData?.disagreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
+            FirestoreManager().deleteArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager().incrementData(collection: "Writings", document: documentID, field: "disagree", increment: -1)
         } else {
             writing.disagree += 1
             UserProvider.shared.userData?.disagreeWritings.append(documentID)
-            FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
+            FirestoreManager().updateArrayData(collection: "Users", document: user.uid, field: "disagreeWritings", data: [documentID])
+            FirestoreManager().incrementData(collection: "Writings", document: documentID, field: "disagree", increment: 1)
         }
         
         if user.agreeWritings.contains(documentID) {
             writing.agree -= 1
             UserProvider.shared.userData?.agreeWritings.removeAll(where: { $0 == documentID })
-            FirestoreManager.shared.deleteArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
-            FirestoreManager.shared.incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
+            FirestoreManager().deleteArrayData(collection: "Users", document: user.uid, field: "agreeWritings", data: [documentID])
+            FirestoreManager().incrementData(collection: "Writings", document: documentID, field: "agree", increment: -1)
         }
         
         self.writing = writing
@@ -175,15 +272,15 @@ class RecordContentViewController: UIViewController {
             return
         }
         
-        let docRef = FirestoreManager.shared.db.collection("Writings").document(writing.documentID).collection("Responses").document()
+        let docRef = FirestoreManager().db.collection("Writings").document(writing.documentID).collection("Responses").document()
         
         let data = ResponseData(documentID: docRef.documentID, date: Date(), uid: user.uid, userName: user.name, userImagePath: user.imagePath, response: response)
         
-        FirestoreManager.shared.addCustomData(docRef: docRef, data: data)
+        FirestoreManager().addCustomData(docRef: docRef, data: data)
         
-        FirestoreManager.shared.incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
+        FirestoreManager().incrementData(collection: "Writings", document: writing.documentID, field: "responseNumber", increment: 1)
         
-        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "responseWritings", data: [writing.documentID])
+        FirestoreManager().updateArrayData(collection: "Users", document: user.uid, field: "responseWritings", data: [writing.documentID])
         
         responses.append(data)
         recordTableView.insertRows(at: [IndexPath(item: responses.count - 1, section: 1)], with: .automatic)
@@ -210,7 +307,7 @@ class RecordContentViewController: UIViewController {
             UserProvider.shared.userData?.blackList.append(writing.uid)
         }
         
-        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "blackList", data: [writing.uid]) { [weak self] error in
+        FirestoreManager().updateArrayData(collection: "Users", document: user.uid, field: "blackList", data: [writing.uid]) { [weak self] error in
             if let error = error {
                 print("blockAuthor error: \(error)")
             }
@@ -230,7 +327,7 @@ class RecordContentViewController: UIViewController {
             user.blackList.append(uid)
         }
         
-        FirestoreManager.shared.updateArrayData(collection: "Users", document: user.uid, field: "blackList", data: [uid]) { [weak self] error in
+        FirestoreManager().updateArrayData(collection: "Users", document: user.uid, field: "blackList", data: [uid]) { [weak self] error in
             guard let strongSelf = self else { return }
             
             if let error = error {
@@ -244,6 +341,7 @@ class RecordContentViewController: UIViewController {
 }
 
 extension RecordContentViewController: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -257,68 +355,23 @@ extension RecordContentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 4
+            return cells.count
         } else {
             return responses.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let writing = writing else { return UITableViewCell() }
         
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentTopTableViewCell") as? RecordContentTopTableViewCell else { return UITableViewCell() }
-                
-                cell.authorImagePath = writing.userImagePath
-                
-                cell.nameLabel.text = writing.userName
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let date = writing.date
-                cell.dateLabel.text = dateFormatter.string(from: date)
-                
-                let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
-                cell.agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
-                
-                return cell
-                
-            } else if indexPath.row == 1 {
-                
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentImageTableViewCell") as? RecordContentImageTableViewCell else { return UITableViewCell() }
-                
-                cell.writing = writing
-                cell.imageCollectionView.reloadData()
-                return cell
-                
-            } else if indexPath.row == 2 {
-                
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentCompositionTableViewCell") as? RecordContentCompositionTableViewCell else { return UITableViewCell() }
-                
-                let keyword = TastopiaTest.shared.keyword
-                let composition = writing.composition.replacingOccurrences(of: keyword, with: "")
-                cell.compositionLabel.text = composition
-                return cell
-                
-            } else if indexPath.row == 3 {
-                
-                if UserProvider.shared.userData?.uid == writing.uid {
-                    return UITableViewCell()
-                    // MARK: for edit composition
-                }
-                
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecordContentAgreeTableViewCell") as? RecordContentAgreeTableViewCell else { return UITableViewCell() }
-                
-                cell.documentID = writing.documentID
-                cell.agree = agree
-                cell.disagree = disagree
-                return cell
-                
-            }
             
-            return UITableViewCell()
+            guard let writing = writing else { return UITableViewCell() }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: cells[indexPath.row].identifier, for: indexPath)
+            
+            cells[indexPath.row].setCell(tableViewCell: cell, writing: writing, agreeMethod: agree, disagreeMethod: disagree)
+            
+            return cell
             
         } else {
             
@@ -336,6 +389,7 @@ extension RecordContentViewController: UITableViewDataSource {
         }
         return tableView.sectionHeaderHeight
     }
+
 }
 
 extension RecordContentViewController: UITableViewDelegate {
@@ -376,14 +430,21 @@ extension RecordContentViewController: UITableViewDelegate {
             //        let seeAction = UIAlertAction(title: "查看留言者", style: .default) { (action) in
             //
             //        }
+            let reportAction = UIAlertAction(title: "檢舉留言", style: .default) { _ in
+                TTSwiftMessages().question(title: "檢舉留言", body: "確定要檢舉這則留言？", leftButtonTitle: "取消", rightButtonTitle: "確定", rightHandler: {
+                    
+                    TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "檢舉已收到", body: "將會盡快處理您的檢舉\n如果不想看到留言\n請選擇封鎖留言者", duration: 3)
+                })
+            }
             let blockAction = UIAlertAction(title: "封鎖留言者", style: .default) { [weak self] _ in
                 
-                TTSwiftMessages().question(title: "封鎖留言者", body: "不再顯示該留言者的文章和留言\n確定要封鎖留言者？", leftButtonTitle: "取消", rightButtonTitle: "確定", leftHandler: nil, rightHandler: {
+                TTSwiftMessages().question(title: "封鎖留言者", body: "不再顯示該留言者的文章和留言\n確定要封鎖留言者？", leftButtonTitle: "取消", rightButtonTitle: "確定", rightHandler: {
                     
                     self?.blockResponser(uid: responseUid)
                 })
             }
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alertController.addAction(reportAction)
             alertController.addAction(blockAction)
             alertController.addAction(cancelAction)
             present(alertController, animated: true)
