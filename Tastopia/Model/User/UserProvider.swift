@@ -180,9 +180,9 @@ class UserProvider {
             
             if !user.passRestaurant.contains(task.restaurantNumber) {
                 
-                addPassRestaurantTaskNumber(task: task)
-
                 TaskProvider.shared.addMoreTask()
+                
+                addPassRestaurantTaskNumber(task: task)
             }
         })
         
