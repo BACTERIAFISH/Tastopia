@@ -88,7 +88,7 @@ class HomeViewController: UIViewController {
             guard let strongSelf = self else { return }
             
             let locationAuthStatus = CLLocationManager.authorizationStatus()
-            if locationAuthStatus != .authorizedAlways || locationAuthStatus != .authorizedWhenInUse {
+            if locationAuthStatus != .authorizedAlways, locationAuthStatus != .authorizedWhenInUse {
                 
                 TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
                 
