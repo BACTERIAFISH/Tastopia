@@ -5,7 +5,7 @@
 
 ## Features & ScreenShots
 
-* ### 使用說明
+* ### 遊戲說明
 
 ![game guide](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_gameGuide.gif)
 
@@ -14,6 +14,13 @@
 ![manipulate map](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_map.gif)
 
 * ### 任務
+
+  * #### 任務流程
+
+    單人任務：查看任務 -> 上傳任務 -> 完成任務
+
+    多人任務：查看任務 -> 同步任務代碼 -> 上傳任務 -> 完成任務
+
   * #### 查看任務
   
   ![check task](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_checkTask.gif)
@@ -49,3 +56,24 @@
 * ### 檢舉封鎖
 
 ![block](https://github.com/BACTERIAFISH/Tastopia/blob/read_me/ReadmeResource/video_block.gif)
+
+## Libraries
+
+* Firebase
+* Fabric
+* Crashlytics
+* GoogleMaps
+* Kingfisher
+* IQKeyboardManagerSwift
+* SwiftLint
+* SwiftMessages
+* collection-view-layouts
+
+## Requirements
+
+* iOS 12.0+
+* Xcode 11.3+
+
+## Contact
+
+Sonic Chen <sonik1615@gmail.com>
