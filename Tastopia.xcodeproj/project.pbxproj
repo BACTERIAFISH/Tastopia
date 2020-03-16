@@ -47,6 +47,7 @@
 		CF499727241737E20086101C /* FirestoreWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF499726241737E20086101C /* FirestoreWrapper.swift */; };
 		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
 		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
+		CF4E1522241F7A7C00EF1477 /* RecordObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E1521241F7A7C00EF1477 /* RecordObject.swift */; };
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
@@ -116,6 +117,7 @@
 		CF499726241737E20086101C /* FirestoreWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWrapper.swift; sourceTree = "<group>"; };
 		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
+		CF4E1521241F7A7C00EF1477 /* RecordObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordObject.swift; sourceTree = "<group>"; };
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
@@ -236,8 +238,7 @@
 				CF79015D2410F2D000BFC387 /* User */,
 				CFA7D0B12413E15200BD62DC /* Task */,
 				CFA7D0AC2412330D00BD62DC /* Map */,
-				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
-				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
+				CF4E1523241F7B3900EF1477 /* Record */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 			);
 			path = Model;
@@ -317,6 +318,16 @@
 				CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */,
 			);
 			path = "Task Content";
+			sourceTree = "<group>";
+		};
+		CF4E1523241F7B3900EF1477 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
+				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
+				CF4E1521241F7A7C00EF1477 /* RecordObject.swift */,
+			);
+			path = Record;
 			sourceTree = "<group>";
 		};
 		CF79015D2410F2D000BFC387 /* User */ = {
@@ -588,6 +599,7 @@
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
+				CF4E1522241F7A7C00EF1477 /* RecordObject.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
 				CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */,

@@ -292,17 +292,17 @@ extension TaskRecordViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
+        guard let recordContentVC = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
         
-        vc.titleLabel.text = restaurant?.name
+        recordContentVC.titleLabel.text = restaurant?.name
         
         if collectionView == taskRecordPersonalCollectionView {
-            vc.writing = personalWritings[indexPath.item]
+            recordContentVC.writing = personalWritings[indexPath.item]
         } else if collectionView == taskRecordPublicCollectionView {
-            vc.writing = publicWritings[indexPath.item]
+            recordContentVC.writing = publicWritings[indexPath.item]
         }
         
-        show(vc, sender: nil)
+        show(recordContentVC, sender: nil)
     }
     
 }

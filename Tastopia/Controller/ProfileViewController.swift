@@ -135,18 +135,18 @@ class ProfileViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let action1 = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
-            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
+            guard let selectImageVC = self?.storyboard?.instantiateViewController(withIdentifier: "SelectImageViewController") as? SelectImageViewController else { return }
             
-            vc.modalPresentationStyle = .overCurrentContext
+            selectImageVC.modalPresentationStyle = .overCurrentContext
             
-            vc.isSelectUserImage = true
-            vc.passSelectedImages = { [weak self] images in
+            selectImageVC.isSelectUserImage = true
+            selectImageVC.passSelectedImages = { [weak self] images in
                 if !images.isEmpty {
                     self?.uploadUserImage(image: images[0])
                 }
             }
             
-            self?.present(vc, animated: true)
+            self?.present(selectImageVC, animated: true)
         }
         alertController.addAction(action1)
         

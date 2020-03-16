@@ -110,36 +110,36 @@ class HomeViewController: UIViewController {
             }
         }
         
-        profileVC.modalPresentationStyle = .overFullScreen
+        profileVC.modalPresentationStyle = .fullScreen
         present(profileVC, animated: false)
 
     }
     
     @IBAction func showTaskContent(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
+        guard let taskContentVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
         
-        vc.map = mapView
-        vc.restaurant = currentRestaurantData?.restaurant
-        vc.task = currentUserTask
-        vc.passTask = { [weak self] task in
+        taskContentVC.map = mapView
+        taskContentVC.restaurant = currentRestaurantData?.restaurant
+        taskContentVC.task = currentUserTask
+        taskContentVC.passTask = { [weak self] task in
             self?.currentUserTask = task
         }
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        taskContentVC.modalPresentationStyle = .fullScreen
+        present(taskContentVC, animated: true)
         
     }
     
     @IBAction func showRecordContent(_ sender: UIButton) {
         guard
             let navigationVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskRecordNavigationController) as? UINavigationController,
-            let vc = navigationVC.viewControllers.first as? TaskRecordViewController
+            let taskRecordVC = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
 
-        vc.titleLabel.text = currentRestaurantData?.restaurant.name
+        taskRecordVC.titleLabel.text = currentRestaurantData?.restaurant.name
 
-        vc.restaurant = currentRestaurantData?.restaurant
+        taskRecordVC.restaurant = currentRestaurantData?.restaurant
         
-        navigationVC.modalPresentationStyle = .fullScreen
+        navigationVC.modalPresentationStyle = .overFullScreen
         present(navigationVC, animated: true)
     }
     

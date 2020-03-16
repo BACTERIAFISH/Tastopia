@@ -52,6 +52,10 @@ struct TTConstant {
         static let recordContentCompositionTableViewCell = "RecordContentCompositionTableViewCell"
         
         static let recordContentAgreeTableViewCell = "RecordContentAgreeTableViewCell"
+        
+        static let executeTaskPhotoCollectionViewCell = "ExecuteTaskPhotoCollectionViewCell"
+        
+        static let executeTaskAddCollectionViewCell = "ExecuteTaskAddCollectionViewCell"
     }
     
 }

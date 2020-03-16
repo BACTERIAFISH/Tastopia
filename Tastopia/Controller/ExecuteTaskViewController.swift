@@ -79,11 +79,12 @@ class ExecuteTaskViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
-            guard let vc = self?.storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.selectImageViewController) as? SelectImageViewController else { return }
             
-            vc.modalPresentationStyle = .overCurrentContext
+            guard let selectImageVC = self?.storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.selectImageViewController) as? SelectImageViewController else { return }
             
-            vc.passSelectedImages = { [weak self] images in
+            selectImageVC.modalPresentationStyle = .overCurrentContext
+            
+            selectImageVC.passSelectedImages = { [weak self] images in
                 
                 guard let strongSelf = self else { return }
                 
@@ -97,8 +98,9 @@ class ExecuteTaskViewController: UIViewController {
                 strongSelf.photoCollectionView.scrollToItem(at: IndexPath(item: strongSelf.selectedMedias.count, section: 0), at: .centeredHorizontally, animated: true)
             }
             
-            self?.present(vc, animated: true)
+            self?.present(selectImageVC, animated: true)
         }
+        
         alertController.addAction(action)
         
         let titles = [TTConstant.photo, TTConstant.video]
@@ -221,7 +223,7 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
         
         if indexPath.item != selectedMedias.count {
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskPhotoCollectionViewCell", for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTConstant.CellIdentifier.executeTaskPhotoCollectionViewCell, for: indexPath) as? ExecuteTaskPhotoCollectionViewCell else { return UICollectionViewCell() }
             
             cell.imageView.image = UIImage.asset(.Image_Tastopia_01_square)
             cell.playerLooper = nil
@@ -245,8 +247,7 @@ extension ExecuteTaskViewController: UICollectionViewDataSource {
             
         } else {
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExecuteTaskAddCollectionViewCell", for: indexPath)
-//            cell.layer.cornerRadius = 16
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTConstant.CellIdentifier.executeTaskAddCollectionViewCell, for: indexPath)
             
             return cell
         }
@@ -307,11 +308,4 @@ extension ExecuteTaskViewController: UIImagePickerControllerDelegate, UINavigati
         
         dismiss(animated: true, completion: nil)
     }
-}
-
-struct TTMediaData {
-    var mediaType: String
-    var urlString: String = ""
-    var url: URL?
-    var image: UIImage?
 }
