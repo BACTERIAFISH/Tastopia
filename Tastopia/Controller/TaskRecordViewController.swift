@@ -41,10 +41,10 @@ class TaskRecordViewController: UIViewController {
     
     let writingProvider = WritingProvider()
     
-    var personalWritingsOrigin = [WritingData]()
-    var publicWritingsOrigin = [WritingData]()
-    var personalWritings = [WritingData]()
-    var publicWritings = [WritingData]()
+    var personalWritingsOrigin: [WritingData] = []
+    var publicWritingsOrigin: [WritingData] = []
+    var personalWritings: [WritingData] = []
+    var publicWritings: [WritingData] = []
     
     var sortMethod: SortMethod = .dateDescending
     

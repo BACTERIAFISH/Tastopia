@@ -48,19 +48,14 @@ class HomeViewController: UIViewController {
         return .lightContent
     }
     
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         TTSwiftMessages().hideAll()
         
         setMap()
         
         setTaskMarkerWithShadow()
-
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
@@ -110,7 +105,7 @@ class HomeViewController: UIViewController {
             }
         }
         
-        profileVC.modalPresentationStyle = .fullScreen
+        profileVC.modalPresentationStyle = .overFullScreen
         present(profileVC, animated: false)
 
     }
@@ -139,39 +134,8 @@ class HomeViewController: UIViewController {
 
         taskRecordVC.restaurant = currentRestaurantData?.restaurant
         
-        navigationVC.modalPresentationStyle = .overFullScreen
+        navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
-    }
-    
-    func setBeginLayout() {
-        
-        view.layoutIfNeeded()
-        userButton.layer.cornerRadius = 30
-        taskViewBottomConstraint.constant = taskView.layer.frame.height
-        
-        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        taskView.layer.cornerRadius = 16
-        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
-        
-        taskButton.layer.cornerRadius = 16
-        recordButton.layer.cornerRadius = 16
-    }
-    
-    func checkLocationAuth() {
-        
-        let locationAuthStatus = CLLocationManager.authorizationStatus()
-        
-        switch locationAuthStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
-            mapView.isHidden = false
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .denied, .restricted:
-            mapView.isHidden = true
-            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
-        @unknown default:
-            print("checkLocationAuth switch CLLocationManager.authorizationStatus() error")
-        }
     }
     
     func setMap() {
@@ -208,6 +172,37 @@ class HomeViewController: UIViewController {
             case .failure(let error):
                 print("RestaurantProvider getTaskRestaurant error: \(error)")
             }
+        }
+    }
+    
+    func setBeginLayout() {
+        
+        view.layoutIfNeeded()
+        userButton.layer.cornerRadius = 30
+        taskViewBottomConstraint.constant = taskView.layer.frame.height
+        
+        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        taskView.layer.cornerRadius = 16
+        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
+        
+        taskButton.layer.cornerRadius = 16
+        recordButton.layer.cornerRadius = 16
+    }
+    
+    func checkLocationAuth() {
+        
+        let locationAuthStatus = CLLocationManager.authorizationStatus()
+        
+        switch locationAuthStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView.isHidden = false
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            mapView.isHidden = true
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
+        @unknown default:
+            print("checkLocationAuth switch CLLocationManager.authorizationStatus() error")
         }
     }
     
