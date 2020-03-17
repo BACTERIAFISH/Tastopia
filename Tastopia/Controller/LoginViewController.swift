@@ -120,7 +120,7 @@ class LoginViewController: UIViewController {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        let mainStoryboard = UIStoryboard(name: TTConstant.main, bundle: nil)
+        let mainStoryboard = UIStoryboard(name: TTConstant.StoryboardName.main, bundle: nil)
         
         guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
         

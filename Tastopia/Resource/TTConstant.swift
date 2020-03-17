@@ -29,6 +29,13 @@ struct TTConstant {
 
         static let addRestaurant = NSNotification.Name("addRestaurant")
     }
+    
+    struct StoryboardName {
+        
+        static let main = "Main"
+        
+        static let login = "Login"
+    }
 
     struct ViewControllerID {
         

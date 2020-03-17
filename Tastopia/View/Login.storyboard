@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSansTC-Bold.otf">
+            <string>NotoSansTC-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z3v-nT-mSo">
+                                <rect key="frame" x="107" y="492" width="200" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="  Facebook Login" image="Icon_16px_Facebook">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebookLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1od-5Q-SWq"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Tastopia_01" translatesAutoresizingMaskIntoConstraints="NO" id="41T-IY-6iw">
+                                <rect key="frame" x="10" y="125.5" width="394" height="197"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="41T-IY-6iw" secondAttribute="height" multiplier="2:1" id="2Qx-Ii-cVQ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UA-vh-wO8">
+                                <rect key="frame" x="107" y="424" width="200" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="bno-fO-O7A"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="uaj-jc-ERo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="  Google Sign-In" image="Icon_16px_Google">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected" title="Google 帳號登入"/>
+                                <connections>
+                                    <action selector="googleSignIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sdn-2o-MvR"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b0J-2w-qzd">
+                                <rect key="frame" x="107" y="560" width="200" height="48"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登入即代表同意" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0D-Ce-HEk">
+                                <rect key="frame" x="151" y="628" width="112" height="19"/>
+                                <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="16"/>
+                                <color key="textColor" name="SUMI"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vTj-dd-80d">
+                                <rect key="frame" x="124.5" y="647" width="165" height="31"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BXr-qR-4Z1">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="31"/>
+                                        <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="16"/>
+                                        <state key="normal" title="隱私權政策">
+                                            <color key="titleColor" name="SUMI"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showPrivacyPolicy:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fuD-XE-5V5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nO0-3I-bl6">
+                                        <rect key="frame" x="85" y="0.0" width="80" height="31"/>
+                                        <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="16"/>
+                                        <color key="tintColor" name="SUMI"/>
+                                        <state key="normal" title="使用條款"/>
+                                        <connections>
+                                            <action selector="showEULA:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uzb-rW-O19"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Z3v-nT-mSo" firstAttribute="height" secondItem="0UA-vh-wO8" secondAttribute="height" id="1mp-L6-K9R"/>
+                            <constraint firstItem="b0D-Ce-HEk" firstAttribute="top" secondItem="b0J-2w-qzd" secondAttribute="bottom" constant="20" id="8dC-66-orB"/>
+                            <constraint firstItem="b0J-2w-qzd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="96a-na-GJt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="41T-IY-6iw" secondAttribute="trailing" constant="10" id="Dcc-S1-bQL"/>
+                            <constraint firstItem="b0J-2w-qzd" firstAttribute="top" secondItem="Z3v-nT-mSo" secondAttribute="bottom" constant="20" id="EP5-ir-qE7"/>
+                            <constraint firstItem="b0J-2w-qzd" firstAttribute="width" secondItem="0UA-vh-wO8" secondAttribute="width" id="F7F-FN-jLN"/>
+                            <constraint firstItem="b0J-2w-qzd" firstAttribute="height" secondItem="0UA-vh-wO8" secondAttribute="height" id="FQ7-i3-xcC"/>
+                            <constraint firstItem="vTj-dd-80d" firstAttribute="top" secondItem="b0D-Ce-HEk" secondAttribute="bottom" id="FfT-Uh-BjE"/>
+                            <constraint firstItem="0UA-vh-wO8" firstAttribute="width" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/3" id="KHH-Rc-1YT"/>
+                            <constraint firstItem="Z3v-nT-mSo" firstAttribute="width" secondItem="0UA-vh-wO8" secondAttribute="width" id="RQo-l4-8dg"/>
+                            <constraint firstItem="Z3v-nT-mSo" firstAttribute="top" secondItem="0UA-vh-wO8" secondAttribute="bottom" constant="20" id="Xe8-4k-9GE"/>
+                            <constraint firstItem="b0D-Ce-HEk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Yir-CP-r27"/>
+                            <constraint firstItem="0UA-vh-wO8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zjn-S8-UTX"/>
+                            <constraint firstItem="41T-IY-6iw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.5" id="dsp-YA-iyd"/>
+                            <constraint firstItem="vTj-dd-80d" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qjt-Mg-ZFe"/>
+                            <constraint firstItem="Z3v-nT-mSo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vBy-Ag-bja"/>
+                            <constraint firstItem="41T-IY-6iw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wkB-j8-FOj"/>
+                            <constraint firstItem="0UA-vh-wO8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zfO-BJ-iLd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="appleButtonView" destination="b0J-2w-qzd" id="62K-yF-JpQ"/>
+                        <outlet property="eulaButton" destination="nO0-3I-bl6" id="SPS-bF-olD"/>
+                        <outlet property="facebookButton" destination="Z3v-nT-mSo" id="iXd-Fv-hx3"/>
+                        <outlet property="googleButton" destination="0UA-vh-wO8" id="pxA-am-jU4"/>
+                        <outlet property="privacyButton" destination="BXr-qR-4Z1" id="FIq-Rg-t90"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="938" y="-502"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Icon_16px_Facebook" width="16" height="16"/>
+        <image name="Icon_16px_Google" width="16" height="16"/>
+        <image name="Image_Tastopia_01" width="1330" height="589"/>
+        <namedColor name="SUMI">
+            <color red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

@@ -101,7 +101,9 @@ class ProfileViewController: UIViewController {
         UserProvider.shared.signOut()
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let storyboard = UIStoryboard(name: TTConstant.main, bundle: nil)
+        
+        let storyboard = UIStoryboard(name: TTConstant.StoryboardName.login, bundle: nil)
+        
         guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
         
         appDelegate.window?.rootViewController = loginVC
