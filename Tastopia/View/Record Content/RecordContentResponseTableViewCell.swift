@@ -20,9 +20,8 @@ class RecordContentResponseTableViewCell: UITableViewCell {
     var response: ResponseData? {
         didSet {
             guard let response = response else { return }
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            dateLabel.text = formatter.string(from: response.date)
+            
+            dateLabel.text = DateFormatter.createTTDate(date: response.date, format: "yyyy-MM-dd HH:mm")
             
             nameLabel.text = response.userName
             responseLabel.text = response.response

@@ -34,11 +34,8 @@ struct TTRecordContentTopCellModel: TTCellModel {
         cell.authorImagePath = writing.userImagePath
         
         cell.nameLabel.text = writing.userName
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = writing.date
-        cell.dateLabel.text = dateFormatter.string(from: date)
+                
+        cell.dateLabel.text = DateFormatter.createTTDate(date: writing.date, format: "yyyy-MM-dd")
         
         let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
         cell.agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"

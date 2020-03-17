@@ -41,6 +41,8 @@ struct TTConstant {
         static let qrCodeScanViewController = "QRCodeScanViewController"
         
         static let selectImageViewController = "SelectImageViewController"
+        
+        static let recordContentViewController = "RecordContentViewController"
     }
     
     struct CellIdentifier {
@@ -56,6 +58,8 @@ struct TTConstant {
         static let executeTaskPhotoCollectionViewCell = "ExecuteTaskPhotoCollectionViewCell"
         
         static let executeTaskAddCollectionViewCell = "ExecuteTaskAddCollectionViewCell"
+        
+        static let taskRecordCollectionViewCell = "TaskRecordCollectionViewCell"
     }
     
 }
