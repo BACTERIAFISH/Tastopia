@@ -233,22 +233,15 @@
 		CF05176023E44827004EE1CB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CFCD787D2420CE470093C7B3 /* Profile.storyboard */,
-				CFCD787B2420CB750093C7B3 /* Record.storyboard */,
-				CFCD78792420CA090093C7B3 /* Media.storyboard */,
-				CFCD78772420C8220093C7B3 /* QRCode.storyboard */,
-				CFD500A02420C38100D98F7E /* Task.storyboard */,
-				CF12236323E26C91004A41B3 /* Main.storyboard */,
-				CFD5009E2420BB2900D98F7E /* Login.storyboard */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
-				CF4B522523F7DE140006B07B /* Task Content */,
-				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
-				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
-				CFD07B6D23F2B5D30036A7A5 /* Record Content */,
-				CF031D7623FE319D0013B179 /* SelectImageCollectionViewCell.swift */,
-				CF031D7823FE67680013B179 /* SelectImageDisplayCollectionViewCell.swift */,
-				CF303EC224016699005EE7E4 /* QuestionView.xib */,
-				CF303EC4240166FE005EE7E4 /* QuestionView.swift */,
+				CF12236323E26C91004A41B3 /* Main.storyboard */,
+				CFCD78862420D19B0093C7B3 /* Login */,
+				CFCD787F2420D02A0093C7B3 /* Task */,
+				CFCD78812420D0D90093C7B3 /* Record */,
+				CFCD78842420D1810093C7B3 /* Profile */,
+				CFCD78832420D10E0093C7B3 /* Media */,
+				CFCD78852420D18D0093C7B3 /* QRcode */,
+				CFCD78872420D1EA0093C7B3 /* Alert */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -380,6 +373,85 @@
 				CFA7D0B22413E16F00BD62DC /* TaskObject.swift */,
 			);
 			path = Task;
+			sourceTree = "<group>";
+		};
+		CFCD787F2420D02A0093C7B3 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				CFD500A02420C38100D98F7E /* Task.storyboard */,
+				CF4B522523F7DE140006B07B /* Task Content */,
+				CFCD78802420D0700093C7B3 /* Execute Task */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		CFCD78802420D0700093C7B3 /* Execute Task */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
+			);
+			path = "Execute Task";
+			sourceTree = "<group>";
+		};
+		CFCD78812420D0D90093C7B3 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD787B2420CB750093C7B3 /* Record.storyboard */,
+				CFCD78822420D0EC0093C7B3 /* Task Record */,
+				CFD07B6D23F2B5D30036A7A5 /* Record Content */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		CFCD78822420D0EC0093C7B3 /* Task Record */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
+			);
+			path = "Task Record";
+			sourceTree = "<group>";
+		};
+		CFCD78832420D10E0093C7B3 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD78792420CA090093C7B3 /* Media.storyboard */,
+				CF031D7623FE319D0013B179 /* SelectImageCollectionViewCell.swift */,
+				CF031D7823FE67680013B179 /* SelectImageDisplayCollectionViewCell.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		CFCD78842420D1810093C7B3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD787D2420CE470093C7B3 /* Profile.storyboard */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CFCD78852420D18D0093C7B3 /* QRcode */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD78772420C8220093C7B3 /* QRCode.storyboard */,
+			);
+			path = QRcode;
+			sourceTree = "<group>";
+		};
+		CFCD78862420D19B0093C7B3 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CFD5009E2420BB2900D98F7E /* Login.storyboard */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CFCD78872420D1EA0093C7B3 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				CF303EC224016699005EE7E4 /* QuestionView.xib */,
+				CF303EC4240166FE005EE7E4 /* QuestionView.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {

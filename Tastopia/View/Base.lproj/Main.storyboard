@@ -29,7 +29,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cft-CX-UTf">
-                                <rect key="frame" x="107" y="448" width="200" height="59.5"/>
+                                <rect key="frame" x="107" y="448" width="200" height="47"/>
                                 <string key="text">地圖無法顯示
 請至設定開啟定位服務</string>
                                 <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
@@ -57,42 +57,42 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HcF-VD-5Sh">
-                                <rect key="frame" x="0.0" y="643" width="414" height="219"/>
+                                <rect key="frame" x="0.0" y="650" width="414" height="212"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="Icon_32px_Pin_Red" translatesAutoresizingMaskIntoConstraints="NO" id="cKG-MD-Nru">
-                                        <rect key="frame" x="16" y="65" width="32" height="32"/>
+                                        <rect key="frame" x="16" y="58" width="32" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="cKG-MD-Nru" secondAttribute="height" multiplier="1:1" id="Hme-kH-oUY"/>
                                             <constraint firstAttribute="height" constant="32" id="nyD-GV-6pV"/>
                                         </constraints>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_32px_Phone_Red" translatesAutoresizingMaskIntoConstraints="NO" id="wxf-Fz-FOd">
-                                        <rect key="frame" x="16" y="107" width="32" height="32"/>
+                                        <rect key="frame" x="16" y="100" width="32" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="wxf-Fz-FOd" secondAttribute="height" multiplier="1:1" id="HOy-MU-IAz"/>
                                             <constraint firstAttribute="height" constant="32" id="xLX-vk-Pce"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="五之神製作所" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NbO-p0-zKJ">
-                                        <rect key="frame" x="16" y="16" width="132" height="33"/>
+                                        <rect key="frame" x="16" y="16" width="132" height="26"/>
                                         <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="22"/>
                                         <color key="textColor" name="SUMI"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="台北市信義區忠孝東路四段553巷6弄6號" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeq-nH-C27">
-                                        <rect key="frame" x="58" y="67.5" width="340" height="27"/>
+                                        <rect key="frame" x="58" y="63.5" width="340" height="21"/>
                                         <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="18"/>
                                         <color key="textColor" name="SUMI"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="02 2746 6867" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Leg-AN-16U">
-                                        <rect key="frame" x="58" y="109.5" width="340" height="27"/>
+                                        <rect key="frame" x="58" y="105.5" width="340" height="21"/>
                                         <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="18"/>
                                         <color key="textColor" name="SUMI"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ier-1E-F32">
-                                        <rect key="frame" x="20" y="155" width="374" height="48"/>
+                                        <rect key="frame" x="20" y="148" width="374" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o27-eG-mKO">
                                                 <rect key="frame" x="0.0" y="0.0" width="177" height="48"/>
@@ -144,25 +144,25 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OKd-N8-4B8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="643"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="650"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qco-NY-Trz">
-                                <rect key="frame" x="0.0" y="643" width="414" height="219"/>
+                                <rect key="frame" x="0.0" y="650" width="414" height="212"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x17-JU-nsQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="139"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="132"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rk9-lF-gRH">
-                                        <rect key="frame" x="0.0" y="139" width="207" height="80"/>
+                                        <rect key="frame" x="0.0" y="132" width="207" height="80"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="NSm-FX-Cs1"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t3f-ag-8Gp">
-                                        <rect key="frame" x="207" y="139" width="207" height="80"/>
+                                        <rect key="frame" x="207" y="132" width="207" height="80"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
