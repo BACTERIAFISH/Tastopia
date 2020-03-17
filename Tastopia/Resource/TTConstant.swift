@@ -10,8 +10,6 @@ import Foundation
 
 struct TTConstant {
     
-    static let main = "Main"
-    
     static let photo = "相片"
     
     static let video = "影片"
@@ -35,6 +33,8 @@ struct TTConstant {
         static let main = "Main"
         
         static let login = "Login"
+        
+        static let task = "Task"
     }
 
     struct ViewControllerID {

@@ -111,7 +111,10 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func showTaskContent(_ sender: UIButton) {
-        guard let taskContentVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
+        
+        let taskStoryboard = UIStoryboard(name: TTConstant.StoryboardName.task, bundle: nil)
+        
+        guard let taskContentVC = taskStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
         
         taskContentVC.map = mapView
         taskContentVC.restaurant = currentRestaurantData?.restaurant
