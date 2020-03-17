@@ -35,6 +35,14 @@ struct TTConstant {
         static let login = "Login"
         
         static let task = "Task"
+        
+        static let qrcode = "QRCode"
+        
+        static let media = "Media"
+        
+        static let record = "Record"
+        
+        static let profile = "Profile"
     }
 
     struct ViewControllerID {

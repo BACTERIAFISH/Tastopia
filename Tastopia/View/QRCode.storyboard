@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSansTC-Bold.otf">
+            <string>NotoSansTC-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Code View Controller-->
+        <scene sceneID="ERb-hW-j2r">
+            <objects>
+                <viewController storyboardIdentifier="QRCodeViewController" id="OeS-s0-nTs" customClass="QRCodeViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bMz-Uy-354">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r0S-81-lf0">
+                                <rect key="frame" x="83" y="324" width="248" height="248"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z8w-Gz-xb3">
+                                        <rect key="frame" x="10" y="10" width="228" height="228"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="z8w-Gz-xb3" firstAttribute="top" secondItem="r0S-81-lf0" secondAttribute="top" constant="10" id="894-B8-YTv"/>
+                                    <constraint firstAttribute="trailing" secondItem="z8w-Gz-xb3" secondAttribute="trailing" constant="10" id="DDC-i9-O0H"/>
+                                    <constraint firstItem="z8w-Gz-xb3" firstAttribute="leading" secondItem="r0S-81-lf0" secondAttribute="leading" constant="10" id="f2N-5s-4pL"/>
+                                    <constraint firstAttribute="width" secondItem="r0S-81-lf0" secondAttribute="height" multiplier="1:1" id="ieJ-AL-wFS"/>
+                                    <constraint firstAttribute="bottom" secondItem="z8w-Gz-xb3" secondAttribute="bottom" constant="10" id="p19-AP-jZ4"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任務代碼 QRCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-WS-E8T">
+                                <rect key="frame" x="40" y="254" width="334" height="30"/>
+                                <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="r0S-81-lf0" firstAttribute="width" secondItem="bMz-Uy-354" secondAttribute="width" multiplier="0.6" id="Noi-xZ-RvW"/>
+                            <constraint firstItem="1Kq-WS-E8T" firstAttribute="leading" secondItem="Raa-m7-Akg" secondAttribute="leading" constant="40" id="YXz-Yf-2de"/>
+                            <constraint firstItem="Raa-m7-Akg" firstAttribute="trailing" secondItem="1Kq-WS-E8T" secondAttribute="trailing" constant="40" id="hG1-Gn-Dwv"/>
+                            <constraint firstItem="r0S-81-lf0" firstAttribute="centerY" secondItem="bMz-Uy-354" secondAttribute="centerY" id="n48-Y0-oFF"/>
+                            <constraint firstItem="r0S-81-lf0" firstAttribute="top" secondItem="1Kq-WS-E8T" secondAttribute="bottom" constant="40" id="oqC-CD-xJW"/>
+                            <constraint firstItem="r0S-81-lf0" firstAttribute="centerX" secondItem="bMz-Uy-354" secondAttribute="centerX" id="owq-7G-vrD"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Raa-m7-Akg"/>
+                    </view>
+                    <connections>
+                        <outlet property="containView" destination="r0S-81-lf0" id="sn0-bw-kse"/>
+                        <outlet property="imageView" destination="z8w-Gz-xb3" id="BFe-XT-fRs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sMx-MR-dMO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3238" y="-103"/>
+        </scene>
+        <!--Code Scan View Controller-->
+        <scene sceneID="ESd-xl-MEE">
+            <objects>
+                <viewController storyboardIdentifier="QRCodeScanViewController" id="AuT-1x-l4P" customClass="QRCodeScanViewController" customModule="Tastopia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WFH-AZ-34f">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qcc-yk-q79">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" name="SUMI"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="掃描同伴的任務代碼 QRCode，即可同步任務代碼，一起解任務！！" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8g-Of-lcJ">
+                                <rect key="frame" x="40" y="168.5" width="334" height="47"/>
+                                <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsU-y4-zze">
+                                <rect key="frame" x="83" y="324" width="248" height="248"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="nsU-y4-zze" secondAttribute="height" multiplier="1:1" id="6yh-ax-Pca"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xpq-Nv-aLf">
+                                <rect key="frame" x="107" y="689.5" width="200" height="48"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="hNb-rD-9r0"/>
+                                    <constraint firstAttribute="height" constant="48" id="hwM-xf-MKY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NotoSansTC-Bold" family="Noto Sans TC" pointSize="20"/>
+                                <color key="tintColor" name="SUMI"/>
+                                <state key="normal" title="  顯示任務代碼" image="Icon_24px_QRCode">
+                                    <color key="titleColor" name="SUMI"/>
+                                </state>
+                                <connections>
+                                    <action selector="showQRButtonPressed:" destination="AuT-1x-l4P" eventType="touchUpInside" id="u5X-Ht-OwL"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" name="SUMI"/>
+                        <constraints>
+                            <constraint firstItem="nsU-y4-zze" firstAttribute="centerY" secondItem="WFH-AZ-34f" secondAttribute="centerY" id="5Fq-aR-K9D"/>
+                            <constraint firstItem="f8g-Of-lcJ" firstAttribute="bottom" secondItem="KdE-Nl-lNh" secondAttribute="bottom" multiplier="0.25" id="8ox-HB-Y1g"/>
+                            <constraint firstAttribute="trailing" secondItem="f8g-Of-lcJ" secondAttribute="trailing" constant="40" id="HQQ-iL-IX4"/>
+                            <constraint firstItem="Qcc-yk-q79" firstAttribute="top" secondItem="KdE-Nl-lNh" secondAttribute="top" id="J0K-ZC-Jpm"/>
+                            <constraint firstItem="nsU-y4-zze" firstAttribute="width" secondItem="WFH-AZ-34f" secondAttribute="width" multiplier="0.6" id="Ug2-KB-x3j"/>
+                            <constraint firstItem="KdE-Nl-lNh" firstAttribute="trailing" secondItem="Qcc-yk-q79" secondAttribute="trailing" id="Xxv-L1-zbJ"/>
+                            <constraint firstItem="Qcc-yk-q79" firstAttribute="leading" secondItem="KdE-Nl-lNh" secondAttribute="leading" id="hLp-8T-S0L"/>
+                            <constraint firstItem="Xpq-Nv-aLf" firstAttribute="top" secondItem="KdE-Nl-lNh" secondAttribute="bottom" multiplier="0.8" id="mwM-gY-Quy"/>
+                            <constraint firstItem="Xpq-Nv-aLf" firstAttribute="centerX" secondItem="WFH-AZ-34f" secondAttribute="centerX" id="oBg-DQ-fL7"/>
+                            <constraint firstItem="f8g-Of-lcJ" firstAttribute="leading" secondItem="KdE-Nl-lNh" secondAttribute="leading" constant="40" id="qK9-pl-cEw"/>
+                            <constraint firstItem="nsU-y4-zze" firstAttribute="centerX" secondItem="WFH-AZ-34f" secondAttribute="centerX" id="tvG-e8-rHB"/>
+                            <constraint firstItem="KdE-Nl-lNh" firstAttribute="bottom" secondItem="Qcc-yk-q79" secondAttribute="bottom" id="vrh-xy-h3O"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="KdE-Nl-lNh"/>
+                    </view>
+                    <connections>
+                        <outlet property="borderView" destination="nsU-y4-zze" id="TPh-HS-loy"/>
+                        <outlet property="showQRButton" destination="Xpq-Nv-aLf" id="RIS-EQ-BuG"/>
+                        <outlet property="videoView" destination="Qcc-yk-q79" id="eGq-Sr-Fhe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tGN-Aa-tnr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4002.898550724638" y="-103.125"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Icon_24px_QRCode" width="24" height="24"/>
+        <namedColor name="SUMI">
+            <color red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

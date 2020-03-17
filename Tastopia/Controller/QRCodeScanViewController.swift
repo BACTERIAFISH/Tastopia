@@ -97,6 +97,7 @@ class QRCodeScanViewController: UIViewController {
     }
     
     @IBAction func showQRButtonPressed(_ sender: UIButton) {
+        
         guard let qrCodeVC = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController else { return }
         
         captureSession.stopRunning()

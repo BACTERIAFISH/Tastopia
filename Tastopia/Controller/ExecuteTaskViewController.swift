@@ -80,7 +80,9 @@ class ExecuteTaskViewController: UIViewController {
         
         let action = UIAlertAction(title: "圖庫", style: .default) { [weak self] (_) in
             
-            guard let selectImageVC = self?.storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.selectImageViewController) as? SelectImageViewController else { return }
+            let mediaStoryboard = UIStoryboard(name: TTConstant.StoryboardName.media, bundle: nil)
+            
+            guard let selectImageVC = mediaStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.selectImageViewController) as? SelectImageViewController else { return }
             
             selectImageVC.modalPresentationStyle = .overCurrentContext
             

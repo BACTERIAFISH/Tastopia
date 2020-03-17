@@ -75,7 +75,9 @@ class HomeViewController: UIViewController {
     
     @IBAction func showProfile(_ sender: UIButton) {
         
-        guard let profileVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.profileViewController) as? ProfileViewController else { return }
+        let profileStoryboard = UIStoryboard(name: TTConstant.StoryboardName.profile, bundle: nil)
+        
+        guard let profileVC = profileStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.profileViewController) as? ProfileViewController else { return }
         
         profileVC.user = UserProvider.shared.userData
 
@@ -128,8 +130,11 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func showRecordContent(_ sender: UIButton) {
+        
+        let recordStoryboard = UIStoryboard(name: TTConstant.StoryboardName.record, bundle: nil)
+        
         guard
-            let navigationVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskRecordNavigationController) as? UINavigationController,
+            let navigationVC = recordStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskRecordNavigationController) as? UINavigationController,
             let taskRecordVC = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
 

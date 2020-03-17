@@ -69,6 +69,10 @@
 		CFA7D0B02413E14A00BD62DC /* TaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */; };
 		CFA7D0B32413E16F00BD62DC /* TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0B22413E16F00BD62DC /* TaskObject.swift */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
+		CFCD78782420C8220093C7B3 /* QRCode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78772420C8220093C7B3 /* QRCode.storyboard */; };
+		CFCD787A2420CA090093C7B3 /* Media.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78792420CA090093C7B3 /* Media.storyboard */; };
+		CFCD787C2420CB750093C7B3 /* Record.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD787B2420CB750093C7B3 /* Record.storyboard */; };
+		CFCD787E2420CE470093C7B3 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD787D2420CE470093C7B3 /* Profile.storyboard */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
 		CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */; };
@@ -143,6 +147,10 @@
 		CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProvider.swift; sourceTree = "<group>"; };
 		CFA7D0B22413E16F00BD62DC /* TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskObject.swift; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
+		CFCD78772420C8220093C7B3 /* QRCode.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QRCode.storyboard; sourceTree = "<group>"; };
+		CFCD78792420CA090093C7B3 /* Media.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Media.storyboard; sourceTree = "<group>"; };
+		CFCD787B2420CB750093C7B3 /* Record.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Record.storyboard; sourceTree = "<group>"; };
+		CFCD787D2420CE470093C7B3 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -225,6 +233,10 @@
 		CF05176023E44827004EE1CB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CFCD787D2420CE470093C7B3 /* Profile.storyboard */,
+				CFCD787B2420CB750093C7B3 /* Record.storyboard */,
+				CFCD78792420CA090093C7B3 /* Media.storyboard */,
+				CFCD78772420C8220093C7B3 /* QRCode.storyboard */,
 				CFD500A02420C38100D98F7E /* Task.storyboard */,
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
 				CFD5009E2420BB2900D98F7E /* Login.storyboard */,
@@ -476,12 +488,16 @@
 				CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */,
 				CFD5009F2420BB2900D98F7E /* Login.storyboard in Resources */,
 				CF68D5E723FCBC65005B03ED /* NotoSansTC-Medium.otf in Resources */,
+				CFCD787A2420CA090093C7B3 /* Media.storyboard in Resources */,
 				CFD500A12420C38100D98F7E /* Task.storyboard in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
 				CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */,
+				CFCD787C2420CB750093C7B3 /* Record.storyboard in Resources */,
 				CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */,
+				CFCD787E2420CE470093C7B3 /* Profile.storyboard in Resources */,
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CFCD78782420C8220093C7B3 /* QRCode.storyboard in Resources */,
 				CFA113E823FD693400EBE412 /* google-map-style.json in Resources */,
 				CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,

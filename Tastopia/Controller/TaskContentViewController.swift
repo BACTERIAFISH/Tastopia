@@ -58,7 +58,9 @@ class TaskContentViewController: UIViewController {
         
         TTSwiftMessages().hideAll()
         
-        guard let qrCodeScanVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.qrCodeScanViewController) as? QRCodeScanViewController else { return }
+        let qrcodeStoryboard = UIStoryboard(name: TTConstant.StoryboardName.qrcode, bundle: nil)
+        
+        guard let qrCodeScanVC = qrcodeStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.qrCodeScanViewController) as? QRCodeScanViewController else { return }
         
         qrCodeScanVC.modalPresentationStyle = .overFullScreen
         qrCodeScanVC.task = task
@@ -216,9 +218,7 @@ class TaskContentViewController: UIViewController {
     
     private func showExecuteTask() {
         
-        let taskStoryboard = UIStoryboard(name: TTConstant.StoryboardName.task, bundle: nil)
-        
-        guard let executeTaskVC = taskStoryboard.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
+        guard let executeTaskVC = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
         
         executeTaskVC.map = map
         executeTaskVC.restaurant = restaurant
