@@ -25,9 +25,9 @@ class LaunchViewController: UIViewController {
         
         if isLogin {
             
-            let mainStoryboard = UIStoryboard(name: TTConstant.StoryboardName.main, bundle: nil)
+            let homeStoryboard = UIStoryboard(name: TTConstant.StoryboardName.home, bundle: nil)
             
-            guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+            guard let homeVC = homeStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
             
             appDelegate.window?.rootViewController = homeVC
             

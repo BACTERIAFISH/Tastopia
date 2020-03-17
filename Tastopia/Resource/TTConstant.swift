@@ -30,7 +30,7 @@ struct TTConstant {
     
     struct StoryboardName {
         
-        static let main = "Main"
+        static let home = "Home"
         
         static let login = "Login"
         

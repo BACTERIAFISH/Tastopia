@@ -73,6 +73,7 @@
 		CFCD787A2420CA090093C7B3 /* Media.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78792420CA090093C7B3 /* Media.storyboard */; };
 		CFCD787C2420CB750093C7B3 /* Record.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD787B2420CB750093C7B3 /* Record.storyboard */; };
 		CFCD787E2420CE470093C7B3 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD787D2420CE470093C7B3 /* Profile.storyboard */; };
+		CFCD78892420D3870093C7B3 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78882420D3870093C7B3 /* Home.storyboard */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
 		CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */; };
@@ -151,6 +152,7 @@
 		CFCD78792420CA090093C7B3 /* Media.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Media.storyboard; sourceTree = "<group>"; };
 		CFCD787B2420CB750093C7B3 /* Record.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Record.storyboard; sourceTree = "<group>"; };
 		CFCD787D2420CE470093C7B3 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		CFCD78882420D3870093C7B3 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 			children = (
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
 				CF12236323E26C91004A41B3 /* Main.storyboard */,
+				CFCD788A2420D4350093C7B3 /* Home */,
 				CFCD78862420D19B0093C7B3 /* Login */,
 				CFCD787F2420D02A0093C7B3 /* Task */,
 				CFCD78812420D0D90093C7B3 /* Record */,
@@ -454,6 +457,14 @@
 			path = Alert;
 			sourceTree = "<group>";
 		};
+		CFCD788A2420D4350093C7B3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD78882420D3870093C7B3 /* Home.storyboard */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,6 +576,7 @@
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
 				CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */,
+				CFCD78892420D3870093C7B3 /* Home.storyboard in Resources */,
 				CFCD787C2420CB750093C7B3 /* Record.storyboard in Resources */,
 				CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */,
 				CFCD787E2420CE470093C7B3 /* Profile.storyboard in Resources */,
