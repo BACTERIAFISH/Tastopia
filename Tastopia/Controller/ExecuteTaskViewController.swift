@@ -196,9 +196,10 @@ class ExecuteTaskViewController: UIViewController {
             
             TTSwiftMessages().hide()
             
-            self?.dismiss(animated: true, completion: { [weak self] in
+            self?.setStatusImage?()
+            
+            self?.dismiss(animated: true, completion: {
                 TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "上傳成功", body: "")
-                self?.setStatusImage?()
             })
         }
         

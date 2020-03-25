@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices
 import AVFoundation
-import collection_view_layouts
 
 enum SortMethod: String {
     case agree = "中肯"
@@ -56,9 +55,6 @@ class TaskRecordViewController: UIViewController {
         
         taskRecordPublicCollectionView.dataSource = self
         taskRecordPublicCollectionView.delegate = self
-        
-        let layout = CollectionViewLayoutsWrapper().createLayout(delegate: self)
-        taskRecordPublicCollectionView.collectionViewLayout = layout
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
         
@@ -142,8 +138,8 @@ class TaskRecordViewController: UIViewController {
             
             strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
             strongSelf.indicatorViewLeadingConstraint.isActive = true
-            self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
-            self?.view.layoutIfNeeded()
+            strongSelf.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
+            strongSelf.view.layoutIfNeeded()
         }
         animator.addCompletion { [weak self] _ in
             self?.toggleEmptyView()
@@ -312,15 +308,6 @@ extension TaskRecordViewController: UICollectionViewDelegate {
         }
         
         show(recordContentVC, sender: nil)
-    }
-    
-}
-
-// MARK: collection-view-layouts
-extension TaskRecordViewController: LayoutDelegate {
-    
-    func cellSize(indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 10, height: 10)
     }
     
 }

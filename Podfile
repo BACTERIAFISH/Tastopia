@@ -27,7 +27,6 @@ target 'Tastopia' do
   pod 'JGProgressHUD'
   pod 'SwiftLint'
   pod 'SwiftMessages'
-  pod 'collection-view-layouts'
   
   #target 'RecapPracticeTests' do
     #inherit! :search_paths

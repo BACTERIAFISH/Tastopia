@@ -28,6 +28,7 @@
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
 		CF18DDB9240407140038E2A9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF18DDB8240407140038E2A9 /* ProfileViewController.swift */; };
+		CF2318E4242B217600F0AB21 /* CellModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2318E3242B217600F0AB21 /* CellModelProvider.swift */; };
 		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
 		CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */; };
 		CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */; };
@@ -83,7 +84,6 @@
 		CFD500A12420C38100D98F7E /* Task.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFD500A02420C38100D98F7E /* Task.storyboard */; };
 		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
-		CFFDEEE02420954B00C16904 /* CollectionViewLayoutsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFDEEDF2420954B00C16904 /* CollectionViewLayoutsWrapper.swift */; };
 		CFFDEEE22420A57C00C16904 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFDEEE12420A57C00C16904 /* DateFormatter+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +107,7 @@
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF18DDB8240407140038E2A9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CF2318E3242B217600F0AB21 /* CellModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModelProvider.swift; sourceTree = "<group>"; };
 		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskViewController.swift; sourceTree = "<group>"; };
 		CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -169,7 +170,6 @@
 		CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Black.otf"; sourceTree = "<group>"; };
 		CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-ExtraLight.otf"; sourceTree = "<group>"; };
 		CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Bold.otf"; sourceTree = "<group>"; };
-		CFFDEEDF2420954B00C16904 /* CollectionViewLayoutsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLayoutsWrapper.swift; sourceTree = "<group>"; };
 		CFFDEEE12420A57C00C16904 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -315,7 +315,6 @@
 				CF2A94A923E999E60056B532 /* KingFisherWrapper.swift */,
 				CF394DAB23F91CDD003B9CEB /* JGProgressHUDWrapper.swift */,
 				CF303EC02400AA9B005EE7E4 /* SwiftMessagesWrapper.swift */,
-				CFFDEEDF2420954B00C16904 /* CollectionViewLayoutsWrapper.swift */,
 			);
 			path = "Third Party Wrapper";
 			sourceTree = "<group>";
@@ -346,6 +345,7 @@
 				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
 				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
 				CF4E1521241F7A7C00EF1477 /* RecordObject.swift */,
+				CF2318E3242B217600F0AB21 /* CellModelProvider.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -715,13 +715,13 @@
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
 				CF4E1522241F7A7C00EF1477 /* RecordObject.swift in Sources */,
+				CF2318E4242B217600F0AB21 /* CellModelProvider.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
 				CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */,
 				CF303EC5240166FE005EE7E4 /* QuestionView.swift in Sources */,
 				CF3BD7F2240E44B30044B3DD /* FirestoreParser.swift in Sources */,
 				CF2A94AC23EA701B0056B532 /* RecordContentViewController.swift in Sources */,
-				CFFDEEE02420954B00C16904 /* CollectionViewLayoutsWrapper.swift in Sources */,
 				CF3BD7F7240EB86E0044B3DD /* TTConstant.swift in Sources */,
 				CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */,
 				CF3BD7F4240E47240044B3DD /* FirestoreReference.swift in Sources */,
