@@ -97,17 +97,18 @@ class QRCodeScanViewController: UIViewController {
     }
     
     @IBAction func showQRButtonPressed(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController else { return }
+        
+        guard let qrCodeVC = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as? QRCodeViewController else { return }
         
         captureSession.stopRunning()
         
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.task = task
-        vc.startScan = { [weak self] in
+        qrCodeVC.modalPresentationStyle = .overCurrentContext
+        qrCodeVC.task = task
+        qrCodeVC.startScan = { [weak self] in
             self?.captureSession.startRunning()
         }
         
-        present(vc, animated: false)
+        present(qrCodeVC, animated: false)
     }
     
     func failed() {

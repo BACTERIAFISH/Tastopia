@@ -10,8 +10,6 @@ import Foundation
 
 struct TTConstant {
     
-    static let main = "Main"
-    
     static let photo = "相片"
     
     static let video = "影片"
@@ -29,6 +27,23 @@ struct TTConstant {
 
         static let addRestaurant = NSNotification.Name("addRestaurant")
     }
+    
+    struct StoryboardName {
+        
+        static let home = "Home"
+        
+        static let login = "Login"
+        
+        static let task = "Task"
+        
+        static let qrcode = "QRCode"
+        
+        static let media = "Media"
+        
+        static let record = "Record"
+        
+        static let profile = "Profile"
+    }
 
     struct ViewControllerID {
         
@@ -41,6 +56,8 @@ struct TTConstant {
         static let qrCodeScanViewController = "QRCodeScanViewController"
         
         static let selectImageViewController = "SelectImageViewController"
+        
+        static let recordContentViewController = "RecordContentViewController"
     }
     
     struct CellIdentifier {
@@ -52,6 +69,12 @@ struct TTConstant {
         static let recordContentCompositionTableViewCell = "RecordContentCompositionTableViewCell"
         
         static let recordContentAgreeTableViewCell = "RecordContentAgreeTableViewCell"
+        
+        static let executeTaskPhotoCollectionViewCell = "ExecuteTaskPhotoCollectionViewCell"
+        
+        static let executeTaskAddCollectionViewCell = "ExecuteTaskAddCollectionViewCell"
+        
+        static let taskRecordCollectionViewCell = "TaskRecordCollectionViewCell"
     }
     
 }

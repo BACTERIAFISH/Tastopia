@@ -8,89 +8,6 @@
 
 import UIKit
 
-protocol TTCellModel {
-    
-    var identifier: String { get }
-    
-    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?)
-}
-
-extension TTCellModel {
-    
-    func countAgreeRatio(agree: Int, disagree: Int) -> Float {
-    
-        return Float(agree) / (Float(agree) + Float(disagree))
-    }
-}
-
-struct TTRecordContentTopCellModel: TTCellModel {
-        
-    let identifier: String = TTConstant.CellIdentifier.recordContentTopTableViewCell
-    
-    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
-        
-        guard let cell = tableViewCell as? RecordContentTopTableViewCell else { return }
-        
-        cell.authorImagePath = writing.userImagePath
-        
-        cell.nameLabel.text = writing.userName
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = writing.date
-        cell.dateLabel.text = dateFormatter.string(from: date)
-        
-        let agreeRatio = countAgreeRatio(agree: writing.agree, disagree: writing.disagree)
-        cell.agreeRatioLabel.text = "\(Int(agreeRatio * 100))%"
-    }
-            
-}
-
-struct TTRecordContentImageCellModel: TTCellModel {
-    
-    let identifier: String = TTConstant.CellIdentifier.recordContentImageTableViewCell
-    
-    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
-        
-        guard let cell = tableViewCell as? RecordContentImageTableViewCell else { return }
-        
-        cell.writing = writing
-        cell.imageCollectionView.reloadData()
-    }
-}
-
-struct TTRecordContentCompositionCellModel: TTCellModel {
-    
-    let identifier: String = TTConstant.CellIdentifier.recordContentCompositionTableViewCell
-    
-    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
-        
-        guard let cell = tableViewCell as? RecordContentCompositionTableViewCell else { return }
-        
-        let keyword = TastopiaTest.shared.keyword
-        let composition = writing.composition.replacingOccurrences(of: keyword, with: "")
-        cell.compositionLabel.text = composition
-    }
-}
-
-struct TTRecordContentAgreeCellModel: TTCellModel {
-    
-    let identifier: String = TTConstant.CellIdentifier.recordContentAgreeTableViewCell
-    
-    func setCell(tableViewCell: UITableViewCell, writing: WritingData, agreeMethod: (() -> Void)?, disagreeMethod: (() -> Void)?) {
-        
-        if UserProvider.shared.userData?.uid == writing.uid {
-            // MARK: for edit composition
-        }
-        
-        guard let cell = tableViewCell as? RecordContentAgreeTableViewCell else { return }
-        
-        cell.documentID = writing.documentID
-        cell.agree = agreeMethod
-        cell.disagree = disagreeMethod
-    }
-}
-
 class RecordContentViewController: UIViewController {
     
     @IBOutlet weak var userButtonItem: UIBarButtonItem!
@@ -128,26 +45,7 @@ class RecordContentViewController: UIViewController {
         
         responseTextView.delegate = self
         
-        responseContainView.layer.cornerRadius = 16
-        responseContainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        responseContainView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
-        
-        responseButton.layer.cornerRadius = 16
-        
-        responseBackgroundView.layer.cornerRadius = 16
-        responseBackgroundView.layer.createTTBorder()
-        
-        guard let writing = writing, let user = UserProvider.shared.userData else { return }
-        
-        //        titleLabel.text = writing.userName
-        
-        if user.uid == writing.uid {
-            userButtonItem.isEnabled = false
-        }
-        
-        navigationController?.navigationBar.tintColor = UIColor.AKABENI!
-        navigationController?.navigationBar.backIndicatorImage = UIImage.asset(.Icon_24px_Left_Arrow)
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage.asset(.Icon_24px_Left_Arrow)
+        setBeginLayout()
         
         getResponse()
     }
@@ -182,6 +80,29 @@ class RecordContentViewController: UIViewController {
     
     @IBAction func responseButtonPressed(_ sender: UIButton) {
         submitResponse()
+    }
+    
+    func setBeginLayout() {
+        
+        navigationController?.navigationBar.tintColor = UIColor.AKABENI!
+        navigationController?.navigationBar.backIndicatorImage = UIImage.asset(.Icon_24px_Left_Arrow)
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage.asset(.Icon_24px_Left_Arrow)
+        
+        responseContainView.layer.cornerRadius = 16
+        responseContainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        responseContainView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
+        
+        responseButton.layer.cornerRadius = 16
+        
+        responseBackgroundView.layer.cornerRadius = 16
+        responseBackgroundView.layer.createTTBorder()
+        
+        guard let writing = writing, let user = UserProvider.shared.userData else { return }
+        
+        if user.uid == writing.uid {
+            userButtonItem.isEnabled = false
+        }
+        
     }
     
     func agree() {
@@ -369,7 +290,7 @@ extension RecordContentViewController: UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: cells[indexPath.row].identifier, for: indexPath)
             
-            cells[indexPath.row].setCell(tableViewCell: cell, writing: writing, agreeMethod: agree, disagreeMethod: disagree)
+            cells[indexPath.row].setCell(tableViewCell: cell, writing: writing, agreeMethod: { [weak self] in self?.agree() }, disagreeMethod: { [weak self] in self?.disagree() })
             
             return cell
             

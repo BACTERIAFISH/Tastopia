@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices
 import AVFoundation
-import collection_view_layouts
 
 enum SortMethod: String {
     case agree = "中肯"
@@ -41,10 +40,10 @@ class TaskRecordViewController: UIViewController {
     
     let writingProvider = WritingProvider()
     
-    var personalWritingsOrigin = [WritingData]()
-    var publicWritingsOrigin = [WritingData]()
-    var personalWritings = [WritingData]()
-    var publicWritings = [WritingData]()
+    var personalWritingsOrigin: [WritingData] = []
+    var publicWritingsOrigin: [WritingData] = []
+    var personalWritings: [WritingData] = []
+    var publicWritings: [WritingData] = []
     
     var sortMethod: SortMethod = .dateDescending
     
@@ -57,19 +56,101 @@ class TaskRecordViewController: UIViewController {
         taskRecordPublicCollectionView.dataSource = self
         taskRecordPublicCollectionView.delegate = self
         
-        // MARK: collection-view-layouts
-        let layout = InstagramLayout()
-        layout.delegate = self
-        layout.cellsPadding = ItemsPadding(horizontal: 1, vertical: 1)
-        taskRecordPublicCollectionView.collectionViewLayout = layout
-        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        getWritings()
+    }
+    
+    @IBAction func back(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func selectSortMethod(_ sender: Any) {
+        
+        let alertController = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
+        
+        let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
+        alertController.addAction(action1)
+        
+        let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
+        alertController.addAction(action2)
+        
+        let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
+        alertController.addAction(action3)
+        
+        var action4 = UIAlertAction(title: "中肯或留言", style: .default, handler: setSortMethod(action:))
+        if personalCollectionViewTrailingConstraint.constant == 0 {
+            action4 = UIAlertAction(title: "留言", style: .default, handler: setSortMethod(action:))
+        }
+        alertController.addAction(action4)
+        
+        let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(actionCancel)
+        
+        present(alertController, animated: true)
+    }
+    
+    @IBAction func displayPersonalRecord(_ sender: UIButton) {
+        
+        emptyView.isHidden = true
+        personalRecordButton.isEnabled = false
+        publicRecordButton.isEnabled = true
+        
+        personalRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
+        publicRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
+        
+        indicatorViewLeadingConstraint.isActive = false
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
+            
+            guard let strongSelf = self else { return }
+            
+            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.personalRecordButton.centerXAnchor)
+            strongSelf.indicatorViewLeadingConstraint.isActive = true
+            strongSelf.personalCollectionViewTrailingConstraint.constant = 0
+            strongSelf.view.layoutIfNeeded()
+        }
+        animator.addCompletion { [weak self] _ in
+            self?.toggleEmptyView()
+        }
+        animator.startAnimation()
+    }
+    
+    @IBAction func displayPublicRecord(_ sender: UIButton) {
+        
+        emptyView.isHidden = true
+        personalRecordButton.isEnabled = true
+        publicRecordButton.isEnabled = false
+        
+        personalRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
+        publicRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
+        
+        indicatorViewLeadingConstraint.isActive = false
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
+            
+            guard let strongSelf = self else { return }
+            
+            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
+            strongSelf.indicatorViewLeadingConstraint.isActive = true
+            strongSelf.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
+            strongSelf.view.layoutIfNeeded()
+        }
+        animator.addCompletion { [weak self] _ in
+            self?.toggleEmptyView()
+        }
+        animator.startAnimation()
+    }
+    
+    func getWritings() {
+        
         guard let restaurant = restaurant, let user = UserProvider.shared.userData else { return }
+        
         writingProvider.getWritings(number: restaurant.number) { [weak self] (result) in
             guard let strongSelf = self else { return }
             
@@ -83,80 +164,6 @@ class TaskRecordViewController: UIViewController {
                 print("getWritings error: \(error)")
             }
         }
-    }
-    
-    @IBAction func backButtonPressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func sortFilterPressed(_ sender: Any) {
-        let alertController = UIAlertController(title: "篩選排序", message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: "中肯", style: .default, handler: setSortMethod(action:))
-        alertController.addAction(action1)
-        let action2 = UIAlertAction(title: "最新", style: .default, handler: setSortMethod(action:))
-        alertController.addAction(action2)
-        let action3 = UIAlertAction(title: "最舊", style: .default, handler: setSortMethod(action:))
-        alertController.addAction(action3)
-        var action4 = UIAlertAction(title: "中肯或留言", style: .default, handler: setSortMethod(action:))
-        if personalCollectionViewTrailingConstraint.constant == 0 {
-            action4 = UIAlertAction(title: "留言", style: .default, handler: setSortMethod(action:))
-        }
-        alertController.addAction(action4)
-        let actionCancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertController.addAction(actionCancel)
-        
-        //        ac.view.tintColor = UIColor.AKABENI
-        present(alertController, animated: true)
-    }
-    
-    @IBAction func personalRecordButtonPressed(_ sender: UIButton) {
-        emptyView.isHidden = true
-        personalRecordButton.isEnabled = false
-        publicRecordButton.isEnabled = true
-        
-        personalRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
-        publicRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
-        
-        indicatorViewLeadingConstraint.isActive = false
-        
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.personalRecordButton.centerXAnchor)
-            strongSelf.indicatorViewLeadingConstraint.isActive = true
-            //            self?.indicatorViewLeadingConstraint.constant = 20
-            strongSelf.personalCollectionViewTrailingConstraint.constant = 0
-            strongSelf.view.layoutIfNeeded()
-        }
-        animator.addCompletion { [weak self] _ in
-            self?.toggleEmptyView()
-        }
-        animator.startAnimation()
-    }
-    
-    @IBAction func publicRecordButtonPressed(_ sender: UIButton) {
-        emptyView.isHidden = true
-        personalRecordButton.isEnabled = true
-        publicRecordButton.isEnabled = false
-        
-        personalRecordButton.setTitleColor(UIColor.SUMI, for: .normal)
-        publicRecordButton.setTitleColor(UIColor.AKABENI, for: .normal)
-        
-        indicatorViewLeadingConstraint.isActive = false
-        
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            strongSelf.indicatorViewLeadingConstraint = strongSelf.indicatorView.centerXAnchor.constraint(equalTo: strongSelf.publicRecordButton.centerXAnchor)
-            strongSelf.indicatorViewLeadingConstraint.isActive = true
-            //            self?.indicatorViewLeadingConstraint.constant = sender.frame.width + 20
-            self?.personalCollectionViewTrailingConstraint.constant = sender.frame.width * 2
-            self?.view.layoutIfNeeded()
-        }
-        animator.addCompletion { [weak self] _ in
-            self?.toggleEmptyView()
-        }
-        animator.startAnimation()
     }
     
     func setSortMethod(action: UIAlertAction) {
@@ -245,7 +252,7 @@ extension TaskRecordViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TaskRecordCollectionViewCell", for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTConstant.CellIdentifier.taskRecordCollectionViewCell, for: indexPath) as? TaskRecordCollectionViewCell else { return UICollectionViewCell() }
         
         cell.imageView.image = UIImage.asset(.Image_Tastopia_01_square)
         cell.playerLooper = nil
@@ -276,9 +283,7 @@ extension TaskRecordViewController: UICollectionViewDataSource {
                     let ratio = Int(countAgreeRatio(agree: writing.agree, disagree: writing.disagree) * 100)
                     cell.sortLabel.text = "\(ratio)%"
                 case .dateAscending, .dateDescending, .comment, .response:
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd"
-                    cell.sortLabel.text = dateFormatter.string(from: writing.date)
+                    cell.sortLabel.text = DateFormatter.createTTDate(date: writing.date, format: "yyyy-MM-dd")
                 }
             }
         }
@@ -292,26 +297,17 @@ extension TaskRecordViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "RecordContentViewController") as? RecordContentViewController else { return }
+        guard let recordContentVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.recordContentViewController) as? RecordContentViewController else { return }
         
-        vc.titleLabel.text = restaurant?.name
+        recordContentVC.titleLabel.text = restaurant?.name
         
         if collectionView == taskRecordPersonalCollectionView {
-            vc.writing = personalWritings[indexPath.item]
+            recordContentVC.writing = personalWritings[indexPath.item]
         } else if collectionView == taskRecordPublicCollectionView {
-            vc.writing = publicWritings[indexPath.item]
+            recordContentVC.writing = publicWritings[indexPath.item]
         }
         
-        show(vc, sender: nil)
-    }
-    
-}
-
-// MARK: collection-view-layouts
-extension TaskRecordViewController: LayoutDelegate {
-    
-    func cellSize(indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 10, height: 10)
+        show(recordContentVC, sender: nil)
     }
     
 }

@@ -11,7 +11,6 @@ identifier_name:
     - url
     - app
     - db
-    - vc
 file_length:
   warning: 500
   error: 800

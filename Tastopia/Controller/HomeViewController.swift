@@ -48,19 +48,14 @@ class HomeViewController: UIViewController {
         return .lightContent
     }
     
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         TTSwiftMessages().hideAll()
         
         setMap()
         
         setTaskMarkerWithShadow()
-
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
@@ -80,7 +75,9 @@ class HomeViewController: UIViewController {
     
     @IBAction func showProfile(_ sender: UIButton) {
         
-        guard let profileVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.profileViewController) as? ProfileViewController else { return }
+        let profileStoryboard = UIStoryboard(name: TTConstant.StoryboardName.profile, bundle: nil)
+        
+        guard let profileVC = profileStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.profileViewController) as? ProfileViewController else { return }
         
         profileVC.user = UserProvider.shared.userData
 
@@ -116,62 +113,37 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func showTaskContent(_ sender: UIButton) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
         
-        vc.map = mapView
-        vc.restaurant = currentRestaurantData?.restaurant
-        vc.task = currentUserTask
-        vc.passTask = { [weak self] task in
+        let taskStoryboard = UIStoryboard(name: TTConstant.StoryboardName.task, bundle: nil)
+        
+        guard let taskContentVC = taskStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskContentViewController) as? TaskContentViewController else { return }
+        
+        taskContentVC.map = mapView
+        taskContentVC.restaurant = currentRestaurantData?.restaurant
+        taskContentVC.task = currentUserTask
+        taskContentVC.passTask = { [weak self] task in
             self?.currentUserTask = task
         }
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        taskContentVC.modalPresentationStyle = .fullScreen
+        present(taskContentVC, animated: true)
         
     }
     
     @IBAction func showRecordContent(_ sender: UIButton) {
+        
+        let recordStoryboard = UIStoryboard(name: TTConstant.StoryboardName.record, bundle: nil)
+        
         guard
-            let navigationVC = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskRecordNavigationController) as? UINavigationController,
-            let vc = navigationVC.viewControllers.first as? TaskRecordViewController
+            let navigationVC = recordStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.taskRecordNavigationController) as? UINavigationController,
+            let taskRecordVC = navigationVC.viewControllers.first as? TaskRecordViewController
         else { return }
 
-        vc.titleLabel.text = currentRestaurantData?.restaurant.name
+        taskRecordVC.titleLabel.text = currentRestaurantData?.restaurant.name
 
-        vc.restaurant = currentRestaurantData?.restaurant
+        taskRecordVC.restaurant = currentRestaurantData?.restaurant
         
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
-    }
-    
-    func setBeginLayout() {
-        
-        view.layoutIfNeeded()
-        userButton.layer.cornerRadius = 30
-        taskViewBottomConstraint.constant = taskView.layer.frame.height
-        
-        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        taskView.layer.cornerRadius = 16
-        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
-        
-        taskButton.layer.cornerRadius = 16
-        recordButton.layer.cornerRadius = 16
-    }
-    
-    func checkLocationAuth() {
-        
-        let locationAuthStatus = CLLocationManager.authorizationStatus()
-        
-        switch locationAuthStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
-            mapView.isHidden = false
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .denied, .restricted:
-            mapView.isHidden = true
-            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
-        @unknown default:
-            print("checkLocationAuth switch CLLocationManager.authorizationStatus() error")
-        }
     }
     
     func setMap() {
@@ -208,6 +180,37 @@ class HomeViewController: UIViewController {
             case .failure(let error):
                 print("RestaurantProvider getTaskRestaurant error: \(error)")
             }
+        }
+    }
+    
+    func setBeginLayout() {
+        
+        view.layoutIfNeeded()
+        userButton.layer.cornerRadius = 30
+        taskViewBottomConstraint.constant = taskView.layer.frame.height
+        
+        taskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        taskView.layer.cornerRadius = 16
+        taskView.layer.createTTShadow(color: UIColor.SHIRONEZUMI!.cgColor, offset: CGSize(width: 0, height: -2), radius: 3, opacity: 1)
+        
+        taskButton.layer.cornerRadius = 16
+        recordButton.layer.cornerRadius = 16
+    }
+    
+    func checkLocationAuth() {
+        
+        let locationAuthStatus = CLLocationManager.authorizationStatus()
+        
+        switch locationAuthStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView.isHidden = false
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            mapView.isHidden = true
+            TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "定位服務未開啟", body: "為了進行遊戲\n請至 設定 > 隱私權 > 定位服務\n變更權限", duration: nil)
+        @unknown default:
+            print("checkLocationAuth switch CLLocationManager.authorizationStatus() error")
         }
     }
     

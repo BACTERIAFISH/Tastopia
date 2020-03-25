@@ -169,30 +169,6 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
-  - collection-view-layouts (0.2.2):
-    - collection-view-layouts/Core (= 0.2.2)
-    - collection-view-layouts/FacebookLayout (= 0.2.2)
-    - collection-view-layouts/FlickrLayout (= 0.2.2)
-    - collection-view-layouts/FlipboardLayout (= 0.2.2)
-    - collection-view-layouts/InstagramLayout (= 0.2.2)
-    - collection-view-layouts/PinterestLayout (= 0.2.2)
-    - collection-view-layouts/Px500Layout (= 0.2.2)
-    - collection-view-layouts/TagsLayout (= 0.2.2)
-  - collection-view-layouts/Core (0.2.2)
-  - collection-view-layouts/FacebookLayout (0.2.2):
-    - collection-view-layouts/Core
-  - collection-view-layouts/FlickrLayout (0.2.2):
-    - collection-view-layouts/Core
-  - collection-view-layouts/FlipboardLayout (0.2.2):
-    - collection-view-layouts/Core
-  - collection-view-layouts/InstagramLayout (0.2.2):
-    - collection-view-layouts/Core
-  - collection-view-layouts/PinterestLayout (0.2.2):
-    - collection-view-layouts/Core
-  - collection-view-layouts/Px500Layout (0.2.2):
-    - collection-view-layouts/Core
-  - collection-view-layouts/TagsLayout (0.2.2):
-    - collection-view-layouts/Core
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
@@ -365,7 +341,6 @@ PODS:
   - SwiftMessages/App (7.0.1)
 
 DEPENDENCIES:
-  - collection-view-layouts
   - Crashlytics (~> 3.14.0)
   - Fabric (~> 1.10.2)
   - FacebookCore
@@ -390,7 +365,6 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
-    - collection-view-layouts
     - Crashlytics
     - Fabric
     - FacebookCore
@@ -433,7 +407,6 @@ SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  collection-view-layouts: 474ec4cce601a26247737227a97fa6a4eb30213f
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
@@ -472,6 +445,6 @@ SPEC CHECKSUMS:
   SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
   SwiftMessages: b577dc7043be8b299857ab35bb663dbff6483bd0
 
-PODFILE CHECKSUM: 457d662a697c3dc49fb8f00fad7b06bcd1b7d182
+PODFILE CHECKSUM: ec333f5ceb8d09ca12c5f651a31104c3aa666e1c
 
 COCOAPODS: 1.8.4

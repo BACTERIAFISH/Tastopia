@@ -28,6 +28,7 @@
 		CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF12236923E26C92004A41B3 /* Assets.xcassets */; };
 		CF12236D23E26C92004A41B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */; };
 		CF18DDB9240407140038E2A9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF18DDB8240407140038E2A9 /* ProfileViewController.swift */; };
+		CF2318E4242B217600F0AB21 /* CellModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2318E3242B217600F0AB21 /* CellModelProvider.swift */; };
 		CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */; };
 		CF2A949B23E800C00056B532 /* ExecuteTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */; };
 		CF2A949D23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */; };
@@ -47,6 +48,7 @@
 		CF499727241737E20086101C /* FirestoreWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF499726241737E20086101C /* FirestoreWrapper.swift */; };
 		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
 		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
+		CF4E1522241F7A7C00EF1477 /* RecordObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E1521241F7A7C00EF1477 /* RecordObject.swift */; };
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
@@ -68,13 +70,21 @@
 		CFA7D0B02413E14A00BD62DC /* TaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */; };
 		CFA7D0B32413E16F00BD62DC /* TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA7D0B22413E16F00BD62DC /* TaskObject.swift */; };
 		CFAA5EF323F00BA5004D960B /* TaskContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */; };
+		CFCD78782420C8220093C7B3 /* QRCode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78772420C8220093C7B3 /* QRCode.storyboard */; };
+		CFCD787A2420CA090093C7B3 /* Media.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78792420CA090093C7B3 /* Media.storyboard */; };
+		CFCD787C2420CB750093C7B3 /* Record.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD787B2420CB750093C7B3 /* Record.storyboard */; };
+		CFCD787E2420CE470093C7B3 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD787D2420CE470093C7B3 /* Profile.storyboard */; };
+		CFCD78892420D3870093C7B3 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFCD78882420D3870093C7B3 /* Home.storyboard */; };
 		CFD07B6423F271500036A7A5 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */; };
 		CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */; };
 		CFD07B6C23F29F390036A7A5 /* RecordContentImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */; };
 		CFD07B6F23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */; };
 		CFD07B7123F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */; };
+		CFD5009F2420BB2900D98F7E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFD5009E2420BB2900D98F7E /* Login.storyboard */; };
+		CFD500A12420C38100D98F7E /* Task.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFD500A02420C38100D98F7E /* Task.storyboard */; };
 		CFDC910723EC02C900A45F23 /* ResponseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC910623EC02C900A45F23 /* ResponseProvider.swift */; };
 		CFE3C1C423E27A48008FF2A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */; };
+		CFFDEEE22420A57C00C16904 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFDEEE12420A57C00C16904 /* DateFormatter+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +107,7 @@
 		CF12236C23E26C92004A41B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF12236E23E26C92004A41B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF18DDB8240407140038E2A9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CF2318E3242B217600F0AB21 /* CellModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModelProvider.swift; sourceTree = "<group>"; };
 		CF2A949823E7CDA10056B532 /* TaskContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTableViewCell.swift; sourceTree = "<group>"; };
 		CF2A949A23E800C00056B532 /* ExecuteTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskViewController.swift; sourceTree = "<group>"; };
 		CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteTaskPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -116,6 +127,7 @@
 		CF499726241737E20086101C /* FirestoreWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWrapper.swift; sourceTree = "<group>"; };
 		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
+		CF4E1521241F7A7C00EF1477 /* RecordObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordObject.swift; sourceTree = "<group>"; };
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
@@ -137,11 +149,18 @@
 		CFA7D0AF2413E14A00BD62DC /* TaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProvider.swift; sourceTree = "<group>"; };
 		CFA7D0B22413E16F00BD62DC /* TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskObject.swift; sourceTree = "<group>"; };
 		CFAA5EF223F00BA5004D960B /* TaskContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentTitleTableViewCell.swift; sourceTree = "<group>"; };
+		CFCD78772420C8220093C7B3 /* QRCode.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QRCode.storyboard; sourceTree = "<group>"; };
+		CFCD78792420CA090093C7B3 /* Media.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Media.storyboard; sourceTree = "<group>"; };
+		CFCD787B2420CB750093C7B3 /* Record.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Record.storyboard; sourceTree = "<group>"; };
+		CFCD787D2420CE470093C7B3 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		CFCD78882420D3870093C7B3 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		CFD07B6923F29F160036A7A5 /* RecordContentTopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentTopTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6B23F29F390036A7A5 /* RecordContentImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentImageTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B6E23F2B5F80036A7A5 /* RecordContentCompositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCompositionTableViewCell.swift; sourceTree = "<group>"; };
 		CFD07B7023F2BDE00036A7A5 /* RecordContentAgreeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentAgreeTableViewCell.swift; sourceTree = "<group>"; };
+		CFD5009E2420BB2900D98F7E /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		CFD500A02420C38100D98F7E /* Task.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Task.storyboard; sourceTree = "<group>"; };
 		CFDC910623EC02C900A45F23 /* ResponseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseProvider.swift; sourceTree = "<group>"; };
 		CFE3C1C323E27A48008FF2A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CFF6435323E3F6E9003CD246 /* NotoSerifTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Regular.otf"; sourceTree = "<group>"; };
@@ -151,6 +170,7 @@
 		CFF6435723E3F6EB003CD246 /* NotoSerifTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Black.otf"; sourceTree = "<group>"; };
 		CFF6435823E3F6EB003CD246 /* NotoSerifTC-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-ExtraLight.otf"; sourceTree = "<group>"; };
 		CFF6435923E3F6EB003CD246 /* NotoSerifTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSerifTC-Bold.otf"; sourceTree = "<group>"; };
+		CFFDEEE12420A57C00C16904 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +209,7 @@
 				CF05175C23E412ED004EE1CB /* UIImage+Extension.swift */,
 				CF05175E23E447DD004EE1CB /* UIView+Extension.swift */,
 				CFD07B6323F2714F0036A7A5 /* CALayer+Extension.swift */,
+				CFFDEEE12420A57C00C16904 /* DateFormatter+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -214,16 +235,16 @@
 		CF05176023E44827004EE1CB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CF12236323E26C91004A41B3 /* Main.storyboard */,
 				CF12236B23E26C92004A41B3 /* LaunchScreen.storyboard */,
-				CF4B522523F7DE140006B07B /* Task Content */,
-				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
-				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
-				CFD07B6D23F2B5D30036A7A5 /* Record Content */,
-				CF031D7623FE319D0013B179 /* SelectImageCollectionViewCell.swift */,
-				CF031D7823FE67680013B179 /* SelectImageDisplayCollectionViewCell.swift */,
-				CF303EC224016699005EE7E4 /* QuestionView.xib */,
-				CF303EC4240166FE005EE7E4 /* QuestionView.swift */,
+				CF12236323E26C91004A41B3 /* Main.storyboard */,
+				CFCD788A2420D4350093C7B3 /* Home */,
+				CFCD78862420D19B0093C7B3 /* Login */,
+				CFCD787F2420D02A0093C7B3 /* Task */,
+				CFCD78812420D0D90093C7B3 /* Record */,
+				CFCD78842420D1810093C7B3 /* Profile */,
+				CFCD78832420D10E0093C7B3 /* Media */,
+				CFCD78852420D18D0093C7B3 /* QRcode */,
+				CFCD78872420D1EA0093C7B3 /* Alert */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -236,8 +257,7 @@
 				CF79015D2410F2D000BFC387 /* User */,
 				CFA7D0B12413E15200BD62DC /* Task */,
 				CFA7D0AC2412330D00BD62DC /* Map */,
-				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
-				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
+				CF4E1523241F7B3900EF1477 /* Record */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
 			);
 			path = Model;
@@ -319,6 +339,17 @@
 			path = "Task Content";
 			sourceTree = "<group>";
 		};
+		CF4E1523241F7B3900EF1477 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A94A623E98CF70056B532 /* WritingProvider.swift */,
+				CFDC910623EC02C900A45F23 /* ResponseProvider.swift */,
+				CF4E1521241F7A7C00EF1477 /* RecordObject.swift */,
+				CF2318E3242B217600F0AB21 /* CellModelProvider.swift */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
 		CF79015D2410F2D000BFC387 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,6 +376,93 @@
 				CFA7D0B22413E16F00BD62DC /* TaskObject.swift */,
 			);
 			path = Task;
+			sourceTree = "<group>";
+		};
+		CFCD787F2420D02A0093C7B3 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				CFD500A02420C38100D98F7E /* Task.storyboard */,
+				CF4B522523F7DE140006B07B /* Task Content */,
+				CFCD78802420D0700093C7B3 /* Execute Task */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		CFCD78802420D0700093C7B3 /* Execute Task */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A949C23E819E20056B532 /* ExecuteTaskPhotoCollectionViewCell.swift */,
+			);
+			path = "Execute Task";
+			sourceTree = "<group>";
+		};
+		CFCD78812420D0D90093C7B3 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD787B2420CB750093C7B3 /* Record.storyboard */,
+				CFCD78822420D0EC0093C7B3 /* Task Record */,
+				CFD07B6D23F2B5D30036A7A5 /* Record Content */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		CFCD78822420D0EC0093C7B3 /* Task Record */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A94A423E989CF0056B532 /* TaskRecordCollectionViewCell.swift */,
+			);
+			path = "Task Record";
+			sourceTree = "<group>";
+		};
+		CFCD78832420D10E0093C7B3 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD78792420CA090093C7B3 /* Media.storyboard */,
+				CF031D7623FE319D0013B179 /* SelectImageCollectionViewCell.swift */,
+				CF031D7823FE67680013B179 /* SelectImageDisplayCollectionViewCell.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		CFCD78842420D1810093C7B3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD787D2420CE470093C7B3 /* Profile.storyboard */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CFCD78852420D18D0093C7B3 /* QRcode */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD78772420C8220093C7B3 /* QRCode.storyboard */,
+			);
+			path = QRcode;
+			sourceTree = "<group>";
+		};
+		CFCD78862420D19B0093C7B3 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CFD5009E2420BB2900D98F7E /* Login.storyboard */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CFCD78872420D1EA0093C7B3 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				CF303EC224016699005EE7E4 /* QuestionView.xib */,
+				CF303EC4240166FE005EE7E4 /* QuestionView.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		CFCD788A2420D4350093C7B3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CFCD78882420D3870093C7B3 /* Home.storyboard */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		CFD07B6D23F2B5D30036A7A5 /* Record Content */ = {
@@ -451,12 +569,19 @@
 				CF05176423E57884004EE1CB /* NotoSerifTC-ExtraLight.otf in Resources */,
 				CF05176723E578A1004EE1CB /* NotoSerifTC-Medium.otf in Resources */,
 				CF05176523E57888004EE1CB /* NotoSerifTC-Light.otf in Resources */,
+				CFD5009F2420BB2900D98F7E /* Login.storyboard in Resources */,
 				CF68D5E723FCBC65005B03ED /* NotoSansTC-Medium.otf in Resources */,
+				CFCD787A2420CA090093C7B3 /* Media.storyboard in Resources */,
+				CFD500A12420C38100D98F7E /* Task.storyboard in Resources */,
 				CF12236A23E26C92004A41B3 /* Assets.xcassets in Resources */,
 				CF05176823E578A5004EE1CB /* NotoSerifTC-SemiBold.otf in Resources */,
 				CF68D5E923FCBC65005B03ED /* NotoSansTC-Bold.otf in Resources */,
+				CFCD78892420D3870093C7B3 /* Home.storyboard in Resources */,
+				CFCD787C2420CB750093C7B3 /* Record.storyboard in Resources */,
 				CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */,
+				CFCD787E2420CE470093C7B3 /* Profile.storyboard in Resources */,
 				CF05176A23E578AB004EE1CB /* NotoSerifTC-Black.otf in Resources */,
+				CFCD78782420C8220093C7B3 /* QRCode.storyboard in Resources */,
 				CFA113E823FD693400EBE412 /* google-map-style.json in Resources */,
 				CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */,
 				CF05176623E5789E004EE1CB /* NotoSerifTC-Regular.otf in Resources */,
@@ -581,6 +706,7 @@
 				CFA7D0AE241233B000BD62DC /* RestaurantObject.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,
 				CFD07B6A23F29F160036A7A5 /* RecordContentTopTableViewCell.swift in Sources */,
+				CFFDEEE22420A57C00C16904 /* DateFormatter+Extension.swift in Sources */,
 				CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */,
 				CFA7D0B02413E14A00BD62DC /* TaskProvider.swift in Sources */,
 				CF031D7923FE67680013B179 /* SelectImageDisplayCollectionViewCell.swift in Sources */,
@@ -588,6 +714,8 @@
 				CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */,
 				CF05175F23E447DD004EE1CB /* UIView+Extension.swift in Sources */,
 				CF12236223E26C91004A41B3 /* LoginViewController.swift in Sources */,
+				CF4E1522241F7A7C00EF1477 /* RecordObject.swift in Sources */,
+				CF2318E4242B217600F0AB21 /* CellModelProvider.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
 				CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */,

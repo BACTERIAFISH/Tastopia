@@ -23,17 +23,19 @@ class LaunchViewController: UIViewController {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        let mainStoryboard = UIStoryboard(name: TTConstant.main, bundle: nil)
-        
         if isLogin {
             
-            guard let homeVC = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
+            let homeStoryboard = UIStoryboard(name: TTConstant.StoryboardName.home, bundle: nil)
+            
+            guard let homeVC = homeStoryboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else { return }
             
             appDelegate.window?.rootViewController = homeVC
             
         } else {
             
-            guard let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+            let loginStoryboard = UIStoryboard(name: TTConstant.StoryboardName.login, bundle: nil)
+            
+            guard let loginVC = loginStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
             
             appDelegate.window?.rootViewController = loginVC
         }

@@ -58,11 +58,13 @@ class TaskContentViewController: UIViewController {
         
         TTSwiftMessages().hideAll()
         
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.qrCodeScanViewController) as? QRCodeScanViewController else { return }
+        let qrcodeStoryboard = UIStoryboard(name: TTConstant.StoryboardName.qrcode, bundle: nil)
         
-        vc.modalPresentationStyle = .overFullScreen
-        vc.task = task
-        vc.passTaskID = { [weak self] newTaskID in
+        guard let qrCodeScanVC = qrcodeStoryboard.instantiateViewController(withIdentifier: TTConstant.ViewControllerID.qrCodeScanViewController) as? QRCodeScanViewController else { return }
+        
+        qrCodeScanVC.modalPresentationStyle = .overFullScreen
+        qrCodeScanVC.task = task
+        qrCodeScanVC.passTaskID = { [weak self] newTaskID in
             
             guard let task = self?.task else { return }
             
@@ -72,7 +74,7 @@ class TaskContentViewController: UIViewController {
             self?.passTask?(self?.task)
             self?.taskContentTableView.reloadData()
         }
-        present(vc, animated: true)
+        present(qrCodeScanVC, animated: true)
     }
     
     @IBAction func executeTask(_ sender: UIButton) {
@@ -215,19 +217,20 @@ class TaskContentViewController: UIViewController {
     }
     
     private func showExecuteTask() {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
         
-        vc.map = map
-        vc.restaurant = restaurant
-        vc.task = task
-        vc.passTask = { [weak self] (task) in
+        guard let executeTaskVC = storyboard?.instantiateViewController(withIdentifier: "ExecuteTaskViewController") as? ExecuteTaskViewController else { return }
+        
+        executeTaskVC.map = map
+        executeTaskVC.restaurant = restaurant
+        executeTaskVC.task = task
+        executeTaskVC.passTask = { [weak self] (task) in
             self?.task = task
             self?.setTaskStatus()
             self?.passTask?(task)
         }
-        vc.setStatusImage = setStatusImage
-        vc.modalPresentationStyle = .overCurrentContext
-        present(vc, animated: true)
+        executeTaskVC.setStatusImage = setStatusImage
+        executeTaskVC.modalPresentationStyle = .overCurrentContext
+        present(executeTaskVC, animated: true)
     }
     
     private func setStatusImage() {

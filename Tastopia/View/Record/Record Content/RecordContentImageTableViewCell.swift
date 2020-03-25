@@ -23,7 +23,7 @@ class RecordContentImageTableViewCell: UITableViewCell {
         }
     }
     
-    var playerLoopers = [AVPlayerLooper]()
+//    var playerLoopers = [AVPlayerLooper]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -102,18 +102,28 @@ extension RecordContentImageTableViewCell: UICollectionViewDataSource {
 
 extension RecordContentImageTableViewCell: UICollectionViewDelegate {
     
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let index = Int(scrollView.contentOffset.x / contentView.frame.width)
-        guard let cell = imageCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? RecordContentCollectionViewCell else { return }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? RecordContentCollectionViewCell else { return }
+        cell.player?.play()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? RecordContentCollectionViewCell else { return }
         cell.player?.pause()
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let index = Int(scrollView.contentOffset.x / contentView.frame.width)
-        imagePageControl.currentPage = index
-        
-        guard let cell = imageCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? RecordContentCollectionViewCell else { return }
-        cell.player?.play()
-    }
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        let index = Int(scrollView.contentOffset.x / contentView.frame.width)
+//        guard let cell = imageCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? RecordContentCollectionViewCell else { return }
+//        cell.player?.pause()
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let index = Int(scrollView.contentOffset.x / contentView.frame.width)
+//        imagePageControl.currentPage = index
+//
+//        guard let cell = imageCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? RecordContentCollectionViewCell else { return }
+//        cell.player?.play()
+//    }
     
 }
