@@ -118,12 +118,12 @@ extension RecordContentImageTableViewCell: UICollectionViewDelegate {
 //        cell.player?.pause()
 //    }
 //
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let index = Int(scrollView.contentOffset.x / contentView.frame.width)
-//        imagePageControl.currentPage = index
-//
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = Int(scrollView.contentOffset.x / contentView.frame.width)
+        imagePageControl.currentPage = index
+
 //        guard let cell = imageCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? RecordContentCollectionViewCell else { return }
 //        cell.player?.play()
-//    }
+    }
     
 }
