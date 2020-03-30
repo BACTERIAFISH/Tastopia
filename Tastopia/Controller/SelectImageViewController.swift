@@ -25,13 +25,11 @@ class SelectImageViewController: UIViewController {
     
     var passSelectedImages: (([UIImage]) -> Void)?
     
-    var fetchedPage = 0
-    
-    var fetchStartIndex = 0
-    
-    var fetchRange = 0
+    var isFetchingImage = false
     
     var isSelectUserImage = false
+    
+    let mediaProvider = MediaProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +41,7 @@ class SelectImageViewController: UIViewController {
         imageCollectionView.delegate = self
         
         displayPageControl.numberOfPages = selectedImages.count
-        
-        let height = view.frame.height
-        let width = view.frame.width
-        fetchRange = (Int(height / (width / 3)) + 1) * 3 * 2
-        
+                
         checkPhotoLibraryPermission()
         
     }
@@ -62,7 +56,7 @@ class SelectImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func checkPhotoLibraryPermission() {
+    private func checkPhotoLibraryPermission() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
         case .authorized:
@@ -73,9 +67,7 @@ class SelectImageViewController: UIViewController {
             PHPhotoLibrary.requestAuthorization { [weak self] status in
                 switch status {
                 case .authorized:
-                    DispatchQueue.main.async {
-                        self?.grabPhotos()
-                    }
+                    self?.grabPhotos()
                 case .denied, .restricted:
                     DispatchQueue.main.async {
                         self?.placeholderView.isHidden = false
@@ -91,48 +83,21 @@ class SelectImageViewController: UIViewController {
         }
     }
     
-    func grabPhotos() {
-        
-        let imgManager = PHImageManager.default()
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.deliveryMode = .highQualityFormat
-        
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        
-        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        
-        var fetchEndIndex = fetchStartIndex + fetchRange
-        
-        if fetchEndIndex > fetchResult.count {
-            fetchEndIndex = fetchResult.count
-        }
-        
-        if fetchResult.count > 0, fetchStartIndex != fetchEndIndex {
-            
-            for index in fetchStartIndex..<fetchEndIndex {
-                imgManager.requestImage(for: fetchResult.object(at: index), targetSize: CGSize(width: 500, height: 500), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
-                    
-                    if let image = image {
-                        self?.images.append(image)
-                    } else {
-                        print("grabPhotos: no image")
-                    }
+    private func grabPhotos() {
+        mediaProvider.grabPhotos { [weak self] (result) in
+            switch result {
+            case .success(let images):
+                self?.images = images
+                DispatchQueue.main.async {
+                    self?.imageCollectionView.reloadData()
                 }
+            case .failure(let error):
+                print("\(error)")
             }
-            
-            fetchStartIndex = fetchEndIndex
-            imageCollectionView.reloadData()
-            
-        } else {
-            print("grabPhotos: no photos")
         }
-        
     }
     
-    func toggleDisplayCollectionView() {
+    private func toggleDisplayCollectionView() {
         
         if selectedImages.isEmpty {
             
@@ -294,19 +259,31 @@ extension SelectImageViewController: UICollectionViewDelegate {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == mediaProvider.fetchStartIndex - mediaProvider.fetchRange && !isFetchingImage {
+            
+            isFetchingImage = true
+            
+            mediaProvider.grabPhotos { [weak self] (result) in
+                switch result {
+                case .success(let images):
+                    self?.images += images
+                    self?.isFetchingImage = false
+                    DispatchQueue.main.async {
+                        self?.imageCollectionView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self?.isFetchingImage = false
+                }
+            }
+        }
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView == displayCollectionView {
             displayPageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        let page = Int(scrollView.contentOffset.y / view.frame.height)
-        if page > fetchedPage {
-            grabPhotos()
-            fetchedPage = page
-        }
-        
-    }
 }

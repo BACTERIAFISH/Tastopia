@@ -45,6 +45,7 @@
 		CF3BD7F2240E44B30044B3DD /* FirestoreParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3BD7F1240E44B30044B3DD /* FirestoreParser.swift */; };
 		CF3BD7F4240E47240044B3DD /* FirestoreReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3BD7F3240E47240044B3DD /* FirestoreReference.swift */; };
 		CF3BD7F7240EB86E0044B3DD /* TTConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3BD7F6240EB86E0044B3DD /* TTConstant.swift */; };
+		CF487FFB242F217D00FF8836 /* MediaProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF487FFA242F217D00FF8836 /* MediaProvider.swift */; };
 		CF499727241737E20086101C /* FirestoreWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF499726241737E20086101C /* FirestoreWrapper.swift */; };
 		CF4B522923F7E3250006B07B /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522823F7E3250006B07B /* QRCodeViewController.swift */; };
 		CF4B522B23F7EEB50006B07B /* QRCodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */; };
@@ -124,6 +125,7 @@
 		CF3BD7F1240E44B30044B3DD /* FirestoreParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreParser.swift; sourceTree = "<group>"; };
 		CF3BD7F3240E47240044B3DD /* FirestoreReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReference.swift; sourceTree = "<group>"; };
 		CF3BD7F6240EB86E0044B3DD /* TTConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTConstant.swift; sourceTree = "<group>"; };
+		CF487FFA242F217D00FF8836 /* MediaProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaProvider.swift; sourceTree = "<group>"; };
 		CF499726241737E20086101C /* FirestoreWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWrapper.swift; sourceTree = "<group>"; };
 		CF4B522823F7E3250006B07B /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		CF4B522A23F7EEB50006B07B /* QRCodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewController.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				CFA7D0AC2412330D00BD62DC /* Map */,
 				CF4E1523241F7B3900EF1477 /* Record */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
+				CF487FFA242F217D00FF8836 /* MediaProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				CF4E1522241F7A7C00EF1477 /* RecordObject.swift in Sources */,
 				CF2318E4242B217600F0AB21 /* CellModelProvider.swift in Sources */,
 				CF12235E23E26C91004A41B3 /* AppDelegate.swift in Sources */,
+				CF487FFB242F217D00FF8836 /* MediaProvider.swift in Sources */,
 				CF2A949923E7CDA10056B532 /* TaskContentTableViewCell.swift in Sources */,
 				CF11C4552409EE8F00F36F35 /* TastopiaTest.swift in Sources */,
 				CF303EC5240166FE005EE7E4 /* QuestionView.swift in Sources */,
@@ -897,7 +901,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1058,7 +1062,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bacteriafish.Tastopia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
