@@ -53,6 +53,7 @@
 		CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */; };
 		CF50919B23E70E2200A77EB4 /* TaskContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */; };
 		CF524C7623ED13B400E2B63B /* RecordContentResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */; };
+		CF5556B72431F80600C9F1E9 /* PeopleNumberCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5556B62431F80600C9F1E9 /* PeopleNumberCalculator.swift */; };
 		CF68D5D723FA7DE1005B03ED /* MapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68D5D623FA7DE1005B03ED /* MapProvider.swift */; };
 		CF68D5E423FCBC65005B03ED /* NotoSansTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */; };
 		CF68D5E523FCBC65005B03ED /* NotoSansTC-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */; };
@@ -133,6 +134,7 @@
 		CF4E189523EA985A00CA3A4A /* RecordContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF50919A23E70E2200A77EB4 /* TaskContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentViewController.swift; sourceTree = "<group>"; };
 		CF524C7523ED13B400E2B63B /* RecordContentResponseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContentResponseTableViewCell.swift; sourceTree = "<group>"; };
+		CF5556B62431F80600C9F1E9 /* PeopleNumberCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberCalculator.swift; sourceTree = "<group>"; };
 		CF68D5D623FA7DE1005B03ED /* MapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapProvider.swift; sourceTree = "<group>"; };
 		CF68D5DE23FCBC63005B03ED /* NotoSansTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Black.otf"; sourceTree = "<group>"; };
 		CF68D5DF23FCBC63005B03ED /* NotoSansTC-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.otf"; sourceTree = "<group>"; };
@@ -260,8 +262,8 @@
 				CFA7D0B12413E15200BD62DC /* Task */,
 				CFA7D0AC2412330D00BD62DC /* Map */,
 				CF4E1523241F7B3900EF1477 /* Record */,
+				CF5556B52431F78700C9F1E9 /* Media */,
 				CF12236623E26C91004A41B3 /* Tastopia.xcdatamodeld */,
-				CF487FFA242F217D00FF8836 /* MediaProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -351,6 +353,15 @@
 				CF2318E3242B217600F0AB21 /* CellModelProvider.swift */,
 			);
 			path = Record;
+			sourceTree = "<group>";
+		};
+		CF5556B52431F78700C9F1E9 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				CF487FFA242F217D00FF8836 /* MediaProvider.swift */,
+				CF5556B62431F80600C9F1E9 /* PeopleNumberCalculator.swift */,
+			);
+			path = Media;
 			sourceTree = "<group>";
 		};
 		CF79015D2410F2D000BFC387 /* User */ = {
@@ -705,6 +716,7 @@
 				CF2A94A723E98CF70056B532 /* WritingProvider.swift in Sources */,
 				CF4E189623EA985A00CA3A4A /* RecordContentCollectionViewCell.swift in Sources */,
 				CF7E979223E2CF4D00BD38B7 /* HomeViewController.swift in Sources */,
+				CF5556B72431F80600C9F1E9 /* PeopleNumberCalculator.swift in Sources */,
 				CF303EC12400AA9B005EE7E4 /* SwiftMessagesWrapper.swift in Sources */,
 				CFA7D0AE241233B000BD62DC /* RestaurantObject.swift in Sources */,
 				CF78268323E65E4800B70ED4 /* RestaurantProvider.swift in Sources */,

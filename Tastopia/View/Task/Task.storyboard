@@ -62,7 +62,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DVQ-hI-wfW">
-                                <rect key="frame" x="20" y="144" width="374" height="522"/>
+                                <rect key="frame" x="20" y="144" width="374" height="590"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TaskContentTitleTableViewCell" id="5Sp-7c-u4B" customClass="TaskContentTitleTableViewCell" customModule="Tastopia" customModuleProvider="target">
@@ -134,7 +134,7 @@
                                 </userDefinedRuntimeAttributes>
                             </tableView>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Uploaded" translatesAutoresizingMaskIntoConstraints="NO" id="ah4-di-kv0">
-                                <rect key="frame" x="207" y="254" width="207" height="100"/>
+                                <rect key="frame" x="207" y="279.5" width="207" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="lXm-Qo-G7A"/>
                                 </constraints>
@@ -169,8 +169,8 @@
                                     <constraint firstAttribute="height" constant="48" id="hUe-Ju-udy"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JsW-SG-HrY">
-                                <rect key="frame" x="20" y="686" width="177" height="48"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JsW-SG-HrY">
+                                <rect key="frame" x="20" y="754" width="177" height="48"/>
                                 <color key="backgroundColor" name="SUMI"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="ui6-zN-Jf5"/>
@@ -189,9 +189,9 @@
                             <constraint firstItem="ah4-di-kv0" firstAttribute="centerY" secondItem="DVQ-hI-wfW" secondAttribute="centerY" multiplier="0.75" id="0L2-AU-de1"/>
                             <constraint firstAttribute="trailing" secondItem="APH-Pq-twS" secondAttribute="trailing" constant="20" id="0sS-4B-eH1"/>
                             <constraint firstItem="f5f-0c-Drr" firstAttribute="top" secondItem="LPo-mM-q38" secondAttribute="top" constant="30" id="1aF-cn-v54"/>
-                            <constraint firstItem="APH-Pq-twS" firstAttribute="top" secondItem="JsW-SG-HrY" secondAttribute="bottom" constant="40" id="2zS-ge-P0q"/>
                             <constraint firstItem="ah4-di-kv0" firstAttribute="trailing" secondItem="LPo-mM-q38" secondAttribute="trailing" id="7fh-Ok-c3J"/>
                             <constraint firstItem="DVQ-hI-wfW" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="leading" constant="20" id="9Wf-7M-hYn"/>
+                            <constraint firstItem="APH-Pq-twS" firstAttribute="top" secondItem="DVQ-hI-wfW" secondAttribute="bottom" constant="40" id="Cva-eh-Oy9"/>
                             <constraint firstItem="pXp-ht-xqA" firstAttribute="centerX" secondItem="hJu-94-DpV" secondAttribute="centerX" id="H2O-18-ozv"/>
                             <constraint firstItem="ah4-di-kv0" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="centerX" id="Iby-o9-rI8"/>
                             <constraint firstItem="DR5-lb-5fh" firstAttribute="leading" secondItem="LPo-mM-q38" secondAttribute="leading" constant="20" id="Mjg-X1-nRY"/>
