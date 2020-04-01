@@ -18,6 +18,7 @@ class ExecuteTaskViewController: UIViewController {
     @IBOutlet weak var compositionLabel: UILabel!
     @IBOutlet weak var compositionShadowView: UIView!
     @IBOutlet weak var compositionTextView: UITextView!
+    @IBOutlet weak var compositionCountLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var submitButton: UIButton!
     
@@ -320,6 +321,11 @@ extension ExecuteTaskViewController: UITextViewDelegate {
             textView.text = "寫下你的感想"
             textView.textColor = UIColor.SHIRONEZUMI
         }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let count = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count
+        compositionCountLabel.text = "輸入字數：\(count)"
     }
     
 }
