@@ -18,6 +18,7 @@ class ExecuteTaskViewController: UIViewController {
     @IBOutlet weak var compositionLabel: UILabel!
     @IBOutlet weak var compositionShadowView: UIView!
     @IBOutlet weak var compositionTextView: UITextView!
+    @IBOutlet weak var compositionCountLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var submitButton: UIButton!
     
@@ -159,15 +160,23 @@ class ExecuteTaskViewController: UIViewController {
     }
     
     private func checkTask() {
+
+        TTSwiftMessages().wait(title: "檢查任務中")
         
         guard let task = task, let composition = compositionTextView.text else { return }
         
         if composition.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count < task.composition {
+            
+            TTSwiftMessages().hide()
+            
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "字數不足")
             return
         }
         
         if selectedMedias.count < task.media {
+            
+            TTSwiftMessages().hide()
+            
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "照片、影片不足")
             return
         }
@@ -176,12 +185,40 @@ class ExecuteTaskViewController: UIViewController {
         
         let distanceMeter = location.distance(from: CLLocation(latitude: restaurant.position.latitude, longitude: restaurant.position.longitude))
         
-        if distanceMeter > 10, task.restaurantNumber != 0 {
+        if distanceMeter > 20, task.restaurantNumber != 0 {
+        
+        TTSwiftMessages().hide()
+        
             TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "地點錯誤")
             return
         }
         
-        submitTask()
+        let peopleNumberCalculator = PeopleNumberCalculator()
+        
+        var photos: [UIImage] = []
+        
+        for media in selectedMedias {
+            if let photo = media.image {
+                photos.append(photo)
+            }
+        }
+        
+        peopleNumberCalculator.checkPeopleNumber(images: photos, needPeopleNumber: task.people) { [weak self] (isPass) in
+
+            if isPass {
+                
+                TTSwiftMessages().hide()
+                
+                self?.submitTask()
+                
+            } else {
+                
+                TTSwiftMessages().hide()
+                
+                TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "上傳失敗", body: "照片中的人數不足")
+            }
+        }
+        
     }
     
     private func submitTask() {
@@ -284,6 +321,11 @@ extension ExecuteTaskViewController: UITextViewDelegate {
             textView.text = "寫下你的感想"
             textView.textColor = UIColor.SHIRONEZUMI
         }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let count = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).utf16.count
+        compositionCountLabel.text = "輸入字數：\(count)"
     }
     
 }

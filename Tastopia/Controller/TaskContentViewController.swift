@@ -86,42 +86,49 @@ class TaskContentViewController: UIViewController {
         case .start:
             
             if task.people > 1 {
-                TTSwiftMessages().question(title: "多人任務", body: "請先同步自己與同伴的任務代碼\n再開始執行任務", leftButtonTitle: "還沒同步", rightButtonTitle: "同步好了", rightHandler: showExecuteTask)
+                TTSwiftMessages().question(title: "多人任務", body: "要記得附上至少有\(task.people)人合照的照片喔", leftButtonTitle: "取消", rightButtonTitle: "我知道了", rightHandler: showExecuteTask)
             } else {
                 showExecuteTask()
             }
             
         case .submitted:
             
-            TTSwiftMessages().wait(title: "確認中")
+            self.task?.status = 2
             
-            TaskProvider.shared.checkIsTaskPassed(task: task) { [weak self] (result) in
-                switch result {
-                case .success(let isPassed):
-                    
-                    if isPassed {
-                        
-                        self?.task?.status = 2
-                        self?.passTask?(self?.task)
-                        
-                        UserProvider.shared.checkWhetherAddMoreTask(task: task)
-                        
-                        TTSwiftMessages().hideAll()
-                        TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務完成", body: "")
-                        
-                        self?.setTaskStatus()
-                        self?.setStatusImage()
-                        
-                    } else {
-                        
-                        TTSwiftMessages().hideAll()
-                        TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "任務未完成", body: "1.上傳的食記數量不足\n2.上傳的食記任務代碼不一致", duration: nil)
-                    }
-                    
-                case .failure(let error):
-                    print("checkIsTaskPassed error: \(error)")
-                }
-            }
+            passTask?(self.task)
+            
+            UserProvider.shared.checkWhetherAddMoreTask(task: task)
+            
+            setTaskStatus()
+            setStatusImage()
+            
+//            TaskProvider.shared.checkIsTaskPassed(task: task) { [weak self] (result) in
+//                switch result {
+//                case .success(let isPassed):
+//
+//                    if isPassed {
+//
+//                        self?.task?.status = 2
+//                        self?.passTask?(self?.task)
+//
+//                        UserProvider.shared.checkWhetherAddMoreTask(task: task)
+//
+//                        TTSwiftMessages().hideAll()
+//                        TTSwiftMessages().show(color: UIColor.SUMI!, icon: UIImage.asset(.Icon_32px_Success_White)!, title: "任務完成", body: "")
+//
+//                        self?.setTaskStatus()
+//                        self?.setStatusImage()
+//
+//                    } else {
+//
+//                        TTSwiftMessages().hideAll()
+//                        TTSwiftMessages().show(color: UIColor.AKABENI!, icon: UIImage.asset(.Icon_32px_Error_White)!, title: "任務未完成", body: "1.上傳的食記數量不足\n2.上傳的食記任務代碼不一致", duration: nil)
+//                    }
+//
+//                case .failure(let error):
+//                    print("checkIsTaskPassed error: \(error)")
+//                }
+//            }
             
         case .complete:
             
@@ -180,7 +187,7 @@ class TaskContentViewController: UIViewController {
         taskContentTableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
         taskContentTableView.layer.createTTBorder()
         
-        scanQRCodeButton.layer.cornerRadius = 16
+//        scanQRCodeButton.layer.cornerRadius = 16
         requestCompanyButton.layer.cornerRadius = 16
         executeTaskButton.layer.cornerRadius = 16
         
@@ -199,20 +206,20 @@ class TaskContentViewController: UIViewController {
             executeTaskButton.setTitle("執行任務", for: .normal)
             requestCompanyButton.setTitle("徵求同伴", for: .normal)
             requestCompanyButton.isHidden = true
-            scanQRCodeButton.isHidden = false
+//            scanQRCodeButton.isHidden = false
             
         case .submitted:
             
             executeTaskButton.setTitle("確認任務", for: .normal)
             requestCompanyButton.setTitle("重新執行任務", for: .normal)
             requestCompanyButton.isHidden = false
-            scanQRCodeButton.isHidden = true
+//            scanQRCodeButton.isHidden = true
             
         case .complete:
             
             executeTaskButton.setTitle("挑戰新的任務", for: .normal)
             requestCompanyButton.isHidden = true
-            scanQRCodeButton.isHidden = true
+//            scanQRCodeButton.isHidden = true
         }
     }
     
@@ -275,14 +282,11 @@ class TaskContentViewController: UIViewController {
         switch status {
         case .start:
             
-            TTSwiftMessages().info(title: "提示", body: "當任務人數超過1人時\n請先用掃描 QRCode 的方式\n同步自己與同伴的任務代碼\n彼此的任務代碼前5碼都相同後\n再開始執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false) {
-                
-                TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
-            }
+            TTSwiftMessages().info(title: "提示", body: "請在任務地點執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
             
         case .submitted:
             
-            TTSwiftMessages().info(title: "提示", body: "多人任務中\n如果全部人都已上傳食記\n卻無法完成任務\n代表上傳的食記任務代碼不一致\n請重新執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
+            TTSwiftMessages().info(title: "提示", body: "如果覺得之前上傳的任務不滿意\n可以重新執行任務\n", icon: nil, buttonTitle: "確認", backgroundColor: UIColor.SUMI!, foregroundColor: .white, isStatusBarLight: false, handler: nil)
             
         case .complete:
             
@@ -301,7 +305,7 @@ extension TaskContentViewController: UITableViewDataSource {
         case people
         case media
         case composition
-        case taskID
+//        case taskID
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -326,17 +330,17 @@ extension TaskContentViewController: UITableViewDataSource {
             cell.contentLabel.text = restaurant.phone
         case .people:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Add_User_Red)
-            cell.contentLabel.text = "\(task.people)個人吃飯（\(task.people)篇食記）"
+            cell.contentLabel.text = "\(task.people)個人吃飯"
         case .media:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Photo_Camera_Red)
             cell.contentLabel.text = "拍攝照片或影片 x \(task.media)"
         case .composition:
             cell.iconImageView.image = UIImage.asset(.Icon_32px_Edit_Red)
             cell.contentLabel.text = "寫\(task.composition)字感想"
-        case .taskID:
-            cell.iconImageView.image = UIImage.asset(.Icon_32px_Key_Red)
-            let index = task.taskID.index(task.taskID.startIndex, offsetBy: 4)
-            cell.contentLabel.text = "\(task.taskID[...index])（任務代碼前5碼）"
+//        case .taskID:
+//            cell.iconImageView.image = UIImage.asset(.Icon_32px_Key_Red)
+//            let index = task.taskID.index(task.taskID.startIndex, offsetBy: 4)
+//            cell.contentLabel.text = "\(task.taskID[...index])（任務代碼前5碼）"
         }
         
         return cell
